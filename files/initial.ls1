@@ -1,0 +1,1801 @@
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\OUTPUT\initial.OBJ
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE .\OUTPUT\initial.src PR(.\files\initial.ls1) EP DEBUG
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; .\OUTPUT\initial.SRC generated from: SRC\initial.c
+                       2     ; COMPILER INVOKED BY:
+                       3     ;        C:\Keil_v5\C51\BIN\C51.EXE SRC\initial.c LARGE OPTIMIZE(8,SPEED) BROWSE INTVECTOR(
+                             0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND PRINT(.\files\initial.lst) TABS(2) SRC(.\OUTPUT\initial.SRC)
+                       4     
+                       5     $nomod51 
+                       6     
+                       7     NAME    INITIAL
+                       8     
+  00CE                 9     P2ETCLR DATA    0CEH
+  009B                10     TB80    BIT     098H.3
+  00DE                11     P3ETCLR DATA    0DEH
+  00A1                12     P1TBPRD DATA    0A1H
+  0080                13     P0      DATA    080H
+  00F6                14     P4ETCLR DATA    0F6H
+  00C1                15     P2TBPRD DATA    0C1H
+  0090                16     P1      DATA    090H
+  00D1                17     P3TBPRD DATA    0D1H
+  00A0                18     P2      DATA    0A0H
+  00E1                19     P4TBPRD DATA    0E1H
+  00B0                20     P3      DATA    0B0H
+  009D                21     SM20    BIT     098H.5
+  00AF                22     EA      BIT     0A8H.7
+  00B1                23     P1AQCSFRC       DATA    0B1H
+  00C9                24     P2AQCSFRC       DATA    0C9H
+  00D9                25     P3AQCSFRC       DATA    0D9H
+  00F1                26     P4AQCSFRC       DATA    0F1H
+  00B2                27     P1TZFLG DATA    0B2H
+  00CA                28     P2TZFLG DATA    0CAH
+  00DA                29     P3TZFLG DATA    0DAH
+  00B4                30     P1TZFRC DATA    0B4H
+  00A8                31     IEN0    DATA    0A8H
+  00F2                32     P4TZFLG DATA    0F2H
+  00CC                33     P2TZFRC DATA    0CCH
+  00A8                34     IE      DATA    0A8H
+  00B8                35     EADC    BIT     0B8H.0
+  00B8                36     IEN1    DATA    0B8H
+  0085                37     DPH1    DATA    085H
+  00DC                38     P3TZFRC DATA    0DCH
+  009A                39     IEN2    DATA    09AH
+  00F4                40     P4TZFRC DATA    0F4H
+  008F                41     CLK_PD_CON      DATA    08FH
+  00C0                42     IADC    BIT     0C0H.0
+  0084                43     DPL1    DATA    084H
+  00B3                44     P1TZCLR DATA    0B3H
+  00CB                45     P2TZCLR DATA    0CBH
+  00DF                46     WDCON_7 BIT     0D8H.7
+  00CD                47     I2FR    BIT     0C8H.5
+  00DB                48     P3TZCLR DATA    0DBH
+  00CE                49     I3FR    BIT     0C8H.6
+  00F3                50     P4TZCLR DATA    0F3H
+  009C                51     REN0    BIT     098H.4
+  00AC                52     ES      BIT     0A8H.4
+  00C1                53     IEX2    BIT     0C0H.1
+  0098                54     RI      BIT     098H.0
+  0091                55     CLK_DIV DATA    091H
+  0081                56     SP      DATA    081H
+  00A3                57     P1CMPA  DATA    0A3H
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE     2
+
+  00C3                58     P2CMPA  DATA    0C3H
+  00A5                59     P1CMPB  DATA    0A5H
+  00D3                60     P3CMPA  DATA    0D3H
+  00C5                61     P2CMPB  DATA    0C5H
+  00E3                62     P4CMPA  DATA    0E3H
+  00D5                63     P3CMPB  DATA    0D5H
+  00E5                64     P4CMPB  DATA    0E5H
+  00A2                65     P1TBPRD_H       DATA    0A2H
+  00C2                66     P2TBPRD_H       DATA    0C2H
+  00D2                67     P3TBPRD_H       DATA    0D2H
+  00E2                68     P4TBPRD_H       DATA    0E2H
+  00A1                69     P1TBPRD_L       DATA    0A1H
+  00C1                70     P2TBPRD_L       DATA    0C1H
+  00D1                71     P3TBPRD_L       DATA    0D1H
+  00E1                72     P4TBPRD_L       DATA    0E1H
+  0095                73     BREAKH  DATA    095H
+  00BA                74     S0RELH  DATA    0BAH
+  0080                75     P00     BIT     080H.0
+  0099                76     SBUF    DATA    099H
+  00BB                77     S1RELH  DATA    0BBH
+  0090                78     P10     BIT     090H.0
+  0087                79     PCON    DATA    087H
+  0081                80     P01     BIT     080H.1
+  00A0                81     P20     BIT     0A0H.0
+  0091                82     P11     BIT     090H.1
+  0082                83     P02     BIT     080H.2
+  00B0                84     P30     BIT     0B0H.0
+  00A1                85     P21     BIT     0A0H.1
+  0092                86     P12     BIT     090H.2
+  0083                87     P03     BIT     080H.3
+  0094                88     BREAKL  DATA    094H
+  00B1                89     P31     BIT     0B0H.1
+  00AA                90     S0RELL  DATA    0AAH
+  00A2                91     P22     BIT     0A0H.2
+  0093                92     P13     BIT     090H.3
+  0084                93     P04     BIT     080H.4
+  00B2                94     P32     BIT     0B0H.2
+  00A3                95     P23     BIT     0A0H.3
+  009D                96     S1RELL  DATA    09DH
+  0094                97     P14     BIT     090H.4
+  0089                98     TMOD    DATA    089H
+  0088                99     TCON    DATA    088H
+  0085               100     P05     BIT     080H.5
+  00B3               101     P33     BIT     0B0H.3
+  00A4               102     P24     BIT     0A0H.4
+  0095               103     P15     BIT     090H.5
+  0086               104     P06     BIT     080H.6
+  00B4               105     P34     BIT     0B0H.4
+  00AC               106     BSHI_0  DATA    0ACH
+  00A5               107     P25     BIT     0A0H.5
+  0096               108     P16     BIT     090H.6
+  0087               109     P07     BIT     080H.7
+  00B5               110     P35     BIT     0B0H.5
+  00AD               111     BSHI_1  DATA    0ADH
+  00A6               112     P26     BIT     0A0H.6
+  0097               113     P17     BIT     090H.7
+  00B6               114     P36     BIT     0B0H.6
+  00AE               115     BSHI_2  DATA    0AEH
+  00A7               116     P27     BIT     0A0H.7
+  00B7               117     P37     BIT     0B0H.7
+  00AF               118     BSHI_3  DATA    0AFH
+  00BC               119     BSHO_0  DATA    0BCH
+  00BD               120     BSHO_1  DATA    0BDH
+  0089               121     IE0     BIT     088H.1
+  00BE               122     BSHO_2  DATA    0BEH
+  008B               123     IE1     BIT     088H.3
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE     3
+
+  00BF               124     BSHO_3  DATA    0BFH
+  00F0               125     B       DATA    0F0H
+  00E9               126     MD0     DATA    0E9H
+  00EA               127     MD1     DATA    0EAH
+  00AB               128     BSHCTL  DATA    0ABH
+  00EB               129     MD2     DATA    0EBH
+  00BE               130     SWDT    BIT     0B8H.6
+  00A7               131     P1AQSFRC        DATA    0A7H
+  00EC               132     MD3     DATA    0ECH
+  00C7               133     P2AQSFRC        DATA    0C7H
+  00ED               134     MD4     DATA    0EDH
+  00D7               135     P3AQSFRC        DATA    0D7H
+  00EE               136     MD5     DATA    0EEH
+  00E7               137     P4AQSFRC        DATA    0E7H
+  00E0               138     ACC     DATA    0E0H
+  00AC               139     ES0     BIT     0A8H.4
+  00A9               140     IP0     DATA    0A9H
+  00A9               141     ET0     BIT     0A8H.1
+  0093               142     BPCTRL  DATA    093H
+  00B9               143     IP1     DATA    0B9H
+  00AB               144     ET1     BIT     0A8H.3
+  008D               145     TF0     BIT     088H.5
+  0098               146     RI0     BIT     098H.0
+  008F               147     TF1     BIT     088H.7
+  00A4               148     P1CMPA_H        DATA    0A4H
+  008C               149     TH0     DATA    08CH
+  00C4               150     P2CMPA_H        DATA    0C4H
+  00A6               151     P1CMPB_H        DATA    0A6H
+  00A8               152     EX0     BIT     0A8H.0
+  0099               153     TI0     BIT     098H.1
+  008D               154     TH1     DATA    08DH
+  0088               155     IT0     BIT     088H.0
+  00D4               156     P3CMPA_H        DATA    0D4H
+  00C6               157     P2CMPB_H        DATA    0C6H
+  00AA               158     EX1     BIT     0A8H.2
+  008A               159     IT1     BIT     088H.2
+  00E4               160     P4CMPA_H        DATA    0E4H
+  00D6               161     P3CMPB_H        DATA    0D6H
+  00B9               162     EX2     BIT     0B8H.1
+  00E6               163     P4CMPB_H        DATA    0E6H
+  00A3               164     P1CMPA_L        DATA    0A3H
+  00BA               165     EX3     BIT     0B8H.2
+  009F               166     SM0     BIT     098H.7
+  0097               167     POWER_CON       DATA    097H
+  008A               168     TL0     DATA    08AH
+  00C3               169     P2CMPA_L        DATA    0C3H
+  00A5               170     P1CMPB_L        DATA    0A5H
+  00BB               171     EX4     BIT     0B8H.3
+  009E               172     SM1     BIT     098H.6
+  008B               173     TL1     DATA    08BH
+  00D3               174     P3CMPA_L        DATA    0D3H
+  00C5               175     P2CMPB_L        DATA    0C5H
+  00BC               176     EX5     BIT     0B8H.4
+  00AF               177     EAL     BIT     0A8H.7
+  00E3               178     P4CMPA_L        DATA    0E3H
+  00D5               179     P3CMPB_L        DATA    0D5H
+  00BD               180     EX6     BIT     0B8H.5
+  00E5               181     P4CMPB_L        DATA    0E5H
+  0086               182     WDTREL  DATA    086H
+  008C               183     TR0     BIT     088H.4
+  008E               184     TR1     BIT     088H.6
+  00F9               185     INT_REG1        DATA    0F9H
+  0083               186     DPH     DATA    083H
+  00FA               187     INT_REG2        DATA    0FAH
+  00FD               188     INT_REG3        DATA    0FDH
+  00FE               189     INT_REG4        DATA    0FEH
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE     4
+
+  0082               190     DPL     DATA    082H
+  0099               191     S0BUF   DATA    099H
+  009C               192     S1BUF   DATA    09CH
+  0098               193     S0CON   DATA    098H
+  009B               194     S1CON   DATA    09BH
+  00C8               195     T2CON   DATA    0C8H
+  0092               196     DPS     DATA    092H
+  00AE               197     WDT     BIT     0A8H.6
+  008E               198     CKCON   DATA    08EH
+  00EF               199     ARCON   DATA    0EFH
+  00B5               200     P1ETFLG DATA    0B5H
+  00F8               201     SRAM_CON        DATA    0F8H
+  00CD               202     P2ETFLG DATA    0CDH
+  00DD               203     P3ETFLG DATA    0DDH
+  00B7               204     P1ETFRC DATA    0B7H
+  00F5               205     P4ETFLG DATA    0F5H
+  00CF               206     P2ETFRC DATA    0CFH
+  00E8               207     MEM_CONFIG      DATA    0E8H
+  00DF               208     P3ETFRC DATA    0DFH
+  00F7               209     P4ETFRC DATA    0F7H
+  00D0               210     PSW     DATA    0D0H
+  00C2               211     iex3    BIT     0C0H.2
+  00C3               212     iex4    BIT     0C0H.3
+  00D8               213     WDCON   DATA    0D8H
+  00C4               214     iex5    BIT     0C0H.4
+  00C0               215     IRCON   DATA    0C0H
+  009A               216     RB80    BIT     098H.2
+  00B6               217     P1ETCLR DATA    0B6H
+  00C5               218     iex6    BIT     0C0H.5
+                     219     ?PR?InitBreakPoint?INITIAL               SEGMENT CODE 
+                     220     ?PR?epwmOutputDisable?INITIAL            SEGMENT CODE 
+                     221     ?PR?epwmOutputEnable?INITIAL             SEGMENT CODE 
+                     222     ?PR?InitADC?INITIAL  SEGMENT CODE 
+                     223     ?XD?InitADC?INITIAL  SEGMENT XDATA OVERLAYABLE 
+                     224     ?PR?Initepwm?INITIAL SEGMENT CODE 
+                     225     ?PR?InitComp234?INITIAL                  SEGMENT CODE 
+                     226     ?PR?InitLED?INITIAL  SEGMENT CODE 
+                     227     ?PR?InitWatchDog?INITIAL                 SEGMENT CODE 
+                     228     ?PR?InitGPIO?INITIAL SEGMENT CODE 
+                     229     ?PR?InitTimer3?INITIAL                   SEGMENT CODE 
+                     230     ?PR?sSystemClockConfig?INITIAL           SEGMENT CODE 
+                     231     ?PR?sInitUART1?INITIAL                   SEGMENT CODE 
+                     232     ?PR?sInitUART2?INITIAL                   SEGMENT CODE 
+                     233             PUBLIC  sInitUART2
+                     234             PUBLIC  sInitUART1
+                     235             PUBLIC  sSystemClockConfig
+                     236             PUBLIC  InitTimer3
+                     237             PUBLIC  InitGPIO
+                     238             PUBLIC  InitWatchDog
+                     239             PUBLIC  InitLED
+                     240             PUBLIC  InitComp234
+                     241             PUBLIC  Initepwm
+                     242             PUBLIC  InitADC
+                     243             PUBLIC  epwmOutputEnable
+                     244             PUBLIC  epwmOutputDisable
+                     245             PUBLIC  InitBreakPoint
+                     246     
+----                 247             RSEG  ?XD?InitADC?INITIAL
+0000                 248     ?InitADC?BYTE:
+0000                 249               i?340:   DS   1
+                     250     ; #include "register.h"
+                     251     ; #include <intrins.h>
+                     252     ; #include "app.h"
+                     253     ; #include "initial.h"
+                     254     ; 
+                     255     ; void InitBreakPoint  (void)
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE     5
+
+                     256     
+----                 257             RSEG  ?PR?InitBreakPoint?INITIAL
+0000                 258     InitBreakPoint:
+                     259                             ; SOURCE LINE # 6
+                     260     ; {
+                     261                             ; SOURCE LINE # 7
+                     262     ;     BPCTRL   = 0x01;
+                     263                             ; SOURCE LINE # 8
+0000 759301          264             MOV     BPCTRL,#01H
+                     265     ;       BREAKL   = 0xff;
+                     266                             ; SOURCE LINE # 9
+0003 7594FF          267             MOV     BREAKL,#0FFH
+                     268     ;       BREAKH   = 0xff;
+                     269                             ; SOURCE LINE # 10
+0006 7595FF          270             MOV     BREAKH,#0FFH
+                     271     ; }
+                     272                             ; SOURCE LINE # 11
+0009 22              273             RET     
+                     274     ; END OF InitBreakPoint
+                     275     
+                     276     ; 
+                     277     ; void epwmOutputDisable(void)
+                     278     
+----                 279             RSEG  ?PR?epwmOutputDisable?INITIAL
+0000                 280     epwmOutputDisable:
+                     281                             ; SOURCE LINE # 13
+                     282     ; {
+                     283                             ; SOURCE LINE # 14
+                     284     ;       P1AQCSFRC = 0x05;                                               // force epwmxA and
+                              epwmxB output low
+                     285                             ; SOURCE LINE # 15
+0000 75B105          286             MOV     P1AQCSFRC,#05H
+                     287     ;       P2AQCSFRC = 0x05;
+                     288                             ; SOURCE LINE # 16
+0003 75C905          289             MOV     P2AQCSFRC,#05H
+                     290     ;       P3AQCSFRC = 0x05;
+                     291                             ; SOURCE LINE # 17
+0006 75D905          292             MOV     P3AQCSFRC,#05H
+                     293     ;       P4AQCSFRC = 0x05;
+                     294                             ; SOURCE LINE # 18
+0009 75F105          295             MOV     P4AQCSFRC,#05H
+                     296     ; }
+                     297                             ; SOURCE LINE # 19
+000C 22              298             RET     
+                     299     ; END OF epwmOutputDisable
+                     300     
+                     301     ; 
+                     302     ; void epwmOutputEnable(void)
+                     303     
+----                 304             RSEG  ?PR?epwmOutputEnable?INITIAL
+0000                 305     epwmOutputEnable:
+                     306                             ; SOURCE LINE # 21
+                     307     ; {
+                     308                             ; SOURCE LINE # 22
+                     309     ;       P1AQCSFRC = 0x0F;                                               // software force d
+                             isable
+                     310                             ; SOURCE LINE # 23
+0000 75B10F          311             MOV     P1AQCSFRC,#0FH
+                     312     ;       P2AQCSFRC = 0x0F;
+                     313                             ; SOURCE LINE # 24
+0003 75C90F          314             MOV     P2AQCSFRC,#0FH
+                     315     ;       P3AQCSFRC = 0x0F;
+                     316                             ; SOURCE LINE # 25
+0006 75D90F          317             MOV     P3AQCSFRC,#0FH
+                     318     ;       P4AQCSFRC = 0x0F;
+                     319                             ; SOURCE LINE # 26
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE     6
+
+0009 75F10F          320             MOV     P4AQCSFRC,#0FH
+                     321     ; }
+                     322                             ; SOURCE LINE # 27
+000C 22              323             RET     
+                     324     ; END OF epwmOutputEnable
+                     325     
+                     326     ; 
+                     327     ; void InitADC(void)
+                     328     
+----                 329             RSEG  ?PR?InitADC?INITIAL
+0000                 330     InitADC:
+                     331                             ; SOURCE LINE # 29
+                     332     ; {
+                     333                             ; SOURCE LINE # 30
+                     334     ;     unsigned char i;
+                     335     ;     //unsigned short j;
+                     336     ; 
+                     337     ;     OPAMP_SEL = 0x0F;
+                     338                             ; SOURCE LINE # 34
+0000 90E0A5          339             MOV     DPTR,#0E0A5H
+0003 740F            340             MOV     A,#0FH
+0005 F0              341             MOVX    @DPTR,A
+                     342     ;     ADC_ISEL = 0x05;
+                     343                             ; SOURCE LINE # 35
+0006 90E0BE          344             MOV     DPTR,#0E0BEH
+0009 7405            345             MOV     A,#05H
+000B F0              346             MOVX    @DPTR,A
+                     347     ;     ADC_CLK_CTRL = 0x03;
+                     348                             ; SOURCE LINE # 36
+000C 90E0EC          349             MOV     DPTR,#0E0ECH
+000F 7403            350             MOV     A,#03H
+0011 F0              351             MOVX    @DPTR,A
+                     352     ;     LDO_CON |= 1 << 1;
+                     353                             ; SOURCE LINE # 37
+0012 90E09D          354             MOV     DPTR,#0E09DH
+0015 E0              355             MOVX    A,@DPTR
+0016 4402            356             ORL     A,#02H
+0018 F0              357             MOVX    @DPTR,A
+                     358     ;     //for(j = 0;j < 2500;j++);
+                     359     ;     ADCHS = 0x40;
+                     360                             ; SOURCE LINE # 39
+0019 90E05C          361             MOV     DPTR,#0E05CH
+001C E4              362             CLR     A
+001D F0              363             MOVX    @DPTR,A
+001E A3              364             INC     DPTR
+001F 7440            365             MOV     A,#040H
+0021 F0              366             MOVX    @DPTR,A
+                     367     ; //    ADCHS = 0x07;//0x38;//0x02;//0x20;//0x10;//0x08;//0x38;//0x18;//0x08;              
+                                          // select channel 4
+                     368     ; //    ADSHBP = 0x00;//0x38;                          // ADC channel 4,5,6 S/H bypass
+                     369     ; //    AD1OST_L = 0x00;
+                     370     ; //    AD1OST_H = 0xFC;//0x04;
+                     371     ; //    AD2OST_L = 0x00;
+                     372     ; //    AD2OST_H = 0xFC;//0x04;
+                     373     ; //    AD3OST_L = 0x00;
+                     374     ; //    AD3OST_H = 0xFC;//0x04;
+                     375     ; //    AD4OST_L = 0x00;
+                     376     ; //    AD4OST_H = 0xFC;//0x04;
+                     377     ; //    AD5OST_L = 0x00;
+                     378     ; //    AD5OST_H = 0xFC;//0x04;
+                     379     ; //    AD6OST_L = 0x00;
+                     380     ; //    AD6OST_H = 0xFC;//0x04;
+                     381     ;     //AD7OST_L = 0x00;
+                     382     ;     //AD7OST_H = 0x04;
+                     383     ;     i = ADFLG;
+                     384                             ; SOURCE LINE # 56
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE     7
+
+0022 90E05B          385             MOV     DPTR,#0E05BH
+0025 E0              386             MOVX    A,@DPTR
+0026 A3              387             INC     DPTR
+0027 E0              388             MOVX    A,@DPTR
+0028 900000   F      389             MOV     DPTR,#i?340
+002B F0              390             MOVX    @DPTR,A
+                     391     ;     IADC = 0;
+                     392                             ; SOURCE LINE # 57
+002C C2C0            393             CLR     IADC
+                     394     ;     ADCTL = 0x01;                           // select software force trigger and enable A
+                             DC INT
+                     395                             ; SOURCE LINE # 58
+002E 90E05A          396             MOV     DPTR,#0E05AH
+0031 E4              397             CLR     A
+0032 F0              398             MOVX    @DPTR,A
+0033 A3              399             INC     DPTR
+0034 04              400             INC     A
+0035 F0              401             MOVX    @DPTR,A
+                     402     ;     //ADCTL = 0x09;//0x11;                           // select epwm soca and enable ADC I
+                             NT
+                     403     ;     EADC = 1;
+                     404                             ; SOURCE LINE # 60
+0036 D2B8            405             SETB    EADC
+                     406     ; }
+                     407                             ; SOURCE LINE # 61
+0038 22              408             RET     
+                     409     ; END OF InitADC
+                     410     
+                     411     ; 
+                     412     ; 
+                     413     ; void Initepwm(void)
+                     414     
+----                 415             RSEG  ?PR?Initepwm?INITIAL
+0000                 416     Initepwm:
+                     417                             ; SOURCE LINE # 64
+                     418     ; {
+                     419                             ; SOURCE LINE # 65
+                     420     ;       P2_FN_H = 0x55;                                                 // p2_4 ~ p2_7 as p
+                             wm2x ~ pwm1x
+                     421                             ; SOURCE LINE # 66
+0000 90E0E0          422             MOV     DPTR,#0E0E0H
+0003 7455            423             MOV     A,#055H
+0005 F0              424             MOVX    @DPTR,A
+                     425     ;       P2_FN_L = P2_FN_L & 0x0F | 0x50;                // p2_2 ~ p2_3 as pwm3x
+                     426                             ; SOURCE LINE # 67
+0006 A3              427             INC     DPTR
+0007 E0              428             MOVX    A,@DPTR
+0008 540F            429             ANL     A,#0FH
+000A 4450            430             ORL     A,#050H
+000C F0              431             MOVX    @DPTR,A
+                     432     ;       //P0_FN_L = P0_FN_L & 0xF0 | 0x05;                // p0_0 ~ p0_1 as pwm4x
+                     433     ; 
+                     434     ; //    P1TBPRD_L = 0x90;                                               // pwm period is 10
+                             KHz
+                     435     ; //    P1TBPRD_H = 0x01;
+                     436     ; //    P2TBPRD_L = 0x90;
+                     437     ; //    P2TBPRD_H = 0x01;
+                     438     ; //    P3TBPRD_L = 0x90;
+                     439     ; //    P3TBPRD_H = 0x01;
+                     440     ; //    P4TBPRD_L = 0x90;
+                     441     ; //    P4TBPRD_H = 0x01;
+                     442     ; 
+                     443     ;       PCLKCR = 0x1E;//0x1F                                                    // clock fo
+                             r pwm1 ~ pwm4 is enable,and synchronize all channel disable
+                     444                             ; SOURCE LINE # 79
+000D 90E000          445             MOV     DPTR,#0E000H
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE     8
+
+0010 741E            446             MOV     A,#01EH
+0012 F0              447             MOVX    @DPTR,A
+                     448     ;       PSYNCICR = 0x3C;//0x1F;                                         // all synchronize 
+                             input enable
+                     449                             ; SOURCE LINE # 80
+0013 A3              450             INC     DPTR
+0014 743C            451             MOV     A,#03CH
+0016 F0              452             MOVX    @DPTR,A
+                     453     ; 
+                     454     ;       P1TBCTL_L = 0x02;//0x12;                                                // period l
+                             oad from shadow,up down mode,synchronize at CTR = ZERO
+                     455                             ; SOURCE LINE # 82
+0017 90E003          456             MOV     DPTR,#0E003H
+001A 7402            457             MOV     A,#02H
+001C F0              458             MOVX    @DPTR,A
+                     459     ;       P1TBCTL_H = 0x80;                                               // time base free r
+                             un when emulation
+                     460                             ; SOURCE LINE # 83
+001D 90E002          461             MOV     DPTR,#0E002H
+0020 7480            462             MOV     A,#080H
+0022 F0              463             MOVX    @DPTR,A
+                     464     ;       P2TBCTL_L = 0x02;//0x12;
+                     465                             ; SOURCE LINE # 84
+0023 90E019          466             MOV     DPTR,#0E019H
+0026 7402            467             MOV     A,#02H
+0028 F0              468             MOVX    @DPTR,A
+                     469     ;       P2TBCTL_H = 0x80;
+                     470                             ; SOURCE LINE # 85
+0029 90E018          471             MOV     DPTR,#0E018H
+002C 7480            472             MOV     A,#080H
+002E F0              473             MOVX    @DPTR,A
+                     474     ;       P3TBCTL_L = 0x02;//0x12;
+                     475                             ; SOURCE LINE # 86
+002F 90E02F          476             MOV     DPTR,#0E02FH
+0032 7402            477             MOV     A,#02H
+0034 F0              478             MOVX    @DPTR,A
+                     479     ;       P3TBCTL_H = 0x80;
+                     480                             ; SOURCE LINE # 87
+0035 90E02E          481             MOV     DPTR,#0E02EH
+0038 7480            482             MOV     A,#080H
+003A F0              483             MOVX    @DPTR,A
+                     484     ;       P4TBCTL_L = 0x02;//0x12;
+                     485                             ; SOURCE LINE # 88
+003B 90E045          486             MOV     DPTR,#0E045H
+003E 7402            487             MOV     A,#02H
+0040 F0              488             MOVX    @DPTR,A
+                     489     ;       P4TBCTL_H = 0x80;
+                     490                             ; SOURCE LINE # 89
+0041 90E044          491             MOV     DPTR,#0E044H
+0044 7480            492             MOV     A,#080H
+0046 F0              493             MOVX    @DPTR,A
+                     494     ; 
+                     495     ; //    P1TBCTL_L = 0x00;                                               // period load from
+                              shadow,up mode
+                     496     ; //    P1TBCTL_H = 0x80;
+                     497     ; //    P2TBCTL_L = 0x00;
+                     498     ; //    P2TBCTL_H = 0x80;
+                     499     ; //    P3TBCTL_L = 0x00;
+                     500     ; //    P3TBCTL_H = 0x80;
+                     501     ; //    P4TBCTL_L = 0x00;
+                     502     ; //    P4TBCTL_H = 0x80;
+                     503     ; 
+                     504     ;       P1CMPCTL = 0x00;                                                // shadow on,update
+                              at CTR = ZERO
+                     505                             ; SOURCE LINE # 100
+0047 90E007          506             MOV     DPTR,#0E007H
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE     9
+
+004A E4              507             CLR     A
+004B F0              508             MOVX    @DPTR,A
+                     509     ;       P2CMPCTL = 0x00;
+                     510                             ; SOURCE LINE # 101
+004C 90E01D          511             MOV     DPTR,#0E01DH
+004F F0              512             MOVX    @DPTR,A
+                     513     ;       P3CMPCTL = 0x00;
+                     514                             ; SOURCE LINE # 102
+0050 90E033          515             MOV     DPTR,#0E033H
+0053 F0              516             MOVX    @DPTR,A
+                     517     ;       P4CMPCTL = 0x00;
+                     518                             ; SOURCE LINE # 103
+0054 90E049          519             MOV     DPTR,#0E049H
+0057 F0              520             MOVX    @DPTR,A
+                     521     ;       P1AQCTLA_L = 0x60;                                              // when cmpA,count 
+                             up is set,count down is clear
+                     522                             ; SOURCE LINE # 104
+0058 90E009          523             MOV     DPTR,#0E009H
+005B 7460            524             MOV     A,#060H
+005D F0              525             MOVX    @DPTR,A
+                     526     ;       P1AQCTLA_H = 0x00;                                              // when cmpB pwmxA 
+                             do nothing
+                     527                             ; SOURCE LINE # 105
+005E 90E008          528             MOV     DPTR,#0E008H
+0061 E4              529             CLR     A
+0062 F0              530             MOVX    @DPTR,A
+                     531     ;       P2AQCTLA_L = 0x60;
+                     532                             ; SOURCE LINE # 106
+0063 90E01F          533             MOV     DPTR,#0E01FH
+0066 7460            534             MOV     A,#060H
+0068 F0              535             MOVX    @DPTR,A
+                     536     ;       P2AQCTLA_H = 0x00;
+                     537                             ; SOURCE LINE # 107
+0069 90E01E          538             MOV     DPTR,#0E01EH
+006C E4              539             CLR     A
+006D F0              540             MOVX    @DPTR,A
+                     541     ;       P3AQCTLA_L = 0x60;
+                     542                             ; SOURCE LINE # 108
+006E 90E035          543             MOV     DPTR,#0E035H
+0071 7460            544             MOV     A,#060H
+0073 F0              545             MOVX    @DPTR,A
+                     546     ;       P3AQCTLA_H = 0x00;
+                     547                             ; SOURCE LINE # 109
+0074 90E034          548             MOV     DPTR,#0E034H
+0077 E4              549             CLR     A
+0078 F0              550             MOVX    @DPTR,A
+                     551     ;       P4AQCTLA_L = 0x60;
+                     552                             ; SOURCE LINE # 110
+0079 90E04B          553             MOV     DPTR,#0E04BH
+007C 7460            554             MOV     A,#060H
+007E F0              555             MOVX    @DPTR,A
+                     556     ;       P4AQCTLA_H = 0x00;
+                     557                             ; SOURCE LINE # 111
+007F 90E04A          558             MOV     DPTR,#0E04AH
+0082 E4              559             CLR     A
+0083 F0              560             MOVX    @DPTR,A
+                     561     ;       P1AQCTLB_L = 0x00;//0x60;
+                     562                             ; SOURCE LINE # 112
+0084 90E00B          563             MOV     DPTR,#0E00BH
+0087 F0              564             MOVX    @DPTR,A
+                     565     ;       P1AQCTLB_H = 0x00;
+                     566                             ; SOURCE LINE # 113
+0088 90E00A          567             MOV     DPTR,#0E00AH
+008B F0              568             MOVX    @DPTR,A
+                     569     ;       P2AQCTLB_L = 0x00;//0x60;
+                     570                             ; SOURCE LINE # 114
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    10
+
+008C 90E021          571             MOV     DPTR,#0E021H
+008F F0              572             MOVX    @DPTR,A
+                     573     ;       P2AQCTLB_H = 0x00;
+                     574                             ; SOURCE LINE # 115
+0090 90E020          575             MOV     DPTR,#0E020H
+0093 F0              576             MOVX    @DPTR,A
+                     577     ;       P3AQCTLB_L = 0x00;//0x60;
+                     578                             ; SOURCE LINE # 116
+0094 90E037          579             MOV     DPTR,#0E037H
+0097 F0              580             MOVX    @DPTR,A
+                     581     ;       P3AQCTLB_H = 0x00;
+                     582                             ; SOURCE LINE # 117
+0098 90E036          583             MOV     DPTR,#0E036H
+009B F0              584             MOVX    @DPTR,A
+                     585     ;       P4AQCTLB_L = 0x00;//0x60;
+                     586                             ; SOURCE LINE # 118
+009C 90E04D          587             MOV     DPTR,#0E04DH
+009F F0              588             MOVX    @DPTR,A
+                     589     ;       P4AQCTLB_H = 0x00;
+                     590                             ; SOURCE LINE # 119
+00A0 90E04C          591             MOV     DPTR,#0E04CH
+00A3 F0              592             MOVX    @DPTR,A
+                     593     ; 
+                     594     ; //    P1AQCTLA_L = 0x12;                                                      // CTR = ZE
+                             RO set,CTR = CMPA up clear,CTR = PRD nothing,CTR = CMPA down nothing
+                     595     ; //    P1AQCTLA_H = 0x00;                                                      // when cmp
+                             B pwmxA do nothing
+                     596     ; //    P1AQCTLB_L = 0x02;                                                      // CTR = ZE
+                             RO set,CTR = CMPA up nothing,CTR = PRD nothing,CTR = CMPA down nothing
+                     597     ; //    P1AQCTLB_H = 0x01;                                                      // CTR = CM
+                             PB clear
+                     598     ; //    P2AQCTLA_L = 0x12;
+                     599     ; //    P2AQCTLA_H = 0x00;
+                     600     ; //    P2AQCTLB_L = 0x02;
+                     601     ; //    P2AQCTLB_H = 0x01;
+                     602     ; //    P3AQCTLA_L = 0x12;
+                     603     ; //    P3AQCTLA_H = 0x00;
+                     604     ; //    P3AQCTLB_L = 0x02;
+                     605     ; //    P3AQCTLB_H = 0x01;
+                     606     ; //    P4AQCTLA_L = 0x12;
+                     607     ; //    P4AQCTLA_H = 0x00;
+                     608     ; //    P4AQCTLB_L = 0x02;
+                     609     ; //    P4AQCTLB_H = 0x01;
+                     610     ; 
+                     611     ;       P1DBCTL = 0x0B;                                                 // delay source is 
+                             epwmxA,dead band full,epwmxB invert
+                     612                             ; SOURCE LINE # 138
+00A4 90E00C          613             MOV     DPTR,#0E00CH
+00A7 740B            614             MOV     A,#0BH
+00A9 F0              615             MOVX    @DPTR,A
+                     616     ;       P2DBCTL = 0x0B;
+                     617                             ; SOURCE LINE # 139
+00AA 90E022          618             MOV     DPTR,#0E022H
+00AD F0              619             MOVX    @DPTR,A
+                     620     ;       P3DBCTL = 0x0B;
+                     621                             ; SOURCE LINE # 140
+00AE 90E038          622             MOV     DPTR,#0E038H
+00B1 F0              623             MOVX    @DPTR,A
+                     624     ;       P4DBCTL = 0x0B;
+                     625                             ; SOURCE LINE # 141
+00B2 90E04E          626             MOV     DPTR,#0E04EH
+00B5 F0              627             MOVX    @DPTR,A
+                     628     ; //    P1DBCTL = 0x07;                                                 // delay source is 
+                             epwmxA,dead band full,epwmxA invert
+                     629     ; //    P2DBCTL = 0x07;
+                     630     ; //    P3DBCTL = 0x07;
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    11
+
+                     631     ; //    P4DBCTL = 0x07;
+                     632     ;       P1DBRED_L = 0x32;//0x0A                                         // rise edge dead t
+                             ime is 1.25uS
+                     633                             ; SOURCE LINE # 146
+00B6 90E00E          634             MOV     DPTR,#0E00EH
+00B9 7432            635             MOV     A,#032H
+00BB F0              636             MOVX    @DPTR,A
+                     637     ;       P1DBRED_H = 0x00;
+                     638                             ; SOURCE LINE # 147
+00BC 90E00D          639             MOV     DPTR,#0E00DH
+00BF E4              640             CLR     A
+00C0 F0              641             MOVX    @DPTR,A
+                     642     ;       P2DBRED_L = 0x32;
+                     643                             ; SOURCE LINE # 148
+00C1 90E024          644             MOV     DPTR,#0E024H
+00C4 7432            645             MOV     A,#032H
+00C6 F0              646             MOVX    @DPTR,A
+                     647     ;       P2DBRED_H = 0x00;
+                     648                             ; SOURCE LINE # 149
+00C7 90E023          649             MOV     DPTR,#0E023H
+00CA E4              650             CLR     A
+00CB F0              651             MOVX    @DPTR,A
+                     652     ;       P3DBRED_L = 0x32;
+                     653                             ; SOURCE LINE # 150
+00CC 90E03A          654             MOV     DPTR,#0E03AH
+00CF 7432            655             MOV     A,#032H
+00D1 F0              656             MOVX    @DPTR,A
+                     657     ;       P3DBRED_H = 0x00;
+                     658                             ; SOURCE LINE # 151
+00D2 90E039          659             MOV     DPTR,#0E039H
+00D5 E4              660             CLR     A
+00D6 F0              661             MOVX    @DPTR,A
+                     662     ;       P4DBRED_L = 0x32;
+                     663                             ; SOURCE LINE # 152
+00D7 90E050          664             MOV     DPTR,#0E050H
+00DA 7432            665             MOV     A,#032H
+00DC F0              666             MOVX    @DPTR,A
+                     667     ;       P4DBRED_H = 0x00;
+                     668                             ; SOURCE LINE # 153
+00DD 90E04F          669             MOV     DPTR,#0E04FH
+00E0 E4              670             CLR     A
+00E1 F0              671             MOVX    @DPTR,A
+                     672     ;       P1DBFED_L = 0x32;                                               // fall edge dead t
+                             ime is 1.25uS
+                     673                             ; SOURCE LINE # 154
+00E2 90E010          674             MOV     DPTR,#0E010H
+00E5 7432            675             MOV     A,#032H
+00E7 F0              676             MOVX    @DPTR,A
+                     677     ;       P1DBFED_H = 0x00;
+                     678                             ; SOURCE LINE # 155
+00E8 90E00F          679             MOV     DPTR,#0E00FH
+00EB E4              680             CLR     A
+00EC F0              681             MOVX    @DPTR,A
+                     682     ;       P2DBFED_L = 0x32;
+                     683                             ; SOURCE LINE # 156
+00ED 90E026          684             MOV     DPTR,#0E026H
+00F0 7432            685             MOV     A,#032H
+00F2 F0              686             MOVX    @DPTR,A
+                     687     ;       P2DBFED_H = 0x00;
+                     688                             ; SOURCE LINE # 157
+00F3 90E025          689             MOV     DPTR,#0E025H
+00F6 E4              690             CLR     A
+00F7 F0              691             MOVX    @DPTR,A
+                     692     ;       P3DBFED_L = 0x32;
+                     693                             ; SOURCE LINE # 158
+00F8 90E03C          694             MOV     DPTR,#0E03CH
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    12
+
+00FB 7432            695             MOV     A,#032H
+00FD F0              696             MOVX    @DPTR,A
+                     697     ;       P3DBFED_H = 0x00;
+                     698                             ; SOURCE LINE # 159
+00FE 90E03B          699             MOV     DPTR,#0E03BH
+0101 E4              700             CLR     A
+0102 F0              701             MOVX    @DPTR,A
+                     702     ;       P4DBFED_L = 0x32;
+                     703                             ; SOURCE LINE # 160
+0103 90E052          704             MOV     DPTR,#0E052H
+0106 7432            705             MOV     A,#032H
+0108 F0              706             MOVX    @DPTR,A
+                     707     ;       P4DBFED_H = 0x00;
+                     708                             ; SOURCE LINE # 161
+0109 90E051          709             MOV     DPTR,#0E051H
+010C E4              710             CLR     A
+010D F0              711             MOVX    @DPTR,A
+                     712     ; 
+                     713     ; //    P1DBCTL = 0x00;                                                 // dead band is byp
+                             ass
+                     714     ; //    P2DBCTL = 0x00;
+                     715     ; //    P3DBCTL = 0x00;
+                     716     ; //    P4DBCTL = 0x00;
+                     717     ; 
+                     718     ;       P1TZSEL = 0x00;                                                 // disable all trig
+                             ger zone
+                     719                             ; SOURCE LINE # 168
+010E 90E011          720             MOV     DPTR,#0E011H
+0111 F0              721             MOVX    @DPTR,A
+                     722     ;       P2TZSEL = 0x00;
+                     723                             ; SOURCE LINE # 169
+0112 90E027          724             MOV     DPTR,#0E027H
+0115 F0              725             MOVX    @DPTR,A
+                     726     ;       P3TZSEL = 0x00;
+                     727                             ; SOURCE LINE # 170
+0116 90E03D          728             MOV     DPTR,#0E03DH
+0119 F0              729             MOVX    @DPTR,A
+                     730     ;       P4TZSEL = 0x00;
+                     731                             ; SOURCE LINE # 171
+011A 90E053          732             MOV     DPTR,#0E053H
+011D F0              733             MOVX    @DPTR,A
+                     734     ;       P1TZCTL = 0x00;                                                 // when trigger,epw
+                             mxA and epwmxB high impedance
+                     735                             ; SOURCE LINE # 172
+011E 90E012          736             MOV     DPTR,#0E012H
+0121 F0              737             MOVX    @DPTR,A
+                     738     ;       P2TZCTL = 0x00;
+                     739                             ; SOURCE LINE # 173
+0122 90E028          740             MOV     DPTR,#0E028H
+0125 F0              741             MOVX    @DPTR,A
+                     742     ;       P3TZCTL = 0x00;
+                     743                             ; SOURCE LINE # 174
+0126 90E03E          744             MOV     DPTR,#0E03EH
+0129 F0              745             MOVX    @DPTR,A
+                     746     ;       P4TZCTL = 0x00;
+                     747                             ; SOURCE LINE # 175
+012A 90E054          748             MOV     DPTR,#0E054H
+012D F0              749             MOVX    @DPTR,A
+                     750     ; //    P1TZEINT = 0x00;                                                // CBC trigger inte
+                             rrupt and OST interrupt disable
+                     751     ; //    P2TZEINT = 0x00;
+                     752     ; //    P3TZEINT = 0x00;
+                     753     ; //    P4TZEINT = 0x00;
+                     754     ; 
+                     755     ; //    P1TZSEL = 0x01;                                                 // OSHT enable
+                     756     ; //    P2TZSEL = 0x01;
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    13
+
+                     757     ; //    P3TZSEL = 0x01;
+                     758     ; //    P4TZSEL = 0x01;
+                     759     ; //    P1TZCTL = 0x00;                                                 // when trigger,epw
+                             mxA and epwmxB high impedance
+                     760     ; //    P2TZCTL = 0x00;
+                     761     ; //    P3TZCTL = 0x00;
+                     762     ; //    P4TZCTL = 0x00;
+                     763     ; //    P1TZEINT = 0x00;                                                // CBC trigger inte
+                             rrupt and OST interrupt disable
+                     764     ; //    P2TZEINT = 0x00;
+                     765     ; //    P3TZEINT = 0x00;
+                     766     ; //    P4TZEINT = 0x00;
+                     767     ; 
+                     768     ; //    P1TZSEL = 0x02;                                                 // CBC enable
+                     769     ; //    P2TZSEL = 0x02;
+                     770     ; //    P3TZSEL = 0x02;
+                     771     ; //    P4TZSEL = 0x02;
+                     772     ; //    P1TZCTL = 0x00;                                                 // when trigger,epw
+                             mxA and epwmxB high impedance
+                     773     ; //    P2TZCTL = 0x00;
+                     774     ; //    P3TZCTL = 0x00;
+                     775     ; //    P4TZCTL = 0x00;
+                     776     ; //    P1TZEINT = 0x00;                                                // CBC trigger inte
+                             rrupt and OST interrupt disable
+                     777     ; //    P2TZEINT = 0x00;
+                     778     ; //    P3TZEINT = 0x00;
+                     779     ; //    P4TZEINT = 0x00;
+                     780     ; 
+                     781     ;       P1ETSEL_L = 0x09;                                               // epwm interrupt e
+                             nable at CTR = ZERO
+                     782                             ; SOURCE LINE # 207
+012E 90E015          783             MOV     DPTR,#0E015H
+0131 7409            784             MOV     A,#09H
+0133 F0              785             MOVX    @DPTR,A
+                     786     ;     P1ETSEL_H = 0x0C;//0xE0;//0xA0;//0x90;//0x0A;//0x09;                       // enable 
+                             SOCA,SOCA is CTR = ZERO
+                     787                             ; SOURCE LINE # 208
+0134 90E014          788             MOV     DPTR,#0E014H
+0137 740C            789             MOV     A,#0CH
+0139 F0              790             MOVX    @DPTR,A
+                     791     ;       P2ETSEL_L = 0x00;
+                     792                             ; SOURCE LINE # 209
+013A 90E02B          793             MOV     DPTR,#0E02BH
+013D E4              794             CLR     A
+013E F0              795             MOVX    @DPTR,A
+                     796     ;       P2ETSEL_H = 0x00;//0xF0;//0x00;
+                     797                             ; SOURCE LINE # 210
+013F 90E02A          798             MOV     DPTR,#0E02AH
+0142 F0              799             MOVX    @DPTR,A
+                     800     ;       P3ETSEL_L = 0x00;
+                     801                             ; SOURCE LINE # 211
+0143 90E041          802             MOV     DPTR,#0E041H
+0146 F0              803             MOVX    @DPTR,A
+                     804     ;       P3ETSEL_H = 0x00;
+                     805                             ; SOURCE LINE # 212
+0147 90E040          806             MOV     DPTR,#0E040H
+014A F0              807             MOVX    @DPTR,A
+                     808     ;       P4ETSEL_L = 0x00;
+                     809                             ; SOURCE LINE # 213
+014B 90E057          810             MOV     DPTR,#0E057H
+014E F0              811             MOVX    @DPTR,A
+                     812     ;       P4ETSEL_H = 0x00;
+                     813                             ; SOURCE LINE # 214
+014F 90E056          814             MOV     DPTR,#0E056H
+0152 F0              815             MOVX    @DPTR,A
+                     816     ;       P1ETPS_L = 0x05;                                                // 1 event 1 interr
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    14
+
+                             upt
+                     817                             ; SOURCE LINE # 215
+0153 90E017          818             MOV     DPTR,#0E017H
+0156 7405            819             MOV     A,#05H
+0158 F0              820             MOVX    @DPTR,A
+                     821     ;     P1ETPS_H = 0x05;//0x50;//0x05;                        // 1 evnt,SOCA period is 1
+                     822                             ; SOURCE LINE # 216
+0159 90E016          823             MOV     DPTR,#0E016H
+015C F0              824             MOVX    @DPTR,A
+                     825     ;       P2ETPS_L = 0x00;
+                     826                             ; SOURCE LINE # 217
+015D 90E02D          827             MOV     DPTR,#0E02DH
+0160 E4              828             CLR     A
+0161 F0              829             MOVX    @DPTR,A
+                     830     ;     P2ETPS_H = 0x00;//0x50;
+                     831                             ; SOURCE LINE # 218
+0162 90E02C          832             MOV     DPTR,#0E02CH
+0165 F0              833             MOVX    @DPTR,A
+                     834     ;       P3ETPS_L = 0x00;
+                     835                             ; SOURCE LINE # 219
+0166 90E043          836             MOV     DPTR,#0E043H
+0169 F0              837             MOVX    @DPTR,A
+                     838     ;       P4ETPS_L = 0x00;
+                     839                             ; SOURCE LINE # 220
+016A 90E059          840             MOV     DPTR,#0E059H
+016D F0              841             MOVX    @DPTR,A
+                     842     ; 
+                     843     ;       P1TBPRD_L = 0xD0;                                               // pwm period is 0x
+                             0190@8MHz 10KHz 0x7D0@40MHz
+                     844                             ; SOURCE LINE # 222
+016E 75A1D0          845             MOV     P1TBPRD_L,#0D0H
+                     846     ;       P1TBPRD_H = 0x07;
+                     847                             ; SOURCE LINE # 223
+0171 75A207          848             MOV     P1TBPRD_H,#07H
+                     849     ;       P2TBPRD_L = 0xD0;
+                     850                             ; SOURCE LINE # 224
+0174 75C1D0          851             MOV     P2TBPRD_L,#0D0H
+                     852     ;       P2TBPRD_H = 0x07;
+                     853                             ; SOURCE LINE # 225
+0177 75C207          854             MOV     P2TBPRD_H,#07H
+                     855     ;       P3TBPRD_L = 0xD0;
+                     856                             ; SOURCE LINE # 226
+017A 75D1D0          857             MOV     P3TBPRD_L,#0D0H
+                     858     ;       P3TBPRD_H = 0x07;
+                     859                             ; SOURCE LINE # 227
+017D 75D207          860             MOV     P3TBPRD_H,#07H
+                     861     ;       P4TBPRD_L = 0xD0;
+                     862                             ; SOURCE LINE # 228
+0180 75E1D0          863             MOV     P4TBPRD_L,#0D0H
+                     864     ;       P4TBPRD_H = 0x07;
+                     865                             ; SOURCE LINE # 229
+0183 75E207          866             MOV     P4TBPRD_H,#07H
+                     867     ; 
+                     868     ; //    P1TBPRD_L = 0x1F;                                               // pwm period is 10
+                             KHz
+                     869     ; //    P1TBPRD_H = 0x03;
+                     870     ; //    P2TBPRD_L = 0x1F;
+                     871     ; //    P2TBPRD_H = 0x03;
+                     872     ; //    P3TBPRD_L = 0x1F;
+                     873     ; //    P3TBPRD_H = 0x03;
+                     874     ; //    P4TBPRD_L = 0x1F;
+                     875     ; //    P4TBPRD_H = 0x03;
+                     876     ; 
+                     877     ;       P1CMPA_L = 0xE8;                                                // pwm period is 0x
+                             0C8@8MHz 10KHz
+                     878                             ; SOURCE LINE # 240
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    15
+
+0186 75A3E8          879             MOV     P1CMPA_L,#0E8H
+                     880     ;       P1CMPA_H = 0x03;
+                     881                             ; SOURCE LINE # 241
+0189 75A403          882             MOV     P1CMPA_H,#03H
+                     883     ;       //P1CMPB_L = 0xC8;
+                     884     ;       //P1CMPB_H = 0x00;
+                     885     ;       P2CMPA_L = 0xE8;
+                     886                             ; SOURCE LINE # 244
+018C 75C3E8          887             MOV     P2CMPA_L,#0E8H
+                     888     ;       P2CMPA_H = 0x03;
+                     889                             ; SOURCE LINE # 245
+018F 75C403          890             MOV     P2CMPA_H,#03H
+                     891     ;       //P2CMPB_L = 0xC8;
+                     892     ;       //P2CMPB_H = 0x00;
+                     893     ;       P3CMPA_L = 0xE8;
+                     894                             ; SOURCE LINE # 248
+0192 75D3E8          895             MOV     P3CMPA_L,#0E8H
+                     896     ;       P3CMPA_H = 0x03;
+                     897                             ; SOURCE LINE # 249
+0195 75D403          898             MOV     P3CMPA_H,#03H
+                     899     ;       //P3CMPB_L = 0xC8;
+                     900     ;       //P3CMPB_H = 0x00;
+                     901     ;       P4CMPA_L = 0xE8;
+                     902                             ; SOURCE LINE # 252
+0198 75E3E8          903             MOV     P4CMPA_L,#0E8H
+                     904     ;       P4CMPA_H = 0x03;
+                     905                             ; SOURCE LINE # 253
+019B 75E403          906             MOV     P4CMPA_H,#03H
+                     907     ;       //P4CMPB_L = 0xC8;
+                     908     ;       //P4CMPB_H = 0x00;
+                     909     ; 
+                     910     ; //    P1CMPA_L = 0xF4;                                                // pwm period is 0x
+                             0C8@8MHz 10KHz
+                     911     ; //    P1CMPA_H = 0x01;
+                     912     ; //    P1CMPB_L = 0xEE;
+                     913     ; //    P1CMPB_H = 0x02;
+                     914     ; //    P2CMPA_L = 0xE8;
+                     915     ; //    P2CMPA_H = 0x03;
+                     916     ; //    P2CMPB_L = 0xE2;
+                     917     ; //    P2CMPB_H = 0x04;
+                     918     ; //    P3CMPA_L = 0xDC;
+                     919     ; //    P3CMPA_H = 0x05;
+                     920     ; 
+                     921     ; //    P1CMPA_L = 0x90;
+                     922     ; //    P1CMPA_H = 0x01;
+                     923     ; //    P1CMPB_L = 0x90;
+                     924     ; //    P1CMPB_H = 0x01;
+                     925     ; //    P2CMPA_L = 0x90;
+                     926     ; //    P2CMPA_H = 0x01;
+                     927     ; //    P2CMPB_L = 0x90;
+                     928     ; //    P2CMPB_H = 0x01;
+                     929     ; //    P3CMPA_L = 0x90;
+                     930     ; //    P3CMPA_H = 0x01;
+                     931     ; //    P3CMPB_L = 0x90;
+                     932     ; //    P3CMPB_H = 0x01;
+                     933     ; //    P4CMPA_L = 0x90;
+                     934     ; //    P4CMPA_H = 0x01;
+                     935     ; //    P4CMPB_L = 0x90;
+                     936     ; //    P4CMPB_H = 0x01;
+                     937     ; 
+                     938     ; //    OPAMP_SEL = 0xF0;
+                     939     ; //    COMP_INT_EN = COMP_INT_EN | (1 << 0);   // comparator1 interrupt output enable
+                     940     ; //    COMP_INT_SET = COMP_INT_SET & 0xFC;             // comparator1 falling edge trigger
+                     941     ; //    P1_FN_H = P1_FN_H & 0xF3 | 0x08;                // comp1 output
+                     942     ; //    ex1 = 1;                                                                // enable c
+                             omp1 to CPU interrupt
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    16
+
+                     943     ; 
+                     944     ;       PCLKCR = PCLKCR | 1;                                    // all epwm channel synchro
+                             nize enable
+                     945                             ; SOURCE LINE # 291
+019E 90E000          946             MOV     DPTR,#0E000H
+01A1 E0              947             MOVX    A,@DPTR
+01A2 4401            948             ORL     A,#01H
+01A4 F0              949             MOVX    @DPTR,A
+                     950     ; 
+                     951     ;       P1ETCLR = 1;
+                     952                             ; SOURCE LINE # 293
+01A5 75B601          953             MOV     P1ETCLR,#01H
+                     954     ;       I2FR = 1;
+                     955                             ; SOURCE LINE # 294
+01A8 D2CD            956             SETB    I2FR
+                     957     ;       EX2 = 1;                                                                // enable e
+                             pwm1,2,3 interrupt
+                     958                             ; SOURCE LINE # 295
+01AA D2B9            959             SETB    EX2
+                     960     ;       //ex3 = 1;                                                              // enable e
+                             pwm4 interrupt
+                     961     ; }
+                     962                             ; SOURCE LINE # 297
+01AC 22              963             RET     
+                     964     ; END OF Initepwm
+                     965     
+                     966     ; 
+                     967     ; 
+                     968     ; void InitComp234(void)
+                     969     
+----                 970             RSEG  ?PR?InitComp234?INITIAL
+0000                 971     InitComp234:
+                     972                             ; SOURCE LINE # 300
+                     973     ; {
+                     974                             ; SOURCE LINE # 301
+                     975     ;       P1_FN_L = P1_FN_L & 0x0F | 0xA0;
+                     976                             ; SOURCE LINE # 302
+0000 90E0DB          977             MOV     DPTR,#0E0DBH
+0003 E0              978             MOVX    A,@DPTR
+0004 540F            979             ANL     A,#0FH
+0006 44A0            980             ORL     A,#0A0H
+0008 F0              981             MOVX    @DPTR,A
+                     982     ;       P1_FN_H = P1_FN_H & 0xF0 | 0x0A;
+                     983                             ; SOURCE LINE # 303
+0009 90E0DA          984             MOV     DPTR,#0E0DAH
+000C E0              985             MOVX    A,@DPTR
+000D 54F0            986             ANL     A,#0F0H
+000F 440A            987             ORL     A,#0AH
+0011 F0              988             MOVX    @DPTR,A
+                     989     ;       //COMP_FILTER_1 = 4;
+                     990     ;       //COMP_FILTER_2 = 4;
+                     991     ;       //COMP_FILTER_3 = 4;
+                     992     ;       //COMP_FILTER_4 = 4;
+                     993     ;       OPAMP_SEL = 0xF0;
+                     994                             ; SOURCE LINE # 308
+0012 90E0A5          995             MOV     DPTR,#0E0A5H
+0015 74F0            996             MOV     A,#0F0H
+0017 F0              997             MOVX    @DPTR,A
+                     998     ;     COMP_INT_SEL = 0xAA;//0;//0x55;                    // comp1 ~ comp4 all trigger at ri
+                             se egde
+                     999                             ; SOURCE LINE # 309
+0018 90E0C6         1000             MOV     DPTR,#0E0C6H
+001B 74AA           1001             MOV     A,#0AAH
+001D F0             1002             MOVX    @DPTR,A
+                    1003     ;       COMP_INT_EN = 0x3E;//0x1E;//0x14;                                               // 
+                             comp2,3,4 interrupt enable,and comp2,3,4 to CPU enable
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    17
+
+                    1004                             ; SOURCE LINE # 310
+001E 90E0EB         1005             MOV     DPTR,#0E0EBH
+0021 743E           1006             MOV     A,#03EH
+0023 F0             1007             MOVX    @DPTR,A
+                    1008     ;       EX4 = 1;                                                                // external
+                              interrupt 4 enable
+                    1009                             ; SOURCE LINE # 311
+0024 D2BB           1010             SETB    EX4
+                    1011     ; }
+                    1012                             ; SOURCE LINE # 312
+0026 22             1013             RET     
+                    1014     ; END OF InitComp234
+                    1015     
+                    1016     ; 
+                    1017     ; void InitLED(void)
+                    1018     
+----                1019             RSEG  ?PR?InitLED?INITIAL
+0000                1020     InitLED:
+                    1021                             ; SOURCE LINE # 314
+                    1022     ; {
+                    1023                             ; SOURCE LINE # 315
+                    1024     ;       P0_FN_L = 0x00;                                                                    
+                                                                          // p0_0 ~ p0_3 as GPIO
+                    1025                             ; SOURCE LINE # 316
+0000 90E0D5         1026             MOV     DPTR,#0E0D5H
+0003 E4             1027             CLR     A
+0004 F0             1028             MOVX    @DPTR,A
+                    1029     ;       P0_FN_H = 0x00;                                                                    
+                                                                          // p0_4 ~ p0_7 as GPIO
+                    1030                             ; SOURCE LINE # 317
+0005 90E0D4         1031             MOV     DPTR,#0E0D4H
+0008 F0             1032             MOVX    @DPTR,A
+                    1033     ;       P1_FN_L = 0x00;                                                                    
+                                                                          // p1_0 ~ p1_3 as GPIO
+                    1034                             ; SOURCE LINE # 318
+0009 90E0DB         1035             MOV     DPTR,#0E0DBH
+000C F0             1036             MOVX    @DPTR,A
+                    1037     ;       P1_FN_H = 0x00;                                                                    
+                                                                          // p1_4 ~ p1_7 as GPIO
+                    1038                             ; SOURCE LINE # 319
+000D 90E0DA         1039             MOV     DPTR,#0E0DAH
+0010 F0             1040             MOVX    @DPTR,A
+                    1041     ;       P0_DD = P0_DD | (1 << 3) | (1 << 6) | (1 << 7);                                    
+                                          // p0_0 ~ p0_7 output
+                    1042                             ; SOURCE LINE # 320
+0011 90E0D6         1043             MOV     DPTR,#0E0D6H
+0014 E0             1044             MOVX    A,@DPTR
+0015 44C8           1045             ORL     A,#0C8H
+0017 F0             1046             MOVX    @DPTR,A
+                    1047     ;       P1_DD = P1_DD | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5);                         
+                                  // p1_0 ~ p1_7 output
+                    1048                             ; SOURCE LINE # 321
+0018 90E0DC         1049             MOV     DPTR,#0E0DCH
+001B E0             1050             MOVX    A,@DPTR
+001C 443C           1051             ORL     A,#03CH
+001E F0             1052             MOVX    @DPTR,A
+                    1053     ; }
+                    1054                             ; SOURCE LINE # 322
+001F 22             1055             RET     
+                    1056     ; END OF InitLED
+                    1057     
+                    1058     ; 
+                    1059     ; 
+                    1060     ; void InitWatchDog(void)
+                    1061     
+----                1062             RSEG  ?PR?InitWatchDog?INITIAL
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    18
+
+0000                1063     InitWatchDog:
+                    1064                             ; SOURCE LINE # 325
+                    1065     ; {
+                    1066                             ; SOURCE LINE # 326
+                    1067     ;               WDTREL = 0xFF;
+                    1068                             ; SOURCE LINE # 327
+0000 7586FF         1069             MOV     WDTREL,#0FFH
+                    1070     ;       WDT = 1;
+                    1071                             ; SOURCE LINE # 328
+0003 D2AE           1072             SETB    WDT
+                    1073     ;       SWDT = 1;
+                    1074                             ; SOURCE LINE # 329
+0005 D2BE           1075             SETB    SWDT
+                    1076     ;     P1_FN_L = P1_FN_L & 0xFC;               //p1_0 as GPIO
+                    1077                             ; SOURCE LINE # 330
+0007 90E0DB         1078             MOV     DPTR,#0E0DBH
+000A E0             1079             MOVX    A,@DPTR
+000B 54FC           1080             ANL     A,#0FCH
+000D F0             1081             MOVX    @DPTR,A
+                    1082     ;     P1_DD = P1_DD & 0xFE;                     //p1_0 as output
+                    1083                             ; SOURCE LINE # 331
+000E A3             1084             INC     DPTR
+000F E0             1085             MOVX    A,@DPTR
+0010 54FE           1086             ANL     A,#0FEH
+0012 F0             1087             MOVX    @DPTR,A
+                    1088     ; }
+                    1089                             ; SOURCE LINE # 332
+0013 22             1090             RET     
+                    1091     ; END OF InitWatchDog
+                    1092     
+                    1093     ; 
+                    1094     ; 
+                    1095     ; void InitGPIO(void)
+                    1096     
+----                1097             RSEG  ?PR?InitGPIO?INITIAL
+0000                1098     InitGPIO:
+                    1099                             ; SOURCE LINE # 335
+                    1100     ; {
+                    1101                             ; SOURCE LINE # 336
+                    1102     ;       P0_FN_L = 0x00;                                                 // p0_0 ~ p0_3 as G
+                             PIO
+                    1103                             ; SOURCE LINE # 337
+0000 90E0D5         1104             MOV     DPTR,#0E0D5H
+0003 E4             1105             CLR     A
+0004 F0             1106             MOVX    @DPTR,A
+                    1107     ;       P0_FN_H = 0x00;                                                 // p0_4 ~ p0_7 as G
+                             PIO
+                    1108                             ; SOURCE LINE # 338
+0005 90E0D4         1109             MOV     DPTR,#0E0D4H
+0008 F0             1110             MOVX    @DPTR,A
+                    1111     ; //    P1_FN_L = 0x00;                                                 // p1_0 ~ p1_3 as G
+                             PIO
+                    1112     ; //    P1_FN_H = 0x00;                                                 // p1_4 ~ p1_7 as G
+                             PIO
+                    1113     ; //    P2_FN_L = 0x00;                                                 // p2_0 ~ p2_3 as G
+                             PIO
+                    1114     ; //    P2_FN_H = 0x00;                                                 // p2_4 ~ p2_7 as G
+                             PIO
+                    1115     ; //    P0_DD = 0x00;                                                   // p0_0 ~ p0_7 inpu
+                             t
+                    1116     ; //    P1_DD = 0x00;                                                   // p1_0 ~ p1_7 inpu
+                             t
+                    1117     ; //    P2_DD = 0x00;                                                   // p2_0 ~ p2_7 inpu
+                             t
+                    1118     ;       P0_DD = 0xFF;                                                   // p0_0 ~ p0_7 outp
+                             ut
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    19
+
+                    1119                             ; SOURCE LINE # 346
+0009 90E0D6         1120             MOV     DPTR,#0E0D6H
+000C 74FF           1121             MOV     A,#0FFH
+000E F0             1122             MOVX    @DPTR,A
+                    1123     ; //    P1_DD = 0xFF;                                                   // p1_0 ~ p1_7 outp
+                             ut
+                    1124     ; //    P2_DD = 0xFF;                                                   // p2_0 ~ p2_7 outp
+                             ut
+                    1125     ;       P0_DS = 0xFF;
+                    1126                             ; SOURCE LINE # 349
+000F A3             1127             INC     DPTR
+0010 F0             1128             MOVX    @DPTR,A
+                    1129     ; //    P1_DS = 0xFF;
+                    1130     ; //    P2_DS = 0xFF;
+                    1131     ;       //P0 = 0xFF;
+                    1132     ;       //p0 = 0xFF;
+                    1133     ;       //P1 = 0xFF;
+                    1134     ;       //p1 = 0xFF;
+                    1135     ;       //P2 = 0xFF;
+                    1136     ;       //p2 = 0xFF;
+                    1137     ;       P0_PE = 0xFF;                                                   // pull enable
+                    1138                             ; SOURCE LINE # 358
+0011 A3             1139             INC     DPTR
+0012 F0             1140             MOVX    @DPTR,A
+                    1141     ; //    P1_PE = 0xFF;                                                   // pull enable
+                    1142     ; //    P1_PE = 0xFF;                                                   // pull enable
+                    1143     ; //    P0_PS = 0x00;                                                   // pull down
+                    1144     ; //    P1_PS = 0x00;                                                   // pull down
+                    1145     ; //    P2_PS = 0x00;                                                   // pull down
+                    1146     ;       P0_PS = 0xFF;                                                   // pull up
+                    1147                             ; SOURCE LINE # 364
+0013 A3             1148             INC     DPTR
+0014 F0             1149             MOVX    @DPTR,A
+                    1150     ; //    P1_PS = 0xFF;                                                   // pull up
+                    1151     ; //    P2_PS = 0xFF;                                                   // pull up
+                    1152     ; }
+                    1153                             ; SOURCE LINE # 367
+0015 22             1154             RET     
+                    1155     ; END OF InitGPIO
+                    1156     
+                    1157     ; 
+                    1158     ; void InitTimer3(void)
+                    1159     
+----                1160             RSEG  ?PR?InitTimer3?INITIAL
+0000                1161     InitTimer3:
+                    1162                             ; SOURCE LINE # 369
+                    1163     ; {
+                    1164                             ; SOURCE LINE # 370
+                    1165     ;       T3PS = 0;                                                               // no divid
+                             er
+                    1166                             ; SOURCE LINE # 371
+0000 90E0C9         1167             MOV     DPTR,#0E0C9H
+0003 E4             1168             CLR     A
+0004 F0             1169             MOVX    @DPTR,A
+                    1170     ;       T3RC_L = 0xC0;
+                    1171                             ; SOURCE LINE # 372
+0005 90E0CD         1172             MOV     DPTR,#0E0CDH
+0008 74C0           1173             MOV     A,#0C0H
+000A F0             1174             MOVX    @DPTR,A
+                    1175     ;       T3RC_H = 0xE0;
+                    1176                             ; SOURCE LINE # 373
+000B 90E0CC         1177             MOV     DPTR,#0E0CCH
+000E 74E0           1178             MOV     A,#0E0H
+0010 F0             1179             MOVX    @DPTR,A
+                    1180     ;       T3CON = 0x20;//0x29;//0x28;                                                     // 
+                             capture mode,timer3 overflow interrupt enable
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    20
+
+                    1181                             ; SOURCE LINE # 374
+0011 90E0C8         1182             MOV     DPTR,#0E0C8H
+0014 7420           1183             MOV     A,#020H
+0016 F0             1184             MOVX    @DPTR,A
+                    1185     ;       T3CON = T3CON | (1 << 2);                               // start timer3
+                    1186                             ; SOURCE LINE # 375
+0017 E0             1187             MOVX    A,@DPTR
+0018 4404           1188             ORL     A,#04H
+001A F0             1189             MOVX    @DPTR,A
+                    1190     ;       EX1 = 1;
+                    1191                             ; SOURCE LINE # 376
+001B D2AA           1192             SETB    EX1
+                    1193     ; }
+                    1194                             ; SOURCE LINE # 377
+001D 22             1195             RET     
+                    1196     ; END OF InitTimer3
+                    1197     
+                    1198     ; 
+                    1199     ; void sSystemClockConfig(void)
+                    1200     
+----                1201             RSEG  ?PR?sSystemClockConfig?INITIAL
+0000                1202     sSystemClockConfig:
+                    1203             USING   0
+                    1204                             ; SOURCE LINE # 379
+                    1205     ; {
+                    1206                             ; SOURCE LINE # 380
+                    1207     ;     RC80M_RES = 0x2e;
+                    1208                             ; SOURCE LINE # 381
+0000 90E0B2         1209             MOV     DPTR,#0E0B2H
+0003 742E           1210             MOV     A,#02EH
+0005 F0             1211             MOVX    @DPTR,A
+                    1212     ;         #pragma asm
+                    1213     ;               nop
+0006 00             1214               nop
+                    1215     ;               nop
+0007 00             1216               nop
+                    1217     ;               nop
+0008 00             1218               nop
+                    1219     ;               nop
+0009 00             1220               nop
+                    1221     ;               nop
+000A 00             1222               nop
+                    1223     ;               nop
+000B 00             1224               nop
+                    1225     ;               nop
+000C 00             1226               nop
+                    1227     ;               nop
+000D 00             1228               nop
+                    1229     ;               nop
+000E 00             1230               nop
+                    1231     ;               nop
+000F 00             1232               nop
+                    1233     ;               nop
+0010 00             1234               nop
+                    1235     ;               nop
+0011 00             1236               nop
+                    1237     ;               nop
+0012 00             1238               nop
+                    1239     ;               nop
+0013 00             1240               nop
+                    1241     ;               nop
+0014 00             1242               nop
+                    1243     ;               nop
+0015 00             1244               nop
+                    1245     ;               nop
+0016 00             1246               nop
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    21
+
+                    1247     ;               nop
+0017 00             1248               nop
+                    1249     ;               nop
+0018 00             1250               nop
+                    1251     ;               nop
+0019 00             1252               nop
+                    1253     ;               nop
+001A 00             1254               nop
+                    1255     ;               nop
+001B 00             1256               nop
+                    1257     ;               nop
+001C 00             1258               nop
+                    1259     ;               nop
+001D 00             1260               nop
+                    1261     ;               nop
+001E 00             1262               nop
+                    1263     ;               nop
+001F 00             1264               nop
+                    1265     ;               nop
+0020 00             1266               nop
+                    1267     ;               nop
+0021 00             1268               nop
+                    1269     ;               nop
+0022 00             1270               nop
+                    1271     ;               nop
+0023 00             1272               nop
+                    1273     ;               nop
+0024 00             1274               nop
+                    1275     ;               nop
+0025 00             1276               nop
+                    1277     ;               nop
+0026 00             1278               nop
+                    1279     ;               #pragma endasm
+                    1280     ;       
+                    1281     ;         CLK_DIV_L = 0x02;
+                    1282                             ; SOURCE LINE # 418
+0027 90E0E7         1283             MOV     DPTR,#0E0E7H
+002A 7402           1284             MOV     A,#02H
+002C F0             1285             MOVX    @DPTR,A
+                    1286     ;         CLK_DIV_H = 0x00;
+                    1287                             ; SOURCE LINE # 419
+002D 90E0E6         1288             MOV     DPTR,#0E0E6H
+0030 E4             1289             CLR     A
+0031 F0             1290             MOVX    @DPTR,A
+                    1291     ;               
+                    1292     ;               #pragma asm
+                    1293     ;               nop
+0032 00             1294               nop
+                    1295     ;               nop
+0033 00             1296               nop
+                    1297     ;               nop
+0034 00             1298               nop
+                    1299     ;               nop
+0035 00             1300               nop
+                    1301     ;               nop
+0036 00             1302               nop
+                    1303     ;               nop
+0037 00             1304               nop
+                    1305     ;               nop
+0038 00             1306               nop
+                    1307     ;               nop
+0039 00             1308               nop
+                    1309     ;               nop
+003A 00             1310               nop
+                    1311     ;               nop
+003B 00             1312               nop
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    22
+
+                    1313     ;               nop
+003C 00             1314               nop
+                    1315     ;               nop
+003D 00             1316               nop
+                    1317     ;               nop
+003E 00             1318               nop
+                    1319     ;               nop
+003F 00             1320               nop
+                    1321     ;               nop
+0040 00             1322               nop
+                    1323     ;               nop
+0041 00             1324               nop
+                    1325     ;               nop
+0042 00             1326               nop
+                    1327     ;               nop
+0043 00             1328               nop
+                    1329     ;               nop
+0044 00             1330               nop
+                    1331     ;               nop
+0045 00             1332               nop
+                    1333     ;               nop
+0046 00             1334               nop
+                    1335     ;               nop
+0047 00             1336               nop
+                    1337     ;               nop
+0048 00             1338               nop
+                    1339     ;               nop
+0049 00             1340               nop
+                    1341     ;               nop
+004A 00             1342               nop
+                    1343     ;               nop
+004B 00             1344               nop
+                    1345     ;               nop
+004C 00             1346               nop
+                    1347     ;               nop
+004D 00             1348               nop
+                    1349     ;               nop
+004E 00             1350               nop
+                    1351     ;               nop
+004F 00             1352               nop
+                    1353     ;               nop
+0050 00             1354               nop
+                    1355     ;               nop
+0051 00             1356               nop
+                    1357     ;               #pragma endasm
+                    1358     ; }
+                    1359                             ; SOURCE LINE # 455
+0052 22             1360             RET     
+                    1361     ; END OF sSystemClockConfig
+                    1362     
+                    1363     ; 
+                    1364     ; 
+                    1365     ; 
+                    1366     ; //initial UART1, there are 2 different ways to generate baudrate
+                    1367     ; //way 1
+                    1368     ; void sInitUART1(void)
+                    1369     
+----                1370             RSEG  ?PR?sInitUART1?INITIAL
+0000                1371     sInitUART1:
+                    1372                             ; SOURCE LINE # 461
+                    1373     ; {
+                    1374                             ; SOURCE LINE # 462
+                    1375     ;       S0CON  = 0x50;                // set as 8-bit UART,  enable serial 0 reception, ena
+                             ble serial 0 multiprocessor function
+                    1376                             ; SOURCE LINE # 463
+0000 759850         1377             MOV     S0CON,#050H
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    23
+
+                    1378     ;     WDCON = 0x80;            // 0x80: baud rate = (2^smod) * Fclk / (64 * (2^10 - s0rel))
+                             ;
+                    1379                             ; SOURCE LINE # 464
+0003 75D880         1380             MOV     WDCON,#080H
+                    1381     ;                               // 0x00: baud rate = (2^smod) * Fclk / (32 * 12 * (256 - th
+                             1));
+                    1382     ;                               // smod = 0;    Fclk = system clock
+                    1383     ;     S0RELL = 0xF3;             //Fclk = 8MHz, baud rate = 9600
+                    1384                             ; SOURCE LINE # 467
+0006 75AAF3         1385             MOV     S0RELL,#0F3H
+                    1386     ;     S0RELH = 0x03;    
+                    1387                             ; SOURCE LINE # 468
+0009 75BA03         1388             MOV     S0RELH,#03H
+                    1389     ; }
+                    1390                             ; SOURCE LINE # 469
+000C 22             1391             RET     
+                    1392     ; END OF sInitUART1
+                    1393     
+                    1394     ; 
+                    1395     ; void sInitUART2(void)
+                    1396     
+----                1397             RSEG  ?PR?sInitUART2?INITIAL
+0000                1398     sInitUART2:
+                    1399                             ; SOURCE LINE # 471
+                    1400     ; {
+                    1401                             ; SOURCE LINE # 472
+                    1402     ;     S1CON  = 0x90;                    //enable serial 1 reception, enable serial 0 multip
+                             rocessor function
+                    1403                             ; SOURCE LINE # 473
+0000 759B90         1404             MOV     S1CON,#090H
+                    1405     ;                                 //s1con.7 = 1: 8-bit UART(mode B)    s1con.7 = 0: 9-bit U
+                             ART(mode A)
+                    1406     ;     S1RELL = 0xE6;            //baud rate = Fclk / (32 * (2^10 - s0rel));
+                    1407                             ; SOURCE LINE # 475
+0003 759DE6         1408             MOV     S1RELL,#0E6H
+                    1409     ;     S1RELH = 0x03;              //Fclk = 8MHz, baud rate = 9600
+                    1410                             ; SOURCE LINE # 476
+0006 75BB03         1411             MOV     S1RELH,#03H
+                    1412     ; }
+                    1413                             ; SOURCE LINE # 477
+0009 22             1414             RET     
+                    1415     ; END OF sInitUART2
+                    1416     
+                    1417             END
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    24
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                         T Y P E  V A L U E   ATTRIBUTES
+
+?INITADC?BYTE. . . . . . . . .  X ADDR   0000H   R   SEG=?XD?INITADC?INITIAL
+?PR?EPWMOUTPUTDISABLE?INITIAL.  C SEG    000DH       REL=UNIT
+?PR?EPWMOUTPUTENABLE?INITIAL .  C SEG    000DH       REL=UNIT
+?PR?INITADC?INITIAL. . . . . .  C SEG    0039H       REL=UNIT
+?PR?INITBREAKPOINT?INITIAL . .  C SEG    000AH       REL=UNIT
+?PR?INITCOMP234?INITIAL. . . .  C SEG    0027H       REL=UNIT
+?PR?INITEPWM?INITIAL . . . . .  C SEG    01ADH       REL=UNIT
+?PR?INITGPIO?INITIAL . . . . .  C SEG    0016H       REL=UNIT
+?PR?INITLED?INITIAL. . . . . .  C SEG    0020H       REL=UNIT
+?PR?INITTIMER3?INITIAL . . . .  C SEG    001EH       REL=UNIT
+?PR?INITWATCHDOG?INITIAL . . .  C SEG    0014H       REL=UNIT
+?PR?SINITUART1?INITIAL . . . .  C SEG    000DH       REL=UNIT
+?PR?SINITUART2?INITIAL . . . .  C SEG    000AH       REL=UNIT
+?PR?SSYSTEMCLOCKCONFIG?INITIAL  C SEG    0053H       REL=UNIT
+?XD?INITADC?INITIAL. . . . . .  X SEG    0001H       REL=UNIT
+ACC. . . . . . . . . . . . . .  D ADDR   00E0H   A   
+ARCON. . . . . . . . . . . . .  D ADDR   00EFH   A   
+B. . . . . . . . . . . . . . .  D ADDR   00F0H   A   
+BPCTRL . . . . . . . . . . . .  D ADDR   0093H   A   
+BREAKH . . . . . . . . . . . .  D ADDR   0095H   A   
+BREAKL . . . . . . . . . . . .  D ADDR   0094H   A   
+BSHCTL . . . . . . . . . . . .  D ADDR   00ABH   A   
+BSHI_0 . . . . . . . . . . . .  D ADDR   00ACH   A   
+BSHI_1 . . . . . . . . . . . .  D ADDR   00ADH   A   
+BSHI_2 . . . . . . . . . . . .  D ADDR   00AEH   A   
+BSHI_3 . . . . . . . . . . . .  D ADDR   00AFH   A   
+BSHO_0 . . . . . . . . . . . .  D ADDR   00BCH   A   
+BSHO_1 . . . . . . . . . . . .  D ADDR   00BDH   A   
+BSHO_2 . . . . . . . . . . . .  D ADDR   00BEH   A   
+BSHO_3 . . . . . . . . . . . .  D ADDR   00BFH   A   
+CKCON. . . . . . . . . . . . .  D ADDR   008EH   A   
+CLK_DIV. . . . . . . . . . . .  D ADDR   0091H   A   
+CLK_PD_CON . . . . . . . . . .  D ADDR   008FH   A   
+DPH. . . . . . . . . . . . . .  D ADDR   0083H   A   
+DPH1 . . . . . . . . . . . . .  D ADDR   0085H   A   
+DPL. . . . . . . . . . . . . .  D ADDR   0082H   A   
+DPL1 . . . . . . . . . . . . .  D ADDR   0084H   A   
+DPS. . . . . . . . . . . . . .  D ADDR   0092H   A   
+EA . . . . . . . . . . . . . .  B ADDR   00A8H.7 A   
+EADC . . . . . . . . . . . . .  B ADDR   00B8H.0 A   
+EAL. . . . . . . . . . . . . .  B ADDR   00A8H.7 A   
+EPWMOUTPUTDISABLE. . . . . . .  C ADDR   0000H   R   SEG=?PR?EPWMOUTPUTDISABLE?INITIAL
+EPWMOUTPUTENABLE . . . . . . .  C ADDR   0000H   R   SEG=?PR?EPWMOUTPUTENABLE?INITIAL
+ES . . . . . . . . . . . . . .  B ADDR   00A8H.4 A   
+ES0. . . . . . . . . . . . . .  B ADDR   00A8H.4 A   
+ET0. . . . . . . . . . . . . .  B ADDR   00A8H.1 A   
+ET1. . . . . . . . . . . . . .  B ADDR   00A8H.3 A   
+EX0. . . . . . . . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . . . . . . . .  B ADDR   00A8H.2 A   
+EX2. . . . . . . . . . . . . .  B ADDR   00B8H.1 A   
+EX3. . . . . . . . . . . . . .  B ADDR   00B8H.2 A   
+EX4. . . . . . . . . . . . . .  B ADDR   00B8H.3 A   
+EX5. . . . . . . . . . . . . .  B ADDR   00B8H.4 A   
+EX6. . . . . . . . . . . . . .  B ADDR   00B8H.5 A   
+I2FR . . . . . . . . . . . . .  B ADDR   00C8H.5 A   
+I3FR . . . . . . . . . . . . .  B ADDR   00C8H.6 A   
+I?340. . . . . . . . . . . . .  X ADDR   0000H   R   SEG=?XD?INITADC?INITIAL
+IADC . . . . . . . . . . . . .  B ADDR   00C0H.0 A   
+IE . . . . . . . . . . . . . .  D ADDR   00A8H   A   
+IE0. . . . . . . . . . . . . .  B ADDR   0088H.1 A   
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    25
+
+IE1. . . . . . . . . . . . . .  B ADDR   0088H.3 A   
+IEN0 . . . . . . . . . . . . .  D ADDR   00A8H   A   
+IEN1 . . . . . . . . . . . . .  D ADDR   00B8H   A   
+IEN2 . . . . . . . . . . . . .  D ADDR   009AH   A   
+IEX2 . . . . . . . . . . . . .  B ADDR   00C0H.1 A   
+IEX3 . . . . . . . . . . . . .  B ADDR   00C0H.2 A   
+IEX4 . . . . . . . . . . . . .  B ADDR   00C0H.3 A   
+IEX5 . . . . . . . . . . . . .  B ADDR   00C0H.4 A   
+IEX6 . . . . . . . . . . . . .  B ADDR   00C0H.5 A   
+INITADC. . . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?INITADC?INITIAL
+INITBREAKPOINT . . . . . . . .  C ADDR   0000H   R   SEG=?PR?INITBREAKPOINT?INITIAL
+INITCOMP234. . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?INITCOMP234?INITIAL
+INITEPWM . . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?INITEPWM?INITIAL
+INITGPIO . . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?INITGPIO?INITIAL
+INITIAL. . . . . . . . . . . .  N NUMB   -----       
+INITLED. . . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?INITLED?INITIAL
+INITTIMER3 . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?INITTIMER3?INITIAL
+INITWATCHDOG . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?INITWATCHDOG?INITIAL
+INT_REG1 . . . . . . . . . . .  D ADDR   00F9H   A   
+INT_REG2 . . . . . . . . . . .  D ADDR   00FAH   A   
+INT_REG3 . . . . . . . . . . .  D ADDR   00FDH   A   
+INT_REG4 . . . . . . . . . . .  D ADDR   00FEH   A   
+IP0. . . . . . . . . . . . . .  D ADDR   00A9H   A   
+IP1. . . . . . . . . . . . . .  D ADDR   00B9H   A   
+IRCON. . . . . . . . . . . . .  D ADDR   00C0H   A   
+IT0. . . . . . . . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . . . . . . . .  B ADDR   0088H.2 A   
+MD0. . . . . . . . . . . . . .  D ADDR   00E9H   A   
+MD1. . . . . . . . . . . . . .  D ADDR   00EAH   A   
+MD2. . . . . . . . . . . . . .  D ADDR   00EBH   A   
+MD3. . . . . . . . . . . . . .  D ADDR   00ECH   A   
+MD4. . . . . . . . . . . . . .  D ADDR   00EDH   A   
+MD5. . . . . . . . . . . . . .  D ADDR   00EEH   A   
+MEM_CONFIG . . . . . . . . . .  D ADDR   00E8H   A   
+P0 . . . . . . . . . . . . . .  D ADDR   0080H   A   
+P00. . . . . . . . . . . . . .  B ADDR   0080H.0 A   
+P01. . . . . . . . . . . . . .  B ADDR   0080H.1 A   
+P02. . . . . . . . . . . . . .  B ADDR   0080H.2 A   
+P03. . . . . . . . . . . . . .  B ADDR   0080H.3 A   
+P04. . . . . . . . . . . . . .  B ADDR   0080H.4 A   
+P05. . . . . . . . . . . . . .  B ADDR   0080H.5 A   
+P06. . . . . . . . . . . . . .  B ADDR   0080H.6 A   
+P07. . . . . . . . . . . . . .  B ADDR   0080H.7 A   
+P1 . . . . . . . . . . . . . .  D ADDR   0090H   A   
+P10. . . . . . . . . . . . . .  B ADDR   0090H.0 A   
+P11. . . . . . . . . . . . . .  B ADDR   0090H.1 A   
+P12. . . . . . . . . . . . . .  B ADDR   0090H.2 A   
+P13. . . . . . . . . . . . . .  B ADDR   0090H.3 A   
+P14. . . . . . . . . . . . . .  B ADDR   0090H.4 A   
+P15. . . . . . . . . . . . . .  B ADDR   0090H.5 A   
+P16. . . . . . . . . . . . . .  B ADDR   0090H.6 A   
+P17. . . . . . . . . . . . . .  B ADDR   0090H.7 A   
+P1AQCSFRC. . . . . . . . . . .  D ADDR   00B1H   A   
+P1AQSFRC . . . . . . . . . . .  D ADDR   00A7H   A   
+P1CMPA . . . . . . . . . . . .  D ADDR   00A3H   A   
+P1CMPA_H . . . . . . . . . . .  D ADDR   00A4H   A   
+P1CMPA_L . . . . . . . . . . .  D ADDR   00A3H   A   
+P1CMPB . . . . . . . . . . . .  D ADDR   00A5H   A   
+P1CMPB_H . . . . . . . . . . .  D ADDR   00A6H   A   
+P1CMPB_L . . . . . . . . . . .  D ADDR   00A5H   A   
+P1ETCLR. . . . . . . . . . . .  D ADDR   00B6H   A   
+P1ETFLG. . . . . . . . . . . .  D ADDR   00B5H   A   
+P1ETFRC. . . . . . . . . . . .  D ADDR   00B7H   A   
+P1TBPRD. . . . . . . . . . . .  D ADDR   00A1H   A   
+P1TBPRD_H. . . . . . . . . . .  D ADDR   00A2H   A   
+P1TBPRD_L. . . . . . . . . . .  D ADDR   00A1H   A   
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    26
+
+P1TZCLR. . . . . . . . . . . .  D ADDR   00B3H   A   
+P1TZFLG. . . . . . . . . . . .  D ADDR   00B2H   A   
+P1TZFRC. . . . . . . . . . . .  D ADDR   00B4H   A   
+P2 . . . . . . . . . . . . . .  D ADDR   00A0H   A   
+P20. . . . . . . . . . . . . .  B ADDR   00A0H.0 A   
+P21. . . . . . . . . . . . . .  B ADDR   00A0H.1 A   
+P22. . . . . . . . . . . . . .  B ADDR   00A0H.2 A   
+P23. . . . . . . . . . . . . .  B ADDR   00A0H.3 A   
+P24. . . . . . . . . . . . . .  B ADDR   00A0H.4 A   
+P25. . . . . . . . . . . . . .  B ADDR   00A0H.5 A   
+P26. . . . . . . . . . . . . .  B ADDR   00A0H.6 A   
+P27. . . . . . . . . . . . . .  B ADDR   00A0H.7 A   
+P2AQCSFRC. . . . . . . . . . .  D ADDR   00C9H   A   
+P2AQSFRC . . . . . . . . . . .  D ADDR   00C7H   A   
+P2CMPA . . . . . . . . . . . .  D ADDR   00C3H   A   
+P2CMPA_H . . . . . . . . . . .  D ADDR   00C4H   A   
+P2CMPA_L . . . . . . . . . . .  D ADDR   00C3H   A   
+P2CMPB . . . . . . . . . . . .  D ADDR   00C5H   A   
+P2CMPB_H . . . . . . . . . . .  D ADDR   00C6H   A   
+P2CMPB_L . . . . . . . . . . .  D ADDR   00C5H   A   
+P2ETCLR. . . . . . . . . . . .  D ADDR   00CEH   A   
+P2ETFLG. . . . . . . . . . . .  D ADDR   00CDH   A   
+P2ETFRC. . . . . . . . . . . .  D ADDR   00CFH   A   
+P2TBPRD. . . . . . . . . . . .  D ADDR   00C1H   A   
+P2TBPRD_H. . . . . . . . . . .  D ADDR   00C2H   A   
+P2TBPRD_L. . . . . . . . . . .  D ADDR   00C1H   A   
+P2TZCLR. . . . . . . . . . . .  D ADDR   00CBH   A   
+P2TZFLG. . . . . . . . . . . .  D ADDR   00CAH   A   
+P2TZFRC. . . . . . . . . . . .  D ADDR   00CCH   A   
+P3 . . . . . . . . . . . . . .  D ADDR   00B0H   A   
+P30. . . . . . . . . . . . . .  B ADDR   00B0H.0 A   
+P31. . . . . . . . . . . . . .  B ADDR   00B0H.1 A   
+P32. . . . . . . . . . . . . .  B ADDR   00B0H.2 A   
+P33. . . . . . . . . . . . . .  B ADDR   00B0H.3 A   
+P34. . . . . . . . . . . . . .  B ADDR   00B0H.4 A   
+P35. . . . . . . . . . . . . .  B ADDR   00B0H.5 A   
+P36. . . . . . . . . . . . . .  B ADDR   00B0H.6 A   
+P37. . . . . . . . . . . . . .  B ADDR   00B0H.7 A   
+P3AQCSFRC. . . . . . . . . . .  D ADDR   00D9H   A   
+P3AQSFRC . . . . . . . . . . .  D ADDR   00D7H   A   
+P3CMPA . . . . . . . . . . . .  D ADDR   00D3H   A   
+P3CMPA_H . . . . . . . . . . .  D ADDR   00D4H   A   
+P3CMPA_L . . . . . . . . . . .  D ADDR   00D3H   A   
+P3CMPB . . . . . . . . . . . .  D ADDR   00D5H   A   
+P3CMPB_H . . . . . . . . . . .  D ADDR   00D6H   A   
+P3CMPB_L . . . . . . . . . . .  D ADDR   00D5H   A   
+P3ETCLR. . . . . . . . . . . .  D ADDR   00DEH   A   
+P3ETFLG. . . . . . . . . . . .  D ADDR   00DDH   A   
+P3ETFRC. . . . . . . . . . . .  D ADDR   00DFH   A   
+P3TBPRD. . . . . . . . . . . .  D ADDR   00D1H   A   
+P3TBPRD_H. . . . . . . . . . .  D ADDR   00D2H   A   
+P3TBPRD_L. . . . . . . . . . .  D ADDR   00D1H   A   
+P3TZCLR. . . . . . . . . . . .  D ADDR   00DBH   A   
+P3TZFLG. . . . . . . . . . . .  D ADDR   00DAH   A   
+P3TZFRC. . . . . . . . . . . .  D ADDR   00DCH   A   
+P4AQCSFRC. . . . . . . . . . .  D ADDR   00F1H   A   
+P4AQSFRC . . . . . . . . . . .  D ADDR   00E7H   A   
+P4CMPA . . . . . . . . . . . .  D ADDR   00E3H   A   
+P4CMPA_H . . . . . . . . . . .  D ADDR   00E4H   A   
+P4CMPA_L . . . . . . . . . . .  D ADDR   00E3H   A   
+P4CMPB . . . . . . . . . . . .  D ADDR   00E5H   A   
+P4CMPB_H . . . . . . . . . . .  D ADDR   00E6H   A   
+P4CMPB_L . . . . . . . . . . .  D ADDR   00E5H   A   
+P4ETCLR. . . . . . . . . . . .  D ADDR   00F6H   A   
+P4ETFLG. . . . . . . . . . . .  D ADDR   00F5H   A   
+P4ETFRC. . . . . . . . . . . .  D ADDR   00F7H   A   
+A51 MACRO ASSEMBLER  INITIAL                                                              09/05/2018 03:06:12 PAGE    27
+
+P4TBPRD. . . . . . . . . . . .  D ADDR   00E1H   A   
+P4TBPRD_H. . . . . . . . . . .  D ADDR   00E2H   A   
+P4TBPRD_L. . . . . . . . . . .  D ADDR   00E1H   A   
+P4TZCLR. . . . . . . . . . . .  D ADDR   00F3H   A   
+P4TZFLG. . . . . . . . . . . .  D ADDR   00F2H   A   
+P4TZFRC. . . . . . . . . . . .  D ADDR   00F4H   A   
+PCON . . . . . . . . . . . . .  D ADDR   0087H   A   
+POWER_CON. . . . . . . . . . .  D ADDR   0097H   A   
+PSW. . . . . . . . . . . . . .  D ADDR   00D0H   A   
+RB80 . . . . . . . . . . . . .  B ADDR   0098H.2 A   
+REN0 . . . . . . . . . . . . .  B ADDR   0098H.4 A   
+RI . . . . . . . . . . . . . .  B ADDR   0098H.0 A   
+RI0. . . . . . . . . . . . . .  B ADDR   0098H.0 A   
+S0BUF. . . . . . . . . . . . .  D ADDR   0099H   A   
+S0CON. . . . . . . . . . . . .  D ADDR   0098H   A   
+S0RELH . . . . . . . . . . . .  D ADDR   00BAH   A   
+S0RELL . . . . . . . . . . . .  D ADDR   00AAH   A   
+S1BUF. . . . . . . . . . . . .  D ADDR   009CH   A   
+S1CON. . . . . . . . . . . . .  D ADDR   009BH   A   
+S1RELH . . . . . . . . . . . .  D ADDR   00BBH   A   
+S1RELL . . . . . . . . . . . .  D ADDR   009DH   A   
+SBUF . . . . . . . . . . . . .  D ADDR   0099H   A   
+SINITUART1 . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?SINITUART1?INITIAL
+SINITUART2 . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?SINITUART2?INITIAL
+SM0. . . . . . . . . . . . . .  B ADDR   0098H.7 A   
+SM1. . . . . . . . . . . . . .  B ADDR   0098H.6 A   
+SM20 . . . . . . . . . . . . .  B ADDR   0098H.5 A   
+SP . . . . . . . . . . . . . .  D ADDR   0081H   A   
+SRAM_CON . . . . . . . . . . .  D ADDR   00F8H   A   
+SSYSTEMCLOCKCONFIG . . . . . .  C ADDR   0000H   R   SEG=?PR?SSYSTEMCLOCKCONFIG?INITIAL
+SWDT . . . . . . . . . . . . .  B ADDR   00B8H.6 A   
+T2CON. . . . . . . . . . . . .  D ADDR   00C8H   A   
+TB80 . . . . . . . . . . . . .  B ADDR   0098H.3 A   
+TCON . . . . . . . . . . . . .  D ADDR   0088H   A   
+TF0. . . . . . . . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . . . . . . . .  B ADDR   0088H.7 A   
+TH0. . . . . . . . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . . . . . . . .  D ADDR   008DH   A   
+TI0. . . . . . . . . . . . . .  B ADDR   0098H.1 A   
+TL0. . . . . . . . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . . . . . . . .  B ADDR   0088H.6 A   
+WDCON. . . . . . . . . . . . .  D ADDR   00D8H   A   
+WDCON_7. . . . . . . . . . . .  B ADDR   00D8H.7 A   
+WDT. . . . . . . . . . . . . .  B ADDR   00A8H.6 A   
+WDTREL . . . . . . . . . . . .  D ADDR   0086H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

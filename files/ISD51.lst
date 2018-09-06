@@ -1,0 +1,1304 @@
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\OUTPUT\ISD51.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE SRC\ISD51.A51 INCDIR(.\INC) SET(LARGE) DEBUG PRINT(.\files\ISD51.lst) O
+                      BJECT(.\OUTPUT\ISD51.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     $nomod51     
+                       2     ;------------------------------------------------------------------------------
+                       3     ;  ISD51  In-System Debugger for 8051 based microcontrollers
+                       4     ;  Copyright KEIL ELEKTRONIK GmbH and Keil Software, Inc. 2000 - 2003
+                       5     ;  Version 2.05
+                       6     ;------------------------------------------------------------------------------
+                       7     ;  ISD51.A51:  This module needs to be added to the user application
+                       8     ;
+                       9     ;  Copy this file to your project folder and add the copy to your uVision2
+                      10     ;  project.  You can customize several parameters of the ISD51 In-System 
+                      11     ;  Monitor within this configuration file.
+                      12     ;
+                      13     ;  ISD51 V2.00: added new features like user I/O and hardware breakpoints.
+                      14     ;  ISD51 V2.02: fixed a problem when single stepping through putchar
+                      15     ;
+                      16     ;  ISD51 V2.03: adapted for TI AUX Interupt (EAI Bit save/restore added)
+                      17     ;  ISD51 V2.04: 'Stop' command did not break program execution on targets that
+                      18     ;               do not have hardware breakpoints
+                      19     ;  ISD51 V2.05: when ISD51 is not started, getkey return value was not in R7.
+                      20     ;------------------------------------------------------------------------------
+                      21     
+                      22     ;#include "ISD51.H" 
+                +1    23     
+                +1    24     
+                +1    25     
+                +1    26     
+                +1    27     
+                +1    28     
+                +1    29     
+                +1    30     
+                +1    31     
+                +1    32     
+                +1    33     
+                +1    34     
+                +1    35     
+                +1    36     
+                +1    37     
+                +1    38     
+                +1    39     
+                +1    40     
+                +1    41     
+                +1    42     
+                +1    43     
+                +1    44     
+                +1    45     
+                +1    46     
+                +1    47     
+                +1    48     
+                +1    49     
+                +1    50     
+                +1    51     
+                +1    52     
+                +1    53     
+                +1    54     
+                +1    55     
+                +1    56     
+                +1    57     
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE     2
+
+                +1    58     
+                +1    59     
+                +1    60     
+                +1    61     
+                +1    62     
+                +1    63     
+                +1    64     
+                +1    65     
+                +1    66     
+                +1    67     
+                +1    68     
+  0098          +1    69     sfr  SCON = 0x98;
+  0099          +1    70     sfr  SBUF = 0x99;
+  00A8          +1    71     sfr  IE   = 0xA8;
+                +1    72     
+                +1    73     
+  0099          +1    74     sbit TI   = SCON^1;
+  0098          +1    75     sbit RI   = SCON^0;
+                +1    76     
+                +1    77     
+  00AC          +1    78     sbit ES   = IE^4;
+  00AF          +1    79     sbit EA   = IE^7;
+                +1    80     
+                +1    81     CLR_TI   MACRO             ; Clear Transmit Interrupt Flag 
+                +1    82              CLR     TI        ; No CPU register may be changed here
+                +1    83              ENDM
+                +1    84     
+                +1    85     SET_TI   MACRO             ; Set   Transmit Interrupt Flag
+                +1    86              SETB    TI        ; No CPU register may be changed here
+                +1    87              ENDM
+                +1    88     
+                +1    89     JNB_TI   MACRO   label     ; Jump if Transmit Interrupt Flag not set
+                +1    90              JNB     TI,label  ; PSW may be modified without saving it
+                +1    91              ENDM
+                +1    92     
+                +1    93     WR_SBUF  MACRO             ; Write ACC to SBUF
+                +1    94              MOV     SBUF,A    ; ACC and PSW may be modified without saving it
+                +1    95              ENDM
+                +1    96     
+                +1    97     CLR_RI   MACRO             ; Clear Receiver Interrupt Flag 
+                +1    98              CLR     RI        ; No CPU register may be changed here
+                +1    99              ENDM
+                +1   100     
+                +1   101     JB_RI    MACRO   label     ; Jump if Receiver Interrupt Flag set
+                +1   102              JB      RI,label  ; ACC and PSW may be modified without saving it
+                +1   103              ENDM
+                +1   104     
+                +1   105     JNB_RI   MACRO   label     ; Jump if Receiver Interrupt Flag not set
+                +1   106              JNB     RI,label  ; ACC and PSW may be modified without saving it
+                +1   107              ENDM
+                +1   108     
+                +1   109     RD_SBUF  MACRO             ; Return SBUF in ACC
+                +1   110              MOV    A,SBUF     ; ACC and PSW may be modified without saving it
+                +1   111              ENDM
+                +1   112     
+                +1   113     CLR_ES   MACRO             ; Disable Serial Interrupt
+                +1   114              CLR    ES         ; No CPU register may be changed here
+                +1   115              ENDM
+                +1   116     
+                +1   117     SET_ES   MACRO             ; Enable Serial Interrupt
+                +1   118              SETB   ES         ; No CPU register may be changed here
+                +1   119              ENDM
+                +1   120     
+                +1   121     JNB_ES   MACRO   label     ; Jump if Receiver Interrupt Flag not set
+                +1   122              JNB     ES,label  ; ACC and PSW may be modified without saving it
+                +1   123              ENDM
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE     3
+
+                +1   124     
+                +1   125     SAVE_ES  MACRO             ; Save Serial Interrupt enable bit to Carry
+                +1   126              MOV    C,ES       ; ACC and PSW may be modified without saving it
+                +1   127              ENDM
+                +1   128     
+                +1   129     RESTO_ES MACRO             ; Restore Serial Interrupt enable bit from Carry
+                +1   130              MOV    ES,C       ; ACC and PSW may be modified without saving it
+                +1   131              ENDM
+                +1   132     
+  2023          +1   133     SINTRVEC EQU    0x2023       ; Interrupt Vector Address of UART interrupt
+                +1   134     
+                +1   135     
+                +1   136     
+                +1   137     
+                +1   138     
+                +1   139     
+                +1   140     
+                +1   141     
+                +1   142     
+                +1   143     
+                +1   144     
+                +1   145     
+                +1   146     
+                +1   147     
+                +1   148     
+                +1   149     
+                +1   150     
+                +1   151                                
+                +1   152     
+                +1   153     
+                +1   154     
+                +1   155     
+                +1   156     
+                +1   157     
+                +1   158     
+                +1   159     
+                +1   160     
+                +1   161     CWRITE  MACRO              ; write new content data to Flash CODE ROM block
+                +1   162                                ; Flash block address in DPTR
+                +1   163             ENDM
+                +1   164     
+                +1   165     
+                +1   166     
+                +1   167     
+                +1   168     
+                +1   169     
+                +1   170     
+                +1   171     
+                +1   172     
+                +1   173     
+                +1   174     
+                +1   175     
+                +1   176     
+                +1   177     
+                +1   178     
+                +1   179                                
+                +1   180     
+                +1   181     
+                +1   182     
+                +1   183                                
+                +1   184     
+                +1   185     
+                +1   186     
+                +1   187     
+                +1   188     
+                +1   189     
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE     4
+
+                +1   190     
+                +1   191     
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1           
+                +1   234     
+                +1   235     
+                +1   236     
+                +1   237     
+                +1   238     
+                +1   239     
+                +1   240     
+                +1   241     
+                +1   242     
+                +1   243     
+                +1   244     
+                +1   245     
+                +1   246     
+                +1   247     
+                +1   248     
+                +1   249     
+                +1   250     
+                +1   251     
+                +1   252     
+                +1   253     
+                +1   254     
+                +1   255     
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE     5
+
+                +1   256     
+                +1   257     
+                +1   258     
+                +1   259     
+                +1   260     
+                +1   261     
+                +1   262     
+                +1   263     
+                +1   264     
+                     265     
+                     266     
+                     267     ;------------------------------------------------------------------------------
+                     268     ;----------------- !!! Do not modify code sections below !!! ------------------
+                     269     ;------------------------------------------------------------------------------
+                     270     
+                     271     NAME ISD51_CONFIGURATION
+                     272     
+                     273     
+                     274     bshift  MACRO   
+                     275                     MOV     DPTR,#x
+                     276                     MOV             BSHI_3,@DPTR
+                     277                     INC             DPTR
+                     278                     MOV             BSHI_2,@DPTR
+                     279                     INC             DPTR
+                     280                     MOV             BSHI_1,@DPTR
+                     281                     INC             DPTR
+                     282                     MOV             BSHI_0,@DPTR
+                     283                     ENDM
+                     284     
+                     285     
+                     286     
+                     287     SBYTE    MACRO             ; Transmit Byte in ACC via serial UART
+                     288              JNB_TI $
+                     289              CLR_TI
+                     290              WR_SBUF           ; MOV SBUF,A
+                     291              ENDM
+                     292     
+                     293     RBYTE    MACRO             ; Read one Byte from serial UART to ACC
+                     294              RD_SBUF           ; MOV A,SBUF
+                     295              CLR_RI
+                     296              ENDM
+                     297     
+                     298     GBYTE    MACRO             ; Receive one Character from 8051 Serial Interface
+                     299              JNB_RI $
+                     300              RBYTE
+                     301              ENDM
+                     302     
+                     303     
+                     304     
+  0080               305     sfr P0     = 0x80;
+  0090               306     sfr P1     = 0x90;
+  00A0               307     sfr P2     = 0xA0;
+  00B0               308     sfr P3     = 0xB0;
+  00D0               309     sfr PSW    = 0xD0;
+  00E0               310     sfr ACC    = 0xE0;
+  00F0               311     sfr B      = 0xF0;
+  0081               312     sfr SP     = 0x81;
+  0082               313     sfr DPL    = 0x82;
+  0083               314     sfr DPH    = 0x83;
+  008E               315     sfr AUXR   = 0x8E;
+  00E4               316     sfr PH_FMCON  = 0xE4;  // for Philips LPC900 devices
+  00E6               317     sfr PH_FMADRL = 0xE6;  // for Philips LPC900 devices
+                     318     
+  0000               319     sfr UARTFLAG = 0x;
+                     320     
+  00FF               321     ?ISD?RAMTOP     EQU     0x100-1
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE     6
+
+  0000               322     ?ISD?CMP_S      EQU     0x0
+  FFFF               323     ?ISD?CMP_E      EQU     0xFFFF
+                     324     
+                     325     EXTRN NUMBER (?ISD?CORE)
+                     326     
+                     327     PUBLIC ?ISD?RAMTOP
+                     328     PUBLIC ?ISD?RESTART
+                     329     PUBLIC ?ISD?CMDLOOP
+                     330     PUBLIC ?ISD?GETBYTE
+                     331     PUBLIC ?ISD?SENDBYTE
+                     332     PUBLIC ?ISD?READSFR00
+                     333     PUBLIC ?ISD?READSFR01
+                     334     PUBLIC ?ISD?READSFR02
+                     335     PUBLIC ?ISD?READSFR03
+                     336     PUBLIC ?ISD?READSFR04
+                     337     PUBLIC ?ISD?READSFR05
+                     338     PUBLIC ?ISD?READSFR06
+                     339     PUBLIC ?ISD?READSFR07
+                     340     PUBLIC ?ISD?READSFR08
+                     341     PUBLIC ?ISD?READSFR09
+                     342     PUBLIC ?ISD?READSFR10
+                     343     PUBLIC ?ISD?READSFR11
+                     344     PUBLIC ?ISD?READSFR12
+                     345     PUBLIC ?ISD?READSFR13
+                     346     PUBLIC ?ISD?READSFR14
+                     347     PUBLIC ?ISD?READSFR15
+                     348     PUBLIC ?ISD?READSFR16
+                     349     PUBLIC ?ISD?READSFR17
+                     350     PUBLIC ?ISD?READSFR18
+                     351     PUBLIC ?ISD?WRITESFR00
+                     352     PUBLIC ?ISD?WRITESFR01
+                     353     PUBLIC ?ISD?WRITESFR02
+                     354     PUBLIC ?ISD?WRITESFR03
+                     355     
+                             
+                             
+                             
+                     359     PUBLIC ?ISD?VERSION
+                     360     PUBLIC ?ISD?CMP_S
+                     361     PUBLIC ?ISD?CMP_E
+                     362     PUBLIC __isd_init
+                     363     
+                     364     
+                     365     PUBLIC ?ISD?CBLK_SIZE  ; block size for FLASH IAP Routine
+                     366     
+  0000               367     ?ISD?CBLK_SIZE  EQU     0
+  0010               368     CBLK            EQU     10H             ; Start address for FLASH buffer
+                     369     
+  00CD               370     ?ISD?VERSION    EQU     205             ; Version 2.05
+                     371     
+                     372     
+                     373     ?BI?ISD51       SEGMENT BIT
+----                 374                     RSEG    ?BI?ISD51
+0000                 375     SaveEAI:        DBIT    1               ; Save TI AUX Interrupt Enable bit
+                     376     
+                     377     
+                     378     
+                     379     ?PR?ISD51       SEGMENT CODE INBLOCK
+                     380     
+----                 381                     CSEG AT SINTRVEC    ; Serial Interrupt
+2023 020000   F      382                     LJMP    SerialInterrupt
+                     383     
+                     384     
+                     385     
+                     386     ;-------- Chip Specific Break Features -----------------------
+                     387     PUBLIC          ?ISD?HWBREAKS
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE     7
+
+                     388     PUBLIC          ?ISD?SETHWBREAK
+                     389     
+  2000               390     BREAK_CODE      EQU     0x2000
+  E800               391     BREAK_XDATA     EQU     0xE800
+                     392     
+  E802               393     ?ISD?HWBREAKS   EQU     (BREAK_CODE OR BREAK_XDATA) + 2
+                     394     
+                     395     ;BPCTRL          DATA    0A9H  ; BPCTRL.7  := breakpoint interrupt request
+                     396                                   ; BPCTRL.1  := 0=code break, 1=xdata break
+                     397                                   ; BPCTRL.0  := breakpoint enable 
+                     398     ;BREAKL          DATA    0AAH  ; break low  address
+                     399     ;BREAKH          DATA    0ABH  ; break high address
+  0093               400     BPCTRL          DATA    093H  ; BPCTRL.7  := breakpoint interrupt request
+                     401                                   ; BPCTRL.1  := 0=code break, 1=xdata break
+                     402                                   ; BPCTRL.0  := breakpoint enable 
+  0094               403     BREAKL          DATA    094H  ; break low  address
+  0095               404     BREAKH          DATA    095H  ; break high address
+  0096               405     MEMCTRL         DATA    096H  ; MEMCTRL.7 := breakpoint select
+                     406     ;PIREG           DATA    096H  ; PIREG.0   := breakpoint interrupt enable
+                     407     ;EICON           DATA    0D8H  ; Extended Interrupt CONtrol register
+                     408     ;PFI             BIT     0DCH  ; Interrupt Request Flag for power fail and debug
+  00B8               409     PIREG           DATA    0B8H  ; PIREG.0   := breakpoint interrupt enable
+  00C0               410     EICON           DATA    0C0H  ; Extended Interrupt CONtrol register
+  00C5               411     PFI             BIT     0C5H  ; Interrupt Request Flag for power fail and debug
+                     412     
+                     413                     
+                     414                                     ;CSEG   AT    2003H
+                     415                                     ;LJMP   ExternalInterrupt
+                     416                                     
+----                 417                                     CSEG    AT    206BH       ; interupt vector for breakpoints
+206B 020000   F      418                     LJMP    HWBreakEntry
+                     419                                     
+                     420     
+                     421     
+----                 422                     RSEG    ?PR?ISD51
+                     423                     USING   0               ; Assume Registerbank 0 for ARx symbols
+                     424     
+                     425     ;ExternalInterrupt:
+                     426                                     ;PUSH   PSW
+                     427                                     ;PUSH   ACC
+                     428                                     ;MOV            A,INT_REG1
+                     429                                     ;JB             ACC.0, 20A3H
+                     430                                     ;JB     
+                     431                                     ;POP            ACC
+                     432                                     ;POP            PSW
+                     433                                     ;LJMP   20ABH
+                     434     
+                     435     
+                     436     
+                     437     ; Entry Point for HW Breakpoint
+0000 C0D0            438     HWBreakEntry:   PUSH    PSW
+0002 C0E0            439                     PUSH    ACC
+0004 E593            440                     MOV     A,BPCTRL
+0006 20E707          441                     JB      ACC.7,HWBreakpoint
+0009 D0E0            442                     POP     ACC
+000B D0D0            443                     POP     PSW
+000D 022033          444                     LJMP    2033H            ; Other interrupt sources such as A/D Converter
+                     445                                             ; SPI, PFI and (milli)second timer sharing the 
+                     446                                             ; interrupt vector at address 33H must be 
+                     447                                             ; relocated to address 6BH (interrupt 17)!
+                     448     
+                     449     
+                     450     
+                     451     
+                     452     
+0010 75D000          453     HWBreakpoint:   MOV     PSW,#0          ; Select Register Bank 0
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE     8
+
+0013 C000            454                     PUSH    AR0
+0015 C001            455                     PUSH    AR1
+                     456     ;                MOV     A,MEMCTRL       ; Get Breakpoint reason
+0017 7400            457                     MOV     A,#0       ; Get Breakpoint reason
+0019 33              458                     RLC     A
+001A 747C            459                     MOV     A,#0F8H/2
+001C 33              460                     RLC     A               ; 0F8H->Break 0, 0F9H->Break 1
+                     461     ;                ORL     BPCTRL,#80H     ; Clear Breakpoint interrupt
+001D 53937F          462                     ANL     BPCTRL,#7FH     ; Clear Breakpoint interrupt
+0020 C2C5            463                     CLR     PFI
+                     464                     SET_TI
+0024 8046            466                     SJMP    Send7Bytes
+                     467     
+                     468     ;--------------------------------------------------------------------------
+                     469     ; Command: Set Hardware Break Register
+                     470     ;  LOW (?ISD?SETHWBREAK), HIGH (?ISD?SETHWBREAK), BPcode, LOW (bp_addr), HIGH (bp_addr)
+                     471     ;     BPcode.0..2  :=  select hardware break register 0..7
+                     472     ;     BPcode.3     :=  reserved, currently set to 0
+                     473     ;     BPcode.4     :=  0  disable breakpoint,  1 enable breakpoint
+                     474     ;     BPcode.5     :=  0  xdata breakpoint,    1 code   breakpoint
+                     475     ;     BPcode.6     :=  reserved, currently set to 0
+                     476     ;     BPcode.7     :=  reserved, currently set to 0
+                     477                   
+0026                 478     ?ISD?SETHWBREAK:
+0026 C8              479                     XCH     A,R0
+0027 C4              480                     SWAP    A
+0028 439680          481                     ORL     MEMCTRL,#80H    ; BPSEL=1; select hw breakpoint 1
+002B 10E403          482                     JBC     ACC.4,SelectHWbp1
+002E 53967F          483                     ANL     MEMCTRL,#7FH    ; BPSEL=0; select hw breakpoint 0
+0031 C8              484     SelectHWbp1:    XCH     A,R0
+0032 759380          485                     MOV     BPCTRL,#80H     ; disable breakpoint, clear pending breakpoints
+0035 F594            486                     MOV     BREAKL,A
+0037 1100     F      487                     ACALL   ?ISD?GETBYTE
+0039 F595            488                     MOV     BREAKH,A
+003B 8893            489                     MOV     BPCTRL,R0
+003D 0100     F      490                     AJMP    ?ISD?CMDLOOP
+                     491     ;--------------------------------------------------------------------------
+                     492     
+                     493     
+                     494     
+----                 495                     RSEG    ?PR?ISD51
+                     496                     USING   0               ; Assume Registerbank 0 for ARx symbols
+                     497     
+                     498     
+                             
+                             
+                                             
+                                             
+                                             
+                             
+                     505     
+003F                 506     SerialInterrupt:
+003F C0D0            507                     PUSH    PSW
+0041 C0E0            508                     PUSH    ACC
+                     509                     JNB_RI  NoSerBreak
+                     511                     RBYTE                        ; Check for 0A5H Break Code
+                     512+1            RD_SBUF           ; MOV A,SBUF
+                     514+1            CLR_RI
+                     516     
+004A F500     F      517                     MOV     _ISD_CHAR,A
+                     518     
+004C B4A55E          519                     CJNE    A,#0A5H,ReturnI
+                     520     
+                     521                     SET_TI
+0051 75D000          523                     MOV     PSW,#0          ; Select Register Bank 0
+0054 C000            524                     PUSH    AR0
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE     9
+
+0056 C001            525                     PUSH    AR1
+0058 8010            526                     SJMP    SoftBreak
+                     527     
+005A 74FF            528     NoSerBreak:     MOV     A,#0FFH
+005C 75D000          529     CallBreak:      MOV     PSW,#0          ; Select Register Bank 0
+005F C000            530                     PUSH    AR0
+0061 C001            531                     PUSH    AR1
+0063 78FF            532                     MOV     R0,#?ISD?RAMTOP
+                     533     
+0065 8600            534                     MOV     AR0,@R0         ; Load Start Address of Break Table
+0067 B8FF29          535                     CJNE    R0,#0xFF,CheckBreaks
+                             
+                                             
+                                             
+                             
+                             
+                             
+                                             
+                                             
+                                             
+                             
+                             
+                                             
+                                             
+                             
+                     550     ; Called when a Breakpoint is reached or in Single Stepping Mode
+                     551     
+                     552     ; Sends Break-Idenfier, R0, ACC, PSW, PCH, PCL, R1
+                     553     
+006A 74F7            554     SoftBreak:      MOV     A,#0F7H         ; Send Idenifier
+                     555     
+006C                 556     Send7Bytes:     SBYTE                   ; Send Byte
+                     557+1            JNB_TI $
+                     559+1            CLR_TI
+                     561+1            WR_SBUF           ; MOV SBUF,A
+0073 D001            563                     POP     AR1
+0075 7805            564                     MOV     R0,#5
+0077 D0E0            565     SendStackFrame: POP     ACC
+0079 1100     F      566                     ACALL   ?ISD?SENDBYTE
+007B D8FA            567                     DJNZ    R0,SendStackFrame
+007D E9              568                     MOV     A,R1
+007E 1100     F      569     ?ISD?CMDLOOP2:  ACALL   ?ISD?SENDBYTE
+                     570     
+                     571     ; Wait for Command
+                     572     ;  CmdAddrL, CmdAddrH, R0, ACC
+                     573     
+0080 1100     F      574     ?ISD?CMDLOOP:   ACALL   ?ISD?GETBYTE            ; Command Address
+0082 C0E0            575                     PUSH    ACC
+0084 1100     F      576                     ACALL   ?ISD?GETBYTE
+0086 C0E0            577                     PUSH    ACC
+0088 1100     F      578                     ACALL   ?ISD?GETBYTE
+008A F8              579                     MOV     R0,A
+                     580     ;;;             ACALL   ?ISD?GETBYTE
+                     581     ;;;             RET
+                     582     
+008B                 583     ?ISD?GETBYTE:   GBYTE
+                     584+1            JNB_RI $
+                     586+1            RBYTE
+0092 22              591                     RET
+                     592     
+                     593     
+                     594     ; Check Soft Breaks in Memory
+0093 E581            595     CheckBreaks:    MOV     A,SP
+0095 24FC            596                     ADD     A,#-4
+0097 F9              597                     MOV     R1,A            ; Address to PCH/PCL
+0098 800C            598                     SJMP    CheckBreak1
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE    10
+
+009A 08              599     CheckBreak:     INC     R0
+009B 19              600                     DEC     R1
+009C E6              601                     MOV     A,@R0           ; Compare Low Part
+009D 67              602                     XRL     A,@R1
+009E 08              603                     INC     R0
+009F 09              604                     INC     R1
+00A0 7004            605                     JNZ     CheckBreak1
+00A2 E6              606                     MOV     A,@R0           ; Compare High Part
+00A3 67              607                     XRL     A,@R1
+00A4 60C4            608                     JZ      SoftBreak
+00A6 B8FEF1          609     CheckBreak1:    CJNE    R0,#?ISD?RAMTOP-1,CheckBreak
+                     610     
+00A9 D001            611                     POP     AR1
+00AB D000            612     RestartUser:    POP     AR0
+                     613     
+                     614     
+00AD D0E0            615     ReturnI:        POP     ACC
+00AF D0D0            616                     POP     PSW
+                     617     ;#ifdef TI_MSC1210_BREAKS                               
+00B1 439310          618                                     ORL     BPCTRL, #10H   ;set uart transfer completed flag 
+                     619     ;#endif
+00B4 32              620                     RETI
+                     621     
+                     622     
+                     623     
+00B5                 624     ?ISD?SENDBYTE:  SBYTE
+                     625+1            JNB_TI $
+                     627+1            CLR_TI
+                     629+1            WR_SBUF           ; MOV SBUF,A
+00BC 22              631                     RET
+                     632     
+                     633     ;--------------------------------------------------------------------------
+                     634     ; Command: Restart User Program
+                     635     ;  LOW (?ISD?RESTART), HIGH (?ISD?RESTART), R0, PCL, PCH, PSW, R1, ACC
+                     636     ;
+                     637     ;
+00BD C0E0            638     ?ISD?RESTART:   PUSH    ACC          ; PCL Content of User Program
+00BF 1100     F      639                     ACALL   ?ISD?GETBYTE
+00C1 C0E0            640                     PUSH    ACC          ; PCH Content of User Program
+00C3 1100     F      641                     ACALL   ?ISD?GETBYTE
+00C5 C0E0            642                     PUSH    ACC          ; PSW Content of User Program
+00C7 1100     F      643                     ACALL   ?ISD?GETBYTE
+00C9 F9              644                     MOV     R1,A         ; R1  Content of User Program
+00CA 1100     F      645                     ACALL   ?ISD?GETBYTE ; ACC Content of User Program
+00CC C0E0            646                     PUSH    ACC
+00CE C000            647                     PUSH    AR0
+00D0 78FF            648                     MOV     R0,#?ISD?RAMTOP
+00D2 E6              649                     MOV     A,@R0
+                     650     
+                                             
+                                             
+                                             
+                                             
+                                             
+                             
+                             
+                                             
+                                             
+                                             
+                                             
+                                             
+                                             
+                                             
+                                             
+                             
+                                             
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE    11
+
+                                             
+                                             
+                                             
+                                             
+                                             
+                                             
+                             
+                             
+                                             
+                                             
+                                             
+                                             
+                                             
+                             
+                             
+                                             
+                                             
+                                             
+                                             
+                                             
+                             
+                             
+                             
+                                             
+                                             
+                                             
+                                             
+                                             
+                             
+                             
+                                             
+                             
+00D3 7002            700                     JNZ     RestartSS
+                     701                     CLR_TI
+00D7 0100     F      703     RestartSS:      AJMP    RestartUser
+                     704     
+                     705     
+                     706     ;--------------------------------------------------------------------------;
+                     707     ; Insert HW Breakpoints
+                     708     
+                             
+                             
+                             
+                             
+                             
+                             
+                                             
+                                             
+                                             
+                                             
+                             
+                             
+                             
+                             
+                             
+                             
+                             
+                                             
+                             
+                             
+                     729     ;--------------------------------------------------------------------------
+                     730     ; Command: Write SFR DPL, DPH
+                     731     ;  LOW (?ISD?WRITESFR00), HIGH (?ISD?WRITESFR00), DPL, DPH
+                     732     ;
+                     733     ;
+00D9                 734     ?ISD?WRITESFR00:
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE    12
+
+00D9 8882            735                     MOV     DPL,R0
+00DB F583            736                     MOV     DPH,A
+00DD 0100     F      737                     AJMP    ?ISD?CMDLOOP
+                     738     
+                     739     ;--------------------------------------------------------------------------
+                     740     ; Command: Write SFR SP, B
+                     741     ;  LOW (?ISD?WRITESFR01), HIGH (?ISD?WRITESFR01), SP, B
+                     742     ;
+00DF                 743     ?ISD?WRITESFR01:
+00DF 8881            744                     MOV     SP,R0
+00E1 F5F0            745                     MOV     B,A
+00E3 0100     F      746                     AJMP    ?ISD?CMDLOOP
+                     747     
+                     748     ;--------------------------------------------------------------------------
+                     749     ; Command: Write SFR02:  P0
+                     750     ;  LOW (?ISD?WRITESFR02), HIGH (?ISD?WRITESFR02), dummy, P0
+                     751     ;
+00E5                 752     ?ISD?WRITESFR02:
+00E5 F580            753                     MOV     P0,A
+00E7 0100     F      754                     AJMP    ?ISD?CMDLOOP
+                     755     
+                     756     ;--------------------------------------------------------------------------
+                     757     ; Command: Write SFR03:  P3
+                     758     ;  LOW (?ISD?WRITESFR03), HIGH (?ISD?WRITESFR03), dummy, P3
+                     759     ;
+00E9                 760     ?ISD?WRITESFR03:
+00E9 F5B0            761                     MOV     P3,A
+00EB 0100     F      762                     AJMP    ?ISD?CMDLOOP
+                     763     
+                     764     
+                             
+                             
+                             
+                             
+                             
+                                             
+                                             
+                             
+                             
+                             
+                             
+                             
+                             
+                                             
+                                             
+                             
+                     781     
+                     782     ;--------------------------------------------------------------------------
+                     783     ; 0 Read CPU Core SFR registers:
+                     784     ;  LOW (?ISD?READCORESFR), HIGH (?ISD?READCORESFR), dummy, dummy
+                     785     ;  Sends: dummy, dummy, B, AUXR, DPL, DPH, SP
+00ED E581            786     ?ISD?READSFR00: MOV     A,SP
+00EF C083            787                     PUSH    DPH
+00F1 C082            788                     PUSH    DPL
+00F3 C08E            789                     PUSH    AUXR
+00F5 C0F0            790                     PUSH    B
+00F7 C0E0            791                     PUSH    ACC   ; Dummy
+00F9 C0E0            792                     PUSH    ACC   ; Dummy
+00FB 0100     F      793                     AJMP    Send7Bytes
+                     794     ;
+                     795     ;--------------------------------------------------------------------------
+                     796     ; 1 Read CPU Core SFR registers:
+                     797     ;  LOW (?ISD?READSFR01), HIGH (?ISD?READSFR01), dummy, dummy
+                     798     ;  Sends: S:80, S:84, S:85, S:86, S:87, S:88, S:89
+                     799     ;   
+00FD                 800     ?ISD?READSFR01:
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE    13
+
+00FD E589            801                     MOV     A,0x89  ; S:89
+00FF C088            802                     PUSH    0x88    ; S:88
+0101 C087            803                     PUSH    0x87
+0103 C086            804                     PUSH    0x86
+0105 C085            805                     PUSH    0x85
+0107 C084            806                     PUSH    0x84
+0109 C080            807                     PUSH    0x80
+010B 0100     F      808                     AJMP    Send7Bytes
+                     809     ;
+                     810     ;--------------------------------------------------------------------------
+                     811     ; 2 Read CPU Core SFR registers:
+                     812     ;  LOW (?ISD?READSFR02), HIGH (?ISD?READSFR02), dummy, dummy
+                     813     ;  Sends: S:8A, S:8B, S:8C, S:8D, S:8E, S:8F, S:90
+                     814     ;  
+010D                 815     ?ISD?READSFR02:
+010D E590            816                     MOV     A,0x90
+010F C08F            817                     PUSH    0x8F    
+0111 C08E            818                     PUSH    0x8E
+0113 C08D            819                     PUSH    0x8D
+0115 C08C            820                     PUSH    0x8C
+0117 C08B            821                     PUSH    0x8B
+0119 C08A            822                     PUSH    0x8A
+011B 0100     F      823                     AJMP    Send7Bytes
+                     824     ;
+                     825     ;--------------------------------------------------------------------------
+                     826     ; 3 Read CPU Core SFR registers:
+                     827     ;  LOW (?ISD?READSFR03), HIGH (?ISD?READSFR03), dummy, dummy
+                     828     ;  Sends: S:91, S:92, S:93, S:94, S:95, S:96, S:97
+                     829     ;   
+011D                 830     ?ISD?READSFR03:
+011D E597            831                     MOV     A,0x97
+011F C096            832                     PUSH    0x96    
+0121 C095            833                     PUSH    0x95
+0123 C094            834                     PUSH    0x94
+0125 C093            835                     PUSH    0x93
+0127 C092            836                     PUSH    0x92
+0129 C091            837                     PUSH    0x91
+012B 0100     F      838                     AJMP    Send7Bytes
+                     839     ;
+                     840     ;--------------------------------------------------------------------------
+                     841     ; 4 Read CPU Core SFR registers:
+                     842     ;  LOW (?ISD?READSFR04), HIGH (?ISD?READSFR04), dummy, dummy
+                     843     ;  Sends: S:8A, S:8B, S:8C, S:8D, S:8E, S:8F, S:90
+                     844     ;  
+012D                 845     ?ISD?READSFR04:
+012D E59E            846                     MOV     A,0x9E
+012F C09D            847                     PUSH    0x9D    
+0131 C09C            848                     PUSH    0x9C
+0133 C09B            849                     PUSH    0x9B
+0135 C09A            850                     PUSH    0x9A
+0137 C099            851                     PUSH    0x99
+0139 C098            852                     PUSH    0x98
+013B 0100     F      853                     AJMP    Send7Bytes
+                     854     ;
+                     855     ;--------------------------------------------------------------------------
+                     856     ; 5 Read CPU Core SFR registers:
+                     857     ;  LOW (?ISD?READSFR05), HIGH (?ISD?READSFR05), dummy, dummy
+                     858     ;  
+013D                 859     ?ISD?READSFR05:
+013D E5A5            860                     MOV     A,0xA5
+013F C0A4            861                     PUSH    0xA4    
+0141 C0A3            862                     PUSH    0xA3
+0143 C0A2            863                     PUSH    0xA2
+0145 C0A1            864                     PUSH    0xA1
+0147 C0A0            865                     PUSH    0xA0
+0149 C09F            866                     PUSH    0x9F
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE    14
+
+014B 0100     F      867                     AJMP    Send7Bytes
+                     868     ;
+                     869     ;--------------------------------------------------------------------------
+                     870     ; 6 Read CPU Core SFR registers:
+                     871     ;  LOW (?ISD?READSFR06), HIGH (?ISD?READSFR06), dummy, dummy
+                     872     ;  
+014D                 873     ?ISD?READSFR06:
+014D E5AC            874                     MOV     A,0xAC
+014F C0AB            875                     PUSH    0xAB    
+0151 C0AA            876                     PUSH    0xAA
+0153 C0A9            877                     PUSH    0xA9
+0155 C0A8            878                     PUSH    0xA8
+0157 C0A7            879                     PUSH    0xA7
+0159 C0A6            880                     PUSH    0xA6
+015B 0100     F      881                     AJMP    Send7Bytes
+                     882     ;
+                     883     ;--------------------------------------------------------------------------
+                     884     ; 7 Read CPU Core SFR registers:
+                     885     ;  LOW (?ISD?READSFR07), HIGH (?ISD?READSFR07), dummy, dummy
+                     886     ;  
+015D                 887     ?ISD?READSFR07:
+015D E5B3            888                     MOV     A,0xB3
+015F C0B2            889                     PUSH    0xB2    
+0161 C0B1            890                     PUSH    0xB1
+0163 C0B0            891                     PUSH    0xB0
+0165 C0AF            892                     PUSH    0xAF
+0167 C0AE            893                     PUSH    0xAE
+0169 C0AD            894                     PUSH    0xAD
+016B 0100     F      895                     AJMP    Send7Bytes
+                     896     ;
+                     897     ;--------------------------------------------------------------------------
+                     898     ; 8 Read CPU Core SFR registers:
+                     899     ;  LOW (?ISD?READSFR08), HIGH (?ISD?READSFR08), dummy, dummy
+                     900     ;  
+016D                 901     ?ISD?READSFR08:
+016D E5BA            902                     MOV     A,0xBA
+016F C0B9            903                     PUSH    0xB9    
+0171 C0B8            904                     PUSH    0xB8
+0173 C0B7            905                     PUSH    0xB7
+0175 C0B6            906                     PUSH    0xB6
+0177 C0B5            907                     PUSH    0xB5
+0179 C0B4            908                     PUSH    0xB4
+017B 0100     F      909                     AJMP    Send7Bytes
+                     910     ;
+                     911     ;--------------------------------------------------------------------------
+                     912     ; 9 Read CPU Core SFR registers:
+                     913     ;  LOW (?ISD?READSFR09), HIGH (?ISD?READSFR09), dummy, dummy
+                     914     ;  
+017D                 915     ?ISD?READSFR09:
+017D E5C1            916                     MOV     A,0xC1
+017F C0C0            917                     PUSH    0xC0    
+0181 C0BF            918                     PUSH    0xBF
+0183 C0BE            919                     PUSH    0xBE
+0185 C0BD            920                     PUSH    0xBD
+0187 C0BC            921                     PUSH    0xBC
+0189 C0BB            922                     PUSH    0xBB
+018B 0100     F      923                     AJMP    Send7Bytes
+                     924     ;
+                     925     ;--------------------------------------------------------------------------
+                     926     ;10 Read CPU Core SFR registers:
+                     927     ;  LOW (?ISD?READSFRC8), HIGH (?ISD?READSFRC8), dummy, dummy
+                     928     ;  
+018D                 929     ?ISD?READSFR10:
+018D E5C8            930                     MOV     A,0xC8
+018F C0C7            931                     PUSH    0xC7    
+0191 C0C6            932                     PUSH    0xC6
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE    15
+
+0193 C0C5            933                     PUSH    0xC5
+0195 C0C4            934                     PUSH    0xC4
+0197 C0C3            935                     PUSH    0xC3
+0199 C0C2            936                     PUSH    0xC2
+019B 0100     F      937                     AJMP    Send7Bytes
+                     938     ;
+                     939     ;--------------------------------------------------------------------------
+                     940     ;11 Read CPU Core SFR registers:
+                     941     ;  LOW (?ISD?READSFR11), HIGH (?ISD?READSFR11), dummy, dummy
+                     942     ;  
+019D                 943     ?ISD?READSFR11:
+019D E5CF            944                     MOV     A,0xCF
+019F C0CE            945                     PUSH    0xCE    
+01A1 C0CD            946                     PUSH    0xCD
+01A3 C0CC            947                     PUSH    0xCC
+01A5 C0CB            948                     PUSH    0xCB
+01A7 C0CA            949                     PUSH    0xCA
+01A9 C0C9            950                     PUSH    0xC9
+01AB 0100     F      951                     AJMP    Send7Bytes
+                     952     ;
+                     953     ;--------------------------------------------------------------------------
+                     954     ;12 Read CPU Core SFR registers:
+                     955     ;  LOW (?ISD?READSFR12), HIGH (?ISD?READSFR12), dummy, dummy
+                     956     ;  
+01AD                 957     ?ISD?READSFR12:
+01AD E5D7            958                     MOV     A,0xD7
+01AF C0D6            959                     PUSH    0xD6    
+01B1 C0D5            960                     PUSH    0xD5
+01B3 C0D4            961                     PUSH    0xD4
+01B5 C0D3            962                     PUSH    0xD3
+01B7 C0D2            963                     PUSH    0xD2
+01B9 C0D1            964                     PUSH    0xD1
+01BB 0100     F      965                     AJMP    Send7Bytes
+                     966     ;
+                     967     ;--------------------------------------------------------------------------
+                     968     ;13 Read CPU Core SFR registers:
+                     969     ;  LOW (?ISD?READSFR13), HIGH (?ISD?READSFR13), dummy, dummy
+                     970     ;  
+01BD                 971     ?ISD?READSFR13:
+01BD E5DE            972                     MOV     A,0xDE
+01BF C0DD            973                     PUSH    0xDD    
+01C1 C0DC            974                     PUSH    0xDC
+01C3 C0DB            975                     PUSH    0xDB
+01C5 C0DA            976                     PUSH    0xDA
+01C7 C0D9            977                     PUSH    0xD9
+01C9 C0D8            978                     PUSH    0xD8
+01CB 0100     F      979                     AJMP    Send7Bytes
+                     980     ;
+                     981     ;--------------------------------------------------------------------------
+                     982     ;14 Read CPU Core SFR registers:
+                     983     ;  LOW (?ISD?READSFR14), HIGH (?ISD?READSFR14), dummy, dummy
+                     984     ;  
+01CD                 985     ?ISD?READSFR14:
+01CD E5E6            986                     MOV     A,0xE6
+01CF C0E5            987                     PUSH    0xE5    
+01D1 C0E4            988                     PUSH    0xE4
+01D3 C0E3            989                     PUSH    0xE3
+01D5 C0E2            990                     PUSH    0xE2
+01D7 C0E1            991                     PUSH    0xE1
+01D9 C0DF            992                     PUSH    0xDF
+01DB 0100     F      993                     AJMP    Send7Bytes
+                     994     ;
+                     995     ;--------------------------------------------------------------------------
+                     996     ;15 Read CPU Core SFR registers:
+                     997     ;  LOW (?ISD?READSFR15), HIGH (?ISD?READSFR15), dummy, dummy
+                     998     ;  
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE    16
+
+01DD                 999     ?ISD?READSFR15:
+01DD E5ED           1000                     MOV     A,0xED
+01DF C0EC           1001                     PUSH    0xEC    
+01E1 C0EB           1002                     PUSH    0xEB
+01E3 C0EA           1003                     PUSH    0xEA
+01E5 C0E9           1004                     PUSH    0xE9
+01E7 C0E8           1005                     PUSH    0xE8
+01E9 C0E7           1006                     PUSH    0xE7
+01EB 0100     F     1007                     AJMP    Send7Bytes
+                    1008     ;
+                    1009     ;--------------------------------------------------------------------------
+                    1010     ;16 Read CPU Core SFR registers:
+                    1011     ;  LOW (?ISD?READSFR16), HIGH (?ISD?READSFR16), dummy, dummy
+                    1012     ;  
+01ED                1013     ?ISD?READSFR16:
+01ED E5F5           1014                     MOV     A,0xF5
+01EF C0F4           1015                     PUSH    0xF4    
+01F1 C0F3           1016                     PUSH    0xF3
+01F3 C0F2           1017                     PUSH    0xF2
+01F5 C0F1           1018                     PUSH    0xF1
+01F7 C0EF           1019                     PUSH    0xEF
+01F9 C0EE           1020                     PUSH    0xEE
+01FB 0100     F     1021                     AJMP    Send7Bytes
+                    1022     ;
+                    1023     ;--------------------------------------------------------------------------
+                    1024     ;17 Read CPU Core SFR registers:
+                    1025     ;  LOW (?ISD?READSFR17), HIGH (?ISD?READSFR17), dummy, dummy
+                    1026     ;  
+01FD                1027     ?ISD?READSFR17:
+01FD E5FC           1028                     MOV     A,0xFC
+01FF C0FB           1029                     PUSH    0xFB    
+0201 C0FA           1030                     PUSH    0xFA
+0203 C0F9           1031                     PUSH    0xF9
+0205 C0F8           1032                     PUSH    0xF8
+0207 C0F7           1033                     PUSH    0xF7
+0209 C0F6           1034                     PUSH    0xF6
+020B 0100     F     1035                     AJMP    Send7Bytes
+                    1036     ;
+                    1037     ;--------------------------------------------------------------------------
+                    1038     ;18 Read CPU Core SFR registers:
+                    1039     ;  LOW (?ISD?READSFR18), HIGH (?ISD?READSFR18), dummy, dummy
+                    1040     ;  
+020D                1041     ?ISD?READSFR18:
+020D E5FF           1042                     MOV     A,0xFF
+020F C0FE           1043                     PUSH    0xFE
+0211 C0FD           1044                     PUSH    0xFD
+0213 C0E0           1045                     PUSH    ACC        ; dummy      
+0215 C0E0           1046                     PUSH    ACC        ; dummy
+0217 C0E0           1047                     PUSH    ACC        ; dummy
+0219 C0E0           1048                     PUSH    ACC        ; dummy
+021B 0100     F     1049                     AJMP    Send7Bytes
+                    1050     ;
+                    1051     ;--------------------------------------------------------------------------;
+                    1052     ; putchar:  transmit a character via the serial interface
+                    1053     
+                    1054     PUBLIC _putchar   ; C-Prototype:  char putchar (char c);
+                    1055     PUBLIC ?ISD?PUTCHAR, ?ISD?PUTCHAR_END
+                    1056     
+021D                1057     ?ISD?PUTCHAR:
+021D BFA700         1058     _putchar:       CJNE    R7,#0A7H,$+3
+0220 5025           1059                     JNC     pc_end
+0222 EF             1060                     MOV     A,R7
+0223 640A           1061                     XRL     A,#0AH
+                    1062                     SAVE_ES
+                    1064                     CLR_ES
+0229 7009           1066                     JNZ     pc_char
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE    17
+
+022B 740D           1067                     MOV     A,#0DH
+                    1068                     CLR_TI
+                    1070                     WR_SBUF
+                    1072                     JNB_TI  $
+0234 EF             1074     pc_char:        MOV     A,R7
+                    1075                     CLR_TI
+                    1077                     WR_SBUF
+                    1079                     JNB_TI  $
+023C 5007           1081                     JNC     pc_char1        ; ISD51 is not initialized
+023E 78FF           1082                     MOV     R0,#?ISD?RAMTOP
+0240 E6             1083                     MOV     A,@R0
+                    1084     
+0241 7002           1085                     JNZ     pc_char1
+                             
+                                             
+                             
+                    1089                     CLR_TI
+0245                1091     pc_char1:
+                    1092                     RESTO_ES
+0247                1094     ?ISD?PUTCHAR_END:
+0247 22             1095     pc_end:         RET     
+                    1096     
+                    1097     
+                    1098     
+                    1099     ;--------------------------------------------------------------------------
+                    1100     ; _getkey:  waits for a character to be received from the serial port
+                    1101     
+                    1102     
+                    1103     PUBLIC _getkey  ; C-Prototype:  char _getkey (void);
+                    1104     
+0248                1105     _getkey:        JNB_ES _getkey2
+024B E500     F     1107                     MOV     A,_ISD_CHAR
+024D 64A5           1108                     XRL     A,#0A5H
+024F 60F7           1109                     JZ      _getkey                ; no character available
+0251 74A5           1110                     MOV     A,#0A5H
+0253 C500     F     1111                     XCH     A,_ISD_CHAR
+0255 FF             1112                     MOV     R7,A
+0256 22             1113                     RET
+                    1114     
+0257                1115     _getkey2:       JNB_RI  $
+                    1117                     RD_SBUF
+025C B4A505         1119                     CJNE    A,#0A5H,gk_clrRI
+025F 120000   F     1120                     CALL    __isd_init
+0262 80E4           1121                     SJMP    _getkey
+                    1122     
+0264 FF             1123     gk_clrRI:       MOV     R7,A
+                    1124                     CLR_RI
+0267 22             1126                     RET
+                    1127                     
+                    1128     
+                    1129     PUBLIC _iskey   ; C-Prototype:  bit  _iskey (void);
+0268                1130     _iskey:         JNB_ES  _iskey2
+026B E500     F     1132                     MOV     A,_ISD_CHAR
+026D B4A510         1133                     CJNE    A,#0A5H,ik_on
+0270 C3             1134                     CLR     C        
+0271 22             1135                     RET
+                    1136                     
+0272 C3             1137     _iskey2:        CLR     C
+                    1138                     JNB_RI  ik_end
+                    1140                     RD_SBUF
+0278 B4A505         1142                     CJNE    A,#0A5H,ik_on
+027B 120000   F     1143                     CALL    __isd_init
+027E 80E8           1144                     SJMP    _iskey
+0280 D3             1145     ik_on:          SETB    C
+0281 22             1146     ik_end:         RET
+                    1147     
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE    18
+
+                    1148     
+                    1149     ?DT?ISD51       SEGMENT DATA
+----                1150                     RSEG    ?DT?ISD51
+                    1151     
+                    1152     PUBLIC          _ISD_CHAR
+0000                1153     _ISD_CHAR:      DS      1                ; current user input character
+                    1154     
+                    1155     
+----                1156                     RSEG    ?PR?ISD51
+                    1157     
+                    1158     
+                    1159     ;--------------------------------------------------------------------------
+                    1160     ; __isd_init:  prepare idata RAM for ISD51
+0282                1161     __isd_init:     
+0282 78FF           1162                     MOV     R0,#?ISD?RAMTOP
+0284 76FF           1163                     MOV     @R0,#0xFF
+                    1164     
+0286 7500A5   F     1165                     MOV     _ISD_CHAR,#0A5H        ; no character available
+                    1166     
+                    1167                     SET_ES      
+028B 22             1169                     RET
+028C 00             1170                     NOP
+                    1171     
+                    1172                     END
+                             
+                             
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE    19
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E              T Y P E  V A L U E   ATTRIBUTES
+
+?BI?ISD51 . . . . .  B SEG    0001H       REL=UNIT
+?DT?ISD51 . . . . .  D SEG    0001H       REL=UNIT
+?ISD?CBLK_SIZE. . .  N NUMB   0000H   A   
+?ISD?CMDLOOP. . . .  C ADDR   0080H   R   SEG=?PR?ISD51
+?ISD?CMDLOOP2 . . .  C ADDR   007EH   R   SEG=?PR?ISD51
+?ISD?CMP_E. . . . .  N NUMB   FFFFH   A   
+?ISD?CMP_S. . . . .  N NUMB   0000H   A   
+?ISD?CORE . . . . .  N ADDR   -----       EXT
+?ISD?GETBYTE. . . .  C ADDR   008BH   R   SEG=?PR?ISD51
+?ISD?HWBREAKS . . .  N NUMB   E802H   A   
+?ISD?PUTCHAR. . . .  C ADDR   021DH   R   SEG=?PR?ISD51
+?ISD?PUTCHAR_END. .  C ADDR   0247H   R   SEG=?PR?ISD51
+?ISD?RAMTOP . . . .  N NUMB   00FFH   A   
+?ISD?READSFR00. . .  C ADDR   00EDH   R   SEG=?PR?ISD51
+?ISD?READSFR01. . .  C ADDR   00FDH   R   SEG=?PR?ISD51
+?ISD?READSFR02. . .  C ADDR   010DH   R   SEG=?PR?ISD51
+?ISD?READSFR03. . .  C ADDR   011DH   R   SEG=?PR?ISD51
+?ISD?READSFR04. . .  C ADDR   012DH   R   SEG=?PR?ISD51
+?ISD?READSFR05. . .  C ADDR   013DH   R   SEG=?PR?ISD51
+?ISD?READSFR06. . .  C ADDR   014DH   R   SEG=?PR?ISD51
+?ISD?READSFR07. . .  C ADDR   015DH   R   SEG=?PR?ISD51
+?ISD?READSFR08. . .  C ADDR   016DH   R   SEG=?PR?ISD51
+?ISD?READSFR09. . .  C ADDR   017DH   R   SEG=?PR?ISD51
+?ISD?READSFR10. . .  C ADDR   018DH   R   SEG=?PR?ISD51
+?ISD?READSFR11. . .  C ADDR   019DH   R   SEG=?PR?ISD51
+?ISD?READSFR12. . .  C ADDR   01ADH   R   SEG=?PR?ISD51
+?ISD?READSFR13. . .  C ADDR   01BDH   R   SEG=?PR?ISD51
+?ISD?READSFR14. . .  C ADDR   01CDH   R   SEG=?PR?ISD51
+?ISD?READSFR15. . .  C ADDR   01DDH   R   SEG=?PR?ISD51
+?ISD?READSFR16. . .  C ADDR   01EDH   R   SEG=?PR?ISD51
+?ISD?READSFR17. . .  C ADDR   01FDH   R   SEG=?PR?ISD51
+?ISD?READSFR18. . .  C ADDR   020DH   R   SEG=?PR?ISD51
+?ISD?RESTART. . . .  C ADDR   00BDH   R   SEG=?PR?ISD51
+?ISD?SENDBYTE . . .  C ADDR   00B5H   R   SEG=?PR?ISD51
+?ISD?SETHWBREAK . .  C ADDR   0026H   R   SEG=?PR?ISD51
+?ISD?VERSION. . . .  N NUMB   00CDH   A   
+?ISD?WRITESFR00 . .  C ADDR   00D9H   R   SEG=?PR?ISD51
+?ISD?WRITESFR01 . .  C ADDR   00DFH   R   SEG=?PR?ISD51
+?ISD?WRITESFR02 . .  C ADDR   00E5H   R   SEG=?PR?ISD51
+?ISD?WRITESFR03 . .  C ADDR   00E9H   R   SEG=?PR?ISD51
+?PR?ISD51 . . . . .  C SEG    028DH       REL=INBLOCK
+ACC . . . . . . . .  D ADDR   00E0H   A   
+AR0 . . . . . . . .  D ADDR   0000H   A   
+AR1 . . . . . . . .  D ADDR   0001H   A   
+AUXR. . . . . . . .  D ADDR   008EH   A   
+B . . . . . . . . .  D ADDR   00F0H   A   
+BPCTRL. . . . . . .  D ADDR   0093H   A   
+BREAKH. . . . . . .  D ADDR   0095H   A   
+BREAKL. . . . . . .  D ADDR   0094H   A   
+BREAK_CODE. . . . .  N NUMB   2000H   A   
+BREAK_XDATA . . . .  N NUMB   E800H   A   
+CALLBREAK . . . . .  C ADDR   005CH   R   SEG=?PR?ISD51
+CBLK. . . . . . . .  N NUMB   0010H   A   
+CHECKBREAK. . . . .  C ADDR   009AH   R   SEG=?PR?ISD51
+CHECKBREAK1 . . . .  C ADDR   00A6H   R   SEG=?PR?ISD51
+CHECKBREAKS . . . .  C ADDR   0093H   R   SEG=?PR?ISD51
+DPH . . . . . . . .  D ADDR   0083H   A   
+DPL . . . . . . . .  D ADDR   0082H   A   
+EA. . . . . . . . .  B ADDR   00A8H.7 A   
+EICON . . . . . . .  D ADDR   00C0H   A   
+A51 MACRO ASSEMBLER  ISD51                                                                09/05/2018 03:06:12 PAGE    20
+
+ES. . . . . . . . .  B ADDR   00A8H.4 A   
+GK_CLRRI. . . . . .  C ADDR   0264H   R   SEG=?PR?ISD51
+HWBREAKENTRY. . . .  C ADDR   0000H   R   SEG=?PR?ISD51
+HWBREAKPOINT. . . .  C ADDR   0010H   R   SEG=?PR?ISD51
+IE. . . . . . . . .  D ADDR   00A8H   A   
+IK_END. . . . . . .  C ADDR   0281H   R   SEG=?PR?ISD51
+IK_ON . . . . . . .  C ADDR   0280H   R   SEG=?PR?ISD51
+ISD51_CONFIGURATION  N NUMB   -----       
+MEMCTRL . . . . . .  D ADDR   0096H   A   
+NOSERBREAK. . . . .  C ADDR   005AH   R   SEG=?PR?ISD51
+P0. . . . . . . . .  D ADDR   0080H   A   
+P1. . . . . . . . .  D ADDR   0090H   A   
+P2. . . . . . . . .  D ADDR   00A0H   A   
+P3. . . . . . . . .  D ADDR   00B0H   A   
+PC_CHAR . . . . . .  C ADDR   0234H   R   SEG=?PR?ISD51
+PC_CHAR1. . . . . .  C ADDR   0245H   R   SEG=?PR?ISD51
+PC_END. . . . . . .  C ADDR   0247H   R   SEG=?PR?ISD51
+PFI . . . . . . . .  B ADDR   00C0H.5 A   
+PH_FMADRL . . . . .  D ADDR   00E6H   A   
+PH_FMCON. . . . . .  D ADDR   00E4H   A   
+PIREG . . . . . . .  D ADDR   00B8H   A   
+PSW . . . . . . . .  D ADDR   00D0H   A   
+RESTARTSS . . . . .  C ADDR   00D7H   R   SEG=?PR?ISD51
+RESTARTUSER . . . .  C ADDR   00ABH   R   SEG=?PR?ISD51
+RETURNI . . . . . .  C ADDR   00ADH   R   SEG=?PR?ISD51
+RI. . . . . . . . .  B ADDR   0098H.0 A   
+SAVEEAI . . . . . .  B ADDR   0000H.0 R   SEG=?BI?ISD51
+SBUF. . . . . . . .  D ADDR   0099H   A   
+SCON. . . . . . . .  D ADDR   0098H   A   
+SELECTHWBP1 . . . .  C ADDR   0031H   R   SEG=?PR?ISD51
+SEND7BYTES. . . . .  C ADDR   006CH   R   SEG=?PR?ISD51
+SENDSTACKFRAME. . .  C ADDR   0077H   R   SEG=?PR?ISD51
+SERIALINTERRUPT . .  C ADDR   003FH   R   SEG=?PR?ISD51
+SINTRVEC. . . . . .  N NUMB   2023H   A   
+SOFTBREAK . . . . .  C ADDR   006AH   R   SEG=?PR?ISD51
+SP. . . . . . . . .  D ADDR   0081H   A   
+TI. . . . . . . . .  B ADDR   0098H.1 A   
+UARTFLAG. . . . . .  D ADDR   0000H   A   
+_GETKEY . . . . . .  C ADDR   0248H   R   SEG=?PR?ISD51
+_GETKEY2. . . . . .  C ADDR   0257H   R   SEG=?PR?ISD51
+_ISD_CHAR . . . . .  D ADDR   0000H   R   SEG=?DT?ISD51
+_ISKEY. . . . . . .  C ADDR   0268H   R   SEG=?PR?ISD51
+_ISKEY2 . . . . . .  C ADDR   0272H   R   SEG=?PR?ISD51
+_PUTCHAR. . . . . .  C ADDR   021DH   R   SEG=?PR?ISD51
+__ISD_INIT. . . . .  C ADDR   0282H   R   SEG=?PR?ISD51
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

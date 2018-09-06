@@ -1,0 +1,1263 @@
+; .\lib.SRC generated from: lib.c
+; COMPILER INVOKED BY:
+;        C:\Keil_v5\C51\BIN\C51.EXE lib.c LARGE WARNINGLEVEL(0) OPTIMIZE(8,SPEED) BROWSE INTVECTOR(0X2000) DEBUG OBJECTEXTEND TABS(2) SRC(.\lib.SRC)
+
+$NOMOD51
+
+NAME	LIB
+
+BSHI_0	DATA	0ACH
+BSHI_1	DATA	0ADH
+BSHI_2	DATA	0AEH
+BSHI_3	DATA	0AFH
+BSHO_0	DATA	0BCH
+BSHO_1	DATA	0BDH
+BSHO_2	DATA	0BEH
+BSHO_3	DATA	0BFH
+MD0	DATA	0E9H
+MD1	DATA	0EAH
+BSHCTL	DATA	0ABH
+MD2	DATA	0EBH
+MD3	DATA	0ECH
+MD4	DATA	0EDH
+MD5	DATA	0EEH
+DPH	DATA	083H
+DPL	DATA	082H
+ARCON	DATA	0EFH
+?PR?UartPass?LIB     SEGMENT CODE 
+?PR?_BarrelShift?LIB SEGMENT CODE 
+?XD?_BarrelShift?LIB SEGMENT XDATA OVERLAYABLE 
+?PR?_Div32?LIB       SEGMENT CODE 
+?XD?_Div32?LIB       SEGMENT XDATA OVERLAYABLE 
+?PR?_Div16?LIB       SEGMENT CODE 
+?XD?_Div16?LIB       SEGMENT XDATA OVERLAYABLE 
+?PR?_Shift32?LIB     SEGMENT CODE 
+?XD?_Shift32?LIB     SEGMENT XDATA OVERLAYABLE 
+?PR?_Normalize?LIB   SEGMENT CODE 
+?XD?_Normalize?LIB   SEGMENT XDATA OVERLAYABLE 
+?PR?_Mul?LIB         SEGMENT CODE 
+?XD?_Mul?LIB         SEGMENT XDATA OVERLAYABLE 
+?C_INITSEG           SEGMENT CODE 
+?XD?LIB              SEGMENT XDATA 
+	EXTRN	CODE (?C?LSTXDATA)
+	PUBLIC	tDebugTable
+	PUBLIC	_div_remainder
+	PUBLIC	_md_error
+	PUBLIC	_div_denominator
+	PUBLIC	_Mul
+	PUBLIC	_Normalize
+	PUBLIC	?_Shift32?BYTE
+	PUBLIC	_Shift32
+	PUBLIC	_Div16
+	PUBLIC	?_Div32?BYTE
+	PUBLIC	_Div32
+	PUBLIC	?_BarrelShift?BYTE
+	PUBLIC	_BarrelShift
+	PUBLIC	UartPass
+
+	RSEG  ?XD?_Div32?LIB
+?_Div32?BYTE:
+  numerator?242:   DS   4
+	ORG  4
+denominator?243:   DS   2
+
+	RSEG  ?XD?_Div16?LIB
+?_Div16?BYTE:
+  numerator?344:   DS   2
+	ORG  2
+denominator?345:   DS   2
+
+	RSEG  ?XD?_Mul?LIB
+?_Mul?BYTE:
+multiplicand?649:   DS   2
+	ORG  2
+multiplicator?650:   DS   2
+
+	RSEG  ?XD?_Normalize?LIB
+?_Normalize?BYTE:
+        dat?548:   DS   4
+
+	RSEG  ?XD?_BarrelShift?LIB
+?_BarrelShift?BYTE:
+         in?140:   DS   4
+	ORG  4
+        cmd?141:   DS   1
+
+	RSEG  ?XD?_Shift32?LIB
+?_Shift32?BYTE:
+        dat?446:   DS   4
+	ORG  4
+        cmd?447:   DS   1
+
+	RSEG  ?XD?LIB
+_div_denominator:   DS   2
+      _md_error:   DS   1
+ _div_remainder:   DS   2
+    tDebugTable:   DS   10
+
+	RSEG  ?C_INITSEG
+	DB	04AH
+	DW	tDebugTable
+	DB	001H
+	DB	002H
+	DB	003H
+	DB	004H
+	DB	005H
+	DB	006H
+	DB	007H
+	DB	008H
+	DB	009H
+	DB	00AH
+
+; /*
+;  * lib.c
+;  *	Copy Right (c) of Hong Kong Applied Science 
+;  *      and Technology Research Institute Company Limited
+;  *  Created on: 
+;  *      01 June 2016
+;  *  Author: 
+;  *      Lori Liu
+;  *  Last Modified: 
+;  *      12 August 2016 by Lori Liu
+;  *  Description: 
+;  *      lib for JE8MCU
+;  *  History:
+;  *      ver 0.1 created by Lori Liu on 12 August 2016     
+;  */
+;  
+;  /***************************************************
+;  * Includes
+;  */
+; #include <stdio.h>
+; #include <intrins.h>   
+; #include <absacc.h>
+; 
+; #include "lib.h"
+; 
+; //#define  _SIM_DEBUG_
+; /***************************************************
+;  * Variables
+;  */
+; //barrel shift 
+; sfr BSHCTL = 0xAB;
+; sfr BSHI_0 = 0xAC;
+; sfr BSHI_1 = 0xAD;
+; sfr BSHI_2 = 0xAE;
+; sfr BSHI_3 = 0xAF;
+; sfr BSHO_0 = 0xBC;
+; sfr BSHO_1 = 0xBD;
+; sfr BSHO_2 = 0xBE;
+; sfr BSHO_3 = 0xBF;
+; 
+; //multiplication division unit
+; sfr MD0 = 0xE9;
+; sfr MD1 = 0xEA;
+; sfr MD2 = 0xEB;
+; sfr MD3 = 0xEC;
+; sfr MD4 = 0xED;
+; sfr MD5 = 0xEE;
+; sfr ARCON = 0xEF;
+; //dptr
+; sfr DPL = 0x82;
+; sfr DPH = 0x83;
+; 
+; // MTP ext Ram ==========================================
+; #define   MTPCON1   0xe08e;
+; #define   MTPCON2   0xe08f;
+; #define   MTPCON3   0xe090;
+; #define   MTPSADD1  0xe091;
+; #define   MTPSADD2  0xe092;
+; #define   MTPDADD1  0xe093;
+; #define   MTPDADD2  0xe094;
+; #define   MTPDADD3  0xe095;
+; #define   MTPDADD4  0xe096;
+; 
+; volatile U8 xdata _md_error;// _at_ (0xDFFF);
+; volatile U16 xdata _div_remainder;// _at_ (0xDFFD);
+; volatile U16 xdata _div_denominator;// _at_ (0xA4FB);
+; 
+; #pragma asm
+  								CSEG    AT      4000h
+; #pragma endasm
+; const unsigned char tDebugTable[10] = {1,2,3,4,5,6,7,8,9,10};
+; 
+; S32 UartPass(void)
+
+	RSEG  ?PR?UartPass?LIB
+UartPass:
+	USING	0
+			; SOURCE LINE # 73
+; {
+			; SOURCE LINE # 74
+; #pragma asm
+; 		mov	dptr, #MTPCON3
+	  mov	dptr, #0xe090;
+; 		movx	a, @dptr
+	  movx	a, @dptr
+; 
+	  
+; 		mov	A, #0
+	  mov	A, #0
+; 		mov	dptr, #MTPSADD2
+	  mov	dptr, #0xe092;
+; 		movx	@dptr, A
+	  movx	@dptr, A
+; 
+	  
+; 		mov	A, #3
+	  mov	A, #3
+; 		mov	dptr, #MTPCON2		; write to MTPCON2 Authorize MTP access and enable write operation
+	  mov	dptr, #0xe08f;		; write to 0xe08f; Authorize MTP access and enable write operation
+; 		movx	@dptr, A
+	  movx	@dptr, A
+; 
+	  
+; 		mov	B, #0
+	  mov	B, #0
+; 
+	  
+; 		mov	A, B
+	  mov	A, B
+; 		mov	dptr, #MTPSADD1
+	  mov	dptr, #0xe091;
+; 		movx	@dptr, A
+	  movx	@dptr, A
+; 
+	  
+; 		mov	A, #5
+	  mov	A, #5
+; 		mov	dptr, #MTPDADD1
+	  mov	dptr, #0xe093;
+; 		movx	@dptr, A
+	  movx	@dptr, A
+; 		mov	A, #9
+	  mov	A, #9
+; 		mov	dptr, #MTPDADD2
+	  mov	dptr, #0xe094;
+; 		movx	@dptr, A
+	  movx	@dptr, A
+; 		mov	A, #1
+	  mov	A, #1
+; 		mov	dptr, #MTPDADD3
+	  mov	dptr, #0xe095;
+; 		movx	@dptr, A
+	  movx	@dptr, A
+; 		mov	A, #3
+	  mov	A, #3
+; 		mov	dptr, #MTPDADD4
+	  mov	dptr, #0xe096;
+; 		movx	@dptr, A
+	  movx	@dptr, A
+; 		
+	  
+; 		mov	dptr, #MTPCON1
+	  mov	dptr, #0xe08e;
+; 		movx	a, @dptr
+	  movx	a, @dptr
+; 		
+	  
+; 		mov	A, #9
+	  mov	A, #9
+; 		mov	dptr, #MTPCON1
+	  mov	dptr, #0xe08e;
+; 		movx	@dptr, A				; write operation start
+	  movx	@dptr, A				; write operation start
+; 
+	  
+; UP_loop0:		
+	  UP_loop0:		
+; 		mov	dptr, #MTPCON1
+	  mov	dptr, #0xe08e;
+; 		movx	a, @dptr
+	  movx	a, @dptr
+; 		anl		a, #0x20
+	  anl		a, #0x20
+; ;		jz	UP_loop0
+	  ;		jz	UP_loop0
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		
+	  
+; 		;READ OPERATION
+	  ;READ OPERATION
+; 		mov	A, #5
+	  mov	A, #5
+; 		mov	dptr, #MTPCON2
+	  mov	dptr, #0xe08f;
+; 		movx	@dptr, A				; Authorize MTP access and enable Read operation
+	  movx	@dptr, A				; Authorize MTP access and enable Read operation
+; 		
+	  
+; 		mov	b, #0
+	  mov	b, #0
+; 		mov	A, B
+	  mov	A, B
+; 		mov	dptr, #MTPSADD1
+	  mov	dptr, #0xe091;
+; 		movx	@dptr, A
+	  movx	@dptr, A
+; 		mov		r0, A
+	  mov		r0, A
+; 		
+	  
+; 		mov	A, #5
+	  mov	A, #5
+; 		mov	dptr, #MTPCON1
+	  mov	dptr, #0xe08e;
+; 		movx	@dptr, A				; Enable MTP, Access MTP, Byte Read
+	  movx	@dptr, A				; Enable MTP, Access MTP, Byte Read
+; 		
+	  
+; UP_loop1:		
+	  UP_loop1:		
+; 		mov	dptr, #MTPCON1
+	  mov	dptr, #0xe08e;
+; 		movx	A, @dptr
+	  movx	A, @dptr
+; ;		cjne	A, #0x11, UP_loop1
+	  ;		cjne	A, #0x11, UP_loop1
+; 	
+	  
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 		nop
+	  nop
+; 
+	  
+; 		mov		dptr, #MTPDADD1
+	  mov		dptr, #0xe093;
+; 		movx	A, @dptr
+	  movx	A, @dptr
+; 		mov		dptr, #MTPDADD2
+	  mov		dptr, #0xe094;
+; 		movx	A, @dptr
+	  movx	A, @dptr
+; 		mov		dptr, #MTPDADD3
+	  mov		dptr, #0xe095;
+; 		movx	A, @dptr
+	  movx	A, @dptr
+; 		mov		dptr, #MTPDADD4
+	  mov		dptr, #0xe096;
+; 		movx	A, @dptr
+	  movx	A, @dptr
+; 		
+	  
+; 
+	  
+; #pragma endasm
+; }
+			; SOURCE LINE # 189
+	RET  	
+; END OF UartPass
+
+; 
+; //barrel shift
+; /***************************************************
+;  * Implements
+;  */
+; /*
+;  * @fn		BarrelShift
+;  *
+;  * @brief	BarrelShift
+;  * 
+;  * @param	none
+;  *
+;  * @return 	none
+;  */
+; S32 BarrelShift(S32 in, S8 cmd)
+
+	RSEG  ?PR?_BarrelShift?LIB
+_BarrelShift:
+	USING	0
+			; SOURCE LINE # 204
+	MOV  	DPTR,#in?140
+	LCALL	?C?LSTXDATA
+; {
+			; SOURCE LINE # 205
+;   BSHCTL = cmd;
+			; SOURCE LINE # 206
+	MOV  	DPTR,#cmd?141
+	MOVX 	A,@DPTR
+	MOV  	BSHCTL,A
+; #pragma asm
+;   mov BSHI_3, r4
+	  mov BSHI_3, r4
+;   mov BSHI_2, r5
+	  mov BSHI_2, r5
+;   mov BSHI_1, r6
+	  mov BSHI_1, r6
+;   mov BSHI_0, r7
+	  mov BSHI_0, r7
+; 	mov r4,BSHO_3
+	  mov r4,BSHO_3
+; 	mov r5,BSHO_2
+	  mov r5,BSHO_2
+; 	mov r6,BSHO_1
+	  mov r6,BSHO_1
+; 	mov r7,BSHO_0
+	  mov r7,BSHO_0
+; #pragma endasm
+; }
+			; SOURCE LINE # 217
+	RET  	
+; END OF _BarrelShift
+
+; 
+; /*
+;  * @fn		Div32
+;  *
+;  * @brief	Div32
+;  * 
+;  * @param	none
+;  *
+;  * @return 	none
+;  */
+; S32 Div32(S32 numerator , S16 denominator)
+
+	RSEG  ?PR?_Div32?LIB
+_Div32:
+	USING	0
+			; SOURCE LINE # 228
+	MOV  	DPTR,#numerator?242
+	LCALL	?C?LSTXDATA
+; {
+			; SOURCE LINE # 229
+; 	_div_denominator = denominator;
+			; SOURCE LINE # 230
+	MOV  	DPTR,#denominator?243
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	INC  	DPTR
+	MOVX 	A,@DPTR
+	MOV  	DPTR,#_div_denominator
+	XCH  	A,R7
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	
+; #pragma asm
+; #pragma endasm
+; }
+			; SOURCE LINE # 234
+	RET  	
+; END OF _Div32
+
+; 
+; /*
+;  * @fn		Div16
+;  *
+;  * @brief	Div16
+;  * 
+;  * @param	none
+;  *
+;  * @return 	none
+;  */
+; S16 Div16(S16 numerator , S16 denominator)
+
+	RSEG  ?PR?_Div16?LIB
+_Div16:
+	USING	0
+			; SOURCE LINE # 245
+	MOV  	DPTR,#numerator?344
+	MOV  	A,R6
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,R4
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,R5
+	MOVX 	@DPTR,A
+; {
+			; SOURCE LINE # 246
+; #pragma asm
+; 	mov	r1,	#0
+	  mov	r1,	#0
+; 	mov	A,	r6
+	  mov	A,	r6
+; 	rlc	A
+	  rlc	A
+; 	jnc	D16_P1
+	  jnc	D16_P1
+; 	mov	r1, #1
+	  mov	r1, #1
+; 	clr	C
+	  clr	C
+; 	clr	A
+	  clr	A
+; 	subb	A, r7
+	  subb	A, r7
+; 	mov	MD0, A
+	  mov	MD0, A
+; 	clr	A
+	  clr	A
+; 	subb	A, R6
+	  subb	A, R6
+; 	mov	MD1, A
+	  mov	MD1, A
+; 	sjmp	D16_common
+	  sjmp	D16_common
+; D16_P1:
+	  D16_P1:
+;   mov MD0, r7
+	  mov MD0, r7
+;   mov MD1, r6
+	  mov MD1, r6
+; D16_common:			
+	  D16_common:			
+; 	mov	A, r4
+	  mov	A, r4
+; 	rlc	A
+	  rlc	A
+; 	jnc	D16_PD
+	  jnc	D16_PD
+; 	mov	A, #2
+	  mov	A, #2
+; 	orl	A, r1
+	  orl	A, r1
+; 	mov	r1, A
+	  mov	r1, A
+; 	clr	C
+	  clr	C
+; 	clr	A
+	  clr	A
+; 	subb	A, r5
+	  subb	A, r5
+; 	mov	MD4, A
+	  mov	MD4, A
+; 	clr	A
+	  clr	A
+; 	subb	A, r4
+	  subb	A, r4
+; 	mov	MD5, A
+	  mov	MD5, A
+; 	sjmp	D16_GO
+	  sjmp	D16_GO
+; D16_PD:
+	  D16_PD:
+;   mov MD4, r5
+	  mov MD4, r5
+;   mov MD5, r4
+	  mov MD5, r4
+; D16_GO:	
+	  D16_GO:	
+; 	nop    ;wait 34
+	  nop    ;wait 34
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    
+	  nop    
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    ;wait 24
+	  nop    ;wait 24
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    
+	  nop    
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    ;wait 14
+	  nop    ;wait 14
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    
+	  nop    
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    ;wait 4
+	  nop    ;wait 4
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;  #pragma endasm
+; 
+;   _md_error = (ARCON&(MD_MDEF|MD_MDOV));
+			; SOURCE LINE # 319
+	MOV  	A,ARCON
+	ANL  	A,#0C0H
+	MOV  	DPTR,#_md_error
+	MOVX 	@DPTR,A
+; 
+; #pragma asm
+; 	mov	a, r1
+	  mov	a, r1
+; 	jz	Div16_RNS
+	  jz	Div16_RNS
+; 	clr	C
+	  clr	C
+; 	subb	A,	#1
+	  subb	A,	#1
+; 	jz	DIV_16_R1
+	  jz	DIV_16_R1
+; 	mov	a, r1
+	  mov	a, r1
+; 	clr	C
+	  clr	C
+; 	subb	A,	#2
+	  subb	A,	#2
+; 	jz	DIV_16_R2
+	  jz	DIV_16_R2
+; DIV_16_R3:
+	  DIV_16_R3:
+;   mov r7, MD0
+	  mov r7, MD0
+;   mov r6, MD1
+	  mov r6, MD1
+; 	sjmp	DIV_16_NR
+	  sjmp	DIV_16_NR
+; DIV_16_R2:
+	  DIV_16_R2:
+; 	clr	C
+	  clr	C
+; 	clr	A
+	  clr	A
+; 	subb	A, MD0
+	  subb	A, MD0
+; 	mov	r7, A
+	  mov	r7, A
+; 	clr	A
+	  clr	A
+; 	subb	A, MD1
+	  subb	A, MD1
+; 	mov	r6, A
+	  mov	r6, A
+; 	sjmp	DIV_16_PR
+	  sjmp	DIV_16_PR
+; DIV_16_R1:
+	  DIV_16_R1:
+; 	clr	C
+	  clr	C
+; 	clr	A
+	  clr	A
+; 	subb	A, MD0
+	  subb	A, MD0
+; 	mov	r7, A
+	  mov	r7, A
+; 	clr	A
+	  clr	A
+; 	subb	A, MD1
+	  subb	A, MD1
+; 	mov	r6, A
+	  mov	r6, A
+; DIV_16_NR:
+	  DIV_16_NR:
+;   MOV  	DPTR,#_div_remainder+1
+	  MOV  	DPTR,#_div_remainder+1
+; 	clr	C
+	  clr	C
+; 	clr	A
+	  clr	A
+; 	subb	A, MD4
+	  subb	A, MD4
+; 	MOVX 	@DPTR,A
+	  MOVX 	@DPTR,A
+; 	MOV  	DPTR,#_div_remainder
+	  MOV  	DPTR,#_div_remainder
+; 	clr	A
+	  clr	A
+; 	subb	A, MD5
+	  subb	A, MD5
+; 	MOVX 	@DPTR,A
+	  MOVX 	@DPTR,A
+; 
+	  
+; 	RET
+	  RET
+; Div16_RNS:
+	  Div16_RNS:
+;   mov r7, MD0
+	  mov r7, MD0
+;   mov r6, MD1
+	  mov r6, MD1
+; DIV_16_PR:
+	  DIV_16_PR:
+;   MOV  	DPTR,#_div_remainder+1
+	  MOV  	DPTR,#_div_remainder+1
+;   mov a, MD4
+	  mov a, MD4
+; 	MOVX 	@DPTR,A
+	  MOVX 	@DPTR,A
+; 	MOV  	DPTR,#_div_remainder
+	  MOV  	DPTR,#_div_remainder
+;   mov a, MD5 
+	  mov a, MD5 
+;   MOVX 	@DPTR,A
+	  MOVX 	@DPTR,A
+; //	mov r1, #0xFE
+	  
+; //	mov a, MD4
+	  
+; //  movx @r1, a
+	  
+; //  dec r1
+	  
+; //	mov a, MD5
+	  
+; //	movx @r1, a
+	  
+; #pragma endasm
+; }
+			; SOURCE LINE # 381
+	RET  	
+; END OF _Div16
+
+; 
+; /*
+;  * @fn		Div16
+;  *
+;  * @brief	Div16
+;  * 
+;  * @param	none
+;  *
+;  * @return 	none
+;  */
+; S32 Shift32(S32 dat, U8 cmd)
+
+	RSEG  ?PR?_Shift32?LIB
+_Shift32:
+	USING	0
+			; SOURCE LINE # 392
+	MOV  	DPTR,#dat?446
+	LCALL	?C?LSTXDATA
+; {
+			; SOURCE LINE # 393
+; #pragma asm
+;   mov MD0, r7
+	  mov MD0, r7
+;   mov MD1, r6
+	  mov MD1, r6
+;   mov MD2, r5
+	  mov MD2, r5
+;   mov MD3, r4
+	  mov MD3, r4
+; #pragma endasm
+; 
+; 	ARCON = cmd;
+			; SOURCE LINE # 401
+	MOV  	DPTR,#cmd?447
+	MOVX 	A,@DPTR
+	MOV  	ARCON,A
+; 
+; #pragma asm
+; 	nop    ;wait 33
+	  nop    ;wait 33
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    
+	  nop    
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    ;wait 23
+	  nop    ;wait 23
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    
+	  nop    
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    ;wait 13
+	  nop    ;wait 13
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    
+	  nop    
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    ;wait 3
+	  nop    ;wait 3
+;   nop
+	  nop
+;   nop
+	  nop
+; #pragma endasm
+; 
+;   _md_error = (ARCON&(MD_MDEF|MD_MDOV));
+			; SOURCE LINE # 439
+	MOV  	A,ARCON
+	ANL  	A,#0C0H
+	MOV  	DPTR,#_md_error
+	MOVX 	@DPTR,A
+; 
+; #pragma asm
+; 	mov r7, MD0
+	  mov r7, MD0
+; 	mov r6, MD1
+	  mov r6, MD1
+; 	mov r5, MD2
+	  mov r5, MD2
+; 	mov r4, MD3
+	  mov r4, MD3
+; #pragma endasm
+; }
+			; SOURCE LINE # 447
+	RET  	
+; END OF _Shift32
+
+; 
+; /*
+;  * @fn		Normalize
+;  *
+;  * @brief	Normalize
+;  * 
+;  * @param	none
+;  *
+;  * @return 	none
+;  */
+; S32 Normalize(S32 dat)
+
+	RSEG  ?PR?_Normalize?LIB
+_Normalize:
+	USING	0
+			; SOURCE LINE # 458
+	MOV  	DPTR,#dat?548
+	LCALL	?C?LSTXDATA
+; {
+			; SOURCE LINE # 459
+; #pragma asm
+;   mov MD0, r7
+	  mov MD0, r7
+;   mov MD1, r6
+	  mov MD1, r6
+;   mov MD2, r5
+	  mov MD2, r5
+;   mov MD3, r4
+	  mov MD3, r4
+; 
+	  
+; 	ANL  ARCON , #0xE0
+	  ANL  ARCON , #0xE0
+; 
+	  
+; 	nop    ;wait 34
+	  nop    ;wait 34
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    
+	  nop    
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    ;wait 24
+	  nop    ;wait 24
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    
+	  nop    
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    ;wait 14
+	  nop    ;wait 14
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    
+	  nop    
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    ;wait 4
+	  nop    ;wait 4
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; #pragma endasm
+;   _md_error = (ARCON&(MD_MDEF|MD_MDOV));
+			; SOURCE LINE # 503
+	MOV  	A,ARCON
+	ANL  	A,#0C0H
+	MOV  	DPTR,#_md_error
+	MOVX 	@DPTR,A
+; #pragma asm
+;  	mov r7, MD0
+	  mov r7, MD0
+; 	mov r6, MD1
+	  mov r6, MD1
+; 	mov r5, MD2
+	  mov r5, MD2
+; 	mov r4, MD3
+	  mov r4, MD3
+; #pragma endasm
+; }
+			; SOURCE LINE # 510
+	RET  	
+; END OF _Normalize
+
+; 
+; /*
+;  * @fn		Mul
+;  *
+;  * @brief	Mul
+;  * 
+;  * @param	none
+;  *
+;  * @return 	none
+;  */
+; S32 Mul(S16 multiplicand, S16 multiplicator)
+
+	RSEG  ?PR?_Mul?LIB
+_Mul:
+	USING	0
+			; SOURCE LINE # 521
+	MOV  	DPTR,#multiplicand?649
+	MOV  	A,R6
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,R4
+	MOVX 	@DPTR,A
+	INC  	DPTR
+	MOV  	A,R5
+	MOVX 	@DPTR,A
+; {
+			; SOURCE LINE # 522
+; #pragma asm
+; 	mov	r1, #0
+	  mov	r1, #0
+; 	mov	A, r6
+	  mov	A, r6
+; 	rlc	A
+	  rlc	A
+; 	jnc	MUL_P_M1
+	  jnc	MUL_P_M1
+; 	mov	r1, #1
+	  mov	r1, #1
+; 	clr	C
+	  clr	C
+; 	clr	A
+	  clr	A
+; 	subb	A, r7
+	  subb	A, r7
+; 	mov	MD0, A
+	  mov	MD0, A
+; 	clr	A
+	  clr	A
+; 	subb	A, R6
+	  subb	A, R6
+; 	mov	R6, A
+	  mov	R6, A
+; 	sjmp	MUL_common
+	  sjmp	MUL_common
+; MUL_P_M1:
+	  MUL_P_M1:
+; 	mov MD0, r7
+	  mov MD0, r7
+; MUL_common :
+	  MUL_common :
+; 	mov	A, r4
+	  mov	A, r4
+; 	rlc	A
+	  rlc	A
+; 	jnc	MUL_P_M2
+	  jnc	MUL_P_M2
+; 	mov	A, #1
+	  mov	A, #1
+; 	xrl	A, r1
+	  xrl	A, r1
+; 	mov	r1, A
+	  mov	r1, A
+; 	clr	C
+	  clr	C
+; 	clr	A
+	  clr	A
+; 	subb	A, r5
+	  subb	A, r5
+; 	mov	MD4, A
+	  mov	MD4, A
+; 	clr	A
+	  clr	A
+; 	subb	A, r4
+	  subb	A, r4
+; 	mov	r4, A
+	  mov	r4, A
+; 	sjmp	MUL_Common_2
+	  sjmp	MUL_Common_2
+; MUL_P_M2:
+	  MUL_P_M2:
+;   mov MD4, r5
+	  mov MD4, r5
+; MUL_Common_2:
+	  MUL_Common_2:
+;   mov MD1, r6
+	  mov MD1, r6
+;   mov MD5, r4
+	  mov MD5, r4
+; 	nop    ;wait 18
+	  nop    ;wait 18
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    
+	  nop    
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    ;wait 8
+	  nop    ;wait 8
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+;   nop
+	  nop
+; 	nop    
+	  nop    
+;   nop
+	  nop
+;   nop
+	  nop
+; #pragma endasm
+; 	_md_error = (ARCON&(MD_MDEF|MD_MDOV));
+			; SOURCE LINE # 578
+	MOV  	A,ARCON
+	ANL  	A,#0C0H
+	MOV  	DPTR,#_md_error
+	MOVX 	@DPTR,A
+; #pragma asm	
+; 	mov	a, r1
+	  mov	a, r1
+; 	jz	MUL_Positive
+	  jz	MUL_Positive
+; 	clr	C
+	  clr	C
+; 	clr	A
+	  clr	A
+; 	subb	A, MD0
+	  subb	A, MD0
+; 	mov	r7, A
+	  mov	r7, A
+; 	clr	A
+	  clr	A
+; 	subb	A, MD1
+	  subb	A, MD1
+; 	mov	r6, A
+	  mov	r6, A
+; 	clr A
+	  clr A
+; 	subb	A, MD2
+	  subb	A, MD2
+; 	mov	r5, A
+	  mov	r5, A
+; 	clr	A
+	  clr	A
+; 	subb	A, MD3
+	  subb	A, MD3
+; 	mov	r4, A
+	  mov	r4, A
+; 	ret
+	  ret
+; MUL_Positive:
+	  MUL_Positive:
+; 	mov r7, MD0
+	  mov r7, MD0
+; 	mov r6, MD1
+	  mov r6, MD1
+; 	mov r5, MD2
+	  mov r5, MD2
+; 	mov r4, MD3
+	  mov r4, MD3
+; #pragma endasm
+; }
+			; SOURCE LINE # 602
+	RET  	
+; END OF _Mul
+
+	END

@@ -1,0 +1,295 @@
+C51 COMPILER V9.54   INTERRUPT                                                             09/05/2018 03:06:11 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE INTERRUPT
+OBJECT MODULE PLACED IN .\OUTPUT\interrupt.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE SRC\interrupt.c LARGE OPTIMIZE(8,SPEED) BROWSE INTVECTOR(0X2000) INCDIR(
+                    -.\INC) DEBUG OBJECTEXTEND PRINT(.\files\interrupt.lst) TABS(2) OBJECT(.\OUTPUT\interrupt.obj)
+
+line level    source
+
+   1          #include "register.h"
+   2          #include <intrins.h>
+   3          #include "app.h"
+   4          #include "initial.h"
+   5          
+   6          
+   7          unsigned short uwCaptureTimer;
+   8          unsigned short uwDutyCycle = 400;
+   9          
+  10          void PWM1_2_3Interrupt(void)  interrupt 9
+  11          {
+  12   1          unsigned char i,j;
+  13   1          
+  14   1          i = 0;
+  15   1          j = i + 1;
+  16   1          i++;
+  17   1        //p0_0 = ~p0_0;
+  18   1      //  P1CMPA_L = (unsigned char)uwDutyCycle;
+  19   1      //  P1CMPA_H = (unsigned char)(uwDutyCycle >> 8);
+  20   1      //  P2CMPA_L = (unsigned char)uwDutyCycle;
+  21   1      //  P2CMPA_H = (unsigned char)(uwDutyCycle >> 8);
+  22   1      //  P3CMPA_L = (unsigned char)uwDutyCycle;
+  23   1      //  P3CMPA_H = (unsigned char)(uwDutyCycle >> 8);
+  24   1      //  P4CMPA_L = (unsigned char)uwDutyCycle;
+  25   1      //  P4CMPA_H = (unsigned char)(uwDutyCycle >> 8);
+  26   1      //  P1CMPB_L = (unsigned char)uwDutyCycle;
+  27   1      //  P1CMPB_H = (unsigned char)(uwDutyCycle >> 8);
+  28   1      //  P2CMPB_L = (unsigned char)uwDutyCycle;
+  29   1      //  P2CMPB_H = (unsigned char)(uwDutyCycle >> 8);
+  30   1      //  P3CMPB_L = (unsigned char)uwDutyCycle;
+  31   1      //  P3CMPB_H = (unsigned char)(uwDutyCycle >> 8);
+  32   1      //  P4CMPB_L = (unsigned char)uwDutyCycle;
+  33   1      //  P4CMPB_H = (unsigned char)(uwDutyCycle >> 8);
+  34   1        P1ETCLR = 1;
+  35   1        IEX2 = 0;
+  36   1      }
+  37          
+  38          void PWM4Interrupt(void)  interrupt 10
+  39          {
+  40   1        iex3 = 0;
+  41   1      }
+  42          
+  43          unsigned char ubADSampleON;
+  44          unsigned short uwADDelayCounter = 1;
+  45          unsigned char ubADCCounter;
+  46          void TIMER0Interrupt(void)  interrupt 1 using 1
+  47          {
+  48   1         // p0_0 = ~p0_0;
+  49   1        //wdt = 1;
+  50   1        //swdt = 1;
+  51   1        //if(p1_0) th0 = 1;
+  52   1          //DAC1_data = DAC0_data = ubSineTable[ubSineIndex++];
+  53   1      //  p0_3 = ~p0_3;
+  54   1      //  p0_6 = ~p0_6;
+C51 COMPILER V9.54   INTERRUPT                                                             09/05/2018 03:06:11 PAGE 2   
+
+  55   1      //  p0_7 = ~p0_7;
+  56   1      //  p1_2 = ~p1_2;
+  57   1      //  p1_3 = ~p1_3;
+  58   1      //  p1_4 = ~p1_4;
+  59   1      //  p1_5 = ~p1_5;
+  60   1      //    if((ADFLG & 0x01) == 0x01)
+  61   1      //    {
+  62   1      //        p0_0 = ~p0_0;
+  63   1      //    }
+  64   1          ADCTL = 0x21;
+  65   1          if(uwADDelayCounter)
+  66   1          {
+  67   2              if(++uwADDelayCounter >= 2000)
+  68   2              {
+  69   3                  uwADDelayCounter = 0;
+  70   3                  ubADSampleON = 1;
+  71   3              }
+  72   2          }
+  73   1      //    if(ubADCCounter < 10)
+  74   1      //    {
+  75   1      //        ubADCCounter++;
+  76   1      //        ADCTL = 0x21;
+  77   1      //    }
+  78   1      }
+  79          
+  80          void TIMER1Interrupt(void)  interrupt 3
+  81          {
+  82   1          //p0_1 = ~p0_1;
+  83   1          P26 = ~P26;
+  84   1      }
+  85          
+  86          void TIMER3Interrupt(void)  //interrupt 2
+  87          {
+  88   1          //p0_0 = ~p0_0;
+  89   1        T3CON = T3CON & 0x7F;
+  90   1        //iex1 = 0;
+  91   1      }
+  92          
+  93          void TIMER4Interrupt(void)  interrupt 17
+  94           {
+  95   1        iex6 = 0;
+  96   1      }
+  97          
+  98          void Comp234Interrupt(void)  interrupt 11
+  99          {
+ 100   1          //if(COMP_INT_REG & 0x04) p0_0 = ~p0_0;
+ 101   1          //p0_0 = ~p0_0;
+ 102   1        if(COMP_INT & 0x04)
+ 103   1        {
+ 104   2          T3CTR_L = 0;
+ 105   2          T3CTR_H = 0;
+ 106   2          uwCaptureTimer = (unsigned short)T3RC_L + (unsigned short)((unsigned short)T3RC_H << 8);
+ 107   2          //p0_0 = ~p0_0;
+ 108   2        }
+ 109   1        COMP_INT = 0;
+ 110   1        iex4 = 0;
+ 111   1      }
+ 112          
+ 113          void OCInterrupt(void) interrupt 2
+ 114          {
+ 115   1        //p0_0 = ~p0_0;
+ 116   1        if(0x01 == (COMP_INT & 0x01))
+C51 COMPILER V9.54   INTERRUPT                                                             09/05/2018 03:06:11 PAGE 3   
+
+ 117   1        {
+ 118   2          COMP_INT = COMP_INT & 0xFE;
+ 119   2        }
+ 120   1      }
+ 121          
+ 122          //EXI interrupt routine: including comp1(overcurrent protect), timer3(overflow & external flag)
+ 123          //don't need clear the interrupt ex1 flag
+ 124          void EX1Interrupt(void)// interrupt 2
+ 125          {
+ 126   1          //overcurrent protect
+ 127   1          if(COMP_INT & 0x01 == 0x01)
+ 128   1          {
+ 129   2              COMP_INT &= 0xfe;        //clear the interrupt flag
+ 130   2              ENABLE_TIME0();
+ 131   2          }
+ 132   1      
+ 133   1          //timer3 external flag
+ 134   1          if(T3CON & 0x40 == 0x40)
+ 135   1          {
+ 136   2              T3CON &= 0xbf;  
+ 137   2          }
+ 138   1      
+ 139   1          //timer3 overflow flag
+ 140   1          if(T3CON & 0x80 == 0x80)
+ 141   1          {
+ 142   2              T3CON &= 0x7f;
+ 143   2          }
+ 144   1      }
+ 145          
+ 146          void UART1Interrupt(void) //interrupt 4
+ 147          {
+ 148   1      
+ 149   1      }
+ 150          
+ 151          void UART2Interrupt(void) interrupt 16
+ 152          {
+ 153   1          //receive
+ 154   1          if((S1CON & 0x01) == 0x01)
+ 155   1          {
+ 156   2              S1CON &= 0xfe;
+ 157   2      //        ucUARTReceiver = S1BUF;
+ 158   2      //        ucUARTReceiver++;
+ 159   2      //        ucUARTReceiver++;
+ 160   2      //        ucReceiveFlag = 1;
+ 161   2          }
+ 162   1      
+ 163   1          //transmit
+ 164   1          if((S1CON & 0x02) == 0x02)
+ 165   1          {
+ 166   2              S1CON &= 0xfd;
+ 167   2          }
+ 168   1      }
+ 169          
+ 170          //unsigned char ubADSampleON;
+ 171          short swAAUU,swAAYY,swAARR;
+ 172          unsigned short uwAAUU,uwAAYY,uwAARR;
+ 173          unsigned short uwADIndex;
+ 174          short swADBuf[256],swADBuf2[256],swADBuf3[256];
+ 175          //unsigned short uwADBuf[256],uwADBuf2[256],uwADBuf3[256];
+ 176          void ADCInterrupt(void) interrupt 8
+ 177          {
+ 178   1          unsigned char tubADFLG;
+C51 COMPILER V9.54   INTERRUPT                                                             09/05/2018 03:06:11 PAGE 4   
+
+ 179   1      
+ 180   1          P00 = ~P00;
+ 181   1          tubADFLG = ADFLG;
+ 182   1      //    if(ubADSampleON)
+ 183   1      //    {
+ 184   1      //        //uwAAUU = (unsigned short)AD4OUT_L + (unsigned short)((unsigned short)AD4OUT_H << 8);
+ 185   1      //        //uwAAUU = (unsigned short)AD5OUT_L + (unsigned short)((unsigned short)AD5OUT_H << 8);
+ 186   1      //        //uwAAUU = (unsigned short)AD6OUT_L + (unsigned short)((unsigned short)AD6OUT_H << 8);
+ 187   1      //        //uwAAUU = (unsigned short)AD1OUT_L + (unsigned short)((unsigned short)AD1OUT_H << 8);
+ 188   1      //        //uwAAUU = (unsigned short)AD3OUT_L + (unsigned short)((unsigned short)AD3OUT_H << 8);
+ 189   1      //        //uwAAUU = (unsigned short)AD2OUT_L + (unsigned short)((unsigned short)AD2OUT_H << 8);
+ 190   1      //        //uwAAYY = (unsigned short)AD1OUT_L + (unsigned short)((unsigned short)AD1OUT_H << 8);
+ 191   1      //        //uwAARR = (unsigned short)AD2OUT_L + (unsigned short)((unsigned short)AD2OUT_H << 8);
+ 192   1      //        ////uwAAUU = (unsigned short)AD4OUT_L + (unsigned short)((unsigned short)AD4OUT_H << 8);
+ 193   1      //        ////uwAAYY = (unsigned short)AD5OUT_L + (unsigned short)((unsigned short)AD5OUT_H << 8);
+ 194   1      //        ////uwAARR = (unsigned short)AD6OUT_L + (unsigned short)((unsigned short)AD6OUT_H << 8);
+ 195   1      
+ 196   1      //        swAAUU = (short)((unsigned short)AD1OUT_L + (unsigned short)((unsigned short)AD1OUT_H << 8));
+ 197   1      //        swAAYY = (short)((unsigned short)AD2OUT_L + (unsigned short)((unsigned short)AD2OUT_H << 8));
+ 198   1      //        swAARR = (short)((unsigned short)AD3OUT_L + (unsigned short)((unsigned short)AD3OUT_H << 8));
+ 199   1      
+ 200   1      //        //swAAUU = (short)((unsigned short)AD4OUT_L + (unsigned short)((unsigned short)AD4OUT_H << 8));
+ 201   1      //        //swAAYY = (short)((unsigned short)AD5OUT_L + (unsigned short)((unsigned short)AD5OUT_H << 8));
+ 202   1      //        //swAARR = (short)((unsigned short)AD6OUT_L + (unsigned short)((unsigned short)AD6OUT_H << 8));
+ 203   1      
+ 204   1      //        //uwADBuf[uwADIndex] = uwAAUU;
+ 205   1      //        //uwADBuf2[uwADIndex] = uwAAYY;
+ 206   1      //        //uwADBuf3[uwADIndex] = uwAARR;
+ 207   1      
+ 208   1      //        swADBuf[uwADIndex] = swAAUU;
+ 209   1      //        swADBuf2[uwADIndex] = swAAYY;
+ 210   1      //        swADBuf3[uwADIndex] = swAARR;
+ 211   1      
+ 212   1      //        if(++uwADIndex >= 256) uwADIndex = 0;
+ 213   1      //        if(0 == uwADIndex) ubADSampleON = 0;
+ 214   1      //    }
+ 215   1          uwAAUU = (unsigned short)AD7OUT_L + (unsigned short)((unsigned short)AD7OUT_H << 8);
+ 216   1          IADC = 0;             //clr the interrupt flag
+ 217   1      }
+ 218          
+ 219          //unsigned short uwAAUU;
+ 220          //volatile unsigned char ubAACC,ubAAEE;
+ 221          //void ADCInterrupt(void) interrupt 8
+ 222          //{
+ 223          //    ubAACC = ADFLG;
+ 224          //    //ubAAEE = ADFLG;
+ 225          //    p0_0 = ~p0_0;
+ 226          //    uwAAUU = (unsigned short)AD1OUT_L + (unsigned short)((unsigned short)AD1OUT_H << 8);
+ 227          //    iadc = 0;             //clr the interrupt flag
+ 228          //}
+ 229          
+ 230          
+ 231          //unsigned char ubAACC;
+ 232          //void ADCInterrupt(void) interrupt 8
+ 233          //{
+ 234          //    unsigned char i,j;
+ 235          //    
+ 236          //    j = ADFLG;
+ 237          //    //ubAACC = ADFLG;
+ 238          //    i = ADFLG;
+ 239          //    i = 0;
+ 240          //    j = i + 1;
+C51 COMPILER V9.54   INTERRUPT                                                             09/05/2018 03:06:11 PAGE 5   
+
+ 241          //    p0_0 = ~p0_0;
+ 242          //    //j = ADFLG;
+ 243          //    //ADFLG = 0;
+ 244          //    //for(i = 0;i < 30;i++);
+ 245          //    //ubAACC = ADFLG;
+ 246          //    i = iadc;
+ 247          //    iadc = 0;             //clr the interrupt flag
+ 248          //}
+ 249          
+ 250          //void ADCInterrupt(void) interrupt 8
+ 251          //{
+ 252          //    unsigned char i,j;
+ 253          //    
+ 254          //    i = 0;
+ 255          //    j = i + 1;
+ 256          //    p0_0 = ~p0_0;
+ 257          //    j = ADFLG;
+ 258          //    j = i - 1;
+ 259          //    i--;
+ 260          //    j++;
+ 261          //    i = iadc;
+ 262          //    iadc = 0;             //clr the interrupt flag
+ 263          //}
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    352    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   1558       2
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
