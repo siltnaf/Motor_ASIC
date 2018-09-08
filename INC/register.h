@@ -172,20 +172,9 @@ sfr INT_REG4 = 0xfe;
 sbit RI   = 0x98;
 
 sfr SBUF    = 0x99;
-sfr IE      = 0xA8;
-/*------------------------------------------------
-IE Bit Registers
-------------------------------------------------*/
-//sbit EX0  = 0xA8;       /* 1=Enable External interrupt 0 */
-//sbit ET0  = 0xA9;       /* 1=Enable Timer 0 interrupt */
-//sbit EX1  = 0xAA;       /* 1=Enable External interrupt 1 */
-//sbit ET1  = 0xAB;       /* 1=Enable Timer 1 interrupt */
-sbit ES   = 0xAC;       /* 1=Enable Serial port interrupt */
-//sbit ET2  = 0xAD;       /* 1=Enable Timer 2 interrupt */
-
-sbit EA   = 0xAF;       /* 0=Disable all interrupts */
-
-
+sfr IE	    = 0xa8;
+    sbit ES	   = IEN0^4;
+   
 //from - $Id: epwm.adr.asm51,v 1.0 2016/05/18 Eric Chan $
 
 

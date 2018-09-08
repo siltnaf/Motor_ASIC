@@ -121,27 +121,27 @@ void OCInterrupt(void) interrupt 2
 
 //EXI interrupt routine: including comp1(overcurrent protect), timer3(overflow & external flag)
 //don't need clear the interrupt ex1 flag
-void EX1Interrupt(void)// interrupt 2
-{
-    //overcurrent protect
-    if(COMP_INT & 0x01 == 0x01)
-    {
-        COMP_INT &= 0xfe;        //clear the interrupt flag
-        ENABLE_TIME0();
-    }
-
-    //timer3 external flag
-    if(T3CON & 0x40 == 0x40)
-    {
-        T3CON &= 0xbf;	
-    }
-
-    //timer3 overflow flag
-    if(T3CON & 0x80 == 0x80)
-    {
-        T3CON &= 0x7f;
-    }
+void EX1Interrupt(void) interrupt 20
+{	
+			
 }
+
+
+void EXT2Interrupt(void) interrupt 21
+{
+}
+
+void EXT3Interrupt (void) interrupt 22
+{
+}
+
+void EXT4Interrupt (void) interrupt 23
+{
+}
+
+
+
+
 
 void UART1Interrupt(void) //interrupt 4
 {

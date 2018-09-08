@@ -8,24 +8,11 @@
 #pragma mdu_r515
 
 
-Long_Data LD;
-
-unsigned char ubP0,ubP1,ubP2,k;
-unsigned int X,Y,Z;
-unsigned long ulZ,ulC,ulD;
-
-unsigned int uX,uY,uZ;
-
-unsigned char ubABC;
 
 
 
 
 
-//volatile unsigned char code reserved[256] _at_ 0x2003;
-
-int xdata  swADCResult8     _at_ 0xe06c;
-int swADCResultA8 = 0;
 
 //ISD51++++++++++++++++++++++++++
 #if ISDDebug == ENABLE_ISD
@@ -34,8 +21,7 @@ void InitBreakPoint();
 
 #endif
 //++++++++++++++++++++++++++++++
-//sfr16 P1TBCTL = 0xa0;
-unsigned int AA;
+
 
 
 void main(void)
@@ -45,51 +31,54 @@ void main(void)
     #if ISDDebug == DISABLE_ISD
     sSystemClockConfig();
     #endif
-//    EAL = 0;
+
     //ISD51++++++++++++++++++++++++++
     #if ISDDebug == ENABLE_ISD
     sInitUART1();
     InitBreakPoint();
     IP0 = 0x30;
     IP1 = 0x20;
-    ET0 = 0;
-    EX6 = 0 ;
-    //es0 = 1;
-		ES = 1;
-    EAL = 1;
+    DISABLE_TIMER0_INTERRUPT();
+		DISABLE_HARDWARE_BREAKPOINT_INTERRUPT();
+		ENABLE_SERIAL_INTERRUPT();	
+		ENABLE_ALL_INTERRUPT();
     _nop_();
     _nop_();
     _nop_();
     while(1)
     {
-        P10 = 0;
-        P10 = 1;
+       
         ISDcheck();      // initialize uVision2 Debugger and continue program run
         if((BPCTRL & 0x10) != 0) break;
     }
     _nop_();
     _nop_();
     _nop_();
-    ET0 = 1;
-    EX6 = 1;
+    ENABLE_TIMER0_INTERRUPT();
+		ENABLE_HARDWARE_BREAKPOINT_INTERRUPT();
     _nop_();
     _nop_();
     _nop_();
     #endif
     //++++++++++++++++++++++++++++++
-    EAL = 1;    //enable all interrupts
+
+
 		T01_CLK_DIV=0x0190;
 	
-   AA=XWORD[23];
+//   AA=XWORD[23];
 
 	InitGPIO();
-	
   InitADC();
   
-
+		EXINT_EN=0x01;
+		ENABLE_GPIO_INTERRUPT();
+		ENABLE_ALL_INTERRUPT();    //enable all interrupts
 
 while(1)
     {
+P00=~P00;
+			
+			
         #if ISDDebug == ENABLE_ISD
         ISDcheck();      // initialize uVision2 Debugger and continue program run
         #endif

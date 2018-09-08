@@ -48,6 +48,14 @@ sfr  SCON = 0x98;
 sfr  SBUF = 0x99;
 sfr  IE   = 0xA8;
 
+
+/* interrupt flag   */
+
+sfr		INT_REG1=0xf9;
+
+
+
+
 /*  SCON  Bits */
 sbit TI   = SCON^1;
 sbit RI   = SCON^0;

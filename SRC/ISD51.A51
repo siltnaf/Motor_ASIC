@@ -168,8 +168,8 @@ EICON           DATA    0C0H  ; Extended Interrupt CONtrol register
 PFI             BIT     0C5H  ; Interrupt Request Flag for power fail and debug
 
                 
-				;CSEG	AT    2003H
-				;LJMP	ExternalInterrupt
+				CSEG	AT    2003H
+				LJMP	ExternalInterrupt
 				
 				CSEG    AT    206BH       ; interupt vector for breakpoints
                 LJMP    HWBreakEntry
@@ -179,16 +179,20 @@ PFI             BIT     0C5H  ; Interrupt Request Flag for power fail and debug
                 RSEG    ?PR?ISD51
                 USING   0               ; Assume Registerbank 0 for ARx symbols
 
-;ExternalInterrupt:
-				;PUSH 	PSW
-				;PUSH 	ACC
-				;MOV		A,INT_REG1
-				;JB		ACC.0, 20A3H
-				;JB	
-				;POP		ACC
-				;POP		PSW
-				;LJMP	20ABH
+ExternalInterrupt:
+				PUSH 	PSW
+				PUSH 	ACC
+				MOV		A,INT_REG1
+				JB		ACC.0, Entry_EXT1		; EXT1 use interrupt 20
+				JB		ACC.1, Entry_EXT2		; EXT2 use interrupt 21
+				JB		ACC.2, Entry_EXT3		; EXT3 use interrupt 22
+				POP		ACC
+				POP		PSW
+				LJMP	20BBH					; EXT4 use interrupt 23
 
+Entry_EXT1:		LJMP	20A3H
+Entry_EXT2:		LJMP	20ABH
+Entry_EXT3:		LJMP	20B3H
 
 
 ; Entry Point for HW Breakpoint

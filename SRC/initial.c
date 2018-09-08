@@ -336,6 +336,10 @@ void InitGPIO(void)
 {
 	P0_FN_L = 0x00;							// p0_0 ~ p0_3 as GPIO
 	P0_FN_H = 0x00;							// p0_4 ~ p0_7 as GPIO
+	
+	P2_FN_L=0x04;	
+	P2_DD=0X00;          		//P21 as EXT1
+	
 //	P1_FN_L = 0x00;							// p1_0 ~ p1_3 as GPIO
 //	P1_FN_H = 0x00;							// p1_4 ~ p1_7 as GPIO
 //	P2_FN_L = 0x00;							// p2_0 ~ p2_3 as GPIO

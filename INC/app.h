@@ -16,21 +16,31 @@
 #define ENABLE_ALL_INTERRUPT()  EAL = 1
 #define DISABLE_ALL_INTERRUPT()  EAL = 0
 
+
+//external BREAKPOINT interrupt
+#define ENABLE_HARDWARE_BREAKPOINT_INTERRUPT()   EX6 = 1
+#define DISABLE_HARDWARE_BREAKPOINT_INTERRUPT()   EX6= 0
+
+
+//external serial port interrupt
+#define ENABLE_SERIAL_INTERRUPT()   ES0 = 1
+#define DISABLE_SERIAL_INTERRUPT()   ES0= 0
+
 //external interrupt 0, including EXINT1, EXINT2, EXINT3, EXINT4
-#define ENABLE_EX0_INTERRUPT()   EX0 = 1
-#define DISABLE_EX0_INTERRUPT()   EX0 = 0
+#define ENABLE_GPIO_INTERRUPT()   EX0 = 1
+#define DISABLE_GPO_INTERRUPT()   EX0 = 0
 
 //timer 0 overflow interrupt
-#define ENABLE_TIME0_OVERFLOW_INTERRUPT()   ET0 = 1
-#define DISABLE_TIME0_OVERFLOW_INTERRUPT()   ET0 = 0
+#define ENABLE_TIMER0_INTERRUPT()   ET0 = 1
+#define DISABLE_TIMER0_INTERRUPT()   ET0 = 0
 
 //external interrupt 1, including comp1(overcurrent protect), timer3(overflow & external flag)
 #define ENABLE_EX1_INTERRUPT()   IT1 = 1;EX1 = 1
 #define DISABLE_EX1_INTERRUPT()   IT1 = 1;EX1 = 0
 
 //timer 1 overflow interrupt
-#define ENABLE_TIME1_OVERFLOW_INTERRUPT()   ET1 = 1
-#define DISABLE_TIME1_OVERFLOW_INTERRUPT()   ET1 = 0
+#define ENABLE_TIME1_INTERRUPT()   ET1 = 1
+#define DISABLE_TIME1_INTERRUPT()   ET1 = 0
 
 //UART1 interrupt
 #define ENABLE_UART1_INTERRUPT()   ES0 = 1
