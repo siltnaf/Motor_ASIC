@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   LIB                                                                   09/29/2018 10:21:05 PAGE 1   
+C51 COMPILER V9.54   LIB                                                                   09/29/2018 17:01:26 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE LIB
@@ -62,7 +62,7 @@ line level    source
   52           * sin(x) , where x is 
   53          
   54           *
-C51 COMPILER V9.54   LIB                                                                   09/29/2018 10:21:05 PAGE 2   
+C51 COMPILER V9.54   LIB                                                                   09/29/2018 17:01:26 PAGE 2   
 
   55           * @return  none
   56           */
@@ -126,7 +126,7 @@ line level    source
  114          //  nop
  115          //  nop
  116          //  nop    ;wait 4
-C51 COMPILER V9.54   LIB                                                                   09/29/2018 10:21:05 PAGE 3   
+C51 COMPILER V9.54   LIB                                                                   09/29/2018 17:01:26 PAGE 3   
 
  117          //  nop
  118          //  nop

@@ -18,7 +18,7 @@ void main(void)
     #endif
 		InitISDDebug(); 
  
-  InitTimer5();                          //start timer1
+  InitTimer4();                          //start timer1
 	
 
 	
@@ -33,11 +33,12 @@ void main(void)
     {
 			
 			
-				while (BUSY==1)
-				{;}
-					
 			
-			
+			if 	(T4TF==1)	
+			{
+				T4TF=0;
+				P26=~P26;
+			}
 			
 			
         #if ISDDebug == ENABLE_ISD

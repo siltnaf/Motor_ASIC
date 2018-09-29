@@ -216,36 +216,21 @@ eFlashinterrupt:
 
 P4T5interrupt:				
 
-				PUSH    ACC
-				PUSH    DPH
-				PUSH    DPL
-				PUSH    PSW
-				MOV     PSW,#00H
-				PUSH    AR6
-				PUSH    AR7
-                MOV     DPTR,#T5CON
-                MOVX    A,@DPTR
-                MOV     R6,A
-				INC     DPTR
-                MOVX    A,@DPTR
-				JB		ACC.7, T5interrupt
-				JB		ACC.6, T5interrupt
-				POP     AR7
-				POP     AR6
+				PUSH    PSW      
+                PUSH    ACC
+				MOV 	A,INT_REG2
+				JB		ACC.3, ePWM4interrupt	
+				
+				POP     ACC
 				POP     PSW
-				POP     DPL
-				POP     DPH
-				POP     ACC		
-                LJMP    20A3H              ; interrupt 20 is ePWM4			
+                
+                LJMP    20ABH              ; interrupt 21 is Timer5			
 					
-T5interrupt: 
-                POP     AR7
-				POP     AR6
+ePWM4interrupt: 
+                POP     ACC
 				POP     PSW
-				POP     DPL
-				POP     DPH
-				POP     ACC	
-			    LJMP    20ABH               ;  interrupt 21 is Timer35			
+				
+			    LJMP    20A3H               ;  interrupt 21 is ePWM4			
 					
 					
 		

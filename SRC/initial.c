@@ -450,6 +450,7 @@ void InitTimer3(void)
 	T3TF_EINT	 =1;							// timer4 overflow interrupt enable
 	T3TR = 1;				// start timer4
 	CLR_T3_INT();
+	IE1=0;
 	 EX1=1;
 }
 
@@ -461,20 +462,37 @@ void InitTimer4(void)
 	T4TF_EINT	 =1;							// timer4 overflow interrupt enable
 	T4TR = 1;				// start timer4
 	CLR_T4_INT();
-//	EX6 = 1;
+	EX6 = 1;
+	IEX6=0;
 }
 void InitTimer5(void)
 {
-	T5PS = 0;								// no divider
+	T5PS = 0;											// no divider
 	T5RC = 0x10C0;
 	
-	T5TF_EINT	 =1;							// timer4 overflow interrupt enable
-	T5TR = 1;				// start timer4
-	T5TF=0;
+	T5TF_EINT	 =1;								// timer4 overflow interrupt enable
+	T5TR = 1;											// start timer4
+	T5TF=0;												// clear interrupt flag
+
+	
+	I3FR=1;
 	EX3 = 1;
 	IEX3=0;
 }
+void InitTimer6(void)
+{
+	T6PS = 0;											// no divider
+	T6RC = 0x10C0;
+	
+	T6TF_EINT	 =1;							// timer4 overflow interrupt enable
+	T6TR = 1;										// start timer4
+	T6TF=0;											// clear interrupt flag
 
+	
+
+	EX5 = 1;
+	IEX5=0;
+}
 void SystemClock(void)
 {
     RC80M_RES = 0x2e;

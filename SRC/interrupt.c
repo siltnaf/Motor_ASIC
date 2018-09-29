@@ -98,7 +98,7 @@ void TIMER3Interrupt(void)  interrupt 23
 	T3TF=0;
 	T3EXF=0;
 	
-//	P26= ~P26;
+	P26= ~P26;
 	
 	
 	IE1=0;
@@ -113,6 +113,13 @@ void TIMER4Interrupt(void)  interrupt 17
 	T4EXF=0;
 	CLR_T4_INT();
 	IEX6=0;
+	
+	P26= ~P26;
+	
+	
+	
+	
+	
 }
 
 void TIMER5Interrupt(void)  interrupt 21
@@ -134,6 +141,8 @@ void TIMER6Interrupt(void)  interrupt 24
 	T6TF=0;
 	T6EXF=0;
 	IEX5=0;
+	P26=~P26;
+	
 }
 
 
