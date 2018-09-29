@@ -1,0 +1,129 @@
+C51 COMPILER V9.54   MAIN                                                                  09/18/2018 01:31:51 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\OUTPUT\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE SRC\main.c WARNINGLEVEL(0) OPTIMIZE(8,SPEED) BROWSE INTVECTOR(0X2000) IN
+                    -CDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\main.lst) TABS(2) OBJECT(.\OUTPUT\main.obj)
+
+line level    source
+
+   1          #include "register.h"
+   2          #include <intrins.h>
+   3          #include "app.h"
+   4          #include "initial.h"
+   5          #include "lib.h"
+   6          #include "ISD51.H"
+   7          
+   8          #pragma mdu_r515          //use hardware math unit
+   9          
+  10          
+  11          //volatile unsigned char code reserved[256] _at_ 0x2003;
+  12          
+  13          
+  14          
+  15          int xdata  swADCResult8 ;  //  _at_ 0xe06c;
+  16          int swADCResultA8 = 0;
+  17          
+  18          
+  19          
+  20          void main(void)
+  21          {
+  22   1         
+  23   1          InitISDDebug();
+  24   1      
+  25   1          //Timer 0 1 setup  
+  26   1      
+  27   1          T01_DIV = 0x0240;                 //clock divider is 122
+  28   1      
+  29   1          TMOD = TMOD & 0xF0 | (3 << 0);                     //timer0 is 16bit timer
+  30   1          TL0 = 0x00;
+  31   1          TH0= 0x00;
+  32   1          ET0 = 1;                                //enable timer0 overflow interrupt
+  33   1          ET1 = 1;                                //enable timer1 overflow interrupt
+  34   1          TR0= 1;                                //start timer0
+  35   1          TR1 = 1;                                //start timer1
+  36   1          
+  37   1          InitGPIO();
+  38   1      
+  39   1          //InitTimer3();
+  40   1          while(1)
+  41   1          {
+  42   2              #if ISDDebug == ENABLE_ISD
+  43   2              ISDcheck();      // initialize uVision2 Debugger and continue program run
+  44   2              #endif
+  45   2              
+  46   2          }
+  47   1      }
+  48          
+  49          
+C51 COMPILER V9.54   MAIN                                                                  09/18/2018 01:31:51 PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 20
+                                           ; SOURCE LINE # 21
+                                           ; SOURCE LINE # 23
+0000 120000      E     LCALL   InitISDDebug
+                                           ; SOURCE LINE # 27
+0003 90E0EE            MOV     DPTR,#0E0EEH
+0006 7402              MOV     A,#02H
+0008 F0                MOVX    @DPTR,A
+0009 A3                INC     DPTR
+000A 7440              MOV     A,#040H
+000C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 29
+000D E589              MOV     A,TMOD
+000F 54F0              ANL     A,#0F0H
+0011 4403              ORL     A,#03H
+0013 F589              MOV     TMOD,A
+                                           ; SOURCE LINE # 30
+0015 E4                CLR     A
+0016 F58A              MOV     TL0,A
+                                           ; SOURCE LINE # 31
+0018 F58C              MOV     TH0,A
+                                           ; SOURCE LINE # 32
+001A D2A9              SETB    ET0
+                                           ; SOURCE LINE # 33
+001C D2AB              SETB    ET1
+                                           ; SOURCE LINE # 34
+001E D28C              SETB    TR0
+                                           ; SOURCE LINE # 35
+0020 D28E              SETB    TR1
+                                           ; SOURCE LINE # 37
+0022 120000      E     LCALL   InitGPIO
+0025         ?C0001:
+                                           ; SOURCE LINE # 40
+                                           ; SOURCE LINE # 41
+                                           ; SOURCE LINE # 43
+0025 20ACFD            JB      ES,?C0001
+0028 3098FA            JNB     RI,?C0001
+002B E599              MOV     A,SBUF
+002D 64A5              XRL     A,#0A5H
+002F 6004              JZ      ?C0005
+0031 C298              CLR     RI
+0033 80F0              SJMP    ?C0001
+0035         ?C0005:
+0035 120000      E     LCALL   __isd_init
+                                           ; SOURCE LINE # 46
+0038 80EB              SJMP    ?C0001
+             ; FUNCTION main (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     58    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      2    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+C51 COMPILER V9.54   MAIN                                                                  09/18/2018 01:31:51 PAGE 3   
+
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

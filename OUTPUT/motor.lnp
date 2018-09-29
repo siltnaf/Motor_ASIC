@@ -1,0 +1,11 @@
+".\OUTPUT\STARTUP.obj",
+".\OUTPUT\main.obj",
+".\OUTPUT\initial.obj",
+".\OUTPUT\interrupt.obj",
+".\OUTPUT\lib.obj",
+".\OUTPUT\ISD51.obj",
+".\LIB\C51S.LIB" 
+TO ".\OUTPUT\motor" REGFILE (.\OUTPUT\motor.ORC) 
+PRINT(".\files\motor.m51") DISABLEWARNING (16) 
+CODE( 0x2000-0x9FFF )
+XDATA( 0xA000-0xDFFF )

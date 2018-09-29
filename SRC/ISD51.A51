@@ -28,19 +28,6 @@ $NOMOD51
 NAME ISD51_CONFIGURATION
 
 
-bshift  MACRO   
-		MOV 	DPTR,#x
-		MOV		BSHI_3,@DPTR
-		INC		DPTR
-		MOV		BSHI_2,@DPTR
-		INC		DPTR
-		MOV		BSHI_1,@DPTR
-		INC		DPTR
-		MOV		BSHI_0,@DPTR
-		ENDM
-
-
-
 SBYTE    MACRO             ; Transmit Byte in ACC via serial UART
          JNB_TI $
          CLR_TI
@@ -154,7 +141,7 @@ BREAK_XDATA     EQU     0xE800
                               ; BPCTRL.0  := breakpoint enable 
 ;BREAKL          DATA    0AAH  ; break low  address
 ;BREAKH          DATA    0ABH  ; break high address
-BPCTRL          DATA    093H  ; BPCTRL.7  := breakpoint interrupt request
+BPCTRL          DATA    093H  ; BPCTRL.7 := breakpoint interrupt request
                               ; BPCTRL.1  := 0=code break, 1=xdata break
                               ; BPCTRL.0  := breakpoint enable 
 BREAKL          DATA    094H  ; break low  address
@@ -167,32 +154,122 @@ PIREG           DATA    0B8H  ; PIREG.0   := breakpoint interrupt enable
 EICON           DATA    0C0H  ; Extended Interrupt CONtrol register
 PFI             BIT     0C5H  ; Interrupt Request Flag for power fail and debug
 
-                
-				CSEG	AT    2003H
-				LJMP	ExternalInterrupt
+                ;CSEG    AT    201BH       ; interupt vector for breakpoints
+                ;LJMP    20A3H
+				 
+
+					
+				CSEG    AT    2013H
+				LJMP    C1T3interrupt
 				
+			
+				CSEG    AT    2053H
+				LJMP    P4T5interrupt
+
+				CSEG    AT    2063H
+				LJMP	cominterrupt
+	
+
 				CSEG    AT    206BH       ; interupt vector for breakpoints
                 LJMP    HWBreakEntry
-				
 
 
                 RSEG    ?PR?ISD51
                 USING   0               ; Assume Registerbank 0 for ARx symbols
+					
 
-ExternalInterrupt:
-				PUSH 	PSW
-				PUSH 	ACC
-				MOV		A,INT_REG1
-				JB		ACC.0, Entry_EXT1		; EXT1 use interrupt 20
-				JB		ACC.1, Entry_EXT2		; EXT2 use interrupt 21
-				JB		ACC.2, Entry_EXT3		; EXT3 use interrupt 22
-				POP		ACC
-				POP		PSW
-				LJMP	20BBH					; EXT4 use interrupt 23
 
-Entry_EXT1:		LJMP	20A3H
-Entry_EXT2:		LJMP	20ABH
-Entry_EXT3:		LJMP	20B3H
+cominterrupt:
+
+				PUSH    PSW      
+                PUSH    ACC
+				MOV 	A,INT_REG3
+				JB		ACC.3, I2Cinterrupt	
+				JB		ACC.4, SPIinterrupt
+				JB		ACC.5, eFlashinterrupt
+				POP     ACC
+				POP     PSW
+                LJMP    20C3H				//interrupt 24 timer 6
+				
+I2Cinterrupt:
+				POP     ACC
+                POP     PSW 
+			    LJMP    20CBH               ;  interrupt 25 is I2C 
+
+
+				
+SPIinterrupt:
+				POP     ACC
+                POP     PSW 
+			    LJMP    20D3H               ;  interrupt 26 is SPI
+
+
+				
+eFlashinterrupt:
+				POP     ACC
+                POP     PSW 
+			    LJMP    20DBH               ;  interrupt 27 is external flash 
+
+						
+
+
+
+P4T5interrupt:				
+
+				PUSH    ACC
+				PUSH    DPH
+				PUSH    DPL
+				PUSH    PSW
+				MOV     PSW,#00H
+				PUSH    AR6
+				PUSH    AR7
+                MOV     DPTR,#T5CON
+                MOVX    A,@DPTR
+                MOV     R6,A
+				INC     DPTR
+                MOVX    A,@DPTR
+				JB		ACC.7, T5interrupt
+				JB		ACC.6, T5interrupt
+				POP     AR7
+				POP     AR6
+				POP     PSW
+				POP     DPL
+				POP     DPH
+				POP     ACC		
+                LJMP    20A3H              ; interrupt 20 is ePWM4			
+					
+T5interrupt: 
+                POP     AR7
+				POP     AR6
+				POP     PSW
+				POP     DPL
+				POP     DPH
+				POP     ACC	
+			    LJMP    20ABH               ;  interrupt 21 is Timer35			
+					
+					
+		
+					
+					
+;Entry Point for comparator 1and timer 3
+C1T3interrupt:  PUSH    PSW      
+                PUSH    ACC
+				MOV 	A,INT_REG1
+				JB		ACC.4, T3interrupt	
+				POP     ACC
+				POP     PSW
+                LJMP    20B3H              ; interrrupt 22 is comp1				
+					
+T3interrupt: 	POP     ACC
+                POP     PSW 
+			    LJMP    20BBH               ;  interrupt 23 is Timer3
+
+
+
+
+
+
+
 
 
 ; Entry Point for HW Breakpoint
@@ -200,16 +277,32 @@ HWBreakEntry:   PUSH    PSW
                 PUSH    ACC
                 MOV     A,BPCTRL
                 JB      ACC.7,HWBreakpoint
+				MOV		A,INT_REG4
+				JB		ACC.0, RTCinterrupt
+				JB		ACC.1, LDV18interrupt
+				JB		ACC.2, LDV33interrupt				
                 POP     ACC
                 POP     PSW
-                LJMP    2033H            ; Other interrupt sources such as A/D Converter
-                                        ; SPI, PFI and (milli)second timer sharing the 
-                                        ; interrupt vector at address 33H must be 
-                                        ; relocated to address 6BH (interrupt 17)!
+                LJMP    208BH            ; interrupt 17 is Timer 4    
+					
+RTCinterrupt: 	
+				POP     ACC
+                POP     PSW 
+			    LJMP    20E3H               ;  interrupt 28 is RTC
 
+LDV18interrupt: 	
+				POP     ACC
+                POP     PSW 
+			    LJMP    20EBH               ;  interrupt 29 is LDV18
+				
 
+LDV33interrupt: 	
+				POP     ACC
+                POP     PSW 
+			    LJMP    20F3H               ;  interrupt 30 is LDV33
+						
 
-
+ 
 
 HWBreakpoint:   MOV     PSW,#0          ; Select Register Bank 0
                 PUSH    AR0

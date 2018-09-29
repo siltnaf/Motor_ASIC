@@ -2,6 +2,73 @@
 #include <intrins.h>
 #include "app.h"
 #include "initial.h"
+#include "ISD51.H"
+
+
+
+
+void InitEXT(void)
+{	
+//		EINT1_EN=0; 
+//		EINT2_EN=1;				//enable EXT2
+//		EINT3_EN=0;
+//		EINT4_EN=0;
+	
+			EXINT_EN = 0x02;					//RXINT_EN cannot be read, it can be write only
+																//EXINT_EN= 0x01      -----enable EXT1
+																//					0x02			-----enable EXT2
+																//					0x04		  -----enable EXT3
+																//					0x08			-----enable EXT4
+	
+		EINT2_CFG=RISING_EDGE;		//rising edge trigger
+		EX0=1;
+		IT0=1;
+		IE0=0;
+		INT_REG1 &=0xf0;
+	
+}
+
+void InitISDDebug(void)
+{
+	
+    EAL = 0;
+    //ISD51++++++++++++++++++++++++++
+    #if ISDDebug == ENABLE_ISD
+		InitBreakPoint();
+    sInitUART1();
+ 
+    IP0 = 0x30;
+    IP1 = 0x20;
+    ET0 = 0;
+    EX6 = 0 ;
+    ES0 = 1;
+    EAL = 1;
+    _nop_();
+    _nop_();
+    _nop_();
+    while(1)
+    {
+        P10 = 0;
+        P10 = 1;
+        ISDcheck();      // initialize uVision2 Debugger and continue program run
+        if((BPCTRL & 0x10) != 0) break;
+    }
+    _nop_();
+    _nop_();
+    _nop_();
+    ET0 = 1;
+    EX6 = 1;
+    _nop_();
+    _nop_();
+    _nop_();
+    #endif
+    //++++++++++++++++++++++++++++++
+		EAL = 1;                                //enable all interrupts
+}
+
+
+
+
 
 void InitBreakPoint  (void)
 {
@@ -28,37 +95,27 @@ void epwmOutputEnable(void)
 
 void InitADC(void)
 {
-    unsigned char i;
-    //unsigned short j;
 
-    OPAMP_SEL = 0x0F;
-    ADC_ISEL = 0x05;
-    ADC_CLK_CTRL = 0x03;
-    LDO_CON |= 1 << 1;
-    //for(j = 0;j < 2500;j++);
-    ADCHS = 0x40;
-//    ADCHS = 0x07;//0x38;//0x02;//0x20;//0x10;//0x08;//0x38;//0x18;//0x08;                           // select channel 4
-//    ADSHBP = 0x00;//0x38;                          // ADC channel 4,5,6 S/H bypass
-//    AD1OST_L = 0x00;
-//    AD1OST_H = 0xFC;//0x04;
-//    AD2OST_L = 0x00;
-//    AD2OST_H = 0xFC;//0x04;
-//    AD3OST_L = 0x00;
-//    AD3OST_H = 0xFC;//0x04;
-//    AD4OST_L = 0x00;
-//    AD4OST_H = 0xFC;//0x04;
-//    AD5OST_L = 0x00;
-//    AD5OST_H = 0xFC;//0x04;
-//    AD6OST_L = 0x00;
-//    AD6OST_H = 0xFC;//0x04;
-    //AD7OST_L = 0x00;
-    //AD7OST_H = 0x04;
-    i = ADFLG;
-    IADC = 0;
-    ADCTL = 0x01;                           // select software force trigger and enable ADC INT
-    //ADCTL = 0x09;//0x11;                           // select epwm soca and enable ADC INT
-    EADC = 1;
-}
+		AD_PD = 0;							//Power up ADD
+	  ADC_CLK_EN=1;
+		ADC_CLK_DIV_SEL=0x03;    //system divided by 4
+    ADCHS = BIT_3;						// select channel CH4
+		DAC1_PD = 1;						// DAC12 down
+		DAC2_PD = 1;
+		LDO25_PD=0;             //use internal 2.5V for AD VREF
+		BP4=1;                  //CH4 bypass sample and hold
+		BP5=1; 									//CH5 bypass sample and hold
+		BP6=1;			            //CH6 bypass sample and hold
+		INTEN=1;								//enable interrupt
+		SWFTRG=1;								//start AD conversion
+		AD4OST_H=0xFC;					//AD offset 
+		AD4OST_L=0x00;					//AD offset
+	
+	
+		EADC=1;
+		IADC=0;
+
+	}
 
 
 void Initepwm(void)
@@ -77,7 +134,7 @@ void Initepwm(void)
 //	P4TBPRD_H = 0x01;
 
 	PCLKCR = 0x1E;//0x1F							// clock for pwm1 ~ pwm4 is enable,and synchronize all channel disable
-	PSYNCICR = 0x3C;//0x1F;						// all synchronize input enable
+//	PSYNCICR = 0x3C;//0x1F;						// all synchronize input enable
 
 	P1TBCTL_L = 0x02;//0x12;						// period load from shadow,up down mode,synchronize at CTR = ZERO
 	P1TBCTL_H = 0x80;						// time base free run when emulation
@@ -311,15 +368,6 @@ void InitComp234(void)
 	EX4 = 1;								// external interrupt 4 enable
 }
 
-void InitLED(void)
-{
-	P0_FN_L = 0x00;															// p0_0 ~ p0_3 as GPIO
-	P0_FN_H = 0x00;															// p0_4 ~ p0_7 as GPIO
-	P1_FN_L = 0x00;															// p1_0 ~ p1_3 as GPIO
-	P1_FN_H = 0x00;															// p1_4 ~ p1_7 as GPIO
-	P0_DD = P0_DD | (1 << 3) | (1 << 6) | (1 << 7);							// p0_0 ~ p0_7 output
-	P1_DD = P1_DD | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5);				// p1_0 ~ p1_7 output
-}
 
 
 void InitWatchDog(void)
@@ -334,53 +382,100 @@ void InitWatchDog(void)
 
 void InitGPIO(void)
 {
-	P0_FN_L = 0x00;							// p0_0 ~ p0_3 as GPIO
-	P0_FN_H = 0x00;							// p0_4 ~ p0_7 as GPIO
+		P0_FN_L = 0x00;									// P00 ~ P03as GPIO
+		P0_FN_H = 0x00;									// P04 ~ P07 as GPIO
+		P0_DD = 0x00;										// 	P00 ~  P07 intput
+		P0_PE = 0xFF;										// output resistor enable	
+		P0_DS = 0x00;										//drive current =4mA
+		P0_PS=	0x00;										//pull down resistor 
 	
-	P2_FN_L=0x04;	
-	P2_DD=0X00;          		//P21 as EXT1
+		P1_FN_L = 0x00;									// P10 ~ P13 as GPIO
+		P1_FN_H = 0x00;									// P14 ~ P17 as GPIO
+		P1_DD = 0x00;										// P10 ~ P17 intput
+		P1_PE = 0xFF;										// output resistor enable	
+		P1_DS = 0x00;										//drive current =4mA
+		P1_PS=	0x00;										//pull down resistor 
 	
-//	P1_FN_L = 0x00;							// p1_0 ~ p1_3 as GPIO
-//	P1_FN_H = 0x00;							// p1_4 ~ p1_7 as GPIO
-//	P2_FN_L = 0x00;							// p2_0 ~ p2_3 as GPIO
-//	P2_FN_H = 0x00;							// p2_4 ~ p2_7 as GPIO
-//	P0_DD = 0x00;							// p0_0 ~ p0_7 input
-//	P1_DD = 0x00;							// p1_0 ~ p1_7 input
-//	P2_DD = 0x00;							// p2_0 ~ p2_7 input
-	P0_DD = 0xFF;							// p0_0 ~ p0_7 output
-//	P1_DD = 0xFF;							// p1_0 ~ p1_7 output
-//	P2_DD = 0xFF;							// p2_0 ~ p2_7 output
-	P0_DS = 0xFF;
-//	P1_DS = 0xFF;
-//	P2_DS = 0xFF;
-	//P0 = 0xFF;
-	//p0 = 0xFF;
-	//P1 = 0xFF;
-	//p1 = 0xFF;
-	//P2 = 0xFF;
-	//p2 = 0xFF;
-	P0_PE = 0xFF;							// pull enable
-//	P1_PE = 0xFF;							// pull enable
-//	P1_PE = 0xFF;							// pull enable
-//	P0_PS = 0x00;							// pull down
-//	P1_PS = 0x00;							// pull down
-//	P2_PS = 0x00;							// pull down
-	P0_PS = 0xFF;							// pull up
-//	P1_PS = 0xFF;							// pull up
-//	P2_PS = 0xFF;							// pull up
+		P2_FN_L = 0x00;									// P20 ~ P23 as GPIO
+		P2_FN_H = 0x00;									// P24 ~ P27 as GPIO
+		P2_DD = 0x00;										// P20~ P27 intput
+		P2_PE = 0xFF;										// pull/down resistor enable	
+		P2_DS = 0x00;										//drive current =4mA
+		P2_PS=	0x00;										//pull down resistor 
+	
+	// use P26 and P00 as output
+	
+    P00_FN= CFG0;              	 // P00 as GPIO
+    P00_DD = OUTPUT;               //P00 as output
+    P00_PE = RES_DIS;               //P00 pull resistor off
+		P00_DS = I_4MA;
+
+    P26_FN = CFG0;               //P26 as GPIO
+    P26_DD = OUTPUT;               //P26 as output
+    P26_PE = RES_DIS;               //P26 output resistor off
+		P26_DS = I_4MA;
+
+	
+	
+	
+	// use P20 as EXT2
+	
+	    P20_FN= CFG1;              	 //P20 as EXT2
+			P20_DD = INPUT;               //P20 as input
+			P20_PE = RES_EN;               // P20 output resistor enable
+			P20_PS = PULL_DOWN;               //P20 with pull down resistor
+	
+		hh=P2_FN_L|0x0;
+	
+}
+
+void InitTimer01(void)
+{
+		T01_DIV = 0x0240;                 //clock divider is 122
+    TMOD = TMOD & 0xF0 | (3 << 0);                     //timer0 is 16bit timer
+    TL0 = 0x00;
+    TH0= 0x00;
+		
+    ET0 = 1;                                //enable timer0 overflow interrupt
+    ET1 = 1;                                //enable timer1 overflow interrupt
+		TR0= 1;                                //start timer0
+		TR1 = 1;    
 }
 
 void InitTimer3(void)
 {
 	T3PS = 0;								// no divider
-	T3RC_L = 0xC0;
-	T3RC_H = 0xE0;
-	T3CON = 0x20;//0x29;//0x28;							// capture mode,timer3 overflow interrupt enable
-	T3CON = T3CON | (1 << 2);				// start timer3
-	EX1 = 1;
+	T3RC= 0x00C0;
+
+	T3TF_EINT	 =1;							// timer4 overflow interrupt enable
+	T3TR = 1;				// start timer4
+	CLR_T3_INT();
+	 EX1=1;
 }
 
-void sSystemClockConfig(void)
+void InitTimer4(void)
+{
+	T4PS = 0;								// no divider
+	T4RC = 0xE0C0;
+
+	T4TF_EINT	 =1;							// timer4 overflow interrupt enable
+	T4TR = 1;				// start timer4
+	CLR_T4_INT();
+//	EX6 = 1;
+}
+void InitTimer5(void)
+{
+	T5PS = 0;								// no divider
+	T5RC = 0x10C0;
+	
+	T5TF_EINT	 =1;							// timer4 overflow interrupt enable
+	T5TR = 1;				// start timer4
+	T5TF=0;
+	EX3 = 1;
+	IEX3=0;
+}
+
+void SystemClock(void)
 {
     RC80M_RES = 0x2e;
 	  #pragma asm

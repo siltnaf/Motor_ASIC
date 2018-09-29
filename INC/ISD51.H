@@ -49,10 +49,14 @@ sfr  SBUF = 0x99;
 sfr  IE   = 0xA8;
 
 
-/* interrupt flag   */
+/* interrupt flag register */
 
 sfr		INT_REG1=0xf9;
+sfr   INT_REG2=0xfa;
+sfr   INT_REG3=0xfd;
+sfr   INT_REG4=0xfe;
 
+#define  T5CON	0xE0F3
 
 
 

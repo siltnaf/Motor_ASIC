@@ -1,0 +1,581 @@
+C51 COMPILER V9.54   INITIAL                                                               09/18/2018 01:31:51 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE INITIAL
+OBJECT MODULE PLACED IN .\OUTPUT\initial.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE SRC\initial.c WARNINGLEVEL(0) OPTIMIZE(8,SPEED) BROWSE INTVECTOR(0X2000)
+                    - INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\initial.lst) TABS(2) OBJECT(.\OUTPUT\initial.obj)
+
+line level    source
+
+   1          #include "register.h"
+   2          #include <intrins.h>
+   3          #include "app.h"
+   4          #include "initial.h"
+   5          #include "ISD51.H"
+   6          
+   7          
+   8          
+   9          
+  10          
+  11          
+  12          void InitBP0  (void)
+  13          {
+  14   1        BPCTRL   = 0x01;
+  15   1        BREAKL   = 0xff;
+  16   1        BREAKH   = 0xff;
+  17   1      }
+  18          
+  19          
+  20          
+  21          void InitISDDebug(void)
+  22            
+  23          {
+  24   1          #if ISDDebug == DISABLE_ISD
+                  sSystemClockConfig();
+                  #endif
+  27   1          EAL = 0;
+  28   1          //ISD51++++++++++++++++++++++++++
+  29   1          #if ISDDebug == ENABLE_ISD
+  30   1          InitBreakPoint();
+  31   1          sInitUART1();
+  32   1          InitBP0();
+  33   1          IP0 = 0x30;
+  34   1          IP1 = 0x20;
+  35   1          ET0 = 0;
+  36   1          EX6 = 0 ;
+  37   1          ES0 = 1;
+  38   1          EAL = 1;
+  39   1          _nop_();
+  40   1          _nop_();
+  41   1          _nop_();
+  42   1          while(1)
+  43   1          {
+  44   2              P10 = 0;
+  45   2              P10 = 1;
+  46   2              ISDcheck();      // initialize uVision2 Debugger and continue program run
+  47   2              if((BPCTRL & 0x10) != 0) break;
+  48   2          }
+  49   1          _nop_();
+  50   1          _nop_();
+  51   1          _nop_();
+  52   1          ET0 = 1;
+  53   1          EX6 = 1;
+  54   1          _nop_();
+C51 COMPILER V9.54   INITIAL                                                               09/18/2018 01:31:51 PAGE 2   
+
+  55   1          _nop_();
+  56   1          _nop_();
+  57   1          #endif
+  58   1          //++++++++++++++++++++++++++++++
+  59   1          EAL = 1;                                //enable all interrupts
+  60   1      }
+  61          
+  62          
+  63          
+  64          
+  65          
+  66          void InitBreakPoint  (void)
+  67          {
+  68   1          BPCTRL   = 0x01;
+  69   1        BREAKL   = 0xff;
+  70   1        BREAKH   = 0xff;
+  71   1      }
+  72          
+  73          void epwmOutputDisable(void)
+  74          {
+  75   1        P1AQCSFRC = 0x05;           // force epwmxA and epwmxB output low
+  76   1        P2AQCSFRC = 0x05;
+  77   1        P3AQCSFRC = 0x05;
+  78   1        P4AQCSFRC = 0x05;
+  79   1      }
+  80          
+  81          void epwmOutputEnable(void)
+  82          {
+  83   1        P1AQCSFRC = 0x0F;           // software force disable
+  84   1        P2AQCSFRC = 0x0F;
+  85   1        P3AQCSFRC = 0x0F;
+  86   1        P4AQCSFRC = 0x0F;
+  87   1      }
+  88          
+  89          void InitADC(void)
+  90          {
+  91   1          unsigned char i;
+  92   1          //unsigned short j;
+  93   1      
+  94   1          OPAMP_SEL = 0x0F;
+  95   1          ADC_ISEL = 0x05;
+  96   1          ADC_CLK_CTRL = 0x03;
+  97   1          LDO_CON |= 1 << 1;
+  98   1          //for(j = 0;j < 2500;j++);
+  99   1          ADCHS = 0x40;
+ 100   1      //    ADCHS = 0x07;//0x38;//0x02;//0x20;//0x10;//0x08;//0x38;//0x18;//0x08;                           // s
+             -elect channel 4
+ 101   1      //    ADSHBP = 0x00;//0x38;                          // ADC channel 4,5,6 S/H bypass
+ 102   1      //    AD1OST_L = 0x00;
+ 103   1      //    AD1OST_H = 0xFC;//0x04;
+ 104   1      //    AD2OST_L = 0x00;
+ 105   1      //    AD2OST_H = 0xFC;//0x04;
+ 106   1      //    AD3OST_L = 0x00;
+ 107   1      //    AD3OST_H = 0xFC;//0x04;
+ 108   1      //    AD4OST_L = 0x00;
+ 109   1      //    AD4OST_H = 0xFC;//0x04;
+ 110   1      //    AD5OST_L = 0x00;
+ 111   1      //    AD5OST_H = 0xFC;//0x04;
+ 112   1      //    AD6OST_L = 0x00;
+ 113   1      //    AD6OST_H = 0xFC;//0x04;
+ 114   1          //AD7OST_L = 0x00;
+ 115   1          //AD7OST_H = 0x04;
+C51 COMPILER V9.54   INITIAL                                                               09/18/2018 01:31:51 PAGE 3   
+
+ 116   1          i = ADFLG;
+ 117   1          IADC = 0;
+ 118   1          ADCTL = 0x01;                           // select software force trigger and enable ADC INT
+ 119   1          //ADCTL = 0x09;//0x11;                           // select epwm soca and enable ADC INT
+ 120   1          EADC = 1;
+ 121   1      }
+ 122          
+ 123          
+ 124          void Initepwm(void)
+ 125          {
+ 126   1        P2_FN_H = 0x55;             // p2_4 ~ p2_7 as pwm2x ~ pwm1x
+ 127   1        P2_FN_L = P2_FN_L & 0x0F | 0x50;    // p2_2 ~ p2_3 as pwm3x
+ 128   1        //P0_FN_L = P0_FN_L & 0xF0 | 0x05;      // p0_0 ~ p0_1 as pwm4x
+ 129   1      
+ 130   1      //  P1TBPRD_L = 0x90;           // pwm period is 10KHz
+ 131   1      //  P1TBPRD_H = 0x01;
+ 132   1      //  P2TBPRD_L = 0x90;
+ 133   1      //  P2TBPRD_H = 0x01;
+ 134   1      //  P3TBPRD_L = 0x90;
+ 135   1      //  P3TBPRD_H = 0x01;
+ 136   1      //  P4TBPRD_L = 0x90;
+ 137   1      //  P4TBPRD_H = 0x01;
+ 138   1      
+ 139   1        PCLKCR = 0x1E;//0x1F              // clock for pwm1 ~ pwm4 is enable,and synchronize all channel disable
+ 140   1        PSYNCICR = 0x3C;//0x1F;           // all synchronize input enable
+ 141   1      
+ 142   1        P1TBCTL_L = 0x02;//0x12;            // period load from shadow,up down mode,synchronize at CTR = ZERO
+ 143   1        P1TBCTL_H = 0x80;           // time base free run when emulation
+ 144   1        P2TBCTL_L = 0x02;//0x12;
+ 145   1        P2TBCTL_H = 0x80;
+ 146   1        P3TBCTL_L = 0x02;//0x12;
+ 147   1        P3TBCTL_H = 0x80;
+ 148   1        P4TBCTL_L = 0x02;//0x12;
+ 149   1        P4TBCTL_H = 0x80;
+ 150   1      
+ 151   1      //  P1TBCTL_L = 0x00;           // period load from shadow,up mode
+ 152   1      //  P1TBCTL_H = 0x80;
+ 153   1      //  P2TBCTL_L = 0x00;
+ 154   1      //  P2TBCTL_H = 0x80;
+ 155   1      //  P3TBCTL_L = 0x00;
+ 156   1      //  P3TBCTL_H = 0x80;
+ 157   1      //  P4TBCTL_L = 0x00;
+ 158   1      //  P4TBCTL_H = 0x80;
+ 159   1      
+ 160   1        P1CMPCTL = 0x00;            // shadow on,update at CTR = ZERO
+ 161   1        P2CMPCTL = 0x00;
+ 162   1        P3CMPCTL = 0x00;
+ 163   1        P4CMPCTL = 0x00;
+ 164   1        P1AQCTLA_L = 0x60;            // when cmpA,count up is set,count down is clear
+ 165   1        P1AQCTLA_H = 0x00;            // when cmpB pwmxA do nothing
+ 166   1        P2AQCTLA_L = 0x60;
+ 167   1        P2AQCTLA_H = 0x00;
+ 168   1        P3AQCTLA_L = 0x60;
+ 169   1        P3AQCTLA_H = 0x00;
+ 170   1        P4AQCTLA_L = 0x60;
+ 171   1        P4AQCTLA_H = 0x00;
+ 172   1        P1AQCTLB_L = 0x00;//0x60;
+ 173   1        P1AQCTLB_H = 0x00;
+ 174   1        P2AQCTLB_L = 0x00;//0x60;
+ 175   1        P2AQCTLB_H = 0x00;
+ 176   1        P3AQCTLB_L = 0x00;//0x60;
+ 177   1        P3AQCTLB_H = 0x00;
+C51 COMPILER V9.54   INITIAL                                                               09/18/2018 01:31:51 PAGE 4   
+
+ 178   1        P4AQCTLB_L = 0x00;//0x60;
+ 179   1        P4AQCTLB_H = 0x00;
+ 180   1      
+ 181   1      //  P1AQCTLA_L = 0x12;              // CTR = ZERO set,CTR = CMPA up clear,CTR = PRD nothing,CTR = CMPA down nothin
+             -g
+ 182   1      //  P1AQCTLA_H = 0x00;              // when cmpB pwmxA do nothing
+ 183   1      //  P1AQCTLB_L = 0x02;              // CTR = ZERO set,CTR = CMPA up nothing,CTR = PRD nothing,CTR = CMPA down noth
+             -ing
+ 184   1      //  P1AQCTLB_H = 0x01;              // CTR = CMPB clear
+ 185   1      //  P2AQCTLA_L = 0x12;
+ 186   1      //  P2AQCTLA_H = 0x00;
+ 187   1      //  P2AQCTLB_L = 0x02;
+ 188   1      //  P2AQCTLB_H = 0x01;
+ 189   1      //  P3AQCTLA_L = 0x12;
+ 190   1      //  P3AQCTLA_H = 0x00;
+ 191   1      //  P3AQCTLB_L = 0x02;
+ 192   1      //  P3AQCTLB_H = 0x01;
+ 193   1      //  P4AQCTLA_L = 0x12;
+ 194   1      //  P4AQCTLA_H = 0x00;
+ 195   1      //  P4AQCTLB_L = 0x02;
+ 196   1      //  P4AQCTLB_H = 0x01;
+ 197   1      
+ 198   1        P1DBCTL = 0x0B;             // delay source is epwmxA,dead band full,epwmxB invert
+ 199   1        P2DBCTL = 0x0B;
+ 200   1        P3DBCTL = 0x0B;
+ 201   1        P4DBCTL = 0x0B;
+ 202   1      //  P1DBCTL = 0x07;             // delay source is epwmxA,dead band full,epwmxA invert
+ 203   1      //  P2DBCTL = 0x07;
+ 204   1      //  P3DBCTL = 0x07;
+ 205   1      //  P4DBCTL = 0x07;
+ 206   1        P1DBRED_L = 0x32;//0x0A           // rise edge dead time is 1.25uS
+ 207   1        P1DBRED_H = 0x00;
+ 208   1        P2DBRED_L = 0x32;
+ 209   1        P2DBRED_H = 0x00;
+ 210   1        P3DBRED_L = 0x32;
+ 211   1        P3DBRED_H = 0x00;
+ 212   1        P4DBRED_L = 0x32;
+ 213   1        P4DBRED_H = 0x00;
+ 214   1        P1DBFED_L = 0x32;           // fall edge dead time is 1.25uS
+ 215   1        P1DBFED_H = 0x00;
+ 216   1        P2DBFED_L = 0x32;
+ 217   1        P2DBFED_H = 0x00;
+ 218   1        P3DBFED_L = 0x32;
+ 219   1        P3DBFED_H = 0x00;
+ 220   1        P4DBFED_L = 0x32;
+ 221   1        P4DBFED_H = 0x00;
+ 222   1      
+ 223   1      //  P1DBCTL = 0x00;             // dead band is bypass
+ 224   1      //  P2DBCTL = 0x00;
+ 225   1      //  P3DBCTL = 0x00;
+ 226   1      //  P4DBCTL = 0x00;
+ 227   1      
+ 228   1        P1TZSEL = 0x00;             // disable all trigger zone
+ 229   1        P2TZSEL = 0x00;
+ 230   1        P3TZSEL = 0x00;
+ 231   1        P4TZSEL = 0x00;
+ 232   1        P1TZCTL = 0x00;             // when trigger,epwmxA and epwmxB high impedance
+ 233   1        P2TZCTL = 0x00;
+ 234   1        P3TZCTL = 0x00;
+ 235   1        P4TZCTL = 0x00;
+ 236   1      //  P1TZEINT = 0x00;            // CBC trigger interrupt and OST interrupt disable
+ 237   1      //  P2TZEINT = 0x00;
+C51 COMPILER V9.54   INITIAL                                                               09/18/2018 01:31:51 PAGE 5   
+
+ 238   1      //  P3TZEINT = 0x00;
+ 239   1      //  P4TZEINT = 0x00;
+ 240   1      
+ 241   1      //  P1TZSEL = 0x01;             // OSHT enable
+ 242   1      //  P2TZSEL = 0x01;
+ 243   1      //  P3TZSEL = 0x01;
+ 244   1      //  P4TZSEL = 0x01;
+ 245   1      //  P1TZCTL = 0x00;             // when trigger,epwmxA and epwmxB high impedance
+ 246   1      //  P2TZCTL = 0x00;
+ 247   1      //  P3TZCTL = 0x00;
+ 248   1      //  P4TZCTL = 0x00;
+ 249   1      //  P1TZEINT = 0x00;            // CBC trigger interrupt and OST interrupt disable
+ 250   1      //  P2TZEINT = 0x00;
+ 251   1      //  P3TZEINT = 0x00;
+ 252   1      //  P4TZEINT = 0x00;
+ 253   1      
+ 254   1      //  P1TZSEL = 0x02;             // CBC enable
+ 255   1      //  P2TZSEL = 0x02;
+ 256   1      //  P3TZSEL = 0x02;
+ 257   1      //  P4TZSEL = 0x02;
+ 258   1      //  P1TZCTL = 0x00;             // when trigger,epwmxA and epwmxB high impedance
+ 259   1      //  P2TZCTL = 0x00;
+ 260   1      //  P3TZCTL = 0x00;
+ 261   1      //  P4TZCTL = 0x00;
+ 262   1      //  P1TZEINT = 0x00;            // CBC trigger interrupt and OST interrupt disable
+ 263   1      //  P2TZEINT = 0x00;
+ 264   1      //  P3TZEINT = 0x00;
+ 265   1      //  P4TZEINT = 0x00;
+ 266   1      
+ 267   1        P1ETSEL_L = 0x09;           // epwm interrupt enable at CTR = ZERO
+ 268   1          P1ETSEL_H = 0x0C;//0xE0;//0xA0;//0x90;//0x0A;//0x09;                       // enable SOCA,SOCA is CTR 
+             -= ZERO
+ 269   1        P2ETSEL_L = 0x00;
+ 270   1        P2ETSEL_H = 0x00;//0xF0;//0x00;
+ 271   1        P3ETSEL_L = 0x00;
+ 272   1        P3ETSEL_H = 0x00;
+ 273   1        P4ETSEL_L = 0x00;
+ 274   1        P4ETSEL_H = 0x00;
+ 275   1        P1ETPS_L = 0x05;            // 1 event 1 interrupt
+ 276   1          P1ETPS_H = 0x05;//0x50;//0x05;                        // 1 evnt,SOCA period is 1
+ 277   1        P2ETPS_L = 0x00;
+ 278   1          P2ETPS_H = 0x00;//0x50;
+ 279   1        P3ETPS_L = 0x00;
+ 280   1        P4ETPS_L = 0x00;
+ 281   1      
+ 282   1        P1TBPRD_L = 0xD0;           // pwm period is 0x0190@8MHz 10KHz 0x7D0@40MHz
+ 283   1        P1TBPRD_H = 0x07;
+ 284   1        P2TBPRD_L = 0xD0;
+ 285   1        P2TBPRD_H = 0x07;
+ 286   1        P3TBPRD_L = 0xD0;
+ 287   1        P3TBPRD_H = 0x07;
+ 288   1        P4TBPRD_L = 0xD0;
+ 289   1        P4TBPRD_H = 0x07;
+ 290   1      
+ 291   1      //  P1TBPRD_L = 0x1F;           // pwm period is 10KHz
+ 292   1      //  P1TBPRD_H = 0x03;
+ 293   1      //  P2TBPRD_L = 0x1F;
+ 294   1      //  P2TBPRD_H = 0x03;
+ 295   1      //  P3TBPRD_L = 0x1F;
+ 296   1      //  P3TBPRD_H = 0x03;
+ 297   1      //  P4TBPRD_L = 0x1F;
+ 298   1      //  P4TBPRD_H = 0x03;
+C51 COMPILER V9.54   INITIAL                                                               09/18/2018 01:31:51 PAGE 6   
+
+ 299   1      
+ 300   1        P1CMPA_L = 0xE8;            // pwm period is 0x0C8@8MHz 10KHz
+ 301   1        P1CMPA_H = 0x03;
+ 302   1        //P1CMPB_L = 0xC8;
+ 303   1        //P1CMPB_H = 0x00;
+ 304   1        P2CMPA_L = 0xE8;
+ 305   1        P2CMPA_H = 0x03;
+ 306   1        //P2CMPB_L = 0xC8;
+ 307   1        //P2CMPB_H = 0x00;
+ 308   1        P3CMPA_L = 0xE8;
+ 309   1        P3CMPA_H = 0x03;
+ 310   1        //P3CMPB_L = 0xC8;
+ 311   1        //P3CMPB_H = 0x00;
+ 312   1        P4CMPA_L = 0xE8;
+ 313   1        P4CMPA_H = 0x03;
+ 314   1        //P4CMPB_L = 0xC8;
+ 315   1        //P4CMPB_H = 0x00;
+ 316   1      
+ 317   1      //  P1CMPA_L = 0xF4;            // pwm period is 0x0C8@8MHz 10KHz
+ 318   1      //  P1CMPA_H = 0x01;
+ 319   1      //  P1CMPB_L = 0xEE;
+ 320   1      //  P1CMPB_H = 0x02;
+ 321   1      //  P2CMPA_L = 0xE8;
+ 322   1      //  P2CMPA_H = 0x03;
+ 323   1      //  P2CMPB_L = 0xE2;
+ 324   1      //  P2CMPB_H = 0x04;
+ 325   1      //  P3CMPA_L = 0xDC;
+ 326   1      //  P3CMPA_H = 0x05;
+ 327   1      
+ 328   1      //  P1CMPA_L = 0x90;
+ 329   1      //  P1CMPA_H = 0x01;
+ 330   1      //  P1CMPB_L = 0x90;
+ 331   1      //  P1CMPB_H = 0x01;
+ 332   1      //  P2CMPA_L = 0x90;
+ 333   1      //  P2CMPA_H = 0x01;
+ 334   1      //  P2CMPB_L = 0x90;
+ 335   1      //  P2CMPB_H = 0x01;
+ 336   1      //  P3CMPA_L = 0x90;
+ 337   1      //  P3CMPA_H = 0x01;
+ 338   1      //  P3CMPB_L = 0x90;
+ 339   1      //  P3CMPB_H = 0x01;
+ 340   1      //  P4CMPA_L = 0x90;
+ 341   1      //  P4CMPA_H = 0x01;
+ 342   1      //  P4CMPB_L = 0x90;
+ 343   1      //  P4CMPB_H = 0x01;
+ 344   1      
+ 345   1      //  OPAMP_SEL = 0xF0;
+ 346   1      //  COMP_INT_EN = COMP_INT_EN | (1 << 0); // comparator1 interrupt output enable
+ 347   1      //  COMP_INT_SET = COMP_INT_SET & 0xFC;   // comparator1 falling edge trigger
+ 348   1      //  P1_FN_H = P1_FN_H & 0xF3 | 0x08;    // comp1 output
+ 349   1      //  ex1 = 1;                // enable comp1 to CPU interrupt
+ 350   1      
+ 351   1        PCLKCR = PCLKCR | 1;          // all epwm channel synchronize enable
+ 352   1      
+ 353   1        P1ETCLR = 1;
+ 354   1        I2FR = 1;
+ 355   1        EX2 = 1;                // enable epwm1,2,3 interrupt
+ 356   1        //ex3 = 1;                // enable epwm4 interrupt
+ 357   1      }
+ 358          
+ 359          
+ 360          void InitComp234(void)
+C51 COMPILER V9.54   INITIAL                                                               09/18/2018 01:31:51 PAGE 7   
+
+ 361          {
+ 362   1        P1_FN_L = P1_FN_L & 0x0F | 0xA0;
+ 363   1        P1_FN_H = P1_FN_H & 0xF0 | 0x0A;
+ 364   1        //COMP_FILTER_1 = 4;
+ 365   1        //COMP_FILTER_2 = 4;
+ 366   1        //COMP_FILTER_3 = 4;
+ 367   1        //COMP_FILTER_4 = 4;
+ 368   1        OPAMP_SEL = 0xF0;
+ 369   1          COMP_INT_SEL = 0xAA;//0;//0x55;                    // comp1 ~ comp4 all trigger at rise egde
+ 370   1        COMP_INT_EN = 0x3E;//0x1E;//0x14;           // comp2,3,4 interrupt enable,and comp2,3,4 to CPU enable
+ 371   1        EX4 = 1;                // external interrupt 4 enable
+ 372   1      }
+ 373          
+ 374          void InitLED(void)
+ 375          {
+ 376   1        P0_FN_L = 0x00;                             // p0_0 ~ p0_3 as GPIO
+ 377   1        P0_FN_H = 0x00;                             // p0_4 ~ p0_7 as GPIO
+ 378   1        P1_FN_L = 0x00;                             // p1_0 ~ p1_3 as GPIO
+ 379   1        P1_FN_H = 0x00;                             // p1_4 ~ p1_7 as GPIO
+ 380   1        P0_DD = P0_DD | (1 << 3) | (1 << 6) | (1 << 7);             // p0_0 ~ p0_7 output
+ 381   1        P1_DD = P1_DD | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5);        // p1_0 ~ p1_7 output
+ 382   1      }
+ 383          
+ 384          
+ 385          void InitWatchDog(void)
+ 386          {
+ 387   1          WDTREL = 0xFF;
+ 388   1        WDT = 1;
+ 389   1        SWDT = 1;
+ 390   1          P1_FN_L = P1_FN_L & 0xFC;               //p1_0 as GPIO
+ 391   1          P1_DD = P1_DD & 0xFE;                 //p1_0 as output
+ 392   1      }
+ 393          
+ 394          
+ 395          void InitGPIO(void)
+ 396          {
+ 397   1          P0_FN_L = 0x00;                 // P00 ~ P03as GPIO
+ 398   1          P0_FN_H = 0x00;                 // P04 ~ P07 as GPIO
+ 399   1          P0_DD = 0x00;                   //  P00 ~  P07 intput
+ 400   1          P0_PE = 0xFF;                   // pull/down resistor enable  
+ 401   1          P0_DS = 0x00;                   //drive current =4mA
+ 402   1          P0_PS=  0x00;                   //pull down resistor 
+ 403   1        
+ 404   1          P1_FN_L = 0x00;                 // P10 ~ P13 as GPIO
+ 405   1          P1_FN_H = 0x00;                 // P14 ~ P17 as GPIO
+ 406   1          P1_DD = 0x00;                   // P10 ~ P17 intput
+ 407   1          P1_PE = 0xFF;                   // pull/down resistor enable  
+ 408   1          P1_DS = 0x00;                   //drive current =4mA
+ 409   1          P1_PS=  0x00;                   //pull down resistor 
+ 410   1        
+ 411   1          P2_FN_L = 0x00;                 // P20 ~ P23 as GPIO
+ 412   1          P2_FN_H = 0x00;                 // P24 ~ P27 as GPIO
+ 413   1          P2_DD = 0x00;                   // P20~ P27 intput
+ 414   1          P2_PE = 0xFF;                   // pull/down resistor enable  
+ 415   1          P2_DS = 0x00;                   //drive current =4mA
+ 416   1          P2_PS=  0x00;                   //pull down resistor 
+ 417   1        
+ 418   1        
+ 419   1        
+ 420   1        
+ 421   1        
+ 422   1          P00_FN= CFG0;                //p0_0 as GPIO
+C51 COMPILER V9.54   INITIAL                                                               09/18/2018 01:31:51 PAGE 8   
+
+ 423   1          P00_DD = OUTPUT;               //p0_0 as output
+ 424   1          P00_PE = RES_EN;               //p0_0 pull on
+ 425   1          P00_PS = PULL_UP;               //p0_0 pull up
+ 426   1      
+ 427   1          P26_FN = CFG0;               //p2_6 as GPIO
+ 428   1          P26_DD = OUTPUT;               //p2_6 as output
+ 429   1          P26_PE = RES_EN;               //p2_6 pull on
+ 430   1          P26_PS = PULL_UP;               //p2_6 pull up
+ 431   1        
+ 432   1      }
+ 433          
+ 434          void InitTimer3(void)
+ 435          {
+ 436   1        T3PS = 0;               // no divider
+ 437   1        T3RC_L = 0xC0;
+ 438   1        T3RC_H = 0xE0;
+ 439   1        T3CON = 0x20;//0x29;//0x28;             // capture mode,timer3 overflow interrupt enable
+ 440   1        T3CON = T3CON | (1 << 2);       // start timer3
+ 441   1        EX1 = 1;
+ 442   1      }
+ 443          
+ 444          void sSystemClockConfig(void)
+ 445          {
+ 446   1          RC80M_RES = 0x2e;
+ 447   1          #pragma asm
+*** ERROR C272 IN LINE 447 OF SRC\initial.c: 'asm/endasm' requires src-control to be active
+ 448   1          nop
+ 449   1          nop
+ 450   1          nop
+ 451   1          nop
+ 452   1          nop
+ 453   1          nop
+ 454   1          nop
+ 455   1          nop
+ 456   1          nop
+ 457   1          nop
+ 458   1          nop
+ 459   1          nop
+ 460   1          nop
+ 461   1          nop
+ 462   1          nop
+ 463   1          nop
+ 464   1          nop
+ 465   1          nop
+ 466   1          nop
+ 467   1          nop
+ 468   1          nop
+ 469   1          nop
+ 470   1          nop
+ 471   1          nop
+ 472   1          nop
+ 473   1          nop
+ 474   1          nop
+ 475   1          nop
+ 476   1          nop
+ 477   1          nop
+ 478   1          nop
+ 479   1          nop
+ 480   1          nop
+ 481   1          #pragma endasm
+*** ERROR C272 IN LINE 481 OF SRC\initial.c: 'asm/endasm' requires src-control to be active
+ 482   1        
+C51 COMPILER V9.54   INITIAL                                                               09/18/2018 01:31:51 PAGE 9   
+
+ 483   1          CLK_DIV_L = 0x02;
+ 484   1          CLK_DIV_H = 0x00;
+ 485   1          
+ 486   1          #pragma asm
+*** ERROR C272 IN LINE 486 OF SRC\initial.c: 'asm/endasm' requires src-control to be active
+ 487   1          nop
+ 488   1          nop
+ 489   1          nop
+ 490   1          nop
+ 491   1          nop
+ 492   1          nop
+ 493   1          nop
+ 494   1          nop
+ 495   1          nop
+ 496   1          nop
+ 497   1          nop
+ 498   1          nop
+ 499   1          nop
+ 500   1          nop
+ 501   1          nop
+ 502   1          nop
+ 503   1          nop
+ 504   1          nop
+ 505   1          nop
+ 506   1          nop
+ 507   1          nop
+ 508   1          nop
+ 509   1          nop
+ 510   1          nop
+ 511   1          nop
+ 512   1          nop
+ 513   1          nop
+ 514   1          nop
+ 515   1          nop
+ 516   1          nop
+ 517   1          nop
+ 518   1          nop
+ 519   1          #pragma endasm
+*** ERROR C272 IN LINE 519 OF SRC\initial.c: 'asm/endasm' requires src-control to be active
+ 520   1      }
+ 521          
+ 522          
+ 523          
+ 524          //initial UART1, there are 2 different ways to generate baudrate
+ 525          //way 1
+ 526          void sInitUART1(void)
+ 527          {
+ 528   1        S0CON  = 0x50;          // set as 8-bit UART,  enable serial 0 reception, enable serial 0 multiprocessor fu
+             -nction
+ 529   1          WDCON = 0x80;            // 0x80: baud rate = (2^smod) * Fclk / (64 * (2^10 - s0rel));
+ 530   1                                    // 0x00: baud rate = (2^smod) * Fclk / (32 * 12 * (256 - th1));
+ 531   1                                    // smod = 0;  Fclk = system clock
+ 532   1          S0RELL = 0xF3;             //Fclk = 8MHz, baud rate = 9600
+ 533   1          S0RELH = 0x03;  
+ 534   1      }
+ 535          
+ 536          void sInitUART2(void)
+ 537          {
+ 538   1          S1CON  = 0x90;            //enable serial 1 reception, enable serial 0 multiprocessor function
+ 539   1                                      //s1con.7 = 1: 8-bit UART(mode B)    s1con.7 = 0: 9-bit UART(mode A)
+ 540   1          S1RELL = 0xE6;            //baud rate = Fclk / (32 * (2^10 - s0rel));
+ 541   1          S1RELH = 0x03;            //Fclk = 8MHz, baud rate = 9600
+C51 COMPILER V9.54   INITIAL                                                               09/18/2018 01:31:51 PAGE 10  
+
+ 542   1      }
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  4 ERROR(S)

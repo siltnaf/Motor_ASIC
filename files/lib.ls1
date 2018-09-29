@@ -1,0 +1,828 @@
+A51 MACRO ASSEMBLER  LIB                                                                  09/29/2018 10:21:05 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\OUTPUT\lib.OBJ
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE .\OUTPUT\lib.src PR(.\files\lib.ls1) EP DEBUG
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; .\OUTPUT\lib.SRC generated from: SRC\lib.c
+                       2     ; COMPILER INVOKED BY:
+                       3     ;        C:\Keil_v5\C51\BIN\C51.EXE SRC\lib.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC)
+                              BROWSE INTVECTOR(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\lib.lst) TABS(2) SRC(.\OUTPUT\lib.SRC)
+                       4     
+                       5     $nomod51 
+                       6     
+                       7     NAME    LIB
+                       8     
+  00CE                 9     P2ETCLR DATA    0CEH
+  009B                10     TB80    BIT     098H.3
+  00DE                11     P3ETCLR DATA    0DEH
+  00A1                12     P1TBPRD DATA    0A1H
+  0080                13     P0      DATA    080H
+  00F6                14     P4ETCLR DATA    0F6H
+  00C1                15     P2TBPRD DATA    0C1H
+  0090                16     P1      DATA    090H
+  00D1                17     P3TBPRD DATA    0D1H
+  00A0                18     P2      DATA    0A0H
+  00E1                19     P4TBPRD DATA    0E1H
+  00B0                20     P3      DATA    0B0H
+  009D                21     SM20    BIT     098H.5
+  00B1                22     P1AQCSFRC       DATA    0B1H
+  00C9                23     P2AQCSFRC       DATA    0C9H
+  00D9                24     P3AQCSFRC       DATA    0D9H
+  00F1                25     P4AQCSFRC       DATA    0F1H
+  00B2                26     P1TZFLG DATA    0B2H
+  00CA                27     P2TZFLG DATA    0CAH
+  00DA                28     P3TZFLG DATA    0DAH
+  00B4                29     P1TZFRC DATA    0B4H
+  00A8                30     IEN0    DATA    0A8H
+  00F2                31     P4TZFLG DATA    0F2H
+  00CC                32     P2TZFRC DATA    0CCH
+  00A8                33     IE      DATA    0A8H
+  00B8                34     EADC    BIT     0B8H.0
+  00B8                35     IEN1    DATA    0B8H
+  0085                36     DPH1    DATA    085H
+  00DC                37     P3TZFRC DATA    0DCH
+  009A                38     IEN2    DATA    09AH
+  00F4                39     P4TZFRC DATA    0F4H
+  008F                40     CLK_PD_CON      DATA    08FH
+  00C0                41     IADC    BIT     0C0H.0
+  0084                42     DPL1    DATA    084H
+  00B3                43     P1TZCLR DATA    0B3H
+  00CB                44     P2TZCLR DATA    0CBH
+  00DF                45     WDCON_7 BIT     0D8H.7
+  00CD                46     I2FR    BIT     0C8H.5
+  00DB                47     P3TZCLR DATA    0DBH
+  00CE                48     I3FR    BIT     0C8H.6
+  00F3                49     P4TZCLR DATA    0F3H
+  009C                50     REN0    BIT     098H.4
+  00AC                51     ES      BIT     0A8H.4
+  00C1                52     IEX2    BIT     0C0H.1
+  00C2                53     IEX3    BIT     0C0H.2
+  0098                54     RI      BIT     098H.0
+  00C3                55     IEX4    BIT     0C0H.3
+  00C4                56     IEX5    BIT     0C0H.4
+  00C5                57     IEX6    BIT     0C0H.5
+A51 MACRO ASSEMBLER  LIB                                                                  09/29/2018 10:21:05 PAGE     2
+
+  0091                58     CLK_DIV DATA    091H
+  0081                59     SP      DATA    081H
+  00A3                60     P1CMPA  DATA    0A3H
+  00C3                61     P2CMPA  DATA    0C3H
+  00A5                62     P1CMPB  DATA    0A5H
+  00D3                63     P3CMPA  DATA    0D3H
+  00C5                64     P2CMPB  DATA    0C5H
+  00E3                65     P4CMPA  DATA    0E3H
+  00D5                66     P3CMPB  DATA    0D5H
+  00E5                67     P4CMPB  DATA    0E5H
+  00A2                68     P1TBPRD_H       DATA    0A2H
+  00C2                69     P2TBPRD_H       DATA    0C2H
+  00D2                70     P3TBPRD_H       DATA    0D2H
+  00E2                71     P4TBPRD_H       DATA    0E2H
+  00A1                72     P1TBPRD_L       DATA    0A1H
+  00C1                73     P2TBPRD_L       DATA    0C1H
+  00D1                74     P3TBPRD_L       DATA    0D1H
+  00E1                75     P4TBPRD_L       DATA    0E1H
+  0095                76     BREAKH  DATA    095H
+  00BA                77     S0RELH  DATA    0BAH
+  0080                78     P00     BIT     080H.0
+  0099                79     SBUF    DATA    099H
+  00BB                80     S1RELH  DATA    0BBH
+  0090                81     P10     BIT     090H.0
+  0087                82     PCON    DATA    087H
+  0081                83     P01     BIT     080H.1
+  00A0                84     P20     BIT     0A0H.0
+  0091                85     P11     BIT     090H.1
+  0082                86     P02     BIT     080H.2
+  00B0                87     P30     BIT     0B0H.0
+  00A1                88     P21     BIT     0A0H.1
+  0092                89     P12     BIT     090H.2
+  0083                90     P03     BIT     080H.3
+  0094                91     BREAKL  DATA    094H
+  00B1                92     P31     BIT     0B0H.1
+  00AA                93     S0RELL  DATA    0AAH
+  00A2                94     P22     BIT     0A0H.2
+  0093                95     P13     BIT     090H.3
+  0084                96     P04     BIT     080H.4
+  00B2                97     P32     BIT     0B0H.2
+  00A3                98     P23     BIT     0A0H.3
+  009D                99     S1RELL  DATA    09DH
+  0094               100     P14     BIT     090H.4
+  0089               101     TMOD    DATA    089H
+  0088               102     TCON    DATA    088H
+  0085               103     P05     BIT     080H.5
+  00B3               104     P33     BIT     0B0H.3
+  00A4               105     P24     BIT     0A0H.4
+  0095               106     P15     BIT     090H.5
+  0086               107     P06     BIT     080H.6
+  00B4               108     P34     BIT     0B0H.4
+  00AC               109     BSHI_0  DATA    0ACH
+  00A5               110     P25     BIT     0A0H.5
+  0096               111     P16     BIT     090H.6
+  0087               112     P07     BIT     080H.7
+  00B5               113     P35     BIT     0B0H.5
+  00AD               114     BSHI_1  DATA    0ADH
+  00A6               115     P26     BIT     0A0H.6
+  0097               116     P17     BIT     090H.7
+  00B6               117     P36     BIT     0B0H.6
+  00AE               118     BSHI_2  DATA    0AEH
+  00A7               119     P27     BIT     0A0H.7
+  00B7               120     P37     BIT     0B0H.7
+  00AF               121     BSHI_3  DATA    0AFH
+  00BC               122     BSHO_0  DATA    0BCH
+  00BD               123     BSHO_1  DATA    0BDH
+A51 MACRO ASSEMBLER  LIB                                                                  09/29/2018 10:21:05 PAGE     3
+
+  0089               124     IE0     BIT     088H.1
+  00BE               125     BSHO_2  DATA    0BEH
+  008B               126     IE1     BIT     088H.3
+  00BF               127     BSHO_3  DATA    0BFH
+  00F0               128     B       DATA    0F0H
+  00E9               129     MD0     DATA    0E9H
+  00EA               130     MD1     DATA    0EAH
+  00AB               131     BSHCTL  DATA    0ABH
+  00EB               132     MD2     DATA    0EBH
+  00BE               133     SWDT    BIT     0B8H.6
+  00A7               134     P1AQSFRC        DATA    0A7H
+  00EC               135     MD3     DATA    0ECH
+  00C7               136     P2AQSFRC        DATA    0C7H
+  00ED               137     MD4     DATA    0EDH
+  00D7               138     P3AQSFRC        DATA    0D7H
+  00EE               139     MD5     DATA    0EEH
+  00E7               140     P4AQSFRC        DATA    0E7H
+  00E0               141     ACC     DATA    0E0H
+  00AC               142     ES0     BIT     0A8H.4
+  00A9               143     IP0     DATA    0A9H
+  00A9               144     ET0     BIT     0A8H.1
+  0093               145     BPCTRL  DATA    093H
+  00B9               146     IP1     DATA    0B9H
+  00AB               147     ET1     BIT     0A8H.3
+  008D               148     TF0     BIT     088H.5
+  0098               149     RI0     BIT     098H.0
+  008F               150     TF1     BIT     088H.7
+  00A4               151     P1CMPA_H        DATA    0A4H
+  008C               152     TH0     DATA    08CH
+  00C4               153     P2CMPA_H        DATA    0C4H
+  00A6               154     P1CMPB_H        DATA    0A6H
+  00A8               155     EX0     BIT     0A8H.0
+  0099               156     TI0     BIT     098H.1
+  008D               157     TH1     DATA    08DH
+  0088               158     IT0     BIT     088H.0
+  00D4               159     P3CMPA_H        DATA    0D4H
+  00C6               160     P2CMPB_H        DATA    0C6H
+  00AA               161     EX1     BIT     0A8H.2
+  008A               162     IT1     BIT     088H.2
+  00E4               163     P4CMPA_H        DATA    0E4H
+  00D6               164     P3CMPB_H        DATA    0D6H
+  00B9               165     EX2     BIT     0B8H.1
+  00E6               166     P4CMPB_H        DATA    0E6H
+  00A3               167     P1CMPA_L        DATA    0A3H
+  00BA               168     EX3     BIT     0B8H.2
+  009F               169     SM0     BIT     098H.7
+  0097               170     POWER_CON       DATA    097H
+  008A               171     TL0     DATA    08AH
+  00C3               172     P2CMPA_L        DATA    0C3H
+  00A5               173     P1CMPB_L        DATA    0A5H
+  00BB               174     EX4     BIT     0B8H.3
+  009E               175     SM1     BIT     098H.6
+  008B               176     TL1     DATA    08BH
+  00D3               177     P3CMPA_L        DATA    0D3H
+  00C5               178     P2CMPB_L        DATA    0C5H
+  00BC               179     EX5     BIT     0B8H.4
+  00AF               180     EAL     BIT     0A8H.7
+  00E3               181     P4CMPA_L        DATA    0E3H
+  00D5               182     P3CMPB_L        DATA    0D5H
+  00BD               183     EX6     BIT     0B8H.5
+  00E5               184     P4CMPB_L        DATA    0E5H
+  0086               185     WDTREL  DATA    086H
+  008C               186     TR0     BIT     088H.4
+  008E               187     TR1     BIT     088H.6
+  00F9               188     INT_REG1        DATA    0F9H
+  0083               189     DPH     DATA    083H
+A51 MACRO ASSEMBLER  LIB                                                                  09/29/2018 10:21:05 PAGE     4
+
+  00FA               190     INT_REG2        DATA    0FAH
+  00FD               191     INT_REG3        DATA    0FDH
+  00FE               192     INT_REG4        DATA    0FEH
+  0082               193     DPL     DATA    082H
+  0099               194     S0BUF   DATA    099H
+  009C               195     S1BUF   DATA    09CH
+  0098               196     S0CON   DATA    098H
+  009B               197     S1CON   DATA    09BH
+  00C8               198     T2CON   DATA    0C8H
+  0092               199     DPS     DATA    092H
+  00AE               200     WDT     BIT     0A8H.6
+  008E               201     CKCON   DATA    08EH
+  00EF               202     ARCON   DATA    0EFH
+  00B5               203     P1ETFLG DATA    0B5H
+  00F8               204     SRAM_CON        DATA    0F8H
+  00CD               205     P2ETFLG DATA    0CDH
+  00DD               206     P3ETFLG DATA    0DDH
+  00B7               207     P1ETFRC DATA    0B7H
+  00F5               208     P4ETFLG DATA    0F5H
+  00CF               209     P2ETFRC DATA    0CFH
+  00E8               210     MEM_CONFIG      DATA    0E8H
+  00DF               211     P3ETFRC DATA    0DFH
+  00F7               212     P4ETFRC DATA    0F7H
+  00D0               213     PSW     DATA    0D0H
+  00D8               214     WDCON   DATA    0D8H
+  00C0               215     IRCON   DATA    0C0H
+  009A               216     RB80    BIT     098H.2
+  00B6               217     P1ETCLR DATA    0B6H
+                     218     ?PR?_sin?LIB         SEGMENT CODE 
+                     219     ?DT?_sin?LIB         SEGMENT DATA 
+                     220     ?PR?_Normalizing_Write?LIB               SEGMENT CODE 
+                     221     ?DT?_Normalizing_Write?LIB               SEGMENT DATA 
+                     222     ?PR?Normalizing_Read?LIB                 SEGMENT CODE 
+                     223     ?DT?Normalizing_Read?LIB                 SEGMENT DATA 
+                     224     ?PR?Normalizing_test?LIB                 SEGMENT CODE 
+                     225     ?C_INITSEG           SEGMENT CODE 
+                     226     ?XD?LIB              SEGMENT XDATA 
+                     227     ?DT?LIB              SEGMENT DATA 
+                     228             PUBLIC  tDebugTable
+                     229             PUBLIC  _div_remainder
+                     230             PUBLIC  _md_error
+                     231             PUBLIC  _div_denominator
+                     232             PUBLIC  Normalizing_test
+                     233             PUBLIC  Normalizing_Read
+                     234             PUBLIC  _Normalizing_Write
+                     235             PUBLIC  _sin
+                     236     
+----                 237             RSEG  ?DT?_Normalizing_Write?LIB
+0000                 238     ?_Normalizing_Write?BYTE:
+0000                 239            Data?142:   DS   4
+0004                 240             ORG  4
+0004                 241              LD?143:   DS   4
+                     242     
+----                 243             RSEG  ?DT?_sin?LIB
+0000                 244     ?_sin?BYTE:
+0000                 245             dat?040:   DS   2
+0002                 246             ORG  2
+0002                 247           value?041:   DS   2
+                     248     
+----                 249             RSEG  ?DT?Normalizing_Read?LIB
+0000                 250     ?Normalizing_Read?BYTE:
+0000                 251              LD?244:   DS   4
+                     252     
+----                 253             RSEG  ?XD?LIB
+0000                 254     _div_denominator:   DS   2
+0002                 255           _md_error:   DS   1
+A51 MACRO ASSEMBLER  LIB                                                                  09/29/2018 10:21:05 PAGE     5
+
+0003                 256      _div_remainder:   DS   2
+                     257     
+----                 258             RSEG  ?DT?LIB
+0000                 259         tDebugTable:   DS   10
+                     260     
+----                 261             RSEG  ?C_INITSEG
+0000 0A              262             DB      00AH
+0001 00       F      263             DB      tDebugTable
+0002 01              264             DB      001H
+0003 02              265             DB      002H
+0004 03              266             DB      003H
+0005 04              267             DB      004H
+0006 05              268             DB      005H
+0007 06              269             DB      006H
+0008 07              270             DB      007H
+0009 08              271             DB      008H
+000A 09              272             DB      009H
+000B 0A              273             DB      00AH
+                     274     
+                     275     ; /*
+                     276     ;  * lib.c
+                     277     ;  *    Copy Right (c) of JE
+                     278     ;  *  Created on: 
+                     279     ;  *      18 Sep 2018
+                     280     ;  *  Author: 
+                     281     ;  *      Ken
+                     282     ;  *  Last Modified: 
+                     283     ;  *     
+                     284     ;  *  Description: 
+                     285     ;  *      lib for JE8MCU
+                     286     ;  *  History:
+                     287     ;  *      ver 0.1 created by ken on 12 August 2016 
+                     288     ;  *
+                     289     ;  *            Use math table for fuctions of 
+                     290     ;  *                            sin, cos, inverse, sqrt, artan
+                     291     ;  *                            Park transform and Clark transform
+                     292     ;  *
+                     293     ;  *
+                     294     ;  */
+                     295     ;  
+                     296     ;  /***************************************************
+                     297     ;  * Includes
+                     298     ;  */
+                     299     ; #include <stdio.h>
+                     300     ; #include <intrins.h>   
+                     301     ; #include <absacc.h>
+                     302     ; #include "register.h"
+                     303     ; #include "lib.h"
+                     304     ; 
+                     305     ; 
+                     306     ; 
+                     307     ; volatile U8 xdata _md_error;// _at_ (0xDFFF);
+                     308     ; volatile U16 xdata _div_remainder;// _at_ (0xDFFD);
+                     309     ; volatile U16 xdata _div_denominator;// _at_ (0xA4FB);
+                     310     ; 
+                     311     ; #pragma asm
+----                 312                                                                     CSEG    AT      4000h
+                     313     ; #pragma endasm
+                     314     ; const unsigned char tDebugTable[10] = {1,2,3,4,5,6,7,8,9,10};
+                     315     ; 
+                     316     ; 
+                     317     ; 
+                     318     ; 
+                     319     ; 
+                     320     ; /*
+                     321     ;  * @fn                sin16
+A51 MACRO ASSEMBLER  LIB                                                                  09/29/2018 10:21:05 PAGE     6
+
+                     322     ;  *
+                     323     ;  * @brief     sin16
+                     324     ;  * 
+                     325     ;  * @param     none
+                     326     ;  * sin(x) , where x is 
+                     327     ; 
+                     328     ;  *
+                     329     ;  * @return    none
+                     330     ;  */
+                     331     ; S16 sin(S16 dat)
+                     332     
+----                 333             RSEG  ?PR?_sin?LIB
+0000                 334     _sin:
+                     335             USING   0
+                     336                             ; SOURCE LINE # 57
+0000 8E00     F      337             MOV     dat?040,R6
+0002 8F00     F      338             MOV     dat?040+01H,R7
+                     339     ; {
+                     340                             ; SOURCE LINE # 58
+                     341     ; volatile signed int value;
+                     342     ;       value= XWORD[dat];
+                     343                             ; SOURCE LINE # 60
+0004 E500     F      344             MOV     A,dat?040+01H
+0006 25E0            345             ADD     A,ACC
+0008 FF              346             MOV     R7,A
+0009 E500     F      347             MOV     A,dat?040
+000B 33              348             RLC     A
+000C FE              349             MOV     R6,A
+000D 8F82            350             MOV     DPL,R7
+000F 8E83            351             MOV     DPH,R6
+0011 E0              352             MOVX    A,@DPTR
+0012 F500     F      353             MOV     value?041,A
+0014 A3              354             INC     DPTR
+0015 E0              355             MOVX    A,@DPTR
+0016 F500     F      356             MOV     value?041+01H,A
+                     357     ;       
+                     358     ; return value;
+                     359                             ; SOURCE LINE # 62
+0018 AE00     F      360             MOV     R6,value?041
+001A AF00     F      361             MOV     R7,value?041+01H
+                     362     ;       
+                     363     ; }
+                     364                             ; SOURCE LINE # 64
+001C                 365     ?C0001:
+001C 22              366             RET     
+                     367     ; END OF _sin
+                     368     
+                     369     ; 
+                     370     ; 
+                     371     ; /*
+                     372     ;  * @fn                Normalize
+                     373     ;  *
+                     374     ;  * @brief     Normalize
+                     375     ;  * 
+                     376     ;  * @param     none
+                     377     ;  *
+                     378     ;  * @return    none
+                     379     ;  */
+                     380     ; //S32 Normalize(S32 dat)
+                     381     ; //{
+                     382     ; //#pragma asm
+                     383     ; //  mov MD0, r7
+                     384     ; //  mov MD1, r6
+                     385     ; //  mov MD2, r5
+                     386     ; //  mov MD3, r4
+                     387     ; 
+A51 MACRO ASSEMBLER  LIB                                                                  09/29/2018 10:21:05 PAGE     7
+
+                     388     ; //    ANL  ARCON , #0xE0
+                     389     ; 
+                     390     ; //    nop    ;wait 34
+                     391     ; //  nop
+                     392     ; //  nop
+                     393     ; //  nop
+                     394     ; //  nop
+                     395     ; //    nop    
+                     396     ; //  nop
+                     397     ; //  nop
+                     398     ; //  nop
+                     399     ; //  nop
+                     400     ; //    nop    ;wait 24
+                     401     ; //  nop
+                     402     ; //  nop
+                     403     ; //  nop
+                     404     ; //  nop
+                     405     ; //    nop    
+                     406     ; //  nop
+                     407     ; //  nop
+                     408     ; //  nop
+                     409     ; //  nop
+                     410     ; //    nop    ;wait 14
+                     411     ; //  nop
+                     412     ; //  nop
+                     413     ; //  nop
+                     414     ; //  nop
+                     415     ; //    nop    
+                     416     ; //  nop
+                     417     ; //  nop
+                     418     ; //  nop
+                     419     ; //  nop
+                     420     ; //    nop    ;wait 4
+                     421     ; //  nop
+                     422     ; //  nop
+                     423     ; //  nop
+                     424     ; //#pragma endasm
+                     425     ; //  _md_error = (ARCON&(MD_MDEF|MD_MDOV));
+                     426     ; //#pragma asm
+                     427     ; //    mov r7, MD0
+                     428     ; //    mov r6, MD1
+                     429     ; //    mov r5, MD2
+                     430     ; //    mov r4, MD3
+                     431     ; //#pragma endasm
+                     432     ; //return MD0;
+                     433     ; //}
+                     434     ; void Normalizing_Write(unsigned long Data)
+                     435     
+----                 436             RSEG  ?PR?_Normalizing_Write?LIB
+0000                 437     _Normalizing_Write:
+                     438             USING   0
+                     439                             ; SOURCE LINE # 130
+0000 8F00     F      440             MOV     Data?142+03H,R7
+0002 8E00     F      441             MOV     Data?142+02H,R6
+0004 8D00     F      442             MOV     Data?142+01H,R5
+0006 8C00     F      443             MOV     Data?142,R4
+                     444     ; {
+                     445                             ; SOURCE LINE # 131
+                     446     ;  Long_Data LD;
+                     447     ;  LD.Ldata =Data;
+                     448                             ; SOURCE LINE # 133
+0008 AF00     F      449             MOV     R7,Data?142+03H
+000A AE00     F      450             MOV     R6,Data?142+02H
+000C AD00     F      451             MOV     R5,Data?142+01H
+000E AC00     F      452             MOV     R4,Data?142
+0010 8F00     F      453             MOV     LD?143+03H,R7
+A51 MACRO ASSEMBLER  LIB                                                                  09/29/2018 10:21:05 PAGE     8
+
+0012 8E00     F      454             MOV     LD?143+02H,R6
+0014 8D00     F      455             MOV     LD?143+01H,R5
+0016 8C00     F      456             MOV     LD?143,R4
+                     457     ;  MD0 = LD.ss1.Byte0;
+                     458                             ; SOURCE LINE # 134
+0018 8500E9   F      459             MOV     MD0,LD?143+03H
+                     460     ;  MD1 = LD.ss1.Byte1;
+                     461                             ; SOURCE LINE # 135
+001B 8500EA   F      462             MOV     MD1,LD?143+02H
+                     463     ;  MD2 = LD.ss1.Byte2;
+                     464                             ; SOURCE LINE # 136
+001E 8500EB   F      465             MOV     MD2,LD?143+01H
+                     466     ;  MD3 = LD.ss1.Byte3;
+                     467                             ; SOURCE LINE # 137
+0021 8500EC   F      468             MOV     MD3,LD?143
+                     469     ;  ARCON = 0x00 ; // Start Normalizing
+                     470                             ; SOURCE LINE # 138
+0024 75EF00          471             MOV     ARCON,#00H
+0027                 472     ?C0002:
+                     473     ;  while(!(PCON & 0x40)) //check MDU finish flag
+                     474                             ; SOURCE LINE # 139
+0027 E587            475             MOV     A,PCON
+0029 30E6FB          476             JNB     ACC.6,?C0002
+                     477     ;  {};
+                     478                             ; SOURCE LINE # 140
+002C                 479     ?C0003:
+                     480     ; }
+                     481                             ; SOURCE LINE # 141
+002C                 482     ?C0004:
+002C 22              483             RET     
+                     484     ; END OF _Normalizing_Write
+                     485     
+                     486     ; 
+                     487     ; void Normalizing_Read(void)
+                     488     
+----                 489             RSEG  ?PR?Normalizing_Read?LIB
+0000                 490     Normalizing_Read:
+                     491                             ; SOURCE LINE # 143
+                     492     ; { 
+                     493                             ; SOURCE LINE # 144
+                     494     ; Long_Data LD;
+                     495     ;  LD.ss1.Byte0 = MD0; //first read
+                     496                             ; SOURCE LINE # 146
+0000 85E900   F      497             MOV     LD?244+03H,MD0
+                     498     ;  LD.ss1.Byte1 = MD1;
+                     499                             ; SOURCE LINE # 147
+0003 85EA00   F      500             MOV     LD?244+02H,MD1
+                     501     ;  LD.ss1.Byte2 = MD2;
+                     502                             ; SOURCE LINE # 148
+0006 85EB00   F      503             MOV     LD?244+01H,MD2
+                     504     ;  LD.ss1.Byte3 = MD3; //last read, MDEF(error flag) happen if not read
+                     505                             ; SOURCE LINE # 149
+0009 85EC00   F      506             MOV     LD?244,MD3
+                     507     ; } 
+                     508                             ; SOURCE LINE # 150
+000C                 509     ?C0005:
+000C 22              510             RET     
+                     511     ; END OF Normalizing_Read
+                     512     
+                     513     ; 
+                     514     ; void Normalizing_test(void)
+                     515     
+----                 516             RSEG  ?PR?Normalizing_test?LIB
+0000                 517     Normalizing_test:
+                     518             USING   0
+                     519                             ; SOURCE LINE # 152
+A51 MACRO ASSEMBLER  LIB                                                                  09/29/2018 10:21:05 PAGE     9
+
+                     520     ; {
+                     521                             ; SOURCE LINE # 153
+                     522     ; 
+                     523     ;  Normalizing_Write(0x00000001); //ANS=0x1F -->MDOV=0
+                     524                             ; SOURCE LINE # 155
+0000 7F01            525             MOV     R7,#01H
+0002 7E00            526             MOV     R6,#00H
+0004 7D00            527             MOV     R5,#00H
+0006 7C00            528             MOV     R4,#00H
+0008 120000   F      529             LCALL   _Normalizing_Write
+                     530     ; 
+                     531     ;  Normalizing_Read();
+                     532                             ; SOURCE LINE # 157
+000B 120000   F      533             LCALL   Normalizing_Read
+                     534     ; 
+                     535     ; }                     ; SOURCE LINE # 159
+000E                 536     ?C0006:
+000E 22              537             RET     
+                     538     ; END OF Normalizing_test
+                     539     
+                     540             END
+A51 MACRO ASSEMBLER  LIB                                                                  09/29/2018 10:21:05 PAGE    10
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                     T Y P E  V A L U E   ATTRIBUTES
+
+?C0001 . . . . . . . . . .  C ADDR   001CH   R   SEG=?PR?_SIN?LIB
+?C0002 . . . . . . . . . .  C ADDR   0027H   R   SEG=?PR?_NORMALIZING_WRITE?LIB
+?C0003 . . . . . . . . . .  C ADDR   002CH   R   SEG=?PR?_NORMALIZING_WRITE?LIB
+?C0004 . . . . . . . . . .  C ADDR   002CH   R   SEG=?PR?_NORMALIZING_WRITE?LIB
+?C0005 . . . . . . . . . .  C ADDR   000CH   R   SEG=?PR?NORMALIZING_READ?LIB
+?C0006 . . . . . . . . . .  C ADDR   000EH   R   SEG=?PR?NORMALIZING_TEST?LIB
+?C_INITSEG . . . . . . . .  C SEG    000CH       REL=UNIT
+?DT?LIB. . . . . . . . . .  D SEG    000AH       REL=UNIT
+?DT?NORMALIZING_READ?LIB .  D SEG    0004H       REL=UNIT
+?DT?_NORMALIZING_WRITE?LIB  D SEG    0008H       REL=UNIT
+?DT?_SIN?LIB . . . . . . .  D SEG    0004H       REL=UNIT
+?NORMALIZING_READ?BYTE . .  D ADDR   0000H   R   SEG=?DT?NORMALIZING_READ?LIB
+?PR?NORMALIZING_READ?LIB .  C SEG    000DH       REL=UNIT
+?PR?NORMALIZING_TEST?LIB .  C SEG    000FH       REL=UNIT
+?PR?_NORMALIZING_WRITE?LIB  C SEG    002DH       REL=UNIT
+?PR?_SIN?LIB . . . . . . .  C SEG    001DH       REL=UNIT
+?XD?LIB. . . . . . . . . .  X SEG    0005H       REL=UNIT
+?_NORMALIZING_WRITE?BYTE .  D ADDR   0000H   R   SEG=?DT?_NORMALIZING_WRITE?LIB
+?_SIN?BYTE . . . . . . . .  D ADDR   0000H   R   SEG=?DT?_SIN?LIB
+ACC. . . . . . . . . . . .  D ADDR   00E0H   A   
+ARCON. . . . . . . . . . .  D ADDR   00EFH   A   
+B. . . . . . . . . . . . .  D ADDR   00F0H   A   
+BPCTRL . . . . . . . . . .  D ADDR   0093H   A   
+BREAKH . . . . . . . . . .  D ADDR   0095H   A   
+BREAKL . . . . . . . . . .  D ADDR   0094H   A   
+BSHCTL . . . . . . . . . .  D ADDR   00ABH   A   
+BSHI_0 . . . . . . . . . .  D ADDR   00ACH   A   
+BSHI_1 . . . . . . . . . .  D ADDR   00ADH   A   
+BSHI_2 . . . . . . . . . .  D ADDR   00AEH   A   
+BSHI_3 . . . . . . . . . .  D ADDR   00AFH   A   
+BSHO_0 . . . . . . . . . .  D ADDR   00BCH   A   
+BSHO_1 . . . . . . . . . .  D ADDR   00BDH   A   
+BSHO_2 . . . . . . . . . .  D ADDR   00BEH   A   
+BSHO_3 . . . . . . . . . .  D ADDR   00BFH   A   
+CKCON. . . . . . . . . . .  D ADDR   008EH   A   
+CLK_DIV. . . . . . . . . .  D ADDR   0091H   A   
+CLK_PD_CON . . . . . . . .  D ADDR   008FH   A   
+DAT?040. . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?_SIN?LIB
+DATA?142 . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?_NORMALIZING_WRITE?LIB
+DPH. . . . . . . . . . . .  D ADDR   0083H   A   
+DPH1 . . . . . . . . . . .  D ADDR   0085H   A   
+DPL. . . . . . . . . . . .  D ADDR   0082H   A   
+DPL1 . . . . . . . . . . .  D ADDR   0084H   A   
+DPS. . . . . . . . . . . .  D ADDR   0092H   A   
+EADC . . . . . . . . . . .  B ADDR   00B8H.0 A   
+EAL. . . . . . . . . . . .  B ADDR   00A8H.7 A   
+ES . . . . . . . . . . . .  B ADDR   00A8H.4 A   
+ES0. . . . . . . . . . . .  B ADDR   00A8H.4 A   
+ET0. . . . . . . . . . . .  B ADDR   00A8H.1 A   
+ET1. . . . . . . . . . . .  B ADDR   00A8H.3 A   
+EX0. . . . . . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . . . . . .  B ADDR   00A8H.2 A   
+EX2. . . . . . . . . . . .  B ADDR   00B8H.1 A   
+EX3. . . . . . . . . . . .  B ADDR   00B8H.2 A   
+EX4. . . . . . . . . . . .  B ADDR   00B8H.3 A   
+EX5. . . . . . . . . . . .  B ADDR   00B8H.4 A   
+EX6. . . . . . . . . . . .  B ADDR   00B8H.5 A   
+I2FR . . . . . . . . . . .  B ADDR   00C8H.5 A   
+I3FR . . . . . . . . . . .  B ADDR   00C8H.6 A   
+IADC . . . . . . . . . . .  B ADDR   00C0H.0 A   
+A51 MACRO ASSEMBLER  LIB                                                                  09/29/2018 10:21:05 PAGE    11
+
+IE . . . . . . . . . . . .  D ADDR   00A8H   A   
+IE0. . . . . . . . . . . .  B ADDR   0088H.1 A   
+IE1. . . . . . . . . . . .  B ADDR   0088H.3 A   
+IEN0 . . . . . . . . . . .  D ADDR   00A8H   A   
+IEN1 . . . . . . . . . . .  D ADDR   00B8H   A   
+IEN2 . . . . . . . . . . .  D ADDR   009AH   A   
+IEX2 . . . . . . . . . . .  B ADDR   00C0H.1 A   
+IEX3 . . . . . . . . . . .  B ADDR   00C0H.2 A   
+IEX4 . . . . . . . . . . .  B ADDR   00C0H.3 A   
+IEX5 . . . . . . . . . . .  B ADDR   00C0H.4 A   
+IEX6 . . . . . . . . . . .  B ADDR   00C0H.5 A   
+INT_REG1 . . . . . . . . .  D ADDR   00F9H   A   
+INT_REG2 . . . . . . . . .  D ADDR   00FAH   A   
+INT_REG3 . . . . . . . . .  D ADDR   00FDH   A   
+INT_REG4 . . . . . . . . .  D ADDR   00FEH   A   
+IP0. . . . . . . . . . . .  D ADDR   00A9H   A   
+IP1. . . . . . . . . . . .  D ADDR   00B9H   A   
+IRCON. . . . . . . . . . .  D ADDR   00C0H   A   
+IT0. . . . . . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . . . . . .  B ADDR   0088H.2 A   
+LD?143 . . . . . . . . . .  D ADDR   0004H   R   SEG=?DT?_NORMALIZING_WRITE?LIB
+LD?244 . . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?NORMALIZING_READ?LIB
+LIB. . . . . . . . . . . .  N NUMB   -----       
+MD0. . . . . . . . . . . .  D ADDR   00E9H   A   
+MD1. . . . . . . . . . . .  D ADDR   00EAH   A   
+MD2. . . . . . . . . . . .  D ADDR   00EBH   A   
+MD3. . . . . . . . . . . .  D ADDR   00ECH   A   
+MD4. . . . . . . . . . . .  D ADDR   00EDH   A   
+MD5. . . . . . . . . . . .  D ADDR   00EEH   A   
+MEM_CONFIG . . . . . . . .  D ADDR   00E8H   A   
+NORMALIZING_READ . . . . .  C ADDR   0000H   R   SEG=?PR?NORMALIZING_READ?LIB
+NORMALIZING_TEST . . . . .  C ADDR   0000H   R   SEG=?PR?NORMALIZING_TEST?LIB
+P0 . . . . . . . . . . . .  D ADDR   0080H   A   
+P00. . . . . . . . . . . .  B ADDR   0080H.0 A   
+P01. . . . . . . . . . . .  B ADDR   0080H.1 A   
+P02. . . . . . . . . . . .  B ADDR   0080H.2 A   
+P03. . . . . . . . . . . .  B ADDR   0080H.3 A   
+P04. . . . . . . . . . . .  B ADDR   0080H.4 A   
+P05. . . . . . . . . . . .  B ADDR   0080H.5 A   
+P06. . . . . . . . . . . .  B ADDR   0080H.6 A   
+P07. . . . . . . . . . . .  B ADDR   0080H.7 A   
+P1 . . . . . . . . . . . .  D ADDR   0090H   A   
+P10. . . . . . . . . . . .  B ADDR   0090H.0 A   
+P11. . . . . . . . . . . .  B ADDR   0090H.1 A   
+P12. . . . . . . . . . . .  B ADDR   0090H.2 A   
+P13. . . . . . . . . . . .  B ADDR   0090H.3 A   
+P14. . . . . . . . . . . .  B ADDR   0090H.4 A   
+P15. . . . . . . . . . . .  B ADDR   0090H.5 A   
+P16. . . . . . . . . . . .  B ADDR   0090H.6 A   
+P17. . . . . . . . . . . .  B ADDR   0090H.7 A   
+P1AQCSFRC. . . . . . . . .  D ADDR   00B1H   A   
+P1AQSFRC . . . . . . . . .  D ADDR   00A7H   A   
+P1CMPA . . . . . . . . . .  D ADDR   00A3H   A   
+P1CMPA_H . . . . . . . . .  D ADDR   00A4H   A   
+P1CMPA_L . . . . . . . . .  D ADDR   00A3H   A   
+P1CMPB . . . . . . . . . .  D ADDR   00A5H   A   
+P1CMPB_H . . . . . . . . .  D ADDR   00A6H   A   
+P1CMPB_L . . . . . . . . .  D ADDR   00A5H   A   
+P1ETCLR. . . . . . . . . .  D ADDR   00B6H   A   
+P1ETFLG. . . . . . . . . .  D ADDR   00B5H   A   
+P1ETFRC. . . . . . . . . .  D ADDR   00B7H   A   
+P1TBPRD. . . . . . . . . .  D ADDR   00A1H   A   
+P1TBPRD_H. . . . . . . . .  D ADDR   00A2H   A   
+P1TBPRD_L. . . . . . . . .  D ADDR   00A1H   A   
+P1TZCLR. . . . . . . . . .  D ADDR   00B3H   A   
+P1TZFLG. . . . . . . . . .  D ADDR   00B2H   A   
+A51 MACRO ASSEMBLER  LIB                                                                  09/29/2018 10:21:05 PAGE    12
+
+P1TZFRC. . . . . . . . . .  D ADDR   00B4H   A   
+P2 . . . . . . . . . . . .  D ADDR   00A0H   A   
+P20. . . . . . . . . . . .  B ADDR   00A0H.0 A   
+P21. . . . . . . . . . . .  B ADDR   00A0H.1 A   
+P22. . . . . . . . . . . .  B ADDR   00A0H.2 A   
+P23. . . . . . . . . . . .  B ADDR   00A0H.3 A   
+P24. . . . . . . . . . . .  B ADDR   00A0H.4 A   
+P25. . . . . . . . . . . .  B ADDR   00A0H.5 A   
+P26. . . . . . . . . . . .  B ADDR   00A0H.6 A   
+P27. . . . . . . . . . . .  B ADDR   00A0H.7 A   
+P2AQCSFRC. . . . . . . . .  D ADDR   00C9H   A   
+P2AQSFRC . . . . . . . . .  D ADDR   00C7H   A   
+P2CMPA . . . . . . . . . .  D ADDR   00C3H   A   
+P2CMPA_H . . . . . . . . .  D ADDR   00C4H   A   
+P2CMPA_L . . . . . . . . .  D ADDR   00C3H   A   
+P2CMPB . . . . . . . . . .  D ADDR   00C5H   A   
+P2CMPB_H . . . . . . . . .  D ADDR   00C6H   A   
+P2CMPB_L . . . . . . . . .  D ADDR   00C5H   A   
+P2ETCLR. . . . . . . . . .  D ADDR   00CEH   A   
+P2ETFLG. . . . . . . . . .  D ADDR   00CDH   A   
+P2ETFRC. . . . . . . . . .  D ADDR   00CFH   A   
+P2TBPRD. . . . . . . . . .  D ADDR   00C1H   A   
+P2TBPRD_H. . . . . . . . .  D ADDR   00C2H   A   
+P2TBPRD_L. . . . . . . . .  D ADDR   00C1H   A   
+P2TZCLR. . . . . . . . . .  D ADDR   00CBH   A   
+P2TZFLG. . . . . . . . . .  D ADDR   00CAH   A   
+P2TZFRC. . . . . . . . . .  D ADDR   00CCH   A   
+P3 . . . . . . . . . . . .  D ADDR   00B0H   A   
+P30. . . . . . . . . . . .  B ADDR   00B0H.0 A   
+P31. . . . . . . . . . . .  B ADDR   00B0H.1 A   
+P32. . . . . . . . . . . .  B ADDR   00B0H.2 A   
+P33. . . . . . . . . . . .  B ADDR   00B0H.3 A   
+P34. . . . . . . . . . . .  B ADDR   00B0H.4 A   
+P35. . . . . . . . . . . .  B ADDR   00B0H.5 A   
+P36. . . . . . . . . . . .  B ADDR   00B0H.6 A   
+P37. . . . . . . . . . . .  B ADDR   00B0H.7 A   
+P3AQCSFRC. . . . . . . . .  D ADDR   00D9H   A   
+P3AQSFRC . . . . . . . . .  D ADDR   00D7H   A   
+P3CMPA . . . . . . . . . .  D ADDR   00D3H   A   
+P3CMPA_H . . . . . . . . .  D ADDR   00D4H   A   
+P3CMPA_L . . . . . . . . .  D ADDR   00D3H   A   
+P3CMPB . . . . . . . . . .  D ADDR   00D5H   A   
+P3CMPB_H . . . . . . . . .  D ADDR   00D6H   A   
+P3CMPB_L . . . . . . . . .  D ADDR   00D5H   A   
+P3ETCLR. . . . . . . . . .  D ADDR   00DEH   A   
+P3ETFLG. . . . . . . . . .  D ADDR   00DDH   A   
+P3ETFRC. . . . . . . . . .  D ADDR   00DFH   A   
+P3TBPRD. . . . . . . . . .  D ADDR   00D1H   A   
+P3TBPRD_H. . . . . . . . .  D ADDR   00D2H   A   
+P3TBPRD_L. . . . . . . . .  D ADDR   00D1H   A   
+P3TZCLR. . . . . . . . . .  D ADDR   00DBH   A   
+P3TZFLG. . . . . . . . . .  D ADDR   00DAH   A   
+P3TZFRC. . . . . . . . . .  D ADDR   00DCH   A   
+P4AQCSFRC. . . . . . . . .  D ADDR   00F1H   A   
+P4AQSFRC . . . . . . . . .  D ADDR   00E7H   A   
+P4CMPA . . . . . . . . . .  D ADDR   00E3H   A   
+P4CMPA_H . . . . . . . . .  D ADDR   00E4H   A   
+P4CMPA_L . . . . . . . . .  D ADDR   00E3H   A   
+P4CMPB . . . . . . . . . .  D ADDR   00E5H   A   
+P4CMPB_H . . . . . . . . .  D ADDR   00E6H   A   
+P4CMPB_L . . . . . . . . .  D ADDR   00E5H   A   
+P4ETCLR. . . . . . . . . .  D ADDR   00F6H   A   
+P4ETFLG. . . . . . . . . .  D ADDR   00F5H   A   
+P4ETFRC. . . . . . . . . .  D ADDR   00F7H   A   
+P4TBPRD. . . . . . . . . .  D ADDR   00E1H   A   
+P4TBPRD_H. . . . . . . . .  D ADDR   00E2H   A   
+A51 MACRO ASSEMBLER  LIB                                                                  09/29/2018 10:21:05 PAGE    13
+
+P4TBPRD_L. . . . . . . . .  D ADDR   00E1H   A   
+P4TZCLR. . . . . . . . . .  D ADDR   00F3H   A   
+P4TZFLG. . . . . . . . . .  D ADDR   00F2H   A   
+P4TZFRC. . . . . . . . . .  D ADDR   00F4H   A   
+PCON . . . . . . . . . . .  D ADDR   0087H   A   
+POWER_CON. . . . . . . . .  D ADDR   0097H   A   
+PSW. . . . . . . . . . . .  D ADDR   00D0H   A   
+RB80 . . . . . . . . . . .  B ADDR   0098H.2 A   
+REN0 . . . . . . . . . . .  B ADDR   0098H.4 A   
+RI . . . . . . . . . . . .  B ADDR   0098H.0 A   
+RI0. . . . . . . . . . . .  B ADDR   0098H.0 A   
+S0BUF. . . . . . . . . . .  D ADDR   0099H   A   
+S0CON. . . . . . . . . . .  D ADDR   0098H   A   
+S0RELH . . . . . . . . . .  D ADDR   00BAH   A   
+S0RELL . . . . . . . . . .  D ADDR   00AAH   A   
+S1BUF. . . . . . . . . . .  D ADDR   009CH   A   
+S1CON. . . . . . . . . . .  D ADDR   009BH   A   
+S1RELH . . . . . . . . . .  D ADDR   00BBH   A   
+S1RELL . . . . . . . . . .  D ADDR   009DH   A   
+SBUF . . . . . . . . . . .  D ADDR   0099H   A   
+SM0. . . . . . . . . . . .  B ADDR   0098H.7 A   
+SM1. . . . . . . . . . . .  B ADDR   0098H.6 A   
+SM20 . . . . . . . . . . .  B ADDR   0098H.5 A   
+SP . . . . . . . . . . . .  D ADDR   0081H   A   
+SRAM_CON . . . . . . . . .  D ADDR   00F8H   A   
+SWDT . . . . . . . . . . .  B ADDR   00B8H.6 A   
+T2CON. . . . . . . . . . .  D ADDR   00C8H   A   
+TB80 . . . . . . . . . . .  B ADDR   0098H.3 A   
+TCON . . . . . . . . . . .  D ADDR   0088H   A   
+TDEBUGTABLE. . . . . . . .  D ADDR   0000H   R   SEG=?DT?LIB
+TF0. . . . . . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . . . . . .  B ADDR   0088H.7 A   
+TH0. . . . . . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . . . . . .  D ADDR   008DH   A   
+TI0. . . . . . . . . . . .  B ADDR   0098H.1 A   
+TL0. . . . . . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . . . . . .  B ADDR   0088H.6 A   
+VALUE?041. . . . . . . . .  D ADDR   0002H   R   SEG=?DT?_SIN?LIB
+WDCON. . . . . . . . . . .  D ADDR   00D8H   A   
+WDCON_7. . . . . . . . . .  B ADDR   00D8H.7 A   
+WDT. . . . . . . . . . . .  B ADDR   00A8H.6 A   
+WDTREL . . . . . . . . . .  D ADDR   0086H   A   
+_DIV_DENOMINATOR . . . . .  X ADDR   0000H   R   SEG=?XD?LIB
+_DIV_REMAINDER . . . . . .  X ADDR   0003H   R   SEG=?XD?LIB
+_MD_ERROR. . . . . . . . .  X ADDR   0002H   R   SEG=?XD?LIB
+_NORMALIZING_WRITE . . . .  C ADDR   0000H   R   SEG=?PR?_NORMALIZING_WRITE?LIB
+_SIN . . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?_SIN?LIB
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

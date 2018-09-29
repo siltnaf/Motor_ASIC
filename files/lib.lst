@@ -1,0 +1,187 @@
+C51 COMPILER V9.54   LIB                                                                   09/29/2018 10:21:05 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE LIB
+NO OBJECT MODULE REQUESTED
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE SRC\lib.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC) BROWSE INTVECTOR
+                    -(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\lib.lst) TABS(2) SRC(.\OUTPUT\lib.SRC)
+
+line level    source
+
+   1          /*
+   2           * lib.c
+   3           *  Copy Right (c) of JE
+   4           *  Created on: 
+   5           *      18 Sep 2018
+   6           *  Author: 
+   7           *      Ken
+   8           *  Last Modified: 
+   9           *     
+  10           *  Description: 
+  11           *      lib for JE8MCU
+  12           *  History:
+  13           *      ver 0.1 created by ken on 12 August 2016 
+  14           *
+  15           *    Use math table for fuctions of 
+  16           *        sin, cos, inverse, sqrt, artan
+  17           *        Park transform and Clark transform
+  18           *
+  19           *
+  20           */
+  21           
+  22           /***************************************************
+  23           * Includes
+  24           */
+  25          #include <stdio.h>
+  26          #include <intrins.h>   
+  27          #include <absacc.h>
+  28          #include "register.h"
+  29          #include "lib.h"
+  30          
+  31          
+  32          
+  33          volatile U8 xdata _md_error;// _at_ (0xDFFF);
+  34          volatile U16 xdata _div_remainder;// _at_ (0xDFFD);
+  35          volatile U16 xdata _div_denominator;// _at_ (0xA4FB);
+  36          
+  37          #pragma asm
+  38                          CSEG    AT      4000h
+  39          #pragma endasm
+  40          const unsigned char tDebugTable[10] = {1,2,3,4,5,6,7,8,9,10};
+  41          
+  42          
+  43          
+  44          
+  45          
+  46          /*
+  47           * @fn    sin16
+  48           *
+  49           * @brief sin16
+  50           * 
+  51           * @param none
+  52           * sin(x) , where x is 
+  53          
+  54           *
+C51 COMPILER V9.54   LIB                                                                   09/29/2018 10:21:05 PAGE 2   
+
+  55           * @return  none
+  56           */
+  57          S16 sin(S16 dat)
+  58          {
+  59   1      volatile signed int value;
+  60   1        value= XWORD[dat];
+  61   1        
+  62   1      return value;
+  63   1        
+  64   1      }
+  65          
+  66          
+  67          /*
+  68           * @fn    Normalize
+  69           *
+  70           * @brief Normalize
+  71           * 
+  72           * @param none
+  73           *
+  74           * @return  none
+  75           */
+  76          //S32 Normalize(S32 dat)
+  77          //{
+  78          //#pragma asm
+  79          //  mov MD0, r7
+  80          //  mov MD1, r6
+  81          //  mov MD2, r5
+  82          //  mov MD3, r4
+  83          
+  84          //  ANL  ARCON , #0xE0
+  85          
+  86          //  nop    ;wait 34
+  87          //  nop
+  88          //  nop
+  89          //  nop
+  90          //  nop
+  91          //  nop    
+  92          //  nop
+  93          //  nop
+  94          //  nop
+  95          //  nop
+  96          //  nop    ;wait 24
+  97          //  nop
+  98          //  nop
+  99          //  nop
+ 100          //  nop
+ 101          //  nop    
+ 102          //  nop
+ 103          //  nop
+ 104          //  nop
+ 105          //  nop
+ 106          //  nop    ;wait 14
+ 107          //  nop
+ 108          //  nop
+ 109          //  nop
+ 110          //  nop
+ 111          //  nop    
+ 112          //  nop
+ 113          //  nop
+ 114          //  nop
+ 115          //  nop
+ 116          //  nop    ;wait 4
+C51 COMPILER V9.54   LIB                                                                   09/29/2018 10:21:05 PAGE 3   
+
+ 117          //  nop
+ 118          //  nop
+ 119          //  nop
+ 120          //#pragma endasm
+ 121          //  _md_error = (ARCON&(MD_MDEF|MD_MDOV));
+ 122          //#pragma asm
+ 123          //  mov r7, MD0
+ 124          //  mov r6, MD1
+ 125          //  mov r5, MD2
+ 126          //  mov r4, MD3
+ 127          //#pragma endasm
+ 128          //return MD0;
+ 129          //}
+ 130          void Normalizing_Write(unsigned long Data)
+ 131          {
+ 132   1       Long_Data LD;
+ 133   1       LD.Ldata =Data;
+ 134   1       MD0 = LD.ss1.Byte0;
+ 135   1       MD1 = LD.ss1.Byte1;
+ 136   1       MD2 = LD.ss1.Byte2;
+ 137   1       MD3 = LD.ss1.Byte3;
+ 138   1       ARCON = 0x00 ; // Start Normalizing
+ 139   1       while(!(PCON & 0x40)) //check MDU finish flag
+ 140   1       {};
+ 141   1      }
+ 142          
+ 143          void Normalizing_Read(void)
+ 144          { 
+ 145   1      Long_Data LD;
+ 146   1       LD.ss1.Byte0 = MD0; //first read
+ 147   1       LD.ss1.Byte1 = MD1;
+ 148   1       LD.ss1.Byte2 = MD2;
+ 149   1       LD.ss1.Byte3 = MD3; //last read, MDEF(error flag) happen if not read
+ 150   1      } 
+ 151          
+ 152          void Normalizing_test(void)
+ 153          {
+ 154   1      
+ 155   1       Normalizing_Write(0x00000001); //ANS=0x1F -->MDOV=0
+ 156   1      
+ 157   1       Normalizing_Read();
+ 158   1      
+ 159   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    102    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      5    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     26    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

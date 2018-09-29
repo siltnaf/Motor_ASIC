@@ -1,0 +1,907 @@
+C51 COMPILER V9.54   INTERRUPT                                                             09/29/2018 10:21:05 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE INTERRUPT
+OBJECT MODULE PLACED IN .\OUTPUT\interrupt.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE SRC\interrupt.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC) BROWSE INT
+                    -VECTOR(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\interrupt.lst) TABS(2) OBJECT(.\OUTPUT\interrupt.obj)
+
+line level    source
+
+   1          #include "register.h"
+   2          #include <intrins.h>
+   3          #include "app.h"
+   4          #include "initial.h"
+   5          
+   6          
+   7          /*interrupt number
+   8           EXT1-4     0
+   9           
+  10           
+  11          
+  12           TIMER0     1
+  13           TIMER1     3
+  14           UART0      4
+  15           ADC        8
+  16           UART1      16
+  17           
+  18           COMP1      22
+  19           TIMER3     23
+  20           
+  21           ePWM1-3    9
+  22          
+  23           ePMW4      20
+  24           Timer5     21
+  25           
+  26           Timer6     24
+  27           I2C        25
+  28           SPI        26
+  29           eFlash     27
+  30           
+  31           
+  32          
+  33          
+  34          */
+  35          
+  36          
+  37          void EXT1234Interrupt (void)  interrupt 0
+  38          {
+  39   1        
+  40   1        if (EXT(1)==1)
+  41   1        {
+  42   2          
+  43   2          CLR_EXT(1);
+  44   2        }
+  45   1        
+  46   1        
+  47   1        if (EXT(2)==1)  
+  48   1        {
+  49   2                P26=~P26;
+  50   2          CLR_EXT(2);
+  51   2        }
+  52   1        
+  53   1        
+  54   1        if (EXT(3)==1)
+C51 COMPILER V9.54   INTERRUPT                                                             09/29/2018 10:21:05 PAGE 2   
+
+  55   1        {
+  56   2          CLR_EXT(3);
+  57   2        }
+  58   1        
+  59   1      
+  60   1        if (EXT(4)==1)
+  61   1        {
+  62   2          
+  63   2          CLR_EXT(4);
+  64   2        }
+  65   1        
+  66   1        
+  67   1        IE0=0;
+  68   1      
+  69   1      }
+  70          
+  71          
+  72          
+  73          
+  74          
+  75          
+  76          
+  77          /*  Timer interrupt   **/
+  78          
+  79          
+  80          void TIMER0Interrupt(void)  interrupt 1
+  81          {
+  82   1       
+  83   1          TF0=0;
+  84   1          P26= ~P26;
+  85   1        
+  86   1      }
+  87          
+  88          void TIMER1Interrupt(void)  interrupt 3
+  89          {
+  90   1        
+  91   1        
+  92   1        TF1=0;
+  93   1      }
+  94          
+  95          void TIMER3Interrupt(void)  interrupt 23
+  96          {
+  97   1        CLR_T3_INT()  ;
+  98   1        T3TF=0;
+  99   1        T3EXF=0;
+ 100   1        
+ 101   1      //  P26= ~P26;
+ 102   1        
+ 103   1        
+ 104   1        IE1=0;
+ 105   1      }
+ 106          
+ 107          void TIMER4Interrupt(void)  interrupt 17
+ 108          {
+ 109   1        
+ 110   1        
+ 111   1        
+ 112   1        T4TF=0;
+ 113   1        T4EXF=0;
+ 114   1        CLR_T4_INT();
+ 115   1        IEX6=0;
+ 116   1      }
+C51 COMPILER V9.54   INTERRUPT                                                             09/29/2018 10:21:05 PAGE 3   
+
+ 117          
+ 118          void TIMER5Interrupt(void)  interrupt 21
+ 119          {
+ 120   1      
+ 121   1        T5TF=0;
+ 122   1        T5EXF=0;
+ 123   1        IEX3=0;
+ 124   1        
+ 125   1        P26= ~P26;
+ 126   1        
+ 127   1        
+ 128   1        
+ 129   1        
+ 130   1      }
+ 131          void TIMER6Interrupt(void)  interrupt 24
+ 132          {
+ 133   1      
+ 134   1        T6TF=0;
+ 135   1        T6EXF=0;
+ 136   1        IEX5=0;
+ 137   1      }
+ 138          
+ 139          
+ 140          
+ 141          
+ 142          /*     EPWM interrupt */
+ 143          
+ 144          void ePWM123Interrupt(void) interrupt 9
+ 145          {
+ 146   1        if (EPWM_INT(1)==1)
+ 147   1        {
+ 148   2          
+ 149   2          
+ 150   2          
+ 151   2          CLR_EPWM_INT(1);
+ 152   2        }
+ 153   1      
+ 154   1        
+ 155   1        if (EPWM_INT(2)==1)
+ 156   1        {
+ 157   2          
+ 158   2          
+ 159   2          
+ 160   2          
+ 161   2          
+ 162   2          CLR_EPWM_INT(2);
+ 163   2        }
+ 164   1        
+ 165   1        
+ 166   1        if (EPWM_INT(3)==1)
+ 167   1        {
+ 168   2          
+ 169   2          CLR_EPWM_INT(3);
+ 170   2        }
+ 171   1        
+ 172   1        IEX2=0;
+ 173   1        
+ 174   1      }
+ 175          
+ 176          
+ 177          void ePWM4Interrupt(void)  interrupt 20
+ 178          {
+C51 COMPILER V9.54   INTERRUPT                                                             09/29/2018 10:21:05 PAGE 4   
+
+ 179   1      
+ 180   1        
+ 181   1        CLR_EPWM_INT(4);
+ 182   1        IEX3=0;
+ 183   1        
+ 184   1      }
+ 185          
+ 186          
+ 187          
+ 188          
+ 189          
+ 190          /* comparator interrupt */
+ 191          
+ 192          void Comp1Interrupt(void) interrupt 22
+ 193            
+ 194          {
+ 195   1        
+ 196   1        
+ 197   1        
+ 198   1        CLR_CP1_INT();    
+ 199   1        IE1=0;
+ 200   1      }
+ 201          
+ 202          
+ 203          void  Comp234Interrupt(void) interrupt 11
+ 204          
+ 205          {
+ 206   1        
+ 207   1        
+ 208   1        if (CP2_INT==1)
+ 209   1      
+ 210   1          {
+ 211   2          
+ 212   2            CLR_CP2_INT();      
+ 213   2          }
+ 214   1          
+ 215   1          if (CP3_INT==1)
+ 216   1      
+ 217   1          {
+ 218   2          
+ 219   2              CLR_CP3_INT();      
+ 220   2          }
+ 221   1                
+ 222   1          if (CP4_INT==1)
+ 223   1      
+ 224   1          {
+ 225   2          
+ 226   2            CLR_CP4_INT();      
+ 227   2          }
+ 228   1          
+ 229   1          
+ 230   1          IEX4=0;
+ 231   1            
+ 232   1        }
+ 233          
+ 234          
+ 235          
+ 236            /*  serial communication  */
+ 237          
+ 238          void I2CInterrupt(void)  interrupt 25
+ 239          {
+ 240   1      
+C51 COMPILER V9.54   INTERRUPT                                                             09/29/2018 10:21:05 PAGE 5   
+
+ 241   1        CLR_I2C_INT();
+ 242   1        IEX5=0;
+ 243   1      }
+ 244          
+ 245          void SPIInterrupt(void)  interrupt 26
+ 246          {
+ 247   1      
+ 248   1        CLR_SPI_INT();
+ 249   1        IEX5=0;
+ 250   1      }
+ 251          
+ 252          void eFlashInterrupt(void)  interrupt 27
+ 253          {
+ 254   1      
+ 255   1        CLR_EFLASH_INT();
+ 256   1        IEX5=0;
+ 257   1      }
+ 258          
+ 259          
+ 260          /*  voltage detect, RTC  */
+ 261          
+ 262          void RTCInterrupt(void) interrupt 28
+ 263          {
+ 264   1        
+ 265   1        
+ 266   1        
+ 267   1        CLR_RTC_INT();
+ 268   1        IEX6=0;
+ 269   1      }
+ 270            
+ 271          
+ 272          void LDV18Interrupt(void) interrupt 29
+ 273          {
+ 274   1        
+ 275   1        CLR_LDV18_INT();
+ 276   1        IEX6=0;
+ 277   1      }
+ 278          
+ 279          void LDV33Interrupt(void) interrupt 30
+ 280          {
+ 281   1        
+ 282   1        CLR_LDV33_INT();
+ 283   1        IEX6=0;
+ 284   1      }
+ 285          
+ 286          
+ 287          
+ 288          
+ 289          
+ 290          /* debug and UART port */
+ 291            
+ 292          
+ 293          void UART1Interrupt(void) //interrupt 4
+ 294          {
+ 295   1          if(RI0 == 1)
+ 296   1          {
+ 297   2              RI0 = 0;
+ 298   2          }
+ 299   1      
+ 300   1          if(TI0 == 1)
+ 301   1          {
+ 302   2             TI0 = 0;
+C51 COMPILER V9.54   INTERRUPT                                                             09/29/2018 10:21:05 PAGE 6   
+
+ 303   2          }
+ 304   1      }
+ 305          
+ 306          void UART2Interrupt(void) interrupt 16
+ 307          {
+ 308   1          //receive
+ 309   1          if((S1CON & 0x01) == 0x01)
+ 310   1          {
+ 311   2              S1CON &= 0xfe;
+ 312   2      //        ucUARTReceiver = S1BUF;
+ 313   2      //        ucUARTReceiver++;
+ 314   2      //        ucUARTReceiver++;
+ 315   2      //        ucReceiveFlag = 1;
+ 316   2          }
+ 317   1      
+ 318   1          //transmit
+ 319   1          if((S1CON & 0x02) == 0x02)
+ 320   1          {
+ 321   2              S1CON &= 0xfd;
+ 322   2          }
+ 323   1      }
+ 324          
+ 325          void ADCInterrupt(void) interrupt 8
+ 326          {
+ 327   1         
+ 328   1        
+ 329   1        IADC = 0;             //clr the interrupt flag
+ 330   1      }
+C51 COMPILER V9.54   INTERRUPT                                                             09/29/2018 10:21:05 PAGE 7   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION EXT1234Interrupt (BEGIN)
+0000 C0E0              PUSH    ACC
+0002 C0D0              PUSH    PSW
+0004 75D000            MOV     PSW,#00H
+0007 C007              PUSH    AR7
+                                           ; SOURCE LINE # 37
+                                           ; SOURCE LINE # 40
+0009 E5F9              MOV     A,INT_REG1
+000B 30E004            JNB     ACC.0,?C0002
+000E 7F01              MOV     R7,#01H
+0010 8002              SJMP    ?C0003
+0012         ?C0002:
+0012 7F00              MOV     R7,#00H
+0014         ?C0003:
+0014 EF                MOV     A,R7
+0015 B40103            CJNE    A,#01H,?C0001
+                                           ; SOURCE LINE # 41
+                                           ; SOURCE LINE # 43
+0018 53F9FE            ANL     INT_REG1,#0FEH
+                                           ; SOURCE LINE # 44
+001B         ?C0001:
+                                           ; SOURCE LINE # 47
+001B E5F9              MOV     A,INT_REG1
+001D 30E104            JNB     ACC.1,?C0005
+0020 7F01              MOV     R7,#01H
+0022 8002              SJMP    ?C0006
+0024         ?C0005:
+0024 7F00              MOV     R7,#00H
+0026         ?C0006:
+0026 EF                MOV     A,R7
+0027 B40105            CJNE    A,#01H,?C0004
+                                           ; SOURCE LINE # 48
+                                           ; SOURCE LINE # 49
+002A B2A6              CPL     P26
+                                           ; SOURCE LINE # 50
+002C 53F9FC            ANL     INT_REG1,#0FCH
+                                           ; SOURCE LINE # 51
+002F         ?C0004:
+                                           ; SOURCE LINE # 54
+002F E5F9              MOV     A,INT_REG1
+0031 30E204            JNB     ACC.2,?C0008
+0034 7F01              MOV     R7,#01H
+0036 8002              SJMP    ?C0009
+0038         ?C0008:
+0038 7F00              MOV     R7,#00H
+003A         ?C0009:
+003A EF                MOV     A,R7
+003B B40103            CJNE    A,#01H,?C0007
+                                           ; SOURCE LINE # 55
+                                           ; SOURCE LINE # 56
+003E 53F9F8            ANL     INT_REG1,#0F8H
+                                           ; SOURCE LINE # 57
+0041         ?C0007:
+                                           ; SOURCE LINE # 60
+0041 E5F9              MOV     A,INT_REG1
+0043 30E304            JNB     ACC.3,?C0011
+0046 7F01              MOV     R7,#01H
+0048 8002              SJMP    ?C0012
+004A         ?C0011:
+C51 COMPILER V9.54   INTERRUPT                                                             09/29/2018 10:21:05 PAGE 8   
+
+004A 7F00              MOV     R7,#00H
+004C         ?C0012:
+004C EF                MOV     A,R7
+004D B40103            CJNE    A,#01H,?C0010
+                                           ; SOURCE LINE # 61
+                                           ; SOURCE LINE # 63
+0050 53F9F0            ANL     INT_REG1,#0F0H
+                                           ; SOURCE LINE # 64
+0053         ?C0010:
+                                           ; SOURCE LINE # 67
+0053 C289              CLR     IE0
+                                           ; SOURCE LINE # 69
+0055         ?C0013:
+0055 D007              POP     AR7
+0057 D0D0              POP     PSW
+0059 D0E0              POP     ACC
+005B 32                RETI    
+             ; FUNCTION EXT1234Interrupt (END)
+
+             ; FUNCTION TIMER0Interrupt (BEGIN)
+                                           ; SOURCE LINE # 80
+                                           ; SOURCE LINE # 83
+0000 C28D              CLR     TF0
+                                           ; SOURCE LINE # 84
+0002 B2A6              CPL     P26
+                                           ; SOURCE LINE # 86
+0004         ?C0014:
+0004 32                RETI    
+             ; FUNCTION TIMER0Interrupt (END)
+
+             ; FUNCTION TIMER1Interrupt (BEGIN)
+                                           ; SOURCE LINE # 88
+                                           ; SOURCE LINE # 92
+0000 C28F              CLR     TF1
+                                           ; SOURCE LINE # 93
+0002         ?C0015:
+0002 32                RETI    
+             ; FUNCTION TIMER1Interrupt (END)
+
+             ; FUNCTION TIMER3Interrupt (BEGIN)
+0000 C0E0              PUSH    ACC
+0002 C083              PUSH    DPH
+0004 C082              PUSH    DPL
+0006 C0D0              PUSH    PSW
+0008 75D000            MOV     PSW,#00H
+000B C007              PUSH    AR7
+                                           ; SOURCE LINE # 95
+                                           ; SOURCE LINE # 97
+000D 53F9E0            ANL     INT_REG1,#0E0H
+                                           ; SOURCE LINE # 98
+0010 90E0C8            MOV     DPTR,#0E0C8H
+0013 E0                MOVX    A,@DPTR
+0014 FF                MOV     R7,A
+0015 EF                MOV     A,R7
+0016 547F              ANL     A,#07FH
+0018 FF                MOV     R7,A
+0019 EF                MOV     A,R7
+001A F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 99
+001B 90E0C8            MOV     DPTR,#0E0C8H
+001E E0                MOVX    A,@DPTR
+001F FF                MOV     R7,A
+C51 COMPILER V9.54   INTERRUPT                                                             09/29/2018 10:21:05 PAGE 9   
+
+0020 EF                MOV     A,R7
+0021 54BF              ANL     A,#0BFH
+0023 FF                MOV     R7,A
+0024 EF                MOV     A,R7
+0025 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 104
+0026 C28B              CLR     IE1
+                                           ; SOURCE LINE # 105
+0028         ?C0016:
+0028 D007              POP     AR7
+002A D0D0              POP     PSW
+002C D082              POP     DPL
+002E D083              POP     DPH
+0030 D0E0              POP     ACC
+0032 32                RETI    
+             ; FUNCTION TIMER3Interrupt (END)
+
+             ; FUNCTION TIMER4Interrupt (BEGIN)
+0000 C0E0              PUSH    ACC
+0002 C083              PUSH    DPH
+0004 C082              PUSH    DPL
+0006 C0D0              PUSH    PSW
+0008 75D000            MOV     PSW,#00H
+000B C007              PUSH    AR7
+                                           ; SOURCE LINE # 107
+                                           ; SOURCE LINE # 112
+000D 90E0CE            MOV     DPTR,#0E0CEH
+0010 E0                MOVX    A,@DPTR
+0011 FF                MOV     R7,A
+0012 EF                MOV     A,R7
+0013 547F              ANL     A,#07FH
+0015 FF                MOV     R7,A
+0016 EF                MOV     A,R7
+0017 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 113
+0018 90E0CE            MOV     DPTR,#0E0CEH
+001B E0                MOVX    A,@DPTR
+001C FF                MOV     R7,A
+001D EF                MOV     A,R7
+001E 54BF              ANL     A,#0BFH
+0020 FF                MOV     R7,A
+0021 EF                MOV     A,R7
+0022 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 114
+0023 53FEF0            ANL     INT_REG4,#0F0H
+                                           ; SOURCE LINE # 115
+0026 C2C5              CLR     IEX6
+                                           ; SOURCE LINE # 116
+0028         ?C0017:
+0028 D007              POP     AR7
+002A D0D0              POP     PSW
+002C D082              POP     DPL
+002E D083              POP     DPH
+0030 D0E0              POP     ACC
+0032 32                RETI    
+             ; FUNCTION TIMER4Interrupt (END)
+
+             ; FUNCTION TIMER5Interrupt (BEGIN)
+0000 C0E0              PUSH    ACC
+0002 C083              PUSH    DPH
+0004 C082              PUSH    DPL
+0006 C0D0              PUSH    PSW
+C51 COMPILER V9.54   INTERRUPT                                                             09/29/2018 10:21:05 PAGE 10  
+
+0008 75D000            MOV     PSW,#00H
+000B C007              PUSH    AR7
+                                           ; SOURCE LINE # 118
+                                           ; SOURCE LINE # 121
+000D 90E0F3            MOV     DPTR,#0E0F3H
+0010 E0                MOVX    A,@DPTR
+0011 FF                MOV     R7,A
+0012 EF                MOV     A,R7
+0013 547F              ANL     A,#07FH
+0015 FF                MOV     R7,A
+0016 EF                MOV     A,R7
+0017 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 122
+0018 90E0F3            MOV     DPTR,#0E0F3H
+001B E0                MOVX    A,@DPTR
+001C FF                MOV     R7,A
+001D EF                MOV     A,R7
+001E 54BF              ANL     A,#0BFH
+0020 FF                MOV     R7,A
+0021 EF                MOV     A,R7
+0022 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 123
+0023 C2C2              CLR     IEX3
+                                           ; SOURCE LINE # 125
+0025 B2A6              CPL     P26
+                                           ; SOURCE LINE # 130
+0027         ?C0018:
+0027 D007              POP     AR7
+0029 D0D0              POP     PSW
+002B D082              POP     DPL
+002D D083              POP     DPH
+002F D0E0              POP     ACC
+0031 32                RETI    
+             ; FUNCTION TIMER5Interrupt (END)
+
+             ; FUNCTION TIMER6Interrupt (BEGIN)
+0000 C0E0              PUSH    ACC
+0002 C083              PUSH    DPH
+0004 C082              PUSH    DPL
+0006 C0D0              PUSH    PSW
+0008 75D000            MOV     PSW,#00H
+000B C007              PUSH    AR7
+                                           ; SOURCE LINE # 131
+                                           ; SOURCE LINE # 134
+000D 90E0F9            MOV     DPTR,#0E0F9H
+0010 E0                MOVX    A,@DPTR
+0011 FF                MOV     R7,A
+0012 EF                MOV     A,R7
+0013 547F              ANL     A,#07FH
+0015 FF                MOV     R7,A
+0016 EF                MOV     A,R7
+0017 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 135
+0018 90E0F9            MOV     DPTR,#0E0F9H
+001B E0                MOVX    A,@DPTR
+001C FF                MOV     R7,A
+001D EF                MOV     A,R7
+001E 54BF              ANL     A,#0BFH
+0020 FF                MOV     R7,A
+0021 EF                MOV     A,R7
+0022 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 136
+C51 COMPILER V9.54   INTERRUPT                                                             09/29/2018 10:21:05 PAGE 11  
+
+0023 C2C4              CLR     IEX5
+                                           ; SOURCE LINE # 137
+0025         ?C0019:
+0025 D007              POP     AR7
+0027 D0D0              POP     PSW
+0029 D082              POP     DPL
+002B D083              POP     DPH
+002D D0E0              POP     ACC
+002F 32                RETI    
+             ; FUNCTION TIMER6Interrupt (END)
+
+             ; FUNCTION ePWM123Interrupt (BEGIN)
+0000 C0E0              PUSH    ACC
+0002 C0D0              PUSH    PSW
+0004 75D000            MOV     PSW,#00H
+0007 C007              PUSH    AR7
+                                           ; SOURCE LINE # 144
+                                           ; SOURCE LINE # 146
+0009 E5FA              MOV     A,INT_REG2
+000B 30E004            JNB     ACC.0,?C0021
+000E 7F01              MOV     R7,#01H
+0010 8002              SJMP    ?C0022
+0012         ?C0021:
+0012 7F00              MOV     R7,#00H
+0014         ?C0022:
+0014 EF                MOV     A,R7
+0015 B40103            CJNE    A,#01H,?C0020
+                                           ; SOURCE LINE # 147
+                                           ; SOURCE LINE # 151
+0018 53FAFE            ANL     INT_REG2,#0FEH
+                                           ; SOURCE LINE # 152
+001B         ?C0020:
+                                           ; SOURCE LINE # 155
+001B E5FA              MOV     A,INT_REG2
+001D 30E104            JNB     ACC.1,?C0024
+0020 7F01              MOV     R7,#01H
+0022 8002              SJMP    ?C0025
+0024         ?C0024:
+0024 7F00              MOV     R7,#00H
+0026         ?C0025:
+0026 EF                MOV     A,R7
+0027 B40103            CJNE    A,#01H,?C0023
+                                           ; SOURCE LINE # 156
+                                           ; SOURCE LINE # 162
+002A 53FAFC            ANL     INT_REG2,#0FCH
+                                           ; SOURCE LINE # 163
+002D         ?C0023:
+                                           ; SOURCE LINE # 166
+002D E5FA              MOV     A,INT_REG2
+002F 30E204            JNB     ACC.2,?C0027
+0032 7F01              MOV     R7,#01H
+0034 8002              SJMP    ?C0028
+0036         ?C0027:
+0036 7F00              MOV     R7,#00H
+0038         ?C0028:
+0038 EF                MOV     A,R7
+0039 B40103            CJNE    A,#01H,?C0026
+                                           ; SOURCE LINE # 167
+                                           ; SOURCE LINE # 169
+003C 53FAF8            ANL     INT_REG2,#0F8H
+                                           ; SOURCE LINE # 170
+003F         ?C0026:
+C51 COMPILER V9.54   INTERRUPT                                                             09/29/2018 10:21:05 PAGE 12  
+
+                                           ; SOURCE LINE # 172
+003F C2C1              CLR     IEX2
+                                           ; SOURCE LINE # 174
+0041         ?C0029:
+0041 D007              POP     AR7
+0043 D0D0              POP     PSW
+0045 D0E0              POP     ACC
+0047 32                RETI    
+             ; FUNCTION ePWM123Interrupt (END)
+
+             ; FUNCTION ePWM4Interrupt (BEGIN)
+                                           ; SOURCE LINE # 177
+                                           ; SOURCE LINE # 181
+0000 53FAF0            ANL     INT_REG2,#0F0H
+                                           ; SOURCE LINE # 182
+0003 C2C2              CLR     IEX3
+                                           ; SOURCE LINE # 184
+0005         ?C0030:
+0005 32                RETI    
+             ; FUNCTION ePWM4Interrupt (END)
+
+             ; FUNCTION Comp1Interrupt (BEGIN)
+                                           ; SOURCE LINE # 192
+                                           ; SOURCE LINE # 198
+0000 53F9C0            ANL     INT_REG1,#0C0H
+                                           ; SOURCE LINE # 199
+0003 C28B              CLR     IE1
+                                           ; SOURCE LINE # 200
+0005         ?C0031:
+0005 32                RETI    
+             ; FUNCTION Comp1Interrupt (END)
+
+             ; FUNCTION Comp234Interrupt (BEGIN)
+0000 C0E0              PUSH    ACC
+0002 C0D0              PUSH    PSW
+0004 75D000            MOV     PSW,#00H
+0007 C007              PUSH    AR7
+                                           ; SOURCE LINE # 203
+                                           ; SOURCE LINE # 208
+0009 E5FD              MOV     A,INT_REG3
+000B 30E004            JNB     ACC.0,?C0033
+000E 7F01              MOV     R7,#01H
+0010 8002              SJMP    ?C0034
+0012         ?C0033:
+0012 7F00              MOV     R7,#00H
+0014         ?C0034:
+0014 EF                MOV     A,R7
+0015 B40103            CJNE    A,#01H,?C0032
+                                           ; SOURCE LINE # 210
+                                           ; SOURCE LINE # 212
+0018 53FDFE            ANL     INT_REG3,#0FEH
+                                           ; SOURCE LINE # 213
+001B         ?C0032:
+                                           ; SOURCE LINE # 215
+001B E5FD              MOV     A,INT_REG3
+001D 30E104            JNB     ACC.1,?C0036
+0020 7F01              MOV     R7,#01H
+0022 8002              SJMP    ?C0037
+0024         ?C0036:
+0024 7F00              MOV     R7,#00H
+0026         ?C0037:
+0026 EF                MOV     A,R7
+C51 COMPILER V9.54   INTERRUPT                                                             09/29/2018 10:21:05 PAGE 13  
+
+0027 B40103            CJNE    A,#01H,?C0035
+                                           ; SOURCE LINE # 217
+                                           ; SOURCE LINE # 219
+002A 53FDFC            ANL     INT_REG3,#0FCH
+                                           ; SOURCE LINE # 220
+002D         ?C0035:
+                                           ; SOURCE LINE # 222
+002D E5FD              MOV     A,INT_REG3
+002F 30E204            JNB     ACC.2,?C0039
+0032 7F01              MOV     R7,#01H
+0034 8002              SJMP    ?C0040
+0036         ?C0039:
+0036 7F00              MOV     R7,#00H
+0038         ?C0040:
+0038 EF                MOV     A,R7
+0039 B40103            CJNE    A,#01H,?C0038
+                                           ; SOURCE LINE # 224
+                                           ; SOURCE LINE # 226
+003C 53FDF8            ANL     INT_REG3,#0F8H
+                                           ; SOURCE LINE # 227
+003F         ?C0038:
+                                           ; SOURCE LINE # 230
+003F C2C3              CLR     IEX4
+                                           ; SOURCE LINE # 232
+0041         ?C0041:
+0041 D007              POP     AR7
+0043 D0D0              POP     PSW
+0045 D0E0              POP     ACC
+0047 32                RETI    
+             ; FUNCTION Comp234Interrupt (END)
+
+             ; FUNCTION I2CInterrupt (BEGIN)
+                                           ; SOURCE LINE # 238
+                                           ; SOURCE LINE # 241
+0000 53FDF0            ANL     INT_REG3,#0F0H
+                                           ; SOURCE LINE # 242
+0003 C2C4              CLR     IEX5
+                                           ; SOURCE LINE # 243
+0005         ?C0042:
+0005 32                RETI    
+             ; FUNCTION I2CInterrupt (END)
+
+             ; FUNCTION SPIInterrupt (BEGIN)
+                                           ; SOURCE LINE # 245
+                                           ; SOURCE LINE # 248
+0000 53FDE0            ANL     INT_REG3,#0E0H
+                                           ; SOURCE LINE # 249
+0003 C2C4              CLR     IEX5
+                                           ; SOURCE LINE # 250
+0005         ?C0043:
+0005 32                RETI    
+             ; FUNCTION SPIInterrupt (END)
+
+             ; FUNCTION eFlashInterrupt (BEGIN)
+                                           ; SOURCE LINE # 252
+                                           ; SOURCE LINE # 255
+0000 53FDC0            ANL     INT_REG3,#0C0H
+                                           ; SOURCE LINE # 256
+0003 C2C4              CLR     IEX5
+                                           ; SOURCE LINE # 257
+0005         ?C0044:
+0005 32                RETI    
+C51 COMPILER V9.54   INTERRUPT                                                             09/29/2018 10:21:05 PAGE 14  
+
+             ; FUNCTION eFlashInterrupt (END)
+
+             ; FUNCTION RTCInterrupt (BEGIN)
+                                           ; SOURCE LINE # 262
+                                           ; SOURCE LINE # 267
+0000 53FEFE            ANL     INT_REG4,#0FEH
+                                           ; SOURCE LINE # 268
+0003 C2C5              CLR     IEX6
+                                           ; SOURCE LINE # 269
+0005         ?C0045:
+0005 32                RETI    
+             ; FUNCTION RTCInterrupt (END)
+
+             ; FUNCTION LDV18Interrupt (BEGIN)
+                                           ; SOURCE LINE # 272
+                                           ; SOURCE LINE # 275
+0000 53FEFC            ANL     INT_REG4,#0FCH
+                                           ; SOURCE LINE # 276
+0003 C2C5              CLR     IEX6
+                                           ; SOURCE LINE # 277
+0005         ?C0046:
+0005 32                RETI    
+             ; FUNCTION LDV18Interrupt (END)
+
+             ; FUNCTION LDV33Interrupt (BEGIN)
+                                           ; SOURCE LINE # 279
+                                           ; SOURCE LINE # 282
+0000 53FEF8            ANL     INT_REG4,#0F8H
+                                           ; SOURCE LINE # 283
+0003 C2C5              CLR     IEX6
+                                           ; SOURCE LINE # 284
+0005         ?C0047:
+0005 32                RETI    
+             ; FUNCTION LDV33Interrupt (END)
+
+             ; FUNCTION UART1Interrupt (BEGIN)
+                                           ; SOURCE LINE # 293
+                                           ; SOURCE LINE # 294
+                                           ; SOURCE LINE # 295
+0000 309802            JNB     RI0,?C0048
+                                           ; SOURCE LINE # 296
+                                           ; SOURCE LINE # 297
+0003 C298              CLR     RI0
+                                           ; SOURCE LINE # 298
+0005         ?C0048:
+                                           ; SOURCE LINE # 300
+0005 309902            JNB     TI0,?C0050
+                                           ; SOURCE LINE # 301
+                                           ; SOURCE LINE # 302
+0008 C299              CLR     TI0
+                                           ; SOURCE LINE # 303
+000A         ?C0049:
+                                           ; SOURCE LINE # 304
+000A         ?C0050:
+000A 22                RET     
+             ; FUNCTION UART1Interrupt (END)
+
+             ; FUNCTION UART2Interrupt (BEGIN)
+0000 C0E0              PUSH    ACC
+                                           ; SOURCE LINE # 306
+                                           ; SOURCE LINE # 309
+0002 E59B              MOV     A,S1CON
+C51 COMPILER V9.54   INTERRUPT                                                             09/29/2018 10:21:05 PAGE 15  
+
+0004 30E003            JNB     ACC.0,?C0051
+                                           ; SOURCE LINE # 310
+                                           ; SOURCE LINE # 311
+0007 539BFE            ANL     S1CON,#0FEH
+                                           ; SOURCE LINE # 316
+000A         ?C0051:
+                                           ; SOURCE LINE # 319
+000A E59B              MOV     A,S1CON
+000C 30E103            JNB     ACC.1,?C0053
+                                           ; SOURCE LINE # 320
+                                           ; SOURCE LINE # 321
+000F 539BFD            ANL     S1CON,#0FDH
+                                           ; SOURCE LINE # 322
+0012         ?C0052:
+                                           ; SOURCE LINE # 323
+0012         ?C0053:
+0012 D0E0              POP     ACC
+0014 32                RETI    
+             ; FUNCTION UART2Interrupt (END)
+
+             ; FUNCTION ADCInterrupt (BEGIN)
+                                           ; SOURCE LINE # 325
+                                           ; SOURCE LINE # 329
+0000 C2C0              CLR     IADC
+                                           ; SOURCE LINE # 330
+0002         ?C0054:
+0002 32                RETI    
+             ; FUNCTION ADCInterrupt (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    527    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
