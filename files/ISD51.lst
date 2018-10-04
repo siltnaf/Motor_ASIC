@@ -1,10 +1,10 @@
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE     1
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE     1
 
 
-MACRO ASSEMBLER A51 V8.02c
+MACRO ASSEMBLER A51 V8.02b
 OBJECT MODULE PLACED IN .\OUTPUT\ISD51.obj
-ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE SRC\ISD51.A51 INCDIR(.\INC) SET(SMALL) DEBUG PRINT(.\files\ISD51.lst) O
-                      BJECT(.\OUTPUT\ISD51.obj) EP
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE SRC\ISD51.A51 INCDIR(.\INC) SET(SMALL) DEBUG PRINT(.\files\ISD51.lst) OBJE
+                      CT(.\OUTPUT\ISD51.obj) EP
 
 LOC  OBJ            LINE     SOURCE
 
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
                 +1    55     
                 +1    56     
                 +1    57     
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE     2
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE     2
 
                 +1    58     
                 +1    59     
@@ -133,7 +133,7 @@ LOC  OBJ            LINE     SOURCE
                 +1   121     RD_SBUF  MACRO             ; Return SBUF in ACC
                 +1   122              MOV    A,SBUF     ; ACC and PSW may be modified without saving it
                 +1   123              ENDM
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE     3
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE     3
 
                 +1   124     
                 +1   125     CLR_ES   MACRO             ; Disable Serial Interrupt
@@ -201,7 +201,7 @@ LOC  OBJ            LINE     SOURCE
                 +1   187     
                 +1   188     
                 +1   189     
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE     4
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE     4
 
                 +1   190     
                 +1   191                                
@@ -269,7 +269,7 @@ LOC  OBJ            LINE     SOURCE
                 +1   253     
                 +1   254     
                 +1   255     
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE     5
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE     5
 
                 +1   256     
                 +1   257     
@@ -337,7 +337,7 @@ LOC  OBJ            LINE     SOURCE
                      319     
   00FF               320     ?ISD?RAMTOP     EQU     0x100-1
   0000               321     ?ISD?CMP_S      EQU     0x0
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE     6
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE     6
 
   FFFF               322     ?ISD?CMP_E      EQU     0xFFFF
                      323     
@@ -405,7 +405,7 @@ LOC  OBJ            LINE     SOURCE
                      385     ;-------- Chip Specific Break Features -----------------------
                      386     PUBLIC          ?ISD?HWBREAKS
                      387     PUBLIC          ?ISD?SETHWBREAK
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE     7
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE     7
 
                      388     
   2000               389     BREAK_CODE      EQU     0x2000
@@ -473,7 +473,7 @@ LOC  OBJ            LINE     SOURCE
 0018 D0D0            451                     POP     PSW 
 001A 0220CB          452                                 LJMP    20CBH               ;  interrupt 25 is I2C 
                      453     
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE     8
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE     8
 
                      454     
                      455                                     
@@ -541,7 +541,7 @@ LOC  OBJ            LINE     SOURCE
                      515     ; Entry Point for HW Breakpoint
 0059 C0D0            516     HWBreakEntry:   PUSH    PSW
 005B C0E0            517                     PUSH    ACC
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE     9
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE     9
 
 005D E593            518                     MOV     A,BPCTRL
 005F 20E727          519                     JB      ACC.7,HWBreakpoint
@@ -609,7 +609,7 @@ LOC  OBJ            LINE     SOURCE
 00B0 1100     F      581                     ACALL   ?ISD?GETBYTE
 00B2 F595            582                     MOV     BREAKH,A
 00B4 8893            583                     MOV     BPCTRL,R0
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE    10
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE    10
 
 00B6 0100     F      584                     AJMP    ?ISD?CMDLOOP
                      585     ;--------------------------------------------------------------------------
@@ -677,7 +677,7 @@ LOC  OBJ            LINE     SOURCE
                      651+1            JNB_TI $
                      653+1            CLR_TI
                      655+1            WR_SBUF           ; MOV SBUF,A
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE    11
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE    11
 
 00EC D001            657                     POP     AR1
 00EE 7805            658                     MOV     R0,#5
@@ -745,7 +745,7 @@ LOC  OBJ            LINE     SOURCE
                      728     ; Command: Restart User Program
                      729     ;  LOW (?ISD?RESTART), HIGH (?ISD?RESTART), R0, PCL, PCH, PSW, R1, ACC
                      730     ;
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE    12
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE    12
 
                      731     ;
 0136 C0E0            732     ?ISD?RESTART:   PUSH    ACC          ; PCL Content of User Program
@@ -813,7 +813,7 @@ LOC  OBJ            LINE     SOURCE
 014C 7002            794                     JNZ     RestartSS
                      795                     CLR_TI
 0150 0100     F      797     RestartSS:      AJMP    RestartUser
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE    13
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE    13
 
                      798     
                      799     
@@ -881,7 +881,7 @@ LOC  OBJ            LINE     SOURCE
                              
                              
                              
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE    14
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE    14
 
                                              
                                              
@@ -949,7 +949,7 @@ LOC  OBJ            LINE     SOURCE
 019A C095            927                     PUSH    0x95
 019C C094            928                     PUSH    0x94
 019E C093            929                     PUSH    0x93
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE    15
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE    15
 
 01A0 C092            930                     PUSH    0x92
 01A2 C091            931                     PUSH    0x91
@@ -1017,7 +1017,7 @@ LOC  OBJ            LINE     SOURCE
                      993     ;  LOW (?ISD?READSFR08), HIGH (?ISD?READSFR08), dummy, dummy
                      994     ;  
 01E6                 995     ?ISD?READSFR08:
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE    16
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE    16
 
 01E6 E5BA            996                     MOV     A,0xBA
 01E8 C0B9            997                     PUSH    0xB9    
@@ -1085,7 +1085,7 @@ LOC  OBJ            LINE     SOURCE
 0234 0100     F     1059                     AJMP    Send7Bytes
                     1060     ;
                     1061     ;--------------------------------------------------------------------------
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE    17
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE    17
 
                     1062     ;13 Read CPU Core SFR registers:
                     1063     ;  LOW (?ISD?READSFR13), HIGH (?ISD?READSFR13), dummy, dummy
@@ -1153,7 +1153,7 @@ LOC  OBJ            LINE     SOURCE
 027C C0F9           1125                     PUSH    0xF9
 027E C0F8           1126                     PUSH    0xF8
 0280 C0F7           1127                     PUSH    0xF7
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE    18
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE    18
 
 0282 C0F6           1128                     PUSH    0xF6
 0284 0100     F     1129                     AJMP    Send7Bytes
@@ -1221,7 +1221,7 @@ LOC  OBJ            LINE     SOURCE
 02C6 64A5           1202                     XRL     A,#0A5H
 02C8 60F7           1203                     JZ      _getkey                ; no character available
 02CA 74A5           1204                     MOV     A,#0A5H
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE    19
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE    19
 
 02CC C500     F     1205                     XCH     A,_ISD_CHAR
 02CE FF             1206                     MOV     R7,A
@@ -1280,7 +1280,7 @@ LOC  OBJ            LINE     SOURCE
                     1266                     END
                              
                              
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE    20
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE    20
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -1348,7 +1348,7 @@ CHECKBREAKS . . . .  C ADDR   010CH   R   SEG=?PR?ISD51
 COMINTERRUPT. . . .  C ADDR   0000H   R   SEG=?PR?ISD51
 DPH . . . . . . . .  D ADDR   0083H   A   
 DPL . . . . . . . .  D ADDR   0082H   A   
-A51 MACRO ASSEMBLER  ISD51                                                                09/29/2018 17:01:26 PAGE    21
+A51 MACRO ASSEMBLER  ISD51                                                                10/05/2018 04:20:42 PAGE    21
 
 EA. . . . . . . . .  B ADDR   00A8H.7 A   
 EFLASHINTERRUPT . .  C ADDR   0024H   R   SEG=?PR?ISD51

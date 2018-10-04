@@ -172,7 +172,8 @@ sfr INT_REG1 = 0xf9;
      #define CLR_EXT(n)   	    CLR_BIT(INT_REG1,##n-1)
 		 #define CLR_T3_INT()				CLR_BIT(INT_REG1,4) 
      #define CLR_CP1_INT()			CLR_BIT(INT_REG1,5) 
-
+		 #define CP1_INT						CHECK_BIT(INT_REG1,5)
+		 #define T3_INT						  CHECK_BIT(INT_REG1,4)
 
 
 sfr INT_REG2 = 0xfa;
@@ -186,6 +187,9 @@ sfr INT_REG3 = 0xfd;
 		#define CP2_INT						  CHECK_BIT(INT_REG3,0)
 		#define CP3_INT						  CHECK_BIT(INT_REG3,1)
 		#define CP4_INT						  CHECK_BIT(INT_REG3,2)
+		#define I2C_INT             CHECK_BIT(INT_REG3,3)
+		#define SPI_INT             CHECK_BIT(INT_REG3,4)
+		#define EFLASH_INT          CHECK_BIT(INT_REG3,5)
 		
 		
 		#define CLR_CP2_INT()   		CLR_BIT(INT_REG3,0)
@@ -201,6 +205,13 @@ sfr INT_REG3 = 0xfd;
 
 
 sfr INT_REG4 = 0xfe;
+		#define RTC_INT						  CHECK_BIT(INT_REG4,0)
+		#define LDV18_INT						CHECK_BIT(INT_REG4,1)
+		#define LDV33_INT						CHECK_BIT(INT_REG4,2)
+		#define T4_INT            	CHECK_BIT(INT_REG4,3)
+	 
+
+
 		#define CLR_RTC_INT()   		CLR_BIT(INT_REG4,0)
 		#define CLR_LDV18_INT()   	CLR_BIT(INT_REG4,1)
 		#define CLR_LDV33_INT()   	CLR_BIT(INT_REG4,2)
@@ -966,6 +977,9 @@ sfr	P4ETFRC		= 0xf7;
 		#define T5EXF								BITREF(T5CON,6)
 		#define T5TF								BITREF(T5CON,7)
 
+		#define T5_INT							((T5TF==1)|(T5EXF==1))
+
+
 #define 	T5PS    				(*(unsigned char volatile xdata *)0xe0f4)	
 #define   T5CTR      			(*(unsigned int volatile xdata *)0xe0f5
 #define 	T5CTR_H    			(*(unsigned char volatile xdata *)0xe0f5)		
@@ -983,7 +997,7 @@ sfr	P4ETFRC		= 0xf7;
 		#define T6EXF								BITREF(T6CON,6)
 		#define T6TF								BITREF(T6CON,7)
 
-
+		#define T6_INT							((T6TF==1)|(T6EXF==1))
 
 #define 	T6PS    				(*(unsigned char volatile xdata *)0xe0fa)	
 #define   T6CTR      			(*(unsigned int volatile xdata *)0xe0fb)

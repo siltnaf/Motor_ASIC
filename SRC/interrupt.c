@@ -63,8 +63,8 @@ void EXT1234Interrupt (void) 	interrupt 0
 		CLR_EXT(4);
 	}
 	
-	
-	IE0=0;
+	if ((EXT(1)==0)&&(EXT(2)==0)&&(EXT(3)==0)&&(EXT(4)==0))
+		IE0=0;
 
 }
 
@@ -100,8 +100,8 @@ void TIMER3Interrupt(void)  interrupt 23
 	
 	P26= ~P26;
 	
-	
-	IE1=0;
+	if ((T3_INT==0)&&(CP1_INT==0))
+		IE1=0;
 }
 
 void TIMER4Interrupt(void)  interrupt 17
@@ -112,12 +112,12 @@ void TIMER4Interrupt(void)  interrupt 17
 	T4TF=0;
 	T4EXF=0;
 	CLR_T4_INT();
-	IEX6=0;
+
 	
 	P26= ~P26;
 	
-	
-	
+	if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0))
+			IEX6=0;
 	
 	
 }
@@ -127,11 +127,11 @@ void TIMER5Interrupt(void)  interrupt 21
 
 	T5TF=0;
 	T5EXF=0;
-	IEX3=0;
+
 	
 	P26= ~P26;
-	
-	
+	if ((T5_INT==0)&&(EPWM_INT(4)==0))
+		IEX3=0;
 	
 	
 }
@@ -140,7 +140,9 @@ void TIMER6Interrupt(void)  interrupt 24
 
 	T6TF=0;
 	T6EXF=0;
-	IEX5=0;
+	
+	if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
+		IEX5=0;
 	P26=~P26;
 	
 }
@@ -178,7 +180,8 @@ void ePWM123Interrupt(void) interrupt 9
 		CLR_EPWM_INT(3);
 	}
 	
-	IEX2=0;
+	if ((EPWM_INT(1)==0)&&(EPWM_INT(2)==0)&&(EPWM_INT(3)==0))
+		IEX2=0;
 	
 }
 
@@ -188,7 +191,8 @@ void ePWM4Interrupt(void)  interrupt 20
 
 	
 	CLR_EPWM_INT(4);
-	IEX3=0;
+	if ((T5_INT==0)&&(EPWM_INT(4)==0))
+			IEX3=0;
 	
 }
 
@@ -205,7 +209,9 @@ void Comp1Interrupt(void) interrupt 22
 	
 	
 	CLR_CP1_INT();		
-	IE1=0;
+	
+	if ((T3_INT==0)&&(CP1_INT==0))
+			IE1=0;
 }
 
 
@@ -235,8 +241,8 @@ void  Comp234Interrupt(void) interrupt 11
 			CLR_CP4_INT();			
 		}
 		
-		
-		IEX4=0;
+		if ((CP2_INT==0)&&(CP3_INT==0)&&(CP4_INT==0))
+				IEX4=0;
 			
 	}
 
@@ -248,21 +254,25 @@ void I2CInterrupt(void)  interrupt 25
 {
 
 	CLR_I2C_INT();
-	IEX5=0;
+	
+	if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
+		IEX5=0;
 }
 
 void SPIInterrupt(void)  interrupt 26
 {
 
 	CLR_SPI_INT();
-	IEX5=0;
+	if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
+		IEX5=0;
 }
 
 void eFlashInterrupt(void)  interrupt 27
 {
 
 	CLR_EFLASH_INT();
-	IEX5=0;
+	if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
+		IEX5=0;
 }
 
 
@@ -274,7 +284,8 @@ void RTCInterrupt(void) interrupt 28
 	
 	
 	CLR_RTC_INT();
-	IEX6=0;
+	if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0))
+		IEX6=0;
 }
 	
 
@@ -282,14 +293,16 @@ void LDV18Interrupt(void) interrupt 29
 {
 	
 	CLR_LDV18_INT();
-	IEX6=0;
+	if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0))
+		IEX6=0;
 }
 
 void LDV33Interrupt(void) interrupt 30
 {
 	
 	CLR_LDV33_INT();
-	IEX6=0;
+	if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0))
+		IEX6=0;
 }
 
 

@@ -1,17 +1,17 @@
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE     1
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE     1
 
 
-MACRO ASSEMBLER A51 V8.02c
+MACRO ASSEMBLER A51 V8.02b
 OBJECT MODULE PLACED IN .\OUTPUT\initial.OBJ
-ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE .\OUTPUT\initial.src PR(.\files\initial.ls1) EP DEBUG
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE .\OUTPUT\initial.src PR(.\files\initial.ls1) EP DEBUG
 
 LOC  OBJ            LINE     SOURCE
 
                        1     ; .\OUTPUT\initial.SRC generated from: SRC\initial.c
                        2     ; COMPILER INVOKED BY:
-                       3     ;        C:\Keil_v5\C51\BIN\C51.EXE SRC\initial.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.
-                             ORC) BROWSE INTVECTOR(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\initial.l
-                             st) TABS(2) SRC(.\OUTPUT\initial.SRC)
+                       3     ;        C:\Keil\C51\BIN\C51.EXE SRC\initial.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC
+                             ) BROWSE INTVECTOR(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\initial.lst)
+                              TABS(2) SRC(.\OUTPUT\initial.SRC)
                        4     
                        5     $nomod51 
                        6     
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
   0098                54     RI      BIT     098H.0
   00C3                55     IEX4    BIT     0C0H.3
   00C4                56     IEX5    BIT     0C0H.4
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE     2
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE     2
 
   00C5                57     IEX6    BIT     0C0H.5
   0091                58     CLK_DIV DATA    091H
@@ -133,7 +133,7 @@ LOC  OBJ            LINE     SOURCE
   00B7               120     P37     BIT     0B0H.7
   00AF               121     BSHI_3  DATA    0AFH
   00BC               122     BSHO_0  DATA    0BCH
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE     3
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE     3
 
   00BD               123     BSHO_1  DATA    0BDH
   0089               124     IE0     BIT     088H.1
@@ -201,7 +201,7 @@ LOC  OBJ            LINE     SOURCE
   008C               186     TR0     BIT     088H.4
   008E               187     TR1     BIT     088H.6
   00F9               188     INT_REG1        DATA    0F9H
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE     4
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE     4
 
   0083               189     DPH     DATA    083H
   00FA               190     INT_REG2        DATA    0FAH
@@ -269,7 +269,7 @@ LOC  OBJ            LINE     SOURCE
                      252             PUBLIC  epwmOutputDisable
                      253             PUBLIC  InitBreakPoint
                      254             PUBLIC  InitISDDebug
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE     5
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE     5
 
                      255             PUBLIC  InitEXT
                      256     ; #include "register.h"
@@ -337,7 +337,7 @@ LOC  OBJ            LINE     SOURCE
                      313     ;       
                      314     ; }
                      315                             ; SOURCE LINE # 29
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE     6
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE     6
 
 001E                 316     ?C0001:
 001E 22              317             RET     
@@ -405,7 +405,7 @@ LOC  OBJ            LINE     SOURCE
 001B D290            379             SETB    P10
                      380     ;         ISDcheck();      // initialize uVision2 Debugger and continue program run
                      381                             ; SOURCE LINE # 53
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE     7
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE     7
 
 001D 20AC10          382             JB      ES,?C0004
 0020 30980D          383             JNB     RI,?C0004
@@ -473,7 +473,7 @@ LOC  OBJ            LINE     SOURCE
                      445     
 ----                 446             RSEG  ?PR?InitBreakPoint?INITIAL
 0000                 447     InitBreakPoint:
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE     8
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE     8
 
                      448                             ; SOURCE LINE # 73
                      449     ; {
@@ -541,7 +541,7 @@ LOC  OBJ            LINE     SOURCE
                      509     ;       P4AQCSFRC = 0x0F;
                      510                             ; SOURCE LINE # 93
 0009 75F10F          511             MOV     P4AQCSFRC,#0FH
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE     9
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE     9
 
                      512     ; }
                      513                             ; SOURCE LINE # 94
@@ -609,7 +609,7 @@ LOC  OBJ            LINE     SOURCE
 0032 E0              574             MOVX    A,@DPTR
 0033 FF              575             MOV     R7,A
 0034 EF              576             MOV     A,R7
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    10
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    10
 
 0035 4401            577             ORL     A,#01H
 0037 FF              578             MOV     R7,A
@@ -677,7 +677,7 @@ LOC  OBJ            LINE     SOURCE
 0077 4420            637             ORL     A,#020H
 0079 FF              638             MOV     R7,A
 007A EF              639             MOV     A,R7
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    11
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    11
 
 007B F0              640             MOVX    @DPTR,A
                      641     ;               AD4OST_H=0xFC;                                  //AD offset 
@@ -745,7 +745,7 @@ LOC  OBJ            LINE     SOURCE
                      701     ; //    P3TBPRD_L = 0x90;
                      702     ; //    P3TBPRD_H = 0x01;
                      703     ; //    P4TBPRD_L = 0x90;
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    12
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    12
 
                      704     ; //    P4TBPRD_H = 0x01;
                      705     ; 
@@ -813,7 +813,7 @@ LOC  OBJ            LINE     SOURCE
                      762     ; 
                      763     ;       P1CMPCTL = 0x00;                                                // shadow on,update
                               at CTR = ZERO
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    13
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    13
 
                      764                             ; SOURCE LINE # 157
 004E 90E007          765             MOV     DPTR,#0E007H
@@ -881,7 +881,7 @@ LOC  OBJ            LINE     SOURCE
 008E 90E00B          825             MOV     DPTR,#0E00BH
 0091 E4              826             CLR     A
 0092 F0              827             MOVX    @DPTR,A
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    14
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    14
 
                      828     ;       P1AQCTLB_H = 0x00;
                      829                             ; SOURCE LINE # 170
@@ -949,7 +949,7 @@ LOC  OBJ            LINE     SOURCE
                      886     ;       P2DBCTL = 0x0B;
                      887                             ; SOURCE LINE # 196
 00BC 90E022          888             MOV     DPTR,#0E022H
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    15
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    15
 
 00BF 740B            889             MOV     A,#0BH
 00C1 F0              890             MOVX    @DPTR,A
@@ -1017,7 +1017,7 @@ LOC  OBJ            LINE     SOURCE
 00FF F0              949             MOVX    @DPTR,A
                      950     ;       P1DBFED_H = 0x00;
                      951                             ; SOURCE LINE # 212
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    16
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    16
 
 0100 90E00F          952             MOV     DPTR,#0E00FH
 0103 E4              953             CLR     A
@@ -1085,7 +1085,7 @@ LOC  OBJ            LINE     SOURCE
                     1012                             ; SOURCE LINE # 229
 013A 90E012         1013             MOV     DPTR,#0E012H
 013D E4             1014             CLR     A
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    17
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    17
 
 013E F0             1015             MOVX    @DPTR,A
                     1016     ;       P2TZCTL = 0x00;
@@ -1153,7 +1153,7 @@ LOC  OBJ            LINE     SOURCE
 0159 F0             1071             MOVX    @DPTR,A
                     1072     ;       P2ETSEL_L = 0x00;
                     1073                             ; SOURCE LINE # 266
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    18
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    18
 
 015A 90E02B         1074             MOV     DPTR,#0E02BH
 015D E4             1075             CLR     A
@@ -1221,7 +1221,7 @@ LOC  OBJ            LINE     SOURCE
 0198 75A1D0         1135             MOV     P1TBPRD_L,#0D0H
                     1136     ;       P1TBPRD_H = 0x07;
                     1137                             ; SOURCE LINE # 280
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    19
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    19
 
 019B 75A207         1138             MOV     P1TBPRD_H,#07H
                     1139     ;       P2TBPRD_L = 0xD0;
@@ -1289,7 +1289,7 @@ LOC  OBJ            LINE     SOURCE
                     1199     ; 
                     1200     ; //    P1CMPA_L = 0xF4;                                                // pwm period is 0x
                              0C8@8MHz 10KHz
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    20
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    20
 
                     1201     ; //    P1CMPA_H = 0x01;
                     1202     ; //    P1CMPB_L = 0xEE;
@@ -1357,7 +1357,7 @@ LOC  OBJ            LINE     SOURCE
                     1260     
                     1261     ; 
                     1262     ; 
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    21
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    21
 
                     1263     ; void InitComp234(void)
                     1264     
@@ -1425,7 +1425,7 @@ LOC  OBJ            LINE     SOURCE
 0038                1323     ?C0015:
 0038 22             1324             RET     
                     1325     ; END OF InitComp234
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    22
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    22
 
                     1326     
                     1327     ; 
@@ -1493,7 +1493,7 @@ LOC  OBJ            LINE     SOURCE
                     1388     ;               P0_FN_H = 0x00;                                                            
                                   // P04 ~ P07 as GPIO
                     1389                             ; SOURCE LINE # 386
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    23
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    23
 
 0005 90E0D4         1390             MOV     DPTR,#0E0D4H
 0008 E4             1391             CLR     A
@@ -1561,7 +1561,7 @@ LOC  OBJ            LINE     SOURCE
 003D F0             1443             MOVX    @DPTR,A
                     1444     ;       
                     1445     ;               P2_FN_L = 0x00;                                                            
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    24
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    24
 
                                   // P20 ~ P23 as GPIO
                     1446                             ; SOURCE LINE # 399
@@ -1629,7 +1629,7 @@ LOC  OBJ            LINE     SOURCE
 0078 EF             1503             MOV     A,R7
 0079 54FE           1504             ANL     A,#0FEH
 007B FF             1505             MOV     R7,A
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    25
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    25
 
 007C EF             1506             MOV     A,R7
 007D F0             1507             MOVX    @DPTR,A
@@ -1697,7 +1697,7 @@ LOC  OBJ            LINE     SOURCE
 00B9 FF             1569             MOV     R7,A
 00BA EF             1570             MOV     A,R7
 00BB 54FC           1571             ANL     A,#0FCH
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    26
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    26
 
 00BD FF             1572             MOV     R7,A
 00BE EF             1573             MOV     A,R7
@@ -1765,7 +1765,7 @@ LOC  OBJ            LINE     SOURCE
 0005 F0             1635             MOVX    @DPTR,A
 0006 A3             1636             INC     DPTR
 0007 7440           1637             MOV     A,#040H
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    27
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    27
 
 0009 F0             1638             MOVX    @DPTR,A
                     1639     ;     TMOD = TMOD & 0xF0 | (3 << 0);                     //timer0 is 16bit timer
@@ -1833,7 +1833,7 @@ LOC  OBJ            LINE     SOURCE
 0012 FF             1699             MOV     R7,A
 0013 EF             1700             MOV     A,R7
 0014 4420           1701             ORL     A,#020H
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    28
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    28
 
 0016 FF             1702             MOV     R7,A
 0017 EF             1703             MOV     A,R7
@@ -1901,7 +1901,7 @@ LOC  OBJ            LINE     SOURCE
                     1763     ;       T4TR = 1;                               // start timer4
                     1764                             ; SOURCE LINE # 463
 001A 90E0CE         1765             MOV     DPTR,#0E0CEH
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    29
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    29
 
 001D E0             1766             MOVX    A,@DPTR
 001E FF             1767             MOV     R7,A
@@ -1969,7 +1969,7 @@ LOC  OBJ            LINE     SOURCE
 0020 4404           1826             ORL     A,#04H
 0022 FF             1827             MOV     R7,A
 0023 EF             1828             MOV     A,R7
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    30
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    30
 
 0024 F0             1829             MOVX    @DPTR,A
                     1830     ;       T5TF=0;                                                                            
@@ -2037,7 +2037,7 @@ LOC  OBJ            LINE     SOURCE
                     1889     ;       T6TR = 1;                                                                          
                                   // start timer4
                     1890                             ; SOURCE LINE # 488
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    31
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    31
 
 001A 90E0F9         1891             MOV     DPTR,#0E0F9H
 001D E0             1892             MOVX    A,@DPTR
@@ -2105,7 +2105,7 @@ LOC  OBJ            LINE     SOURCE
 000D 00             1953               nop
                     1954     ;               nop
 000E 00             1955               nop
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    32
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    32
 
                     1956     ;               nop
 000F 00             1957               nop
@@ -2173,7 +2173,7 @@ LOC  OBJ            LINE     SOURCE
 0032 00             2019               nop
                     2020     ;               nop
 0033 00             2021               nop
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    33
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    33
 
                     2022     ;               nop
 0034 00             2023               nop
@@ -2241,7 +2241,7 @@ LOC  OBJ            LINE     SOURCE
 0052                2085     ?C0023:
 0052 22             2086             RET     
                     2087     ; END OF SystemClock
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    34
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    34
 
                     2088     
                     2089     ; 
@@ -2306,7 +2306,7 @@ LOC  OBJ            LINE     SOURCE
                     2143     ; END OF sInitUART2
                     2144     
                     2145             END
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    35
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    35
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -2374,7 +2374,7 @@ BSHO_2. . . . . . . . . . . .  D ADDR   00BEH   A
 BSHO_3. . . . . . . . . . . .  D ADDR   00BFH   A   
 CKCON . . . . . . . . . . . .  D ADDR   008EH   A   
 CLK_DIV . . . . . . . . . . .  D ADDR   0091H   A   
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    36
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    36
 
 CLK_PD_CON. . . . . . . . . .  D ADDR   008FH   A   
 DPH . . . . . . . . . . . . .  D ADDR   0083H   A   
@@ -2442,7 +2442,7 @@ MD3 . . . . . . . . . . . . .  D ADDR   00ECH   A
 MD4 . . . . . . . . . . . . .  D ADDR   00EDH   A   
 MD5 . . . . . . . . . . . . .  D ADDR   00EEH   A   
 MEM_CONFIG. . . . . . . . . .  D ADDR   00E8H   A   
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    37
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    37
 
 P0. . . . . . . . . . . . . .  D ADDR   0080H   A   
 P00 . . . . . . . . . . . . .  B ADDR   0080H.0 A   
@@ -2510,7 +2510,7 @@ P30 . . . . . . . . . . . . .  B ADDR   00B0H.0 A
 P31 . . . . . . . . . . . . .  B ADDR   00B0H.1 A   
 P32 . . . . . . . . . . . . .  B ADDR   00B0H.2 A   
 P33 . . . . . . . . . . . . .  B ADDR   00B0H.3 A   
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    38
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    38
 
 P34 . . . . . . . . . . . . .  B ADDR   00B0H.4 A   
 P35 . . . . . . . . . . . . .  B ADDR   00B0H.5 A   
@@ -2578,7 +2578,7 @@ SYSTEMCLOCK . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?SYSTEMCLOCK?INITIAL
 T2CON . . . . . . . . . . . .  D ADDR   00C8H   A   
 TB80. . . . . . . . . . . . .  B ADDR   0098H.3 A   
 TCON. . . . . . . . . . . . .  D ADDR   0088H   A   
-A51 MACRO ASSEMBLER  INITIAL                                                              09/29/2018 17:01:25 PAGE    39
+A51 MACRO ASSEMBLER  INITIAL                                                              10/05/2018 04:20:41 PAGE    39
 
 TF0 . . . . . . . . . . . . .  B ADDR   0088H.5 A   
 TF1 . . . . . . . . . . . . .  B ADDR   0088H.7 A   
