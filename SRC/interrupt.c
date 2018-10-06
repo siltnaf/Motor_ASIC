@@ -81,8 +81,11 @@ void TIMER0Interrupt(void)  interrupt 1
 {
  
 	  TF0=0;
-		P26= ~P26;
+	P26=~P26;
+
 	
+
+
 }
 
 void TIMER1Interrupt(void)  interrupt 3
@@ -110,14 +113,15 @@ void TIMER4Interrupt(void)  interrupt 17
 	
 	
 	T4TF=0;
-	T4EXF=0;
+
 	CLR_T4_INT();
 
 	
 	P26= ~P26;
 	
-	if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0))
+			if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0)&&(BP_INT==0))
 			IEX6=0;
+			
 	
 	
 }
@@ -284,8 +288,10 @@ void RTCInterrupt(void) interrupt 28
 	
 	
 	CLR_RTC_INT();
-	if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0))
-		IEX6=0;
+			if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0)&&(BP_INT==0))
+			IEX6=0;
+			
+	
 }
 	
 
@@ -293,16 +299,20 @@ void LDV18Interrupt(void) interrupt 29
 {
 	
 	CLR_LDV18_INT();
-	if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0))
-		IEX6=0;
+			if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0)&&(BP_INT==0))
+			IEX6=0;
+			
+
 }
 
 void LDV33Interrupt(void) interrupt 30
 {
 	
 	CLR_LDV33_INT();
-	if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0))
-		IEX6=0;
+	
+			if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0)&&(BP_INT==0))
+			IEX6=0;
+			
 }
 
 
@@ -346,7 +356,14 @@ void UART2Interrupt(void) interrupt 16
 
 void ADCInterrupt(void) interrupt 8
 {
-   
+ 
+		if (INTFL==1)
+		{
+				INTFL=0;
+				IADC=0;
+		}
 	
-	IADC = 0;             //clr the interrupt flag
+    ADresult = AD4OUT;
+
+	
 }

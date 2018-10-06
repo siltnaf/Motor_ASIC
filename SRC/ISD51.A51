@@ -299,7 +299,8 @@ HWBreakpoint:   MOV     PSW,#0          ; Select Register Bank 0
                 RLC     A               ; 0F8H->Break 0, 0F9H->Break 1
 ;                ORL     BPCTRL,#80H     ; Clear Breakpoint interrupt
                 ANL     BPCTRL,#7FH     ; Clear Breakpoint interrupt
-                CLR     PFI
+			
+                CLR     PFI				; clear iex6
                 SET_TI
                 SJMP    Send7Bytes
 

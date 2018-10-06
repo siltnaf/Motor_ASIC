@@ -1,10 +1,10 @@
-C51 COMPILER V9.53.0.0   MAIN                                                              10/05/2018 04:20:41 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  10/06/2018 17:27:38 PAGE 1   
 
 
-C51 COMPILER V9.53.0.0, COMPILATION OF MODULE MAIN
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
 OBJECT MODULE PLACED IN .\OUTPUT\main.obj
-COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE SRC\main.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC) BROWSE INTVECTOR(0
-                    -X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\main.lst) TABS(2) OBJECT(.\OUTPUT\main.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE SRC\main.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC) BROWSE INTVECTO
+                    -R(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\main.lst) TABS(2) OBJECT(.\OUTPUT\main.obj)
 
 line level    source
 
@@ -19,123 +19,120 @@ line level    source
    9          
   10          
   11           unsigned char hh;
-  12           unsigned short ADresult;
-  13          
-  14          void main(void)
-  15          {
-  16   1          #if ISDDebug == DISABLE_ISD
+  12           unsigned int ADresult;
+  13           unsigned int NEXTresult;
+  14          
+  15          void main(void)
+  16          {
+  17   1          #if ISDDebug == DISABLE_ISD
                   SystemClock();
                   #endif
-  19   1          InitISDDebug(); 
-  20   1       
-  21   1        InitTimer4();                          //start timer1
-  22   1        
-  23   1      
-  24   1        
+  20   1          InitISDDebug(); 
+  21   1       
+  22   1        //InitTimer4();                          //start timer1
+  23   1        InitTimer01();
+  24   1        InitADC();
   25   1        
   26   1        
-  27   1          InitGPIO();
-  28   1        //  InitEXT();
-  29   1        
+  27   1        
+  28   1          InitGPIO();
+  29   1        //  InitEXT();
   30   1        
-  31   1          EAL=1;
-  32   1          while(1)
-  33   1          {
-  34   2            
-  35   2            
-  36   2            
-  37   2            if  (T4TF==1) 
-  38   2            {
-  39   3              T4TF=0;
-  40   3              P26=~P26;
-  41   3            }
-  42   2            
-  43   2            
-  44   2              #if ISDDebug == ENABLE_ISD
-  45   2              ISDcheck();      // Polling for ISD command for software breakpoint
-  46   2              #endif
-  47   2              
-  48   2          }
-  49   1      }
-  50          
-  51          
-C51 COMPILER V9.53.0.0   MAIN                                                              10/05/2018 04:20:41 PAGE 2   
+  31   1        
+  32   1          EAL=1;
+  33   1          while(1)
+  34   1          {
+  35   2        
+  36   2            while (BUSY==1);
+  37   2              NEXTresult= ADresult;
+  38   2              SWFTRG=1;       //start next AD
+  39   2            
+  40   2              #if ISDDebug == ENABLE_ISD
+  41   2              ISDcheck();      // Polling for ISD command for software breakpoint
+  42   2              #endif
+  43   2              
+  44   2          }
+  45   1      }
+  46          
+  47          
+C51 COMPILER V9.54   MAIN                                                                  10/06/2018 17:27:38 PAGE 2   
 
 ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
 
              ; FUNCTION main (BEGIN)
-                                           ; SOURCE LINE # 14
                                            ; SOURCE LINE # 15
-                                           ; SOURCE LINE # 19
+                                           ; SOURCE LINE # 16
+                                           ; SOURCE LINE # 20
 0000 120000      E     LCALL   InitISDDebug
-                                           ; SOURCE LINE # 21
-0003 120000      E     LCALL   InitTimer4
-                                           ; SOURCE LINE # 27
-0006 120000      E     LCALL   InitGPIO
-                                           ; SOURCE LINE # 31
-0009 D2AF              SETB    EAL
-000B         ?C0001:
+                                           ; SOURCE LINE # 23
+0003 120000      E     LCALL   InitTimer01
+                                           ; SOURCE LINE # 24
+0006 120000      E     LCALL   InitADC
+                                           ; SOURCE LINE # 28
+0009 120000      E     LCALL   InitGPIO
                                            ; SOURCE LINE # 32
+000C D2AF              SETB    EAL
+000E         ?C0001:
                                            ; SOURCE LINE # 33
+                                           ; SOURCE LINE # 34
+000E         ?C0003:
+                                           ; SOURCE LINE # 36
+000E 90E05A            MOV     DPTR,#0E05AH
+0011 E0                MOVX    A,@DPTR
+0012 FF                MOV     R7,A
+0013 EF                MOV     A,R7
+0014 C4                SWAP    A
+0015 13                RRC     A
+0016 13                RRC     A
+0017 5403              ANL     A,#03H
+0019 FF                MOV     R7,A
+001A EF                MOV     A,R7
+001B 20E0F0            JB      ACC.0,?C0003
+001E         ?C0004:
                                            ; SOURCE LINE # 37
-000B 90E0CE            MOV     DPTR,#0E0CEH
-000E E0                MOVX    A,@DPTR
-000F FF                MOV     R7,A
-0010 EF                MOV     A,R7
-0011 C4                SWAP    A
-0012 13                RRC     A
-0013 13                RRC     A
-0014 13                RRC     A
-0015 5401              ANL     A,#01H
-0017 FF                MOV     R7,A
-0018 EF                MOV     A,R7
-0019 30E00D            JNB     ACC.0,?C0003
+001E 850000      R     MOV     NEXTresult,ADresult
+0021 850000      R     MOV     NEXTresult+01H,ADresult+01H
                                            ; SOURCE LINE # 38
-                                           ; SOURCE LINE # 39
-001C 90E0CE            MOV     DPTR,#0E0CEH
-001F E0                MOVX    A,@DPTR
-0020 FF                MOV     R7,A
-0021 EF                MOV     A,R7
-0022 547F              ANL     A,#07FH
-0024 FF                MOV     R7,A
-0025 EF                MOV     A,R7
-0026 F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 40
-0027 B2A6              CPL     P26
+0024 90E05A            MOV     DPTR,#0E05AH
+0027 E0                MOVX    A,@DPTR
+0028 FF                MOV     R7,A
+0029 EF                MOV     A,R7
+002A 4420              ORL     A,#020H
+002C FF                MOV     R7,A
+002D EF                MOV     A,R7
+002E F0                MOVX    @DPTR,A
                                            ; SOURCE LINE # 41
-0029         ?C0003:
+002F 20ACDC            JB      ES,?C0003
+0032 3098D9            JNB     RI,?C0003
+0035 E599              MOV     A,SBUF
+0037 64A5              XRL     A,#0A5H
+0039 6004              JZ      ?C0007
+003B C298              CLR     RI
+003D 80CF              SJMP    ?C0003
+003F         ?C0007:
+003F 120000      E     LCALL   __isd_init
+0042         ?C0008:
+0042         ?C0006:
+0042         ?C0005:
+                                           ; SOURCE LINE # 44
+0042 80CA              SJMP    ?C0003
+0044         ?C0002:
                                            ; SOURCE LINE # 45
-0029 20ACDF            JB      ES,?C0001
-002C 3098DC            JNB     RI,?C0001
-002F E599              MOV     A,SBUF
-0031 64A5              XRL     A,#0A5H
-0033 6004              JZ      ?C0006
-0035 C298              CLR     RI
-0037 80D2              SJMP    ?C0001
-0039         ?C0006:
-0039 120000      E     LCALL   __isd_init
-003C         ?C0007:
-003C         ?C0005:
-003C         ?C0004:
-                                           ; SOURCE LINE # 48
-003C 80CD              SJMP    ?C0001
-003E         ?C0002:
-                                           ; SOURCE LINE # 49
-003E         ?C0008:
-C51 COMPILER V9.53.0.0   MAIN                                                              10/05/2018 04:20:41 PAGE 3   
+C51 COMPILER V9.54   MAIN                                                                  10/06/2018 17:27:38 PAGE 3   
 
-003E 22                RET     
+0044         ?C0009:
+0044 22                RET     
              ; FUNCTION main (END)
 
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     63    ----
+   CODE SIZE        =     69    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      3    ----
+   DATA SIZE        =      5    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

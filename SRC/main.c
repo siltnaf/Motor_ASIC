@@ -9,7 +9,8 @@
 
 
  unsigned char hh;
- unsigned short ADresult;
+ unsigned int ADresult;
+ unsigned int NEXTresult;
 
 void main(void)
 {
@@ -18,9 +19,9 @@ void main(void)
     #endif
 		InitISDDebug(); 
  
-  InitTimer4();                          //start timer1
-	
-
+  //InitTimer4();                          //start timer1
+	InitTimer01();
+	InitADC();
 	
 	
 	
@@ -31,15 +32,10 @@ void main(void)
 		EAL=1;
     while(1)
     {
-			
-			
-			
-			if 	(T4TF==1)	
-			{
-				T4TF=0;
-				P26=~P26;
-			}
-			
+	
+			while (BUSY==1);
+				NEXTresult= ADresult;
+				SWFTRG=1;				//start next AD
 			
         #if ISDDebug == ENABLE_ISD
         ISDcheck();      // Polling for ISD command for software breakpoint

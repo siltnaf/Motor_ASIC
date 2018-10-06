@@ -99,17 +99,16 @@ void InitADC(void)
 		AD_PD = 0;							//Power up ADD
 	  ADC_CLK_EN=1;
 		ADC_CLK_DIV_SEL=0x03;    //system divided by 4
-    ADCHS = BIT_3;						// select channel CH4
+    ADCHS = 0x08;						// select channel CH4
 		DAC1_PD = 1;						// DAC12 down
 		DAC2_PD = 1;
 		LDO25_PD=0;             //use internal 2.5V for AD VREF
-		BP4=1;                  //CH4 bypass sample and hold
-		BP5=1; 									//CH5 bypass sample and hold
-		BP6=1;			            //CH6 bypass sample and hold
-		INTEN=1;								//enable interrupt
-		SWFTRG=1;								//start AD conversion
-		AD4OST_H=0xFC;					//AD offset 
-		AD4OST_L=0x00;					//AD offset
+		BP4=0;                  //CH4 normal and no bypass
+	
+		SWFTRG=1;
+	  INTEN=1;
+		AD4OST=0x0000;					//AD offset   0xFC
+
 	
 	
 		EADC=1;

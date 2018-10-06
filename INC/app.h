@@ -3,7 +3,7 @@
 
 #define ENABLE_ISD   1
 #define DISABLE_ISD  0
-#define ISDDebug ENABLE_ISD
+#define ISDDebug  ENABLE_ISD
 
 
 
@@ -127,6 +127,7 @@
 //extern unsigned char ucReceiveFlag;
 
 extern unsigned char hh;
+extern unsigned int ADresult;
 
 
 
