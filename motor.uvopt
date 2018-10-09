@@ -134,7 +134,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>ISD51</Key>
-          <Name>-S6 -B4800 -O719</Name>
+          <Name>-S7 -B4800 -O719</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -148,16 +148,16 @@
           <Type>0</Type>
           <LineNumber>38</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>-16765182</Address>
+          <Address>0</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>SRC\MAIN.C</Filename>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>C:\project\asic\SRC\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\motor\MAIN\38</Expression>
+          <Expression></Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>

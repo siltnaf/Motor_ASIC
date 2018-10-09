@@ -10,7 +10,7 @@
 
  unsigned char hh;
  unsigned int ADresult;
- unsigned int NEXTresult;
+ unsigned int data_value;
 
 void main(void)
 {
@@ -21,7 +21,7 @@ void main(void)
  
   //InitTimer4();                          //start timer1
 	InitTimer01();
-	InitADC();
+	InitADC();                           //ADC use timer0 to trigger AD start
 	
 	
 	
@@ -33,9 +33,10 @@ void main(void)
     while(1)
     {
 	
-			while (BUSY==1);
-				NEXTresult= ADresult;
-				SWFTRG=1;				//start next AD
+		
+		while (BUSY==1);
+				data_value= ADresult;
+			
 			
         #if ISDDebug == ENABLE_ISD
         ISDcheck();      // Polling for ISD command for software breakpoint

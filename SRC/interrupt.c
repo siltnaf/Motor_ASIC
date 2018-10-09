@@ -81,8 +81,8 @@ void TIMER0Interrupt(void)  interrupt 1
 {
  
 	  TF0=0;
-	P26=~P26;
 
+	SWFTRG=1;				//start next AD
 	
 
 
@@ -356,7 +356,8 @@ void UART2Interrupt(void) interrupt 16
 
 void ADCInterrupt(void) interrupt 8
 {
- 
+	
+
 		if (INTFL==1)
 		{
 				INTFL=0;

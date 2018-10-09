@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   MAIN                                                                  10/06/2018 17:27:38 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  10/09/2018 08:53:40 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
@@ -20,7 +20,7 @@ line level    source
   10          
   11           unsigned char hh;
   12           unsigned int ADresult;
-  13           unsigned int NEXTresult;
+  13           unsigned int data_value;
   14          
   15          void main(void)
   16          {
@@ -31,7 +31,7 @@ line level    source
   21   1       
   22   1        //InitTimer4();                          //start timer1
   23   1        InitTimer01();
-  24   1        InitADC();
+  24   1        InitADC();                           //ADC use timer0 to trigger AD start
   25   1        
   26   1        
   27   1        
@@ -43,19 +43,20 @@ line level    source
   33   1          while(1)
   34   1          {
   35   2        
-  36   2            while (BUSY==1);
-  37   2              NEXTresult= ADresult;
-  38   2              SWFTRG=1;       //start next AD
+  36   2          
+  37   2          while (BUSY==1);
+  38   2              data_value= ADresult;
   39   2            
-  40   2              #if ISDDebug == ENABLE_ISD
-  41   2              ISDcheck();      // Polling for ISD command for software breakpoint
-  42   2              #endif
-  43   2              
-  44   2          }
-  45   1      }
-  46          
+  40   2            
+  41   2              #if ISDDebug == ENABLE_ISD
+  42   2              ISDcheck();      // Polling for ISD command for software breakpoint
+  43   2              #endif
+  44   2              
+  45   2          }
+  46   1      }
   47          
-C51 COMPILER V9.54   MAIN                                                                  10/06/2018 17:27:38 PAGE 2   
+  48          
+C51 COMPILER V9.54   MAIN                                                                  10/09/2018 08:53:40 PAGE 2   
 
 ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
@@ -77,7 +78,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
                                            ; SOURCE LINE # 33
                                            ; SOURCE LINE # 34
 000E         ?C0003:
-                                           ; SOURCE LINE # 36
+                                           ; SOURCE LINE # 37
 000E 90E05A            MOV     DPTR,#0E05AH
 0011 E0                MOVX    A,@DPTR
 0012 FF                MOV     R7,A
@@ -90,46 +91,37 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 001A EF                MOV     A,R7
 001B 20E0F0            JB      ACC.0,?C0003
 001E         ?C0004:
-                                           ; SOURCE LINE # 37
-001E 850000      R     MOV     NEXTresult,ADresult
-0021 850000      R     MOV     NEXTresult+01H,ADresult+01H
                                            ; SOURCE LINE # 38
-0024 90E05A            MOV     DPTR,#0E05AH
-0027 E0                MOVX    A,@DPTR
-0028 FF                MOV     R7,A
-0029 EF                MOV     A,R7
-002A 4420              ORL     A,#020H
-002C FF                MOV     R7,A
-002D EF                MOV     A,R7
-002E F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 41
-002F 20ACDC            JB      ES,?C0003
-0032 3098D9            JNB     RI,?C0003
-0035 E599              MOV     A,SBUF
-0037 64A5              XRL     A,#0A5H
-0039 6004              JZ      ?C0007
-003B C298              CLR     RI
-003D 80CF              SJMP    ?C0003
-003F         ?C0007:
-003F 120000      E     LCALL   __isd_init
-0042         ?C0008:
-0042         ?C0006:
-0042         ?C0005:
-                                           ; SOURCE LINE # 44
-0042 80CA              SJMP    ?C0003
-0044         ?C0002:
+001E 850000      R     MOV     data_value,ADresult
+0021 850000      R     MOV     data_value+01H,ADresult+01H
+                                           ; SOURCE LINE # 42
+0024 20ACE7            JB      ES,?C0003
+0027 3098E4            JNB     RI,?C0003
+002A E599              MOV     A,SBUF
+002C 64A5              XRL     A,#0A5H
+002E 6004              JZ      ?C0007
+0030 C298              CLR     RI
+0032 80DA              SJMP    ?C0003
+0034         ?C0007:
+0034 120000      E     LCALL   __isd_init
+0037         ?C0008:
+0037         ?C0006:
+0037         ?C0005:
                                            ; SOURCE LINE # 45
-C51 COMPILER V9.54   MAIN                                                                  10/06/2018 17:27:38 PAGE 3   
-
-0044         ?C0009:
-0044 22                RET     
+0037 80D5              SJMP    ?C0003
+0039         ?C0002:
+                                           ; SOURCE LINE # 46
+0039         ?C0009:
+0039 22                RET     
              ; FUNCTION main (END)
 
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     69    ----
+   CODE SIZE        =     58    ----
    CONSTANT SIZE    =   ----    ----
+C51 COMPILER V9.54   MAIN                                                                  10/09/2018 08:53:40 PAGE 3   
+
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =      5    ----
