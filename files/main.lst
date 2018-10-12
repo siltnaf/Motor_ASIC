@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   MAIN                                                                  10/09/2018 08:53:40 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  10/12/2018 08:44:02 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
@@ -21,110 +21,129 @@ line level    source
   11           unsigned char hh;
   12           unsigned int ADresult;
   13           unsigned int data_value;
-  14          
-  15          void main(void)
-  16          {
-  17   1          #if ISDDebug == DISABLE_ISD
+  14           
+  15          U32 EE_data;
+  16           
+  17          
+  18          void main(void)
+  19          {
+  20   1          #if ISDDebug == DISABLE_ISD
                   SystemClock();
                   #endif
-  20   1          InitISDDebug(); 
-  21   1       
-  22   1        //InitTimer4();                          //start timer1
-  23   1        InitTimer01();
-  24   1        InitADC();                           //ADC use timer0 to trigger AD start
-  25   1        
-  26   1        
-  27   1        
-  28   1          InitGPIO();
-  29   1        //  InitEXT();
+  23   1          InitISDDebug(); 
+  24   1       
+  25   1        //InitTimer4();                          //start timer1
+  26   1        InitTimer01();
+  27   1        InitADC();                           //ADC use timer0 to trigger AD start
+  28   1        
+  29   1        
   30   1        
-  31   1        
-  32   1          EAL=1;
-  33   1          while(1)
-  34   1          {
-  35   2        
-  36   2          
-  37   2          while (BUSY==1);
-  38   2              data_value= ADresult;
-  39   2            
-  40   2            
-  41   2              #if ISDDebug == ENABLE_ISD
-  42   2              ISDcheck();      // Polling for ISD command for software breakpoint
-  43   2              #endif
-  44   2              
-  45   2          }
-  46   1      }
-  47          
-  48          
-C51 COMPILER V9.54   MAIN                                                                  10/09/2018 08:53:40 PAGE 2   
+  31   1          InitGPIO();
+  32   1        //  InitEXT();
+  33   1        
+  34   1        
+  35   1          EAL=1;
+  36   1          while(1)
+  37   1          {
+  38   2        
+  39   2          
+  40   2      //      EE_write(0x0a, 0xabcdef12);
+  41   2            EE_data=EE_read(0x0a);
+  42   2           
+  43   2          
+  44   2        
+  45   2          while (BUSY==1);
+  46   2              data_value= ADresult;
+  47   2            
+  48   2            
+  49   2              #if ISDDebug == ENABLE_ISD
+  50   2              ISDcheck();      // Polling for ISD command for software breakpoint
+  51   2              #endif
+  52   2              
+  53   2          }
+  54   1      }
+C51 COMPILER V9.54   MAIN                                                                  10/12/2018 08:44:02 PAGE 2   
+
+  55          
+  56          
+  57          //void EE_write ( unsigned int  addr, unsigned char dat1, unsigned char dat2
+  58          
+C51 COMPILER V9.54   MAIN                                                                  10/12/2018 08:44:02 PAGE 3   
 
 ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
 
              ; FUNCTION main (BEGIN)
-                                           ; SOURCE LINE # 15
-                                           ; SOURCE LINE # 16
-                                           ; SOURCE LINE # 20
-0000 120000      E     LCALL   InitISDDebug
+                                           ; SOURCE LINE # 18
+                                           ; SOURCE LINE # 19
                                            ; SOURCE LINE # 23
+0000 120000      E     LCALL   InitISDDebug
+                                           ; SOURCE LINE # 26
 0003 120000      E     LCALL   InitTimer01
-                                           ; SOURCE LINE # 24
+                                           ; SOURCE LINE # 27
 0006 120000      E     LCALL   InitADC
-                                           ; SOURCE LINE # 28
+                                           ; SOURCE LINE # 31
 0009 120000      E     LCALL   InitGPIO
-                                           ; SOURCE LINE # 32
+                                           ; SOURCE LINE # 35
 000C D2AF              SETB    EAL
 000E         ?C0001:
-                                           ; SOURCE LINE # 33
-                                           ; SOURCE LINE # 34
-000E         ?C0003:
+                                           ; SOURCE LINE # 36
                                            ; SOURCE LINE # 37
-000E 90E05A            MOV     DPTR,#0E05AH
-0011 E0                MOVX    A,@DPTR
-0012 FF                MOV     R7,A
-0013 EF                MOV     A,R7
-0014 C4                SWAP    A
-0015 13                RRC     A
-0016 13                RRC     A
-0017 5403              ANL     A,#03H
-0019 FF                MOV     R7,A
-001A EF                MOV     A,R7
-001B 20E0F0            JB      ACC.0,?C0003
-001E         ?C0004:
-                                           ; SOURCE LINE # 38
-001E 850000      R     MOV     data_value,ADresult
-0021 850000      R     MOV     data_value+01H,ADresult+01H
-                                           ; SOURCE LINE # 42
-0024 20ACE7            JB      ES,?C0003
-0027 3098E4            JNB     RI,?C0003
-002A E599              MOV     A,SBUF
-002C 64A5              XRL     A,#0A5H
-002E 6004              JZ      ?C0007
-0030 C298              CLR     RI
-0032 80DA              SJMP    ?C0003
-0034         ?C0007:
-0034 120000      E     LCALL   __isd_init
-0037         ?C0008:
-0037         ?C0006:
-0037         ?C0005:
+                                           ; SOURCE LINE # 41
+000E 7F0A              MOV     R7,#0AH
+0010 120000      E     LCALL   _EE_read
+0013 8F00        R     MOV     EE_data+03H,R7
+0015 8E00        R     MOV     EE_data+02H,R6
+0017 8D00        R     MOV     EE_data+01H,R5
+0019 8C00        R     MOV     EE_data,R4
+001B         ?C0003:
                                            ; SOURCE LINE # 45
-0037 80D5              SJMP    ?C0003
-0039         ?C0002:
+001B 90E05A            MOV     DPTR,#0E05AH
+001E E0                MOVX    A,@DPTR
+001F FF                MOV     R7,A
+0020 EF                MOV     A,R7
+0021 C4                SWAP    A
+0022 13                RRC     A
+0023 13                RRC     A
+0024 5403              ANL     A,#03H
+0026 FF                MOV     R7,A
+0027 EF                MOV     A,R7
+0028 20E0F0            JB      ACC.0,?C0003
+002B         ?C0004:
                                            ; SOURCE LINE # 46
-0039         ?C0009:
-0039 22                RET     
+002B 850000      R     MOV     data_value,ADresult
+002E 850000      R     MOV     data_value+01H,ADresult+01H
+                                           ; SOURCE LINE # 50
+0031 20ACDA            JB      ES,?C0001
+0034 3098D7            JNB     RI,?C0001
+0037 E599              MOV     A,SBUF
+0039 64A5              XRL     A,#0A5H
+003B 6004              JZ      ?C0007
+003D C298              CLR     RI
+003F 80CD              SJMP    ?C0001
+0041         ?C0007:
+0041 120000      E     LCALL   __isd_init
+0044         ?C0008:
+0044         ?C0006:
+0044         ?C0005:
+                                           ; SOURCE LINE # 53
+0044 80C8              SJMP    ?C0001
+0046         ?C0002:
+                                           ; SOURCE LINE # 54
+0046         ?C0009:
+0046 22                RET     
+C51 COMPILER V9.54   MAIN                                                                  10/12/2018 08:44:02 PAGE 4   
+
              ; FUNCTION main (END)
 
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     58    ----
+   CODE SIZE        =     71    ----
    CONSTANT SIZE    =   ----    ----
-C51 COMPILER V9.54   MAIN                                                                  10/09/2018 08:53:40 PAGE 3   
-
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      5    ----
+   DATA SIZE        =      9    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

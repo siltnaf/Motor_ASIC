@@ -11,6 +11,9 @@
  unsigned char hh;
  unsigned int ADresult;
  unsigned int data_value;
+ 
+U32 EE_data;
+ 
 
 void main(void)
 {
@@ -34,6 +37,11 @@ void main(void)
     {
 	
 		
+//			EE_write(0x0a, 0xabcdef12);
+			EE_data=EE_read(0x0a);
+		 
+		
+	
 		while (BUSY==1);
 				data_value= ADresult;
 			
@@ -45,4 +53,6 @@ void main(void)
     }
 }
 
+
+//void EE_write ( unsigned int  addr, unsigned char dat1, unsigned char dat2
 

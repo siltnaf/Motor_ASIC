@@ -41,6 +41,63 @@ const unsigned char tDebugTable[10] = {1,2,3,4,5,6,7,8,9,10};
 
 
 
+/*
+ * @fn		EE_write
+ *
+ * @brief write data to EEPROM , 64x32 bit
+ * 
+ * @param	none
+ * EE_write(eeprom address, eeprom data)
+
+ *
+ * @return 	none
+ */
+
+ void EE_write(U8 EE_addr, U32 EE_data)
+{
+	
+	
+			MTPCON2=0x53;         //init MTP write mode
+			MTPSADD1=EE_addr;       // EEPROM address
+			MTPSADD2=0x00;
+			MTPDATA=EE_data;
+			
+			MTPCON1=0x0b;				//start 
+			
+			while (MTP_WRITE==0);
+			MTPCON1=0x0;
+	
+}
+
+/*
+ * @fn		EE_read
+ *
+ * @brief read data from EEPROM , 64x32 bit
+ * 
+ * @param	none
+ * EE_read(eeprom address)
+
+ *
+ * @return 	eprom data
+ */
+
+U32 EE_read(U8 EE_addr)
+{
+	
+		
+			MTPCON2=0x55;         //init MTP read mode
+			MTPSADD1=EE_addr;       //
+			MTPSADD2=0x00;
+			MTPCON1=0x07;					//start
+			while (MTP_READ==0);
+			MTPCON1=0x0;
+			return MTPDATA;
+	
+}
+
+
+
+
 
 
 /*

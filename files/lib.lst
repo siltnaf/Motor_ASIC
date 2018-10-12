@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   LIB                                                                   10/09/2018 08:53:40 PAGE 1   
+C51 COMPILER V9.54   LIB                                                                   10/12/2018 08:44:02 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE LIB
@@ -51,134 +51,193 @@ line level    source
   41          
   42          
   43          
-  44          
-  45          
-  46          /*
-  47           * @fn    sin16
-  48           *
-  49           * @brief sin16
-  50           * 
-  51           * @param none
-  52           * sin(x) , where x is 
-  53          
-  54           *
-C51 COMPILER V9.54   LIB                                                                   10/09/2018 08:53:40 PAGE 2   
+  44          /*
+  45           * @fn    EE_write
+  46           *
+  47           * @brief write data to EEPROM , 64x32 bit
+  48           * 
+  49           * @param none
+  50           * EE_write(eeprom address, eeprom data)
+  51          
+  52           *
+  53           * @return  none
+  54           */
+C51 COMPILER V9.54   LIB                                                                   10/12/2018 08:44:02 PAGE 2   
 
-  55           * @return  none
-  56           */
-  57          S16 sin(S16 dat)
-  58          {
-  59   1      volatile signed int value;
-  60   1        value= XWORD[dat];
-  61   1        
-  62   1      return value;
-  63   1        
-  64   1      }
-  65          
-  66          
-  67          /*
-  68           * @fn    Normalize
-  69           *
-  70           * @brief Normalize
-  71           * 
-  72           * @param none
-  73           *
-  74           * @return  none
-  75           */
-  76          //S32 Normalize(S32 dat)
-  77          //{
-  78          //#pragma asm
-  79          //  mov MD0, r7
-  80          //  mov MD1, r6
-  81          //  mov MD2, r5
-  82          //  mov MD3, r4
+  55          
+  56           void EE_write(U8 EE_addr, U32 EE_data)
+  57          {
+  58   1        
+  59   1        
+  60   1            MTPCON2=0x53;         //init MTP write mode
+  61   1            MTPSADD1=EE_addr;       // EEPROM address
+  62   1            MTPSADD2=0x00;
+  63   1            MTPDATA=EE_data;
+  64   1            
+  65   1            MTPCON1=0x0b;       //start 
+  66   1            
+  67   1            while (MTP_WRITE==0);
+  68   1            MTPCON1=0x0;
+  69   1        
+  70   1      }
+  71          
+  72          /*
+  73           * @fn    EE_read
+  74           *
+  75           * @brief read data from EEPROM , 64x32 bit
+  76           * 
+  77           * @param none
+  78           * EE_read(eeprom address)
+  79          
+  80           *
+  81           * @return  eprom data
+  82           */
   83          
-  84          //  ANL  ARCON , #0xE0
-  85          
-  86          //  nop    ;wait 34
-  87          //  nop
-  88          //  nop
-  89          //  nop
-  90          //  nop
-  91          //  nop    
-  92          //  nop
-  93          //  nop
-  94          //  nop
-  95          //  nop
-  96          //  nop    ;wait 24
-  97          //  nop
-  98          //  nop
-  99          //  nop
- 100          //  nop
- 101          //  nop    
- 102          //  nop
- 103          //  nop
- 104          //  nop
- 105          //  nop
- 106          //  nop    ;wait 14
- 107          //  nop
- 108          //  nop
- 109          //  nop
- 110          //  nop
- 111          //  nop    
- 112          //  nop
- 113          //  nop
- 114          //  nop
- 115          //  nop
- 116          //  nop    ;wait 4
-C51 COMPILER V9.54   LIB                                                                   10/09/2018 08:53:40 PAGE 3   
+  84          U32 EE_read(U8 EE_addr)
+  85          {
+  86   1        
+  87   1          
+  88   1            MTPCON2=0x55;         //init MTP read mode
+  89   1            MTPSADD1=EE_addr;       //
+  90   1            MTPSADD2=0x00;
+  91   1            MTPCON1=0x07;         //start
+  92   1            while (MTP_READ==0);
+  93   1            MTPCON1=0x0;
+  94   1            return MTPDATA;
+  95   1        
+  96   1      }
+  97          
+  98          
+  99          
+ 100          
+ 101          
+ 102          
+ 103          /*
+ 104           * @fn    sin16
+ 105           *
+ 106           * @brief sin16
+ 107           * 
+ 108           * @param none
+ 109           * sin(x) , where x is 
+ 110          
+ 111           *
+ 112           * @return  none
+ 113           */
+ 114          S16 sin(S16 dat)
+ 115          {
+ 116   1      volatile signed int value;
+C51 COMPILER V9.54   LIB                                                                   10/12/2018 08:44:02 PAGE 3   
 
- 117          //  nop
- 118          //  nop
- 119          //  nop
- 120          //#pragma endasm
- 121          //  _md_error = (ARCON&(MD_MDEF|MD_MDOV));
- 122          //#pragma asm
- 123          //  mov r7, MD0
- 124          //  mov r6, MD1
- 125          //  mov r5, MD2
- 126          //  mov r4, MD3
- 127          //#pragma endasm
- 128          //return MD0;
- 129          //}
- 130          void Normalizing_Write(unsigned long Data)
- 131          {
- 132   1       Long_Data LD;
- 133   1       LD.Ldata =Data;
- 134   1       MD0 = LD.ss1.Byte0;
- 135   1       MD1 = LD.ss1.Byte1;
- 136   1       MD2 = LD.ss1.Byte2;
- 137   1       MD3 = LD.ss1.Byte3;
- 138   1       ARCON = 0x00 ; // Start Normalizing
- 139   1       while(!(PCON & 0x40)) //check MDU finish flag
- 140   1       {};
- 141   1      }
+ 117   1        value= XWORD[dat];
+ 118   1        
+ 119   1      return value;
+ 120   1        
+ 121   1      }
+ 122          
+ 123          
+ 124          /*
+ 125           * @fn    Normalize
+ 126           *
+ 127           * @brief Normalize
+ 128           * 
+ 129           * @param none
+ 130           *
+ 131           * @return  none
+ 132           */
+ 133          //S32 Normalize(S32 dat)
+ 134          //{
+ 135          //#pragma asm
+ 136          //  mov MD0, r7
+ 137          //  mov MD1, r6
+ 138          //  mov MD2, r5
+ 139          //  mov MD3, r4
+ 140          
+ 141          //  ANL  ARCON , #0xE0
  142          
- 143          void Normalizing_Read(void)
- 144          { 
- 145   1      Long_Data LD;
- 146   1       LD.ss1.Byte0 = MD0; //first read
- 147   1       LD.ss1.Byte1 = MD1;
- 148   1       LD.ss1.Byte2 = MD2;
- 149   1       LD.ss1.Byte3 = MD3; //last read, MDEF(error flag) happen if not read
- 150   1      } 
- 151          
- 152          void Normalizing_test(void)
- 153          {
- 154   1      
- 155   1       Normalizing_Write(0x00000001); //ANS=0x1F -->MDOV=0
- 156   1      
- 157   1       Normalizing_Read();
- 158   1      
- 159   1      }
+ 143          //  nop    ;wait 34
+ 144          //  nop
+ 145          //  nop
+ 146          //  nop
+ 147          //  nop
+ 148          //  nop    
+ 149          //  nop
+ 150          //  nop
+ 151          //  nop
+ 152          //  nop
+ 153          //  nop    ;wait 24
+ 154          //  nop
+ 155          //  nop
+ 156          //  nop
+ 157          //  nop
+ 158          //  nop    
+ 159          //  nop
+ 160          //  nop
+ 161          //  nop
+ 162          //  nop
+ 163          //  nop    ;wait 14
+ 164          //  nop
+ 165          //  nop
+ 166          //  nop
+ 167          //  nop
+ 168          //  nop    
+ 169          //  nop
+ 170          //  nop
+ 171          //  nop
+ 172          //  nop
+ 173          //  nop    ;wait 4
+ 174          //  nop
+ 175          //  nop
+ 176          //  nop
+ 177          //#pragma endasm
+ 178          //  _md_error = (ARCON&(MD_MDEF|MD_MDOV));
+C51 COMPILER V9.54   LIB                                                                   10/12/2018 08:44:02 PAGE 4   
+
+ 179          //#pragma asm
+ 180          //  mov r7, MD0
+ 181          //  mov r6, MD1
+ 182          //  mov r5, MD2
+ 183          //  mov r4, MD3
+ 184          //#pragma endasm
+ 185          //return MD0;
+ 186          //}
+ 187          void Normalizing_Write(unsigned long Data)
+ 188          {
+ 189   1       Long_Data LD;
+ 190   1       LD.Ldata =Data;
+ 191   1       MD0 = LD.ss1.Byte0;
+ 192   1       MD1 = LD.ss1.Byte1;
+ 193   1       MD2 = LD.ss1.Byte2;
+ 194   1       MD3 = LD.ss1.Byte3;
+ 195   1       ARCON = 0x00 ; // Start Normalizing
+ 196   1       while(!(PCON & 0x40)) //check MDU finish flag
+ 197   1       {};
+ 198   1      }
+ 199          
+ 200          void Normalizing_Read(void)
+ 201          { 
+ 202   1      Long_Data LD;
+ 203   1       LD.ss1.Byte0 = MD0; //first read
+ 204   1       LD.ss1.Byte1 = MD1;
+ 205   1       LD.ss1.Byte2 = MD2;
+ 206   1       LD.ss1.Byte3 = MD3; //last read, MDEF(error flag) happen if not read
+ 207   1      } 
+ 208          
+ 209          void Normalizing_test(void)
+ 210          {
+ 211   1      
+ 212   1       Normalizing_Write(0x00000001); //ANS=0x1F -->MDOV=0
+ 213   1      
+ 214   1       Normalizing_Read();
+ 215   1      
+ 216   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    102    ----
+   CODE SIZE        =    221    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =      5    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     26    ----
+   DATA SIZE        =     32    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   INITIAL                                                               10/09/2018 08:53:40 PAGE 1   
+C51 COMPILER V9.54   INITIAL                                                               10/12/2018 08:44:02 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE INITIAL
@@ -62,7 +62,7 @@ line level    source
   52   2              P10 = 1;
   53   2              ISDcheck();      // initialize uVision2 Debugger and continue program run
   54   2              if((BPCTRL & 0x10) != 0) break;
-C51 COMPILER V9.54   INITIAL                                                               10/09/2018 08:53:40 PAGE 2   
+C51 COMPILER V9.54   INITIAL                                                               10/12/2018 08:44:02 PAGE 2   
 
   55   2          }
   56   1          _nop_();
@@ -126,7 +126,7 @@ line level    source
  114   1          EADC=1;
  115   1          IADC=0;
  116   1      
-C51 COMPILER V9.54   INITIAL                                                               10/09/2018 08:53:40 PAGE 3   
+C51 COMPILER V9.54   INITIAL                                                               10/12/2018 08:44:02 PAGE 3   
 
  117   1        }
  118          
@@ -190,7 +190,7 @@ line level    source
  176   1      
  177   1      //  P1AQCTLA_L = 0x12;              // CTR = ZERO set,CTR = CMPA up clear,CTR = PRD nothing,CTR = CMPA down nothin
              -g
-C51 COMPILER V9.54   INITIAL                                                               10/09/2018 08:53:40 PAGE 4   
+C51 COMPILER V9.54   INITIAL                                                               10/12/2018 08:44:02 PAGE 4   
 
  178   1      //  P1AQCTLA_H = 0x00;              // when cmpB pwmxA do nothing
  179   1      //  P1AQCTLB_L = 0x02;              // CTR = ZERO set,CTR = CMPA up nothing,CTR = PRD nothing,CTR = CMPA down noth
@@ -254,7 +254,7 @@ line level    source
  236   1      
  237   1      //  P1TZSEL = 0x01;             // OSHT enable
  238   1      //  P2TZSEL = 0x01;
-C51 COMPILER V9.54   INITIAL                                                               10/09/2018 08:53:40 PAGE 5   
+C51 COMPILER V9.54   INITIAL                                                               10/12/2018 08:44:02 PAGE 5   
 
  239   1      //  P3TZSEL = 0x01;
  240   1      //  P4TZSEL = 0x01;
@@ -318,7 +318,7 @@ line level    source
  297   1        P1CMPA_H = 0x03;
  298   1        //P1CMPB_L = 0xC8;
  299   1        //P1CMPB_H = 0x00;
-C51 COMPILER V9.54   INITIAL                                                               10/09/2018 08:53:40 PAGE 6   
+C51 COMPILER V9.54   INITIAL                                                               10/12/2018 08:44:02 PAGE 6   
 
  300   1        P2CMPA_L = 0xE8;
  301   1        P2CMPA_H = 0x03;
@@ -382,7 +382,7 @@ line level    source
  359   1        P1_FN_H = P1_FN_H & 0xF0 | 0x0A;
  360   1        //COMP_FILTER_1 = 4;
  361   1        //COMP_FILTER_2 = 4;
-C51 COMPILER V9.54   INITIAL                                                               10/09/2018 08:53:40 PAGE 7   
+C51 COMPILER V9.54   INITIAL                                                               10/12/2018 08:44:02 PAGE 7   
 
  362   1        //COMP_FILTER_3 = 4;
  363   1        //COMP_FILTER_4 = 4;
@@ -446,7 +446,7 @@ line level    source
  421   1        
  422   1            P20_FN= CFG1;                //P20 as EXT2
  423   1            P20_DD = INPUT;               //P20 as input
-C51 COMPILER V9.54   INITIAL                                                               10/09/2018 08:53:40 PAGE 8   
+C51 COMPILER V9.54   INITIAL                                                               10/12/2018 08:44:02 PAGE 8   
 
  424   1            P20_PE = RES_EN;               // P20 output resistor enable
  425   1            P20_PS = PULL_DOWN;               //P20 with pull down resistor
@@ -510,7 +510,7 @@ line level    source
  483   1        T6PS = 0;                     // no divider
  484   1        T6RC = 0x10C0;
  485   1        
-C51 COMPILER V9.54   INITIAL                                                               10/09/2018 08:53:40 PAGE 9   
+C51 COMPILER V9.54   INITIAL                                                               10/12/2018 08:44:02 PAGE 9   
 
  486   1        T6TF_EINT  =1;              // timer4 overflow interrupt enable
  487   1        T6TR = 1;                   // start timer4
@@ -574,7 +574,7 @@ line level    source
  545   1          nop
  546   1          nop
  547   1          nop
-C51 COMPILER V9.54   INITIAL                                                               10/09/2018 08:53:40 PAGE 10  
+C51 COMPILER V9.54   INITIAL                                                               10/12/2018 08:44:02 PAGE 10  
 
  548   1          nop
  549   1          nop

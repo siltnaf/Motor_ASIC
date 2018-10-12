@@ -123,6 +123,9 @@
 #define ADC_START()  ADCTL |= 0x20
 #define ADC_BUSY     (ADCTL & 0x40)
 
+
+
+
 //extern unsigned char ucUARTReceiver;
 //extern unsigned char ucReceiveFlag;
 

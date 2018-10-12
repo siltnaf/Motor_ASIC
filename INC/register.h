@@ -602,10 +602,17 @@ sfr	P4ETFRC		= 0xf7;
 
 // MTP ext Ram ==========================================
 #define MTPCON1   				(*(unsigned char volatile xdata *)0xe08e)		
+		#define MTP_READ						BIT(MTPCON1,4)
+		#define MTP_WRITE						BIT(MTPCON1,5)	
+		#define MTP_BUSY						BIT(MTPCON1,6)
+
 #define MTPCON2   				(*(unsigned char volatile xdata *)0xe08f)		
 #define MTPCON3   				(*(unsigned char volatile xdata *)0xe090)		
 #define MTPSADD1   				(*(unsigned char volatile xdata *)0xe091)	
 #define MTPSADD2   				(*(unsigned char volatile xdata *)0xe092)
+	
+#define MTPDATA   				(*(unsigned long volatile xdata *)0xe093)
+	
 #define MTPDATA1  				(*(unsigned char volatile xdata *)0xe093)
 #define MTPDATA2  				(*(unsigned char volatile xdata *)0xe094)
 #define MTPDATA3  				(*(unsigned char volatile xdata *)0xe095)

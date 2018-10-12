@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  LIB                                                                  10/09/2018 08:53:40 PAGE     1
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.02c
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
   00C3                55     IEX4    BIT     0C0H.3
   00C4                56     IEX5    BIT     0C0H.4
   00C5                57     IEX6    BIT     0C0H.5
-A51 MACRO ASSEMBLER  LIB                                                                  10/09/2018 08:53:40 PAGE     2
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     2
 
   0091                58     CLK_DIV DATA    091H
   0081                59     SP      DATA    081H
@@ -133,7 +133,7 @@ LOC  OBJ            LINE     SOURCE
   00AF               121     BSHI_3  DATA    0AFH
   00BC               122     BSHO_0  DATA    0BCH
   00BD               123     BSHO_1  DATA    0BDH
-A51 MACRO ASSEMBLER  LIB                                                                  10/09/2018 08:53:40 PAGE     3
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     3
 
   0089               124     IE0     BIT     088H.1
   00BE               125     BSHO_2  DATA    0BEH
@@ -201,7 +201,7 @@ LOC  OBJ            LINE     SOURCE
   008E               187     TR1     BIT     088H.6
   00F9               188     INT_REG1        DATA    0F9H
   0083               189     DPH     DATA    083H
-A51 MACRO ASSEMBLER  LIB                                                                  10/09/2018 08:53:40 PAGE     4
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     4
 
   00FA               190     INT_REG2        DATA    0FAH
   00FD               191     INT_REG3        DATA    0FDH
@@ -231,340 +231,530 @@ LOC  OBJ            LINE     SOURCE
   00C0               215     IRCON   DATA    0C0H
   009A               216     RB80    BIT     098H.2
   00B6               217     P1ETCLR DATA    0B6H
-                     218     ?PR?_sin?LIB         SEGMENT CODE 
-                     219     ?DT?_sin?LIB         SEGMENT DATA 
-                     220     ?PR?_Normalizing_Write?LIB               SEGMENT CODE 
-                     221     ?DT?_Normalizing_Write?LIB               SEGMENT DATA 
-                     222     ?PR?Normalizing_Read?LIB                 SEGMENT CODE 
-                     223     ?DT?Normalizing_Read?LIB                 SEGMENT DATA 
-                     224     ?PR?Normalizing_test?LIB                 SEGMENT CODE 
-                     225     ?C_INITSEG           SEGMENT CODE 
-                     226     ?XD?LIB              SEGMENT XDATA 
-                     227     ?DT?LIB              SEGMENT DATA 
-                     228             PUBLIC  tDebugTable
-                     229             PUBLIC  _div_remainder
-                     230             PUBLIC  _md_error
-                     231             PUBLIC  _div_denominator
-                     232             PUBLIC  Normalizing_test
-                     233             PUBLIC  Normalizing_Read
-                     234             PUBLIC  _Normalizing_Write
-                     235             PUBLIC  _sin
-                     236     
-----                 237             RSEG  ?DT?_Normalizing_Write?LIB
-0000                 238     ?_Normalizing_Write?BYTE:
-0000                 239            Data?142:   DS   4
-0004                 240             ORG  4
-0004                 241              LD?143:   DS   4
-                     242     
-----                 243             RSEG  ?DT?_sin?LIB
-0000                 244     ?_sin?BYTE:
-0000                 245             dat?040:   DS   2
-0002                 246             ORG  2
-0002                 247           value?041:   DS   2
-                     248     
-----                 249             RSEG  ?DT?Normalizing_Read?LIB
-0000                 250     ?Normalizing_Read?BYTE:
-0000                 251              LD?244:   DS   4
-                     252     
-----                 253             RSEG  ?XD?LIB
-0000                 254     _div_denominator:   DS   2
-0002                 255           _md_error:   DS   1
-A51 MACRO ASSEMBLER  LIB                                                                  10/09/2018 08:53:40 PAGE     5
+                     218     ?PR?_EE_write?LIB    SEGMENT CODE 
+                     219     ?DT?_EE_write?LIB    SEGMENT DATA 
+                     220     ?PR?_EE_read?LIB     SEGMENT CODE 
+                     221     ?DT?_EE_read?LIB     SEGMENT DATA 
+                     222     ?PR?_sin?LIB         SEGMENT CODE 
+                     223     ?DT?_sin?LIB         SEGMENT DATA 
+                     224     ?PR?_Normalizing_Write?LIB               SEGMENT CODE 
+                     225     ?DT?_Normalizing_Write?LIB               SEGMENT DATA 
+                     226     ?PR?Normalizing_Read?LIB                 SEGMENT CODE 
+                     227     ?DT?Normalizing_Read?LIB                 SEGMENT DATA 
+                     228     ?PR?Normalizing_test?LIB                 SEGMENT CODE 
+                     229     ?C_INITSEG           SEGMENT CODE 
+                     230     ?XD?LIB              SEGMENT XDATA 
+                     231     ?DT?LIB              SEGMENT DATA 
+                     232             EXTRN   CODE (?C?LSTXDATA)
+                     233             PUBLIC  tDebugTable
+                     234             PUBLIC  _div_remainder
+                     235             PUBLIC  _md_error
+                     236             PUBLIC  _div_denominator
+                     237             PUBLIC  Normalizing_test
+                     238             PUBLIC  Normalizing_Read
+                     239             PUBLIC  _Normalizing_Write
+                     240             PUBLIC  _sin
+                     241             PUBLIC  _EE_read
+                     242             PUBLIC  ?_EE_write?BYTE
+                     243             PUBLIC  _EE_write
+                     244     
+----                 245             RSEG  ?DT?_Normalizing_Write?LIB
+0000                 246     ?_Normalizing_Write?BYTE:
+0000                 247            Data?345:   DS   4
+0004                 248             ORG  4
+0004                 249              LD?346:   DS   4
+                     250     
+----                 251             RSEG  ?DT?_EE_read?LIB
+0000                 252     ?_EE_read?BYTE:
+0000                 253         EE_addr?142:   DS   1
+                     254     
+----                 255             RSEG  ?DT?_EE_write?LIB
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     5
 
-0003                 256      _div_remainder:   DS   2
-                     257     
-----                 258             RSEG  ?DT?LIB
-0000                 259         tDebugTable:   DS   10
+0000                 256     ?_EE_write?BYTE:
+0000                 257         EE_addr?040:   DS   1
+0001                 258             ORG  1
+0001                 259         EE_data?041:   DS   4
                      260     
-----                 261             RSEG  ?C_INITSEG
-0000 0A              262             DB      00AH
-0001 00       F      263             DB      tDebugTable
-0002 01              264             DB      001H
-0003 02              265             DB      002H
-0004 03              266             DB      003H
-0005 04              267             DB      004H
-0006 05              268             DB      005H
-0007 06              269             DB      006H
-0008 07              270             DB      007H
-0009 08              271             DB      008H
-000A 09              272             DB      009H
-000B 0A              273             DB      00AH
-                     274     
-                     275     ; /*
-                     276     ;  * lib.c
-                     277     ;  *    Copy Right (c) of JE
-                     278     ;  *  Created on: 
-                     279     ;  *      18 Sep 2018
-                     280     ;  *  Author: 
-                     281     ;  *      Ken
-                     282     ;  *  Last Modified: 
-                     283     ;  *     
-                     284     ;  *  Description: 
-                     285     ;  *      lib for JE8MCU
-                     286     ;  *  History:
-                     287     ;  *      ver 0.1 created by ken on 12 August 2016 
-                     288     ;  *
-                     289     ;  *            Use math table for fuctions of 
-                     290     ;  *                            sin, cos, inverse, sqrt, artan
-                     291     ;  *                            Park transform and Clark transform
-                     292     ;  *
-                     293     ;  *
-                     294     ;  */
-                     295     ;  
-                     296     ;  /***************************************************
-                     297     ;  * Includes
-                     298     ;  */
-                     299     ; #include <stdio.h>
-                     300     ; #include <intrins.h>   
-                     301     ; #include <absacc.h>
-                     302     ; #include "register.h"
-                     303     ; #include "lib.h"
-                     304     ; 
-                     305     ; 
-                     306     ; 
-                     307     ; volatile U8 xdata _md_error;// _at_ (0xDFFF);
-                     308     ; volatile U16 xdata _div_remainder;// _at_ (0xDFFD);
-                     309     ; volatile U16 xdata _div_denominator;// _at_ (0xA4FB);
-                     310     ; 
-                     311     ; #pragma asm
-----                 312                                                                     CSEG    AT      4000h
-                     313     ; #pragma endasm
-                     314     ; const unsigned char tDebugTable[10] = {1,2,3,4,5,6,7,8,9,10};
-                     315     ; 
-                     316     ; 
-                     317     ; 
-                     318     ; 
-                     319     ; 
-                     320     ; /*
-                     321     ;  * @fn                sin16
-A51 MACRO ASSEMBLER  LIB                                                                  10/09/2018 08:53:40 PAGE     6
+----                 261             RSEG  ?DT?_sin?LIB
+0000                 262     ?_sin?BYTE:
+0000                 263             dat?243:   DS   2
+0002                 264             ORG  2
+0002                 265           value?244:   DS   2
+                     266     
+----                 267             RSEG  ?DT?Normalizing_Read?LIB
+0000                 268     ?Normalizing_Read?BYTE:
+0000                 269              LD?447:   DS   4
+                     270     
+----                 271             RSEG  ?XD?LIB
+0000                 272     _div_denominator:   DS   2
+0002                 273           _md_error:   DS   1
+0003                 274      _div_remainder:   DS   2
+                     275     
+----                 276             RSEG  ?DT?LIB
+0000                 277         tDebugTable:   DS   10
+                     278     
+----                 279             RSEG  ?C_INITSEG
+0000 0A              280             DB      00AH
+0001 00       F      281             DB      tDebugTable
+0002 01              282             DB      001H
+0003 02              283             DB      002H
+0004 03              284             DB      003H
+0005 04              285             DB      004H
+0006 05              286             DB      005H
+0007 06              287             DB      006H
+0008 07              288             DB      007H
+0009 08              289             DB      008H
+000A 09              290             DB      009H
+000B 0A              291             DB      00AH
+                     292     
+                     293     ; /*
+                     294     ;  * lib.c
+                     295     ;  *    Copy Right (c) of JE
+                     296     ;  *  Created on: 
+                     297     ;  *      18 Sep 2018
+                     298     ;  *  Author: 
+                     299     ;  *      Ken
+                     300     ;  *  Last Modified: 
+                     301     ;  *     
+                     302     ;  *  Description: 
+                     303     ;  *      lib for JE8MCU
+                     304     ;  *  History:
+                     305     ;  *      ver 0.1 created by ken on 12 August 2016 
+                     306     ;  *
+                     307     ;  *            Use math table for fuctions of 
+                     308     ;  *                            sin, cos, inverse, sqrt, artan
+                     309     ;  *                            Park transform and Clark transform
+                     310     ;  *
+                     311     ;  *
+                     312     ;  */
+                     313     ;  
+                     314     ;  /***************************************************
+                     315     ;  * Includes
+                     316     ;  */
+                     317     ; #include <stdio.h>
+                     318     ; #include <intrins.h>   
+                     319     ; #include <absacc.h>
+                     320     ; #include "register.h"
+                     321     ; #include "lib.h"
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     6
 
-                     322     ;  *
-                     323     ;  * @brief     sin16
-                     324     ;  * 
-                     325     ;  * @param     none
-                     326     ;  * sin(x) , where x is 
-                     327     ; 
-                     328     ;  *
-                     329     ;  * @return    none
-                     330     ;  */
-                     331     ; S16 sin(S16 dat)
-                     332     
-----                 333             RSEG  ?PR?_sin?LIB
-0000                 334     _sin:
-                     335             USING   0
-                     336                             ; SOURCE LINE # 57
-0000 8E00     F      337             MOV     dat?040,R6
-0002 8F00     F      338             MOV     dat?040+01H,R7
-                     339     ; {
-                     340                             ; SOURCE LINE # 58
-                     341     ; volatile signed int value;
-                     342     ;       value= XWORD[dat];
-                     343                             ; SOURCE LINE # 60
-0004 E500     F      344             MOV     A,dat?040+01H
-0006 25E0            345             ADD     A,ACC
-0008 FF              346             MOV     R7,A
-0009 E500     F      347             MOV     A,dat?040
-000B 33              348             RLC     A
-000C FE              349             MOV     R6,A
-000D 8F82            350             MOV     DPL,R7
-000F 8E83            351             MOV     DPH,R6
-0011 E0              352             MOVX    A,@DPTR
-0012 F500     F      353             MOV     value?041,A
-0014 A3              354             INC     DPTR
-0015 E0              355             MOVX    A,@DPTR
-0016 F500     F      356             MOV     value?041+01H,A
+                     322     ; 
+                     323     ; 
+                     324     ; 
+                     325     ; volatile U8 xdata _md_error;// _at_ (0xDFFF);
+                     326     ; volatile U16 xdata _div_remainder;// _at_ (0xDFFD);
+                     327     ; volatile U16 xdata _div_denominator;// _at_ (0xA4FB);
+                     328     ; 
+                     329     ; #pragma asm
+----                 330                                                                     CSEG    AT      4000h
+                     331     ; #pragma endasm
+                     332     ; const unsigned char tDebugTable[10] = {1,2,3,4,5,6,7,8,9,10};
+                     333     ; 
+                     334     ; 
+                     335     ; 
+                     336     ; /*
+                     337     ;  * @fn                EE_write
+                     338     ;  *
+                     339     ;  * @brief write data to EEPROM , 64x32 bit
+                     340     ;  * 
+                     341     ;  * @param     none
+                     342     ;  * EE_write(eeprom address, eeprom data)
+                     343     ; 
+                     344     ;  *
+                     345     ;  * @return    none
+                     346     ;  */
+                     347     ; 
+                     348     ;  void EE_write(U8 EE_addr, U32 EE_data)
+                     349     
+----                 350             RSEG  ?PR?_EE_write?LIB
+0000                 351     _EE_write:
+                     352             USING   0
+                     353                             ; SOURCE LINE # 56
+0000 8F00     F      354             MOV     EE_addr?040,R7
+                     355     ; {
+                     356                             ; SOURCE LINE # 57
                      357     ;       
-                     358     ; return value;
-                     359                             ; SOURCE LINE # 62
-0018 AE00     F      360             MOV     R6,value?041
-001A AF00     F      361             MOV     R7,value?041+01H
-                     362     ;       
-                     363     ; }
-                     364                             ; SOURCE LINE # 64
-001C                 365     ?C0001:
-001C 22              366             RET     
-                     367     ; END OF _sin
-                     368     
-                     369     ; 
-                     370     ; 
-                     371     ; /*
-                     372     ;  * @fn                Normalize
-                     373     ;  *
-                     374     ;  * @brief     Normalize
-                     375     ;  * 
-                     376     ;  * @param     none
-                     377     ;  *
-                     378     ;  * @return    none
-                     379     ;  */
-                     380     ; //S32 Normalize(S32 dat)
-                     381     ; //{
-                     382     ; //#pragma asm
-                     383     ; //  mov MD0, r7
-                     384     ; //  mov MD1, r6
-                     385     ; //  mov MD2, r5
-                     386     ; //  mov MD3, r4
-                     387     ; 
-A51 MACRO ASSEMBLER  LIB                                                                  10/09/2018 08:53:40 PAGE     7
+                     358     ;       
+                     359     ;                       MTPCON2=0x53;         //init MTP write mode
+                     360                             ; SOURCE LINE # 60
+0002 90E08F          361             MOV     DPTR,#0E08FH
+0005 7453            362             MOV     A,#053H
+0007 F0              363             MOVX    @DPTR,A
+                     364     ;                       MTPSADD1=EE_addr;       // EEPROM address
+                     365                             ; SOURCE LINE # 61
+0008 90E091          366             MOV     DPTR,#0E091H
+000B E500     F      367             MOV     A,EE_addr?040
+000D F0              368             MOVX    @DPTR,A
+                     369     ;                       MTPSADD2=0x00;
+                     370                             ; SOURCE LINE # 62
+000E 90E092          371             MOV     DPTR,#0E092H
+0011 E4              372             CLR     A
+0012 F0              373             MOVX    @DPTR,A
+                     374     ;                       MTPDATA=EE_data;
+                     375                             ; SOURCE LINE # 63
+0013 AF00     F      376             MOV     R7,EE_data?041+03H
+0015 AE00     F      377             MOV     R6,EE_data?041+02H
+0017 AD00     F      378             MOV     R5,EE_data?041+01H
+0019 AC00     F      379             MOV     R4,EE_data?041
+001B 90E093          380             MOV     DPTR,#0E093H
+001E 120000   F      381             LCALL   ?C?LSTXDATA
+                     382     ;                       
+                     383     ;                       MTPCON1=0x0b;                           //start 
+                     384                             ; SOURCE LINE # 65
+0021 90E08E          385             MOV     DPTR,#0E08EH
+0024 740B            386             MOV     A,#0BH
+0026 F0              387             MOVX    @DPTR,A
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     7
 
-                     388     ; //    ANL  ARCON , #0xE0
-                     389     ; 
-                     390     ; //    nop    ;wait 34
-                     391     ; //  nop
-                     392     ; //  nop
-                     393     ; //  nop
-                     394     ; //  nop
-                     395     ; //    nop    
-                     396     ; //  nop
-                     397     ; //  nop
-                     398     ; //  nop
-                     399     ; //  nop
-                     400     ; //    nop    ;wait 24
-                     401     ; //  nop
-                     402     ; //  nop
-                     403     ; //  nop
-                     404     ; //  nop
-                     405     ; //    nop    
-                     406     ; //  nop
-                     407     ; //  nop
-                     408     ; //  nop
-                     409     ; //  nop
-                     410     ; //    nop    ;wait 14
-                     411     ; //  nop
-                     412     ; //  nop
-                     413     ; //  nop
-                     414     ; //  nop
-                     415     ; //    nop    
-                     416     ; //  nop
-                     417     ; //  nop
-                     418     ; //  nop
-                     419     ; //  nop
-                     420     ; //    nop    ;wait 4
-                     421     ; //  nop
-                     422     ; //  nop
-                     423     ; //  nop
-                     424     ; //#pragma endasm
-                     425     ; //  _md_error = (ARCON&(MD_MDEF|MD_MDOV));
-                     426     ; //#pragma asm
-                     427     ; //    mov r7, MD0
-                     428     ; //    mov r6, MD1
-                     429     ; //    mov r5, MD2
-                     430     ; //    mov r4, MD3
-                     431     ; //#pragma endasm
-                     432     ; //return MD0;
-                     433     ; //}
-                     434     ; void Normalizing_Write(unsigned long Data)
-                     435     
-----                 436             RSEG  ?PR?_Normalizing_Write?LIB
-0000                 437     _Normalizing_Write:
-                     438             USING   0
-                     439                             ; SOURCE LINE # 130
-0000 8F00     F      440             MOV     Data?142+03H,R7
-0002 8E00     F      441             MOV     Data?142+02H,R6
-0004 8D00     F      442             MOV     Data?142+01H,R5
-0006 8C00     F      443             MOV     Data?142,R4
-                     444     ; {
-                     445                             ; SOURCE LINE # 131
-                     446     ;  Long_Data LD;
-                     447     ;  LD.Ldata =Data;
-                     448                             ; SOURCE LINE # 133
-0008 AF00     F      449             MOV     R7,Data?142+03H
-000A AE00     F      450             MOV     R6,Data?142+02H
-000C AD00     F      451             MOV     R5,Data?142+01H
-000E AC00     F      452             MOV     R4,Data?142
-0010 8F00     F      453             MOV     LD?143+03H,R7
-A51 MACRO ASSEMBLER  LIB                                                                  10/09/2018 08:53:40 PAGE     8
+0027                 388     ?C0001:
+                     389     ;                       
+                     390     ;                       while (MTP_WRITE==0);
+                     391                             ; SOURCE LINE # 67
+0027 90E08E          392             MOV     DPTR,#0E08EH
+002A E0              393             MOVX    A,@DPTR
+002B FF              394             MOV     R7,A
+002C EF              395             MOV     A,R7
+002D C4              396             SWAP    A
+002E 13              397             RRC     A
+002F 5407            398             ANL     A,#07H
+0031 FF              399             MOV     R7,A
+0032 EF              400             MOV     A,R7
+0033 30E0F1          401             JNB     ACC.0,?C0001
+0036                 402     ?C0002:
+                     403     ;                       MTPCON1=0x0;
+                     404                             ; SOURCE LINE # 68
+0036 90E08E          405             MOV     DPTR,#0E08EH
+0039 E4              406             CLR     A
+003A F0              407             MOVX    @DPTR,A
+                     408     ;       
+                     409     ; }
+                     410                             ; SOURCE LINE # 70
+003B                 411     ?C0003:
+003B 22              412             RET     
+                     413     ; END OF _EE_write
+                     414     
+                     415     ; 
+                     416     ; /*
+                     417     ;  * @fn                EE_read
+                     418     ;  *
+                     419     ;  * @brief read data from EEPROM , 64x32 bit
+                     420     ;  * 
+                     421     ;  * @param     none
+                     422     ;  * EE_read(eeprom address)
+                     423     ; 
+                     424     ;  *
+                     425     ;  * @return    eprom data
+                     426     ;  */
+                     427     ; 
+                     428     ; U32 EE_read(U8 EE_addr)
+                     429     
+----                 430             RSEG  ?PR?_EE_read?LIB
+0000                 431     _EE_read:
+                     432             USING   0
+                     433                             ; SOURCE LINE # 84
+0000 8F00     F      434             MOV     EE_addr?142,R7
+                     435     ; {
+                     436                             ; SOURCE LINE # 85
+                     437     ;       
+                     438     ;               
+                     439     ;                       MTPCON2=0x55;         //init MTP read mode
+                     440                             ; SOURCE LINE # 88
+0002 90E08F          441             MOV     DPTR,#0E08FH
+0005 7455            442             MOV     A,#055H
+0007 F0              443             MOVX    @DPTR,A
+                     444     ;                       MTPSADD1=EE_addr;       //
+                     445                             ; SOURCE LINE # 89
+0008 90E091          446             MOV     DPTR,#0E091H
+000B E500     F      447             MOV     A,EE_addr?142
+000D F0              448             MOVX    @DPTR,A
+                     449     ;                       MTPSADD2=0x00;
+                     450                             ; SOURCE LINE # 90
+000E 90E092          451             MOV     DPTR,#0E092H
+0011 E4              452             CLR     A
+0012 F0              453             MOVX    @DPTR,A
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     8
 
-0012 8E00     F      454             MOV     LD?143+02H,R6
-0014 8D00     F      455             MOV     LD?143+01H,R5
-0016 8C00     F      456             MOV     LD?143,R4
-                     457     ;  MD0 = LD.ss1.Byte0;
-                     458                             ; SOURCE LINE # 134
-0018 8500E9   F      459             MOV     MD0,LD?143+03H
-                     460     ;  MD1 = LD.ss1.Byte1;
-                     461                             ; SOURCE LINE # 135
-001B 8500EA   F      462             MOV     MD1,LD?143+02H
-                     463     ;  MD2 = LD.ss1.Byte2;
-                     464                             ; SOURCE LINE # 136
-001E 8500EB   F      465             MOV     MD2,LD?143+01H
-                     466     ;  MD3 = LD.ss1.Byte3;
-                     467                             ; SOURCE LINE # 137
-0021 8500EC   F      468             MOV     MD3,LD?143
-                     469     ;  ARCON = 0x00 ; // Start Normalizing
-                     470                             ; SOURCE LINE # 138
-0024 75EF00          471             MOV     ARCON,#00H
-0027                 472     ?C0002:
-                     473     ;  while(!(PCON & 0x40)) //check MDU finish flag
-                     474                             ; SOURCE LINE # 139
-0027 E587            475             MOV     A,PCON
-0029 30E6FB          476             JNB     ACC.6,?C0002
-                     477     ;  {};
-                     478                             ; SOURCE LINE # 140
-002C                 479     ?C0003:
-                     480     ; }
-                     481                             ; SOURCE LINE # 141
-002C                 482     ?C0004:
-002C 22              483             RET     
-                     484     ; END OF _Normalizing_Write
-                     485     
-                     486     ; 
-                     487     ; void Normalizing_Read(void)
-                     488     
-----                 489             RSEG  ?PR?Normalizing_Read?LIB
-0000                 490     Normalizing_Read:
-                     491                             ; SOURCE LINE # 143
-                     492     ; { 
-                     493                             ; SOURCE LINE # 144
-                     494     ; Long_Data LD;
-                     495     ;  LD.ss1.Byte0 = MD0; //first read
-                     496                             ; SOURCE LINE # 146
-0000 85E900   F      497             MOV     LD?244+03H,MD0
-                     498     ;  LD.ss1.Byte1 = MD1;
-                     499                             ; SOURCE LINE # 147
-0003 85EA00   F      500             MOV     LD?244+02H,MD1
-                     501     ;  LD.ss1.Byte2 = MD2;
-                     502                             ; SOURCE LINE # 148
-0006 85EB00   F      503             MOV     LD?244+01H,MD2
-                     504     ;  LD.ss1.Byte3 = MD3; //last read, MDEF(error flag) happen if not read
-                     505                             ; SOURCE LINE # 149
-0009 85EC00   F      506             MOV     LD?244,MD3
-                     507     ; } 
-                     508                             ; SOURCE LINE # 150
-000C                 509     ?C0005:
-000C 22              510             RET     
-                     511     ; END OF Normalizing_Read
-                     512     
-                     513     ; 
-                     514     ; void Normalizing_test(void)
-                     515     
-----                 516             RSEG  ?PR?Normalizing_test?LIB
-0000                 517     Normalizing_test:
-                     518             USING   0
-                     519                             ; SOURCE LINE # 152
-A51 MACRO ASSEMBLER  LIB                                                                  10/09/2018 08:53:40 PAGE     9
+                     454     ;                       MTPCON1=0x07;                                   //start
+                     455                             ; SOURCE LINE # 91
+0013 90E08E          456             MOV     DPTR,#0E08EH
+0016 7407            457             MOV     A,#07H
+0018 F0              458             MOVX    @DPTR,A
+0019                 459     ?C0004:
+                     460     ;                       while (MTP_READ==0);
+                     461                             ; SOURCE LINE # 92
+0019 90E08E          462             MOV     DPTR,#0E08EH
+001C E0              463             MOVX    A,@DPTR
+001D FF              464             MOV     R7,A
+001E EF              465             MOV     A,R7
+001F C4              466             SWAP    A
+0020 540F            467             ANL     A,#0FH
+0022 FF              468             MOV     R7,A
+0023 EF              469             MOV     A,R7
+0024 30E0F2          470             JNB     ACC.0,?C0004
+0027                 471     ?C0005:
+                     472     ;                       MTPCON1=0x0;
+                     473                             ; SOURCE LINE # 93
+0027 90E08E          474             MOV     DPTR,#0E08EH
+002A E4              475             CLR     A
+002B F0              476             MOVX    @DPTR,A
+                     477     ;                       return MTPDATA;
+                     478                             ; SOURCE LINE # 94
+002C 90E093          479             MOV     DPTR,#0E093H
+002F E0              480             MOVX    A,@DPTR
+0030 FC              481             MOV     R4,A
+0031 A3              482             INC     DPTR
+0032 E0              483             MOVX    A,@DPTR
+0033 FD              484             MOV     R5,A
+0034 A3              485             INC     DPTR
+0035 E0              486             MOVX    A,@DPTR
+0036 FE              487             MOV     R6,A
+0037 A3              488             INC     DPTR
+0038 E0              489             MOVX    A,@DPTR
+0039 FF              490             MOV     R7,A
+                     491     ;       
+                     492     ; }
+                     493                             ; SOURCE LINE # 96
+003A                 494     ?C0006:
+003A 22              495             RET     
+                     496     ; END OF _EE_read
+                     497     
+                     498     ; 
+                     499     ; 
+                     500     ; 
+                     501     ; 
+                     502     ; 
+                     503     ; 
+                     504     ; /*
+                     505     ;  * @fn                sin16
+                     506     ;  *
+                     507     ;  * @brief     sin16
+                     508     ;  * 
+                     509     ;  * @param     none
+                     510     ;  * sin(x) , where x is 
+                     511     ; 
+                     512     ;  *
+                     513     ;  * @return    none
+                     514     ;  */
+                     515     ; S16 sin(S16 dat)
+                     516     
+----                 517             RSEG  ?PR?_sin?LIB
+0000                 518     _sin:
+                     519             USING   0
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     9
 
-                     520     ; {
-                     521                             ; SOURCE LINE # 153
-                     522     ; 
-                     523     ;  Normalizing_Write(0x00000001); //ANS=0x1F -->MDOV=0
-                     524                             ; SOURCE LINE # 155
-0000 7F01            525             MOV     R7,#01H
-0002 7E00            526             MOV     R6,#00H
-0004 7D00            527             MOV     R5,#00H
-0006 7C00            528             MOV     R4,#00H
-0008 120000   F      529             LCALL   _Normalizing_Write
-                     530     ; 
-                     531     ;  Normalizing_Read();
-                     532                             ; SOURCE LINE # 157
-000B 120000   F      533             LCALL   Normalizing_Read
-                     534     ; 
-                     535     ; }                     ; SOURCE LINE # 159
-000E                 536     ?C0006:
-000E 22              537             RET     
-                     538     ; END OF Normalizing_test
-                     539     
-                     540             END
-A51 MACRO ASSEMBLER  LIB                                                                  10/09/2018 08:53:40 PAGE    10
+                     520                             ; SOURCE LINE # 114
+0000 8E00     F      521             MOV     dat?243,R6
+0002 8F00     F      522             MOV     dat?243+01H,R7
+                     523     ; {
+                     524                             ; SOURCE LINE # 115
+                     525     ; volatile signed int value;
+                     526     ;       value= XWORD[dat];
+                     527                             ; SOURCE LINE # 117
+0004 E500     F      528             MOV     A,dat?243+01H
+0006 25E0            529             ADD     A,ACC
+0008 FF              530             MOV     R7,A
+0009 E500     F      531             MOV     A,dat?243
+000B 33              532             RLC     A
+000C FE              533             MOV     R6,A
+000D 8F82            534             MOV     DPL,R7
+000F 8E83            535             MOV     DPH,R6
+0011 E0              536             MOVX    A,@DPTR
+0012 F500     F      537             MOV     value?244,A
+0014 A3              538             INC     DPTR
+0015 E0              539             MOVX    A,@DPTR
+0016 F500     F      540             MOV     value?244+01H,A
+                     541     ;       
+                     542     ; return value;
+                     543                             ; SOURCE LINE # 119
+0018 AE00     F      544             MOV     R6,value?244
+001A AF00     F      545             MOV     R7,value?244+01H
+                     546     ;       
+                     547     ; }
+                     548                             ; SOURCE LINE # 121
+001C                 549     ?C0007:
+001C 22              550             RET     
+                     551     ; END OF _sin
+                     552     
+                     553     ; 
+                     554     ; 
+                     555     ; /*
+                     556     ;  * @fn                Normalize
+                     557     ;  *
+                     558     ;  * @brief     Normalize
+                     559     ;  * 
+                     560     ;  * @param     none
+                     561     ;  *
+                     562     ;  * @return    none
+                     563     ;  */
+                     564     ; //S32 Normalize(S32 dat)
+                     565     ; //{
+                     566     ; //#pragma asm
+                     567     ; //  mov MD0, r7
+                     568     ; //  mov MD1, r6
+                     569     ; //  mov MD2, r5
+                     570     ; //  mov MD3, r4
+                     571     ; 
+                     572     ; //    ANL  ARCON , #0xE0
+                     573     ; 
+                     574     ; //    nop    ;wait 34
+                     575     ; //  nop
+                     576     ; //  nop
+                     577     ; //  nop
+                     578     ; //  nop
+                     579     ; //    nop    
+                     580     ; //  nop
+                     581     ; //  nop
+                     582     ; //  nop
+                     583     ; //  nop
+                     584     ; //    nop    ;wait 24
+                     585     ; //  nop
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    10
+
+                     586     ; //  nop
+                     587     ; //  nop
+                     588     ; //  nop
+                     589     ; //    nop    
+                     590     ; //  nop
+                     591     ; //  nop
+                     592     ; //  nop
+                     593     ; //  nop
+                     594     ; //    nop    ;wait 14
+                     595     ; //  nop
+                     596     ; //  nop
+                     597     ; //  nop
+                     598     ; //  nop
+                     599     ; //    nop    
+                     600     ; //  nop
+                     601     ; //  nop
+                     602     ; //  nop
+                     603     ; //  nop
+                     604     ; //    nop    ;wait 4
+                     605     ; //  nop
+                     606     ; //  nop
+                     607     ; //  nop
+                     608     ; //#pragma endasm
+                     609     ; //  _md_error = (ARCON&(MD_MDEF|MD_MDOV));
+                     610     ; //#pragma asm
+                     611     ; //    mov r7, MD0
+                     612     ; //    mov r6, MD1
+                     613     ; //    mov r5, MD2
+                     614     ; //    mov r4, MD3
+                     615     ; //#pragma endasm
+                     616     ; //return MD0;
+                     617     ; //}
+                     618     ; void Normalizing_Write(unsigned long Data)
+                     619     
+----                 620             RSEG  ?PR?_Normalizing_Write?LIB
+0000                 621     _Normalizing_Write:
+                     622             USING   0
+                     623                             ; SOURCE LINE # 187
+0000 8F00     F      624             MOV     Data?345+03H,R7
+0002 8E00     F      625             MOV     Data?345+02H,R6
+0004 8D00     F      626             MOV     Data?345+01H,R5
+0006 8C00     F      627             MOV     Data?345,R4
+                     628     ; {
+                     629                             ; SOURCE LINE # 188
+                     630     ;  Long_Data LD;
+                     631     ;  LD.Ldata =Data;
+                     632                             ; SOURCE LINE # 190
+0008 AF00     F      633             MOV     R7,Data?345+03H
+000A AE00     F      634             MOV     R6,Data?345+02H
+000C AD00     F      635             MOV     R5,Data?345+01H
+000E AC00     F      636             MOV     R4,Data?345
+0010 8F00     F      637             MOV     LD?346+03H,R7
+0012 8E00     F      638             MOV     LD?346+02H,R6
+0014 8D00     F      639             MOV     LD?346+01H,R5
+0016 8C00     F      640             MOV     LD?346,R4
+                     641     ;  MD0 = LD.ss1.Byte0;
+                     642                             ; SOURCE LINE # 191
+0018 8500E9   F      643             MOV     MD0,LD?346+03H
+                     644     ;  MD1 = LD.ss1.Byte1;
+                     645                             ; SOURCE LINE # 192
+001B 8500EA   F      646             MOV     MD1,LD?346+02H
+                     647     ;  MD2 = LD.ss1.Byte2;
+                     648                             ; SOURCE LINE # 193
+001E 8500EB   F      649             MOV     MD2,LD?346+01H
+                     650     ;  MD3 = LD.ss1.Byte3;
+                     651                             ; SOURCE LINE # 194
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    11
+
+0021 8500EC   F      652             MOV     MD3,LD?346
+                     653     ;  ARCON = 0x00 ; // Start Normalizing
+                     654                             ; SOURCE LINE # 195
+0024 75EF00          655             MOV     ARCON,#00H
+0027                 656     ?C0008:
+                     657     ;  while(!(PCON & 0x40)) //check MDU finish flag
+                     658                             ; SOURCE LINE # 196
+0027 E587            659             MOV     A,PCON
+0029 30E6FB          660             JNB     ACC.6,?C0008
+                     661     ;  {};
+                     662                             ; SOURCE LINE # 197
+002C                 663     ?C0009:
+                     664     ; }
+                     665                             ; SOURCE LINE # 198
+002C                 666     ?C0010:
+002C 22              667             RET     
+                     668     ; END OF _Normalizing_Write
+                     669     
+                     670     ; 
+                     671     ; void Normalizing_Read(void)
+                     672     
+----                 673             RSEG  ?PR?Normalizing_Read?LIB
+0000                 674     Normalizing_Read:
+                     675                             ; SOURCE LINE # 200
+                     676     ; { 
+                     677                             ; SOURCE LINE # 201
+                     678     ; Long_Data LD;
+                     679     ;  LD.ss1.Byte0 = MD0; //first read
+                     680                             ; SOURCE LINE # 203
+0000 85E900   F      681             MOV     LD?447+03H,MD0
+                     682     ;  LD.ss1.Byte1 = MD1;
+                     683                             ; SOURCE LINE # 204
+0003 85EA00   F      684             MOV     LD?447+02H,MD1
+                     685     ;  LD.ss1.Byte2 = MD2;
+                     686                             ; SOURCE LINE # 205
+0006 85EB00   F      687             MOV     LD?447+01H,MD2
+                     688     ;  LD.ss1.Byte3 = MD3; //last read, MDEF(error flag) happen if not read
+                     689                             ; SOURCE LINE # 206
+0009 85EC00   F      690             MOV     LD?447,MD3
+                     691     ; } 
+                     692                             ; SOURCE LINE # 207
+000C                 693     ?C0011:
+000C 22              694             RET     
+                     695     ; END OF Normalizing_Read
+                     696     
+                     697     ; 
+                     698     ; void Normalizing_test(void)
+                     699     
+----                 700             RSEG  ?PR?Normalizing_test?LIB
+0000                 701     Normalizing_test:
+                     702             USING   0
+                     703                             ; SOURCE LINE # 209
+                     704     ; {
+                     705                             ; SOURCE LINE # 210
+                     706     ; 
+                     707     ;  Normalizing_Write(0x00000001); //ANS=0x1F -->MDOV=0
+                     708                             ; SOURCE LINE # 212
+0000 7F01            709             MOV     R7,#01H
+0002 7E00            710             MOV     R6,#00H
+0004 7D00            711             MOV     R5,#00H
+0006 7C00            712             MOV     R4,#00H
+0008 120000   F      713             LCALL   _Normalizing_Write
+                     714     ; 
+                     715     ;  Normalizing_Read();
+                     716                             ; SOURCE LINE # 214
+000B 120000   F      717             LCALL   Normalizing_Read
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    12
+
+                     718     ; 
+                     719     ; }                     ; SOURCE LINE # 216
+000E                 720     ?C0012:
+000E 22              721             RET     
+                     722     ; END OF Normalizing_test
+                     723     
+                     724             END
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    13
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -572,23 +762,36 @@ SYMBOL TABLE LISTING
 
 N A M E                     T Y P E  V A L U E   ATTRIBUTES
 
-?C0001 . . . . . . . . . .  C ADDR   001CH   R   SEG=?PR?_SIN?LIB
-?C0002 . . . . . . . . . .  C ADDR   0027H   R   SEG=?PR?_NORMALIZING_WRITE?LIB
-?C0003 . . . . . . . . . .  C ADDR   002CH   R   SEG=?PR?_NORMALIZING_WRITE?LIB
-?C0004 . . . . . . . . . .  C ADDR   002CH   R   SEG=?PR?_NORMALIZING_WRITE?LIB
-?C0005 . . . . . . . . . .  C ADDR   000CH   R   SEG=?PR?NORMALIZING_READ?LIB
-?C0006 . . . . . . . . . .  C ADDR   000EH   R   SEG=?PR?NORMALIZING_TEST?LIB
+?C0001 . . . . . . . . . .  C ADDR   0027H   R   SEG=?PR?_EE_WRITE?LIB
+?C0002 . . . . . . . . . .  C ADDR   0036H   R   SEG=?PR?_EE_WRITE?LIB
+?C0003 . . . . . . . . . .  C ADDR   003BH   R   SEG=?PR?_EE_WRITE?LIB
+?C0004 . . . . . . . . . .  C ADDR   0019H   R   SEG=?PR?_EE_READ?LIB
+?C0005 . . . . . . . . . .  C ADDR   0027H   R   SEG=?PR?_EE_READ?LIB
+?C0006 . . . . . . . . . .  C ADDR   003AH   R   SEG=?PR?_EE_READ?LIB
+?C0007 . . . . . . . . . .  C ADDR   001CH   R   SEG=?PR?_SIN?LIB
+?C0008 . . . . . . . . . .  C ADDR   0027H   R   SEG=?PR?_NORMALIZING_WRITE?LIB
+?C0009 . . . . . . . . . .  C ADDR   002CH   R   SEG=?PR?_NORMALIZING_WRITE?LIB
+?C0010 . . . . . . . . . .  C ADDR   002CH   R   SEG=?PR?_NORMALIZING_WRITE?LIB
+?C0011 . . . . . . . . . .  C ADDR   000CH   R   SEG=?PR?NORMALIZING_READ?LIB
+?C0012 . . . . . . . . . .  C ADDR   000EH   R   SEG=?PR?NORMALIZING_TEST?LIB
+?C?LSTXDATA. . . . . . . .  C ADDR   -----       EXT
 ?C_INITSEG . . . . . . . .  C SEG    000CH       REL=UNIT
 ?DT?LIB. . . . . . . . . .  D SEG    000AH       REL=UNIT
 ?DT?NORMALIZING_READ?LIB .  D SEG    0004H       REL=UNIT
+?DT?_EE_READ?LIB . . . . .  D SEG    0001H       REL=UNIT
+?DT?_EE_WRITE?LIB. . . . .  D SEG    0005H       REL=UNIT
 ?DT?_NORMALIZING_WRITE?LIB  D SEG    0008H       REL=UNIT
 ?DT?_SIN?LIB . . . . . . .  D SEG    0004H       REL=UNIT
 ?NORMALIZING_READ?BYTE . .  D ADDR   0000H   R   SEG=?DT?NORMALIZING_READ?LIB
 ?PR?NORMALIZING_READ?LIB .  C SEG    000DH       REL=UNIT
 ?PR?NORMALIZING_TEST?LIB .  C SEG    000FH       REL=UNIT
+?PR?_EE_READ?LIB . . . . .  C SEG    003BH       REL=UNIT
+?PR?_EE_WRITE?LIB. . . . .  C SEG    003CH       REL=UNIT
 ?PR?_NORMALIZING_WRITE?LIB  C SEG    002DH       REL=UNIT
 ?PR?_SIN?LIB . . . . . . .  C SEG    001DH       REL=UNIT
 ?XD?LIB. . . . . . . . . .  X SEG    0005H       REL=UNIT
+?_EE_READ?BYTE . . . . . .  D ADDR   0000H   R   SEG=?DT?_EE_READ?LIB
+?_EE_WRITE?BYTE. . . . . .  D ADDR   0000H   R   SEG=?DT?_EE_WRITE?LIB
 ?_NORMALIZING_WRITE?BYTE .  D ADDR   0000H   R   SEG=?DT?_NORMALIZING_WRITE?LIB
 ?_SIN?BYTE . . . . . . . .  D ADDR   0000H   R   SEG=?DT?_SIN?LIB
 ACC. . . . . . . . . . . .  D ADDR   00E0H   A   
@@ -609,8 +812,8 @@ BSHO_3 . . . . . . . . . .  D ADDR   00BFH   A
 CKCON. . . . . . . . . . .  D ADDR   008EH   A   
 CLK_DIV. . . . . . . . . .  D ADDR   0091H   A   
 CLK_PD_CON . . . . . . . .  D ADDR   008FH   A   
-DAT?040. . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?_SIN?LIB
-DATA?142 . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?_NORMALIZING_WRITE?LIB
+DAT?243. . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?_SIN?LIB
+DATA?345 . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?_NORMALIZING_WRITE?LIB
 DPH. . . . . . . . . . . .  D ADDR   0083H   A   
 DPH1 . . . . . . . . . . .  D ADDR   0085H   A   
 DPL. . . . . . . . . . . .  D ADDR   0082H   A   
@@ -618,6 +821,11 @@ DPL1 . . . . . . . . . . .  D ADDR   0084H   A
 DPS. . . . . . . . . . . .  D ADDR   0092H   A   
 EADC . . . . . . . . . . .  B ADDR   00B8H.0 A   
 EAL. . . . . . . . . . . .  B ADDR   00A8H.7 A   
+EE_ADDR?040. . . . . . . .  D ADDR   0000H   R   SEG=?DT?_EE_WRITE?LIB
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    14
+
+EE_ADDR?142. . . . . . . .  D ADDR   0000H   R   SEG=?DT?_EE_READ?LIB
+EE_DATA?041. . . . . . . .  D ADDR   0001H   R   SEG=?DT?_EE_WRITE?LIB
 ES . . . . . . . . . . . .  B ADDR   00A8H.4 A   
 ES0. . . . . . . . . . . .  B ADDR   00A8H.4 A   
 ET0. . . . . . . . . . . .  B ADDR   00A8H.1 A   
@@ -632,8 +840,6 @@ EX6. . . . . . . . . . . .  B ADDR   00B8H.5 A
 I2FR . . . . . . . . . . .  B ADDR   00C8H.5 A   
 I3FR . . . . . . . . . . .  B ADDR   00C8H.6 A   
 IADC . . . . . . . . . . .  B ADDR   00C0H.0 A   
-A51 MACRO ASSEMBLER  LIB                                                                  10/09/2018 08:53:40 PAGE    11
-
 IE . . . . . . . . . . . .  D ADDR   00A8H   A   
 IE0. . . . . . . . . . . .  B ADDR   0088H.1 A   
 IE1. . . . . . . . . . . .  B ADDR   0088H.3 A   
@@ -654,8 +860,8 @@ IP1. . . . . . . . . . . .  D ADDR   00B9H   A
 IRCON. . . . . . . . . . .  D ADDR   00C0H   A   
 IT0. . . . . . . . . . . .  B ADDR   0088H.0 A   
 IT1. . . . . . . . . . . .  B ADDR   0088H.2 A   
-LD?143 . . . . . . . . . .  D ADDR   0004H   R   SEG=?DT?_NORMALIZING_WRITE?LIB
-LD?244 . . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?NORMALIZING_READ?LIB
+LD?346 . . . . . . . . . .  D ADDR   0004H   R   SEG=?DT?_NORMALIZING_WRITE?LIB
+LD?447 . . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?NORMALIZING_READ?LIB
 LIB. . . . . . . . . . . .  N NUMB   -----       
 MD0. . . . . . . . . . . .  D ADDR   00E9H   A   
 MD1. . . . . . . . . . . .  D ADDR   00EAH   A   
@@ -684,6 +890,8 @@ P14. . . . . . . . . . . .  B ADDR   0090H.4 A
 P15. . . . . . . . . . . .  B ADDR   0090H.5 A   
 P16. . . . . . . . . . . .  B ADDR   0090H.6 A   
 P17. . . . . . . . . . . .  B ADDR   0090H.7 A   
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    15
+
 P1AQCSFRC. . . . . . . . .  D ADDR   00B1H   A   
 P1AQSFRC . . . . . . . . .  D ADDR   00A7H   A   
 P1CMPA . . . . . . . . . .  D ADDR   00A3H   A   
@@ -700,8 +908,6 @@ P1TBPRD_H. . . . . . . . .  D ADDR   00A2H   A
 P1TBPRD_L. . . . . . . . .  D ADDR   00A1H   A   
 P1TZCLR. . . . . . . . . .  D ADDR   00B3H   A   
 P1TZFLG. . . . . . . . . .  D ADDR   00B2H   A   
-A51 MACRO ASSEMBLER  LIB                                                                  10/09/2018 08:53:40 PAGE    12
-
 P1TZFRC. . . . . . . . . .  D ADDR   00B4H   A   
 P2 . . . . . . . . . . . .  D ADDR   00A0H   A   
 P20. . . . . . . . . . . .  B ADDR   00A0H.0 A   
@@ -752,6 +958,8 @@ P3ETFRC. . . . . . . . . .  D ADDR   00DFH   A
 P3TBPRD. . . . . . . . . .  D ADDR   00D1H   A   
 P3TBPRD_H. . . . . . . . .  D ADDR   00D2H   A   
 P3TBPRD_L. . . . . . . . .  D ADDR   00D1H   A   
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    16
+
 P3TZCLR. . . . . . . . . .  D ADDR   00DBH   A   
 P3TZFLG. . . . . . . . . .  D ADDR   00DAH   A   
 P3TZFRC. . . . . . . . . .  D ADDR   00DCH   A   
@@ -768,8 +976,6 @@ P4ETFLG. . . . . . . . . .  D ADDR   00F5H   A
 P4ETFRC. . . . . . . . . .  D ADDR   00F7H   A   
 P4TBPRD. . . . . . . . . .  D ADDR   00E1H   A   
 P4TBPRD_H. . . . . . . . .  D ADDR   00E2H   A   
-A51 MACRO ASSEMBLER  LIB                                                                  10/09/2018 08:53:40 PAGE    13
-
 P4TBPRD_L. . . . . . . . .  D ADDR   00E1H   A   
 P4TZCLR. . . . . . . . . .  D ADDR   00F3H   A   
 P4TZFLG. . . . . . . . . .  D ADDR   00F2H   A   
@@ -810,14 +1016,18 @@ TL1. . . . . . . . . . . .  D ADDR   008BH   A
 TMOD . . . . . . . . . . .  D ADDR   0089H   A   
 TR0. . . . . . . . . . . .  B ADDR   0088H.4 A   
 TR1. . . . . . . . . . . .  B ADDR   0088H.6 A   
-VALUE?041. . . . . . . . .  D ADDR   0002H   R   SEG=?DT?_SIN?LIB
+VALUE?244. . . . . . . . .  D ADDR   0002H   R   SEG=?DT?_SIN?LIB
 WDCON. . . . . . . . . . .  D ADDR   00D8H   A   
 WDCON_7. . . . . . . . . .  B ADDR   00D8H.7 A   
 WDT. . . . . . . . . . . .  B ADDR   00A8H.6 A   
 WDTREL . . . . . . . . . .  D ADDR   0086H   A   
 _DIV_DENOMINATOR . . . . .  X ADDR   0000H   R   SEG=?XD?LIB
 _DIV_REMAINDER . . . . . .  X ADDR   0003H   R   SEG=?XD?LIB
+_EE_READ . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?_EE_READ?LIB
+_EE_WRITE. . . . . . . . .  C ADDR   0000H   R   SEG=?PR?_EE_WRITE?LIB
 _MD_ERROR. . . . . . . . .  X ADDR   0002H   R   SEG=?XD?LIB
+A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    17
+
 _NORMALIZING_WRITE . . . .  C ADDR   0000H   R   SEG=?PR?_NORMALIZING_WRITE?LIB
 _SIN . . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?_SIN?LIB
 
