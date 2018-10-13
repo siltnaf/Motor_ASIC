@@ -29,6 +29,18 @@ typedef unsigned char* PU8;
 typedef unsigned int*  PU16;
 typedef unsigned long* PU32;
 
+
+
+
+typedef  struct {
+ unsigned char D3; //MSB
+ unsigned char D2;
+ unsigned char D1;
+ unsigned char D0; //LSB
+ } EE32;
+ 
+
+
 typedef union {
  struct {
  unsigned char Byte3; //MSB
@@ -75,6 +87,11 @@ extern S32 Shift32(S32 dat, U8 cmd);
 extern S32 Normalize(S32 dat);
 extern S32 Mul(S16 multiplicand, S16 multiplicator);
 
+
 extern S32 UartPass(void);
+
+extern void EE_write(U8 EE_addr, U32 EE_data);
+extern U32 EE_read(U8 EE_addr); 
+
 
 #endif //_LIB_H_

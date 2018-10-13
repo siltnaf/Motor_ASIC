@@ -16,6 +16,8 @@
 sfr BPCTRL = 0x93  ; //BPCTRL.7  := breakpoint interrupt request
                        //       ; BPCTRL.1  := 0=code break, 1=xdata break
                        //       ; BPCTRL.0  := breakpoint enable 
+		#define BP_INT						  CHECK_BIT(BPCTRL,7)
+
 sfr BREAKL = 0x94  ; //break low  address
 sfr BREAKH = 0x95  ; //break high address
 //
@@ -468,7 +470,7 @@ sfr	P4ETFRC		= 0xf7;
 
 // ADC ext Ram ==========================================
 
-#define ADCTL  			(*(unsigned int volatile xdata *)0xe05a)
+#define ADCTL  			(*(unsigned char volatile xdata *)0xe05a)
 		#define INTEN			BIT(ADCTL,0)
 		#define REFSEL		BIT(ADCTL,1)
 		#define ADCAL			BIT(ADCTL,2)
@@ -476,13 +478,13 @@ sfr	P4ETFRC		= 0xf7;
 		#define SWFTRG		BIT(ADCTL,5)
 		#define BUSY			BIT(ADCTL,6)
 
-#define ADCTL2 			(*(unsigned int volatile xdata *)0xe05b)	
+#define ADCTL2 			(*(unsigned char volatile xdata *)0xe05b)	
 		#define INTFL			BIT(ADCTL2,0)
 		#define ADC_TEMPC	BIT3(ADCTL2,1)
 
 
-#define ADCHS 			(*(unsigned int volatile xdata *)0xe05c)	
-#define ADSHBP			(*(unsigned int volatile xdata *)0xe05d)	
+#define ADCHS 			(*(unsigned char volatile xdata *)0xe05c)	
+#define ADSHBP			(*(unsigned char volatile xdata *)0xe05d)	
 			#define BP4		BIT(ADSHBP,3)
 		  #define BP5   BIT(ADSHBP,4)
 			#define BP6	  BIT(ADSHBP,5)
@@ -600,10 +602,17 @@ sfr	P4ETFRC		= 0xf7;
 
 // MTP ext Ram ==========================================
 #define MTPCON1   				(*(unsigned char volatile xdata *)0xe08e)		
+		#define MTP_READ						BIT(MTPCON1,4)
+		#define MTP_WRITE						BIT(MTPCON1,5)	
+		#define MTP_BUSY						BIT(MTPCON1,6)
+
 #define MTPCON2   				(*(unsigned char volatile xdata *)0xe08f)		
 #define MTPCON3   				(*(unsigned char volatile xdata *)0xe090)		
 #define MTPSADD1   				(*(unsigned char volatile xdata *)0xe091)	
 #define MTPSADD2   				(*(unsigned char volatile xdata *)0xe092)
+	
+#define MTPDATA   				(*(unsigned long volatile xdata *)0xe093)
+	
 #define MTPDATA1  				(*(unsigned char volatile xdata *)0xe093)
 #define MTPDATA2  				(*(unsigned char volatile xdata *)0xe094)
 #define MTPDATA3  				(*(unsigned char volatile xdata *)0xe095)

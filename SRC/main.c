@@ -9,7 +9,11 @@
 
 
  unsigned char hh;
- unsigned short ADresult;
+ unsigned int ADresult;
+ unsigned int data_value;
+ 
+U32 EE_data;
+ 
 
 void main(void)
 {
@@ -18,9 +22,9 @@ void main(void)
     #endif
 		InitISDDebug(); 
  
-  InitTimer4();                          //start timer1
-	
-
+  //InitTimer4();                          //start timer1
+	InitTimer01();
+	InitADC();                           //ADC use timer0 to trigger AD start
 	
 	
 	
@@ -31,14 +35,15 @@ void main(void)
 		EAL=1;
     while(1)
     {
-			
-			
-			
-			if 	(T4TF==1)	
-			{
-				T4TF=0;
-				P26=~P26;
-			}
+	
+		
+//			EE_write(0x0a, 0xabcdef12);
+			EE_data=EE_read(0x0a);
+		 
+		
+	
+		while (BUSY==1);
+				data_value= ADresult;
 			
 			
         #if ISDDebug == ENABLE_ISD
@@ -48,4 +53,6 @@ void main(void)
     }
 }
 
+
+//void EE_write ( unsigned int  addr, unsigned char dat1, unsigned char dat2
 

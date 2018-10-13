@@ -56,6 +56,8 @@ sfr   INT_REG2=0xfa;
 sfr   INT_REG3=0xfd;
 sfr   INT_REG4=0xfe;
 
+
+
 #define  T5CON	0xE0F3
 
 
@@ -243,7 +245,11 @@ extern bit _iskey (void); /* check if input character available */
 // of the following define statements if you are using one of these devices.
 //
 // TI MSC121x version with EAI bit handling
-#define TI_MSC1210
+
+
+      #define TI_MSC1210
+  
+
 //
 // Philips LPC900 version with two additional SFR write functions
 // #define PHILIPS_LPC900
