@@ -224,28 +224,37 @@ void  Comp234Interrupt(void) interrupt 11
 {
 	
 	
-	if (CP2_INT==1)
+	if (C2INT==1)
 
 		{
+			
+			
 		
-			CLR_CP2_INT();			
+			C2INT=0;	
+
+     P26=~P26;
+
+
+			
 		}
 		
-		if (CP3_INT==1)
+		if (C3INT==1)
 
 		{
 		
-				CLR_CP3_INT();			
+				C3INT=0;	
+
 		}
 					
-		if (CP4_INT==1)
+		if (C4INT==1)
 
 		{
-		
-			CLR_CP4_INT();			
+	
+			C4INT=0;	
+			
 		}
 		
-		if ((CP2_INT==0)&&(CP3_INT==0)&&(CP4_INT==0))
+		if ((C2INT==0)&&(C3INT==0)&&(C4INT==0))
 				IEX4=0;
 			
 	}
@@ -257,7 +266,7 @@ void  Comp234Interrupt(void) interrupt 11
 void I2CInterrupt(void)  interrupt 25
 {
 
-	CLR_I2C_INT();
+//	CLR_I2C_INT();
 	
 	if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
 		IEX5=0;
@@ -266,7 +275,7 @@ void I2CInterrupt(void)  interrupt 25
 void SPIInterrupt(void)  interrupt 26
 {
 
-	CLR_SPI_INT();
+//	CLR_SPI_INT();
 	if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
 		IEX5=0;
 }
@@ -274,7 +283,7 @@ void SPIInterrupt(void)  interrupt 26
 void eFlashInterrupt(void)  interrupt 27
 {
 
-	CLR_EFLASH_INT();
+//	CLR_EFLASH_INT();
 	if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
 		IEX5=0;
 }

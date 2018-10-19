@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     1
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.02c
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
   00C3                55     IEX4    BIT     0C0H.3
   00C4                56     IEX5    BIT     0C0H.4
   00C5                57     IEX6    BIT     0C0H.5
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     2
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE     2
 
   0091                58     CLK_DIV DATA    091H
   0081                59     SP      DATA    081H
@@ -133,7 +133,7 @@ LOC  OBJ            LINE     SOURCE
   00AF               121     BSHI_3  DATA    0AFH
   00BC               122     BSHO_0  DATA    0BCH
   00BD               123     BSHO_1  DATA    0BDH
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     3
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE     3
 
   0089               124     IE0     BIT     088H.1
   00BE               125     BSHO_2  DATA    0BEH
@@ -201,7 +201,7 @@ LOC  OBJ            LINE     SOURCE
   008E               187     TR1     BIT     088H.6
   00F9               188     INT_REG1        DATA    0F9H
   0083               189     DPH     DATA    083H
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     4
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE     4
 
   00FA               190     INT_REG2        DATA    0FAH
   00FD               191     INT_REG3        DATA    0FDH
@@ -269,7 +269,7 @@ LOC  OBJ            LINE     SOURCE
 0000                 253         EE_addr?142:   DS   1
                      254     
 ----                 255             RSEG  ?DT?_EE_write?LIB
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     5
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE     5
 
 0000                 256     ?_EE_write?BYTE:
 0000                 257         EE_addr?040:   DS   1
@@ -337,7 +337,7 @@ LOC  OBJ            LINE     SOURCE
                      319     ; #include <absacc.h>
                      320     ; #include "register.h"
                      321     ; #include "lib.h"
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     6
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE     6
 
                      322     ; 
                      323     ; 
@@ -405,7 +405,7 @@ LOC  OBJ            LINE     SOURCE
 0021 90E08E          385             MOV     DPTR,#0E08EH
 0024 740B            386             MOV     A,#0BH
 0026 F0              387             MOVX    @DPTR,A
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     7
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE     7
 
 0027                 388     ?C0001:
                      389     ;                       
@@ -473,7 +473,7 @@ LOC  OBJ            LINE     SOURCE
 000E 90E092          451             MOV     DPTR,#0E092H
 0011 E4              452             CLR     A
 0012 F0              453             MOVX    @DPTR,A
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     8
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE     8
 
                      454     ;                       MTPCON1=0x07;                                   //start
                      455                             ; SOURCE LINE # 91
@@ -541,7 +541,7 @@ LOC  OBJ            LINE     SOURCE
 ----                 517             RSEG  ?PR?_sin?LIB
 0000                 518     _sin:
                      519             USING   0
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE     9
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE     9
 
                      520                             ; SOURCE LINE # 114
 0000 8E00     F      521             MOV     dat?243,R6
@@ -609,7 +609,7 @@ LOC  OBJ            LINE     SOURCE
                      583     ; //  nop
                      584     ; //    nop    ;wait 24
                      585     ; //  nop
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    10
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE    10
 
                      586     ; //  nop
                      587     ; //  nop
@@ -677,7 +677,7 @@ LOC  OBJ            LINE     SOURCE
 001E 8500EB   F      649             MOV     MD2,LD?346+01H
                      650     ;  MD3 = LD.ss1.Byte3;
                      651                             ; SOURCE LINE # 194
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    11
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE    11
 
 0021 8500EC   F      652             MOV     MD3,LD?346
                      653     ;  ARCON = 0x00 ; // Start Normalizing
@@ -745,7 +745,7 @@ LOC  OBJ            LINE     SOURCE
                      715     ;  Normalizing_Read();
                      716                             ; SOURCE LINE # 214
 000B 120000   F      717             LCALL   Normalizing_Read
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    12
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE    12
 
                      718     ; 
                      719     ; }                     ; SOURCE LINE # 216
@@ -754,7 +754,7 @@ LOC  OBJ            LINE     SOURCE
                      722     ; END OF Normalizing_test
                      723     
                      724             END
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    13
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE    13
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -822,7 +822,7 @@ DPS. . . . . . . . . . . .  D ADDR   0092H   A
 EADC . . . . . . . . . . .  B ADDR   00B8H.0 A   
 EAL. . . . . . . . . . . .  B ADDR   00A8H.7 A   
 EE_ADDR?040. . . . . . . .  D ADDR   0000H   R   SEG=?DT?_EE_WRITE?LIB
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    14
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE    14
 
 EE_ADDR?142. . . . . . . .  D ADDR   0000H   R   SEG=?DT?_EE_READ?LIB
 EE_DATA?041. . . . . . . .  D ADDR   0001H   R   SEG=?DT?_EE_WRITE?LIB
@@ -890,7 +890,7 @@ P14. . . . . . . . . . . .  B ADDR   0090H.4 A
 P15. . . . . . . . . . . .  B ADDR   0090H.5 A   
 P16. . . . . . . . . . . .  B ADDR   0090H.6 A   
 P17. . . . . . . . . . . .  B ADDR   0090H.7 A   
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    15
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE    15
 
 P1AQCSFRC. . . . . . . . .  D ADDR   00B1H   A   
 P1AQSFRC . . . . . . . . .  D ADDR   00A7H   A   
@@ -958,7 +958,7 @@ P3ETFRC. . . . . . . . . .  D ADDR   00DFH   A
 P3TBPRD. . . . . . . . . .  D ADDR   00D1H   A   
 P3TBPRD_H. . . . . . . . .  D ADDR   00D2H   A   
 P3TBPRD_L. . . . . . . . .  D ADDR   00D1H   A   
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    16
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE    16
 
 P3TZCLR. . . . . . . . . .  D ADDR   00DBH   A   
 P3TZFLG. . . . . . . . . .  D ADDR   00DAH   A   
@@ -1026,7 +1026,7 @@ _DIV_REMAINDER . . . . . .  X ADDR   0003H   R   SEG=?XD?LIB
 _EE_READ . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?_EE_READ?LIB
 _EE_WRITE. . . . . . . . .  C ADDR   0000H   R   SEG=?PR?_EE_WRITE?LIB
 _MD_ERROR. . . . . . . . .  X ADDR   0002H   R   SEG=?XD?LIB
-A51 MACRO ASSEMBLER  LIB                                                                  10/12/2018 08:44:02 PAGE    17
+A51 MACRO ASSEMBLER  LIB                                                                  10/19/2018 07:59:56 PAGE    17
 
 _NORMALIZING_WRITE . . . .  C ADDR   0000H   R   SEG=?PR?_NORMALIZING_WRITE?LIB
 _SIN . . . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?_SIN?LIB

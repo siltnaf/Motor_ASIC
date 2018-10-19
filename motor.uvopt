@@ -146,18 +146,18 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>55</LineNumber>
+          <LineNumber>39</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>-16766404</Address>
+          <Address>-16765115</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\project\asic\SRC\MAIN.C</Filename>
+          <Filename>SRC\MAIN.C</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\motor\MAIN\55</Expression>
+          <Expression>\\motor\MAIN\39</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -211,12 +211,7 @@
         <Ww>
           <count>0</count>
           <WinNumber>2</WinNumber>
-          <ItemText>data_value</ItemText>
-        </Ww>
-        <Ww>
-          <count>1</count>
-          <WinNumber>2</WinNumber>
-          <ItemText>hh</ItemText>
+          <ItemText>IEX4</ItemText>
         </Ww>
       </WatchWindow2>
       <MemoryWindow1>

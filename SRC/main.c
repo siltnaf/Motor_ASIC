@@ -23,22 +23,25 @@ void main(void)
 		InitISDDebug(); 
  
   //InitTimer4();                          //start timer1
-	InitTimer01();
-	InitADC();                           //ADC use timer0 to trigger AD start
+//	InitTimer01();
+//	InitADC();                           //ADC use timer0 to trigger AD start
 	
 	
 	
 		InitGPIO();
 	//	InitEXT();
-	
+	InitComp234();
 	
 		EAL=1;
     while(1)
     {
-	
-		
+
+
+			
+			
+			
 //			EE_write(0x0a, 0xabcdef12);
-			EE_data=EE_read(0x0a);
+//			EE_data=EE_read(0x0a);
 		 
 		
 	

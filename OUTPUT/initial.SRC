@@ -307,7 +307,7 @@ InitEXT:
 ; 		IE0=0;
 			; SOURCE LINE # 26
 	CLR  	IE0
-; 		INT_REG1 &=0xf0;
+; 		INT_REG1 &=0xf0;              
 			; SOURCE LINE # 27
 	ANL  	INT_REG1,#0F0H
 ; 	
@@ -1245,58 +1245,241 @@ InitComp234:
 			; SOURCE LINE # 356
 ; {
 			; SOURCE LINE # 357
-; 	P1_FN_L = P1_FN_L & 0x0F | 0xA0;
-			; SOURCE LINE # 358
-	MOV  	DPTR,#0E0DBH
-	MOVX 	A,@DPTR
-	MOV  	R7,A
-	MOV  	A,R7
-	ANL  	A,#0FH
-	MOV  	R7,A
-	MOV  	A,R7
-	ORL  	A,#0A0H
-	MOV  	R7,A
-	MOV  	DPTR,#0E0DBH
-	MOV  	A,R7
-	MOVX 	@DPTR,A
-; 	P1_FN_H = P1_FN_H & 0xF0 | 0x0A;
+; 	
+; 		P21_FN= CFG2;								 // P21	output COMP1
 			; SOURCE LINE # 359
+	MOV  	DPTR,#0E0E1H
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ANL  	A,#0F3H
+	MOV  	R7,A
+	MOV  	A,R7
+	ORL  	A,#08H
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		P14_FN= CFG2;              	 // P14 output COMP2
+			; SOURCE LINE # 360
 	MOV  	DPTR,#0E0DAH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
 	MOV  	A,R7
-	ANL  	A,#0F0H
+	ANL  	A,#0FCH
 	MOV  	R7,A
 	MOV  	A,R7
-	ORL  	A,#0AH
+	ORL  	A,#02H
 	MOV  	R7,A
-	MOV  	DPTR,#0E0DAH
 	MOV  	A,R7
 	MOVX 	@DPTR,A
+; 		P13_FN= CFG2;              	 // P13 output COMP3
+			; SOURCE LINE # 361
+	MOV  	DPTR,#0E0DBH
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ANL  	A,#03FH
+	MOV  	R7,A
+	MOV  	A,R7
+	ORL  	A,#080H
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		P12_FN= CFG2;              	 // P12 output COMP4
+			; SOURCE LINE # 362
+	MOV  	DPTR,#0E0DBH
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ANL  	A,#0CFH
+	MOV  	R7,A
+	MOV  	A,R7
+	ORL  	A,#020H
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		
+; 	
+; 	
+; 		C1PDO1PD=CFG1;								//COMP1 power on and OP1 power off
+			; SOURCE LINE # 366
+	MOV  	DPTR,#0E0A4H
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ANL  	A,#0FCH
+	MOV  	R7,A
+	MOV  	A,R7
+	ORL  	A,#01H
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		C2PDO2PD=CFG1;								//COMP2 power on and OP2 power off
+			; SOURCE LINE # 367
+	MOV  	DPTR,#0E0A4H
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ANL  	A,#0F3H
+	MOV  	R7,A
+	MOV  	A,R7
+	ORL  	A,#04H
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		C3PDO3PD=CFG1;								//COMP3 power on and OP3 power off
+			; SOURCE LINE # 368
+	MOV  	DPTR,#0E0A4H
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ANL  	A,#0CFH
+	MOV  	R7,A
+	MOV  	A,R7
+	ORL  	A,#010H
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		C4PD=0;												//COMP4 power on
+			; SOURCE LINE # 369
+	MOV  	DPTR,#0E0A4H
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ANL  	A,#0BFH
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	
+; 	
+; 	
+; 		C1_INT_SEL=CFG2;							//COMP1 at rising/falling edge triiger 
+			; SOURCE LINE # 373
+	MOV  	DPTR,#0E0C6H
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ANL  	A,#0FEH
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		C2_INT_SEL=CFG2;							//COMP2 at rising/falling edge triiger
+			; SOURCE LINE # 374
+	MOV  	DPTR,#0E0C6H
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ANL  	A,#0FDH
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		C3_INT_SEL=CFG2;							//COMP3 at rising/falling edge triiger
+			; SOURCE LINE # 375
+	MOV  	DPTR,#0E0C6H
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ANL  	A,#0FBH
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		C4_INT_SEL=CFG2;							//COMP4 at rising/falling edge triiger
+			; SOURCE LINE # 376
+	MOV  	DPTR,#0E0C6H
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ANL  	A,#0F7H
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	
+; 	
+; 		C1_EN=1;											//C1 interrupt enable
+			; SOURCE LINE # 379
+	MOV  	DPTR,#0E0EBH
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ORL  	A,#01H
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		C2_EN=1;											//C2 interrupt enalbe
+			; SOURCE LINE # 380
+	MOV  	DPTR,#0E0EBH
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ORL  	A,#02H
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; //		C3_EN=1;											//C3 interrupt enalbe
+; //		C4_EN=1;											//C4 interrupt enalbe
+; 		
+; 		
+; 		C1INT=0;											//clear C1 INT flag
+			; SOURCE LINE # 385
+	MOV  	DPTR,#0E0C7H
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ANL  	A,#0FEH
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		C2INT=0;											//clear C2 INT flag
+			; SOURCE LINE # 386
+	MOV  	DPTR,#0E0C7H
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ANL  	A,#0FDH
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		C3INT=0;											//clear C3 INT flag
+			; SOURCE LINE # 387
+	MOV  	DPTR,#0E0C7H
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ANL  	A,#0FBH
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 		C4INT=0;											//clear C4 INT flag
+			; SOURCE LINE # 388
+	MOV  	DPTR,#0E0C7H
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	ANL  	A,#0F7H
+	MOV  	R7,A
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	
+; 	
+; 		EX4=1;
+			; SOURCE LINE # 391
+	SETB 	EX4
+; 	
+; 	
+; //	P1_FN_L = P1_FN_L & 0x0F | 0xA0;
+; //	P1_FN_H = P1_FN_H & 0xF0 | 0x0A;
 ; 	//COMP_FILTER_1 = 4;
 ; 	//COMP_FILTER_2 = 4;
 ; 	//COMP_FILTER_3 = 4;
 ; 	//COMP_FILTER_4 = 4;
-; 	OPAMP_SEL = 0xF0;
-			; SOURCE LINE # 364
-	MOV  	DPTR,#0E0A5H
-	MOV  	A,#0F0H
-	MOVX 	@DPTR,A
-;     COMP_INT_SEL = 0xAA;//0;//0x55;                    // comp1 ~ comp4 all trigger at rise egde
-			; SOURCE LINE # 365
-	MOV  	DPTR,#0E0C6H
-	MOV  	A,#0AAH
-	MOVX 	@DPTR,A
-; 	COMP_INT_EN = 0x3E;//0x1E;//0x14;						// comp2,3,4 interrupt enable,and comp2,3,4 to CPU enable
-			; SOURCE LINE # 366
-	MOV  	DPTR,#0E0EBH
-	MOV  	A,#03EH
-	MOVX 	@DPTR,A
+; ////	OPAMP_SEL = 0xF0;
+; ////    COMP_INT_SEL = 0xAA;//0;//0x55;                    // comp1 ~ comp4 all trigger at rise egde
+; //	COMP_INT_EN = 0x3E;//0x1E;//0x14;						// comp2,3,4 interrupt enable,and comp2,3,4 to CPU enable
 ; 	EX4 = 1;								// external interrupt 4 enable
-			; SOURCE LINE # 367
+			; SOURCE LINE # 403
 	SETB 	EX4
 ; }
-			; SOURCE LINE # 368
+			; SOURCE LINE # 404
 ?C0015:
 	RET  	
 ; END OF InitComp234
@@ -1309,20 +1492,20 @@ InitComp234:
 	RSEG  ?PR?InitWatchDog?INITIAL
 InitWatchDog:
 	USING	0
-			; SOURCE LINE # 372
+			; SOURCE LINE # 408
 ; {
-			; SOURCE LINE # 373
+			; SOURCE LINE # 409
 ; 		WDTREL = 0xFF;
-			; SOURCE LINE # 374
+			; SOURCE LINE # 410
 	MOV  	WDTREL,#0FFH
 ; 	WDT = 1;
-			; SOURCE LINE # 375
+			; SOURCE LINE # 411
 	SETB 	WDT
 ; 	SWDT = 1;
-			; SOURCE LINE # 376
+			; SOURCE LINE # 412
 	SETB 	SWDT
 ;     P1_FN_L = P1_FN_L & 0xFC;               //p1_0 as GPIO
-			; SOURCE LINE # 377
+			; SOURCE LINE # 413
 	MOV  	DPTR,#0E0DBH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1332,7 +1515,7 @@ InitWatchDog:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ;     P1_DD = P1_DD & 0xFE;               	//p1_0 as output
-			; SOURCE LINE # 378
+			; SOURCE LINE # 414
 	MOV  	DPTR,#0E0DCH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1342,7 +1525,7 @@ InitWatchDog:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; }
-			; SOURCE LINE # 379
+			; SOURCE LINE # 415
 ?C0016:
 	RET  	
 ; END OF InitWatchDog
@@ -1354,98 +1537,98 @@ InitWatchDog:
 	RSEG  ?PR?InitGPIO?INITIAL
 InitGPIO:
 	USING	0
-			; SOURCE LINE # 382
+			; SOURCE LINE # 418
 ; {
-			; SOURCE LINE # 383
+			; SOURCE LINE # 419
 ; 		P0_FN_L = 0x00;									// P00 ~ P03as GPIO
-			; SOURCE LINE # 384
+			; SOURCE LINE # 420
 	MOV  	DPTR,#0E0D5H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 		P0_FN_H = 0x00;									// P04 ~ P07 as GPIO
-			; SOURCE LINE # 385
+			; SOURCE LINE # 421
 	MOV  	DPTR,#0E0D4H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 		P0_DD = 0x00;										// 	P00 ~  P07 intput
-			; SOURCE LINE # 386
+			; SOURCE LINE # 422
 	MOV  	DPTR,#0E0D6H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 		P0_PE = 0xFF;										// output resistor enable	
-			; SOURCE LINE # 387
+			; SOURCE LINE # 423
 	MOV  	DPTR,#0E0D8H
 	MOV  	A,#0FFH
 	MOVX 	@DPTR,A
 ; 		P0_DS = 0x00;										//drive current =4mA
-			; SOURCE LINE # 388
+			; SOURCE LINE # 424
 	MOV  	DPTR,#0E0D7H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 		P0_PS=	0x00;										//pull down resistor 
-			; SOURCE LINE # 389
+			; SOURCE LINE # 425
 	MOV  	DPTR,#0E0D9H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 	
 ; 		P1_FN_L = 0x00;									// P10 ~ P13 as GPIO
-			; SOURCE LINE # 391
+			; SOURCE LINE # 427
 	MOV  	DPTR,#0E0DBH
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 		P1_FN_H = 0x00;									// P14 ~ P17 as GPIO
-			; SOURCE LINE # 392
+			; SOURCE LINE # 428
 	MOV  	DPTR,#0E0DAH
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 		P1_DD = 0x00;										// P10 ~ P17 intput
-			; SOURCE LINE # 393
+			; SOURCE LINE # 429
 	MOV  	DPTR,#0E0DCH
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 		P1_PE = 0xFF;										// output resistor enable	
-			; SOURCE LINE # 394
+			; SOURCE LINE # 430
 	MOV  	DPTR,#0E0DEH
 	MOV  	A,#0FFH
 	MOVX 	@DPTR,A
 ; 		P1_DS = 0x00;										//drive current =4mA
-			; SOURCE LINE # 395
+			; SOURCE LINE # 431
 	MOV  	DPTR,#0E0DDH
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 		P1_PS=	0x00;										//pull down resistor 
-			; SOURCE LINE # 396
+			; SOURCE LINE # 432
 	MOV  	DPTR,#0E0DFH
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 	
 ; 		P2_FN_L = 0x00;									// P20 ~ P23 as GPIO
-			; SOURCE LINE # 398
+			; SOURCE LINE # 434
 	MOV  	DPTR,#0E0E1H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 		P2_FN_H = 0x00;									// P24 ~ P27 as GPIO
-			; SOURCE LINE # 399
+			; SOURCE LINE # 435
 	MOV  	DPTR,#0E0E0H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 		P2_DD = 0x00;										// P20~ P27 intput
-			; SOURCE LINE # 400
+			; SOURCE LINE # 436
 	MOV  	DPTR,#0E0E2H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 		P2_PE = 0xFF;										// pull/down resistor enable	
-			; SOURCE LINE # 401
+			; SOURCE LINE # 437
 	MOV  	DPTR,#0E0E4H
 	MOV  	A,#0FFH
 	MOVX 	@DPTR,A
 ; 		P2_DS = 0x00;										//drive current =4mA
-			; SOURCE LINE # 402
+			; SOURCE LINE # 438
 	MOV  	DPTR,#0E0E3H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 		P2_PS=	0x00;										//pull down resistor 
-			; SOURCE LINE # 403
+			; SOURCE LINE # 439
 	MOV  	DPTR,#0E0E5H
 	CLR  	A
 	MOVX 	@DPTR,A
@@ -1453,7 +1636,7 @@ InitGPIO:
 ; 	// use P26 and P00 as output
 ; 	
 ;     P00_FN= CFG0;              	 // P00 as GPIO
-			; SOURCE LINE # 407
+			; SOURCE LINE # 443
 	MOV  	DPTR,#0E0D5H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1463,7 +1646,7 @@ InitGPIO:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ;     P00_DD = OUTPUT;               //P00 as output
-			; SOURCE LINE # 408
+			; SOURCE LINE # 444
 	MOV  	DPTR,#0E0D6H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1473,7 +1656,7 @@ InitGPIO:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ;     P00_PE = RES_DIS;               //P00 pull resistor off
-			; SOURCE LINE # 409
+			; SOURCE LINE # 445
 	MOV  	DPTR,#0E0D8H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1483,7 +1666,7 @@ InitGPIO:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 		P00_DS = I_4MA;
-			; SOURCE LINE # 410
+			; SOURCE LINE # 446
 	MOV  	DPTR,#0E0D7H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1494,7 +1677,7 @@ InitGPIO:
 	MOVX 	@DPTR,A
 ; 
 ;     P26_FN = CFG0;               //P26 as GPIO
-			; SOURCE LINE # 412
+			; SOURCE LINE # 448
 	MOV  	DPTR,#0E0E0H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1504,7 +1687,7 @@ InitGPIO:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ;     P26_DD = OUTPUT;               //P26 as output
-			; SOURCE LINE # 413
+			; SOURCE LINE # 449
 	MOV  	DPTR,#0E0E2H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1514,7 +1697,7 @@ InitGPIO:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ;     P26_PE = RES_DIS;               //P26 output resistor off
-			; SOURCE LINE # 414
+			; SOURCE LINE # 450
 	MOV  	DPTR,#0E0E4H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1524,7 +1707,7 @@ InitGPIO:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 		P26_DS = I_4MA;
-			; SOURCE LINE # 415
+			; SOURCE LINE # 451
 	MOV  	DPTR,#0E0E3H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1540,7 +1723,7 @@ InitGPIO:
 ; 	// use P20 as EXT2
 ; 	
 ; 	    P20_FN= CFG1;              	 //P20 as EXT2
-			; SOURCE LINE # 422
+			; SOURCE LINE # 458
 	MOV  	DPTR,#0E0E1H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1553,7 +1736,7 @@ InitGPIO:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 			P20_DD = INPUT;               //P20 as input
-			; SOURCE LINE # 423
+			; SOURCE LINE # 459
 	MOV  	DPTR,#0E0E2H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1563,7 +1746,7 @@ InitGPIO:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 			P20_PE = RES_EN;               // P20 output resistor enable
-			; SOURCE LINE # 424
+			; SOURCE LINE # 460
 	MOV  	DPTR,#0E0E4H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1573,7 +1756,7 @@ InitGPIO:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 			P20_PS = PULL_DOWN;               //P20 with pull down resistor
-			; SOURCE LINE # 425
+			; SOURCE LINE # 461
 	MOV  	DPTR,#0E0E5H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1584,14 +1767,14 @@ InitGPIO:
 	MOVX 	@DPTR,A
 ; 	
 ; 		hh=P2_FN_L|0x0;
-			; SOURCE LINE # 427
+			; SOURCE LINE # 463
 	MOV  	DPTR,#0E0E1H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
 	MOV  	hh,R7
 ; 	
 ; }
-			; SOURCE LINE # 429
+			; SOURCE LINE # 465
 ?C0017:
 	RET  	
 ; END OF InitGPIO
@@ -1602,11 +1785,11 @@ InitGPIO:
 	RSEG  ?PR?InitTimer01?INITIAL
 InitTimer01:
 	USING	0
-			; SOURCE LINE # 431
+			; SOURCE LINE # 467
 ; {
-			; SOURCE LINE # 432
+			; SOURCE LINE # 468
 ; 		T01_DIV = 0x0240;                 //clock divider is 122
-			; SOURCE LINE # 433
+			; SOURCE LINE # 469
 	MOV  	DPTR,#0E0EEH
 	MOV  	A,#02H
 	MOVX 	@DPTR,A
@@ -1614,7 +1797,7 @@ InitTimer01:
 	MOV  	A,#040H
 	MOVX 	@DPTR,A
 ;     TMOD = TMOD & 0xF0 | (3 << 0);                     //timer0 is 16bit timer
-			; SOURCE LINE # 434
+			; SOURCE LINE # 470
 	MOV  	A,TMOD
 	ANL  	A,#0F0H
 	MOV  	R7,A
@@ -1622,26 +1805,26 @@ InitTimer01:
 	ORL  	A,#03H
 	MOV  	TMOD,A
 ;     TL0 = 0x00;
-			; SOURCE LINE # 435
+			; SOURCE LINE # 471
 	MOV  	TL0,#00H
 ;     TH0= 0x00;
-			; SOURCE LINE # 436
+			; SOURCE LINE # 472
 	MOV  	TH0,#00H
 ; 		
 ;     ET0 = 1;                                //enable timer0 overflow interrupt
-			; SOURCE LINE # 438
+			; SOURCE LINE # 474
 	SETB 	ET0
 ;     ET1 = 1;                                //enable timer1 overflow interrupt
-			; SOURCE LINE # 439
+			; SOURCE LINE # 475
 	SETB 	ET1
 ; 		TR0= 1;                                //start timer0
-			; SOURCE LINE # 440
+			; SOURCE LINE # 476
 	SETB 	TR0
 ; 		TR1 = 1;    
-			; SOURCE LINE # 441
+			; SOURCE LINE # 477
 	SETB 	TR1
 ; }
-			; SOURCE LINE # 442
+			; SOURCE LINE # 478
 ?C0018:
 	RET  	
 ; END OF InitTimer01
@@ -1652,16 +1835,16 @@ InitTimer01:
 	RSEG  ?PR?InitTimer3?INITIAL
 InitTimer3:
 	USING	0
-			; SOURCE LINE # 444
+			; SOURCE LINE # 480
 ; {
-			; SOURCE LINE # 445
+			; SOURCE LINE # 481
 ; 	T3PS = 0;								// no divider
-			; SOURCE LINE # 446
+			; SOURCE LINE # 482
 	MOV  	DPTR,#0E0C9H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 	T3RC= 0x00C0;
-			; SOURCE LINE # 447
+			; SOURCE LINE # 483
 	MOV  	DPTR,#0E0CCH
 	CLR  	A
 	MOVX 	@DPTR,A
@@ -1670,7 +1853,7 @@ InitTimer3:
 	MOVX 	@DPTR,A
 ; 
 ; 	T3TF_EINT	 =1;							// timer4 overflow interrupt enable
-			; SOURCE LINE # 449
+			; SOURCE LINE # 485
 	MOV  	DPTR,#0E0C8H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1680,7 +1863,7 @@ InitTimer3:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	T3TR = 1;				// start timer4
-			; SOURCE LINE # 450
+			; SOURCE LINE # 486
 	MOV  	DPTR,#0E0C8H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1690,16 +1873,16 @@ InitTimer3:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	CLR_T3_INT();
-			; SOURCE LINE # 451
+			; SOURCE LINE # 487
 	ANL  	INT_REG1,#0E0H
 ; 	IE1=0;
-			; SOURCE LINE # 452
+			; SOURCE LINE # 488
 	CLR  	IE1
 ; 	 EX1=1;
-			; SOURCE LINE # 453
+			; SOURCE LINE # 489
 	SETB 	EX1
 ; }
-			; SOURCE LINE # 454
+			; SOURCE LINE # 490
 ?C0019:
 	RET  	
 ; END OF InitTimer3
@@ -1710,16 +1893,16 @@ InitTimer3:
 	RSEG  ?PR?InitTimer4?INITIAL
 InitTimer4:
 	USING	0
-			; SOURCE LINE # 456
+			; SOURCE LINE # 492
 ; {
-			; SOURCE LINE # 457
+			; SOURCE LINE # 493
 ; 	T4PS = 0;								// no divider
-			; SOURCE LINE # 458
+			; SOURCE LINE # 494
 	MOV  	DPTR,#0E0CFH
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 	T4RC = 0xE0C0;
-			; SOURCE LINE # 459
+			; SOURCE LINE # 495
 	MOV  	DPTR,#0E0D2H
 	MOV  	A,#0E0H
 	MOVX 	@DPTR,A
@@ -1728,7 +1911,7 @@ InitTimer4:
 	MOVX 	@DPTR,A
 ; 
 ; 	T4TF_EINT	 =1;							// timer4 overflow interrupt enable
-			; SOURCE LINE # 461
+			; SOURCE LINE # 497
 	MOV  	DPTR,#0E0CEH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1738,7 +1921,7 @@ InitTimer4:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	T4TR = 1;				// start timer4
-			; SOURCE LINE # 462
+			; SOURCE LINE # 498
 	MOV  	DPTR,#0E0CEH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1748,16 +1931,16 @@ InitTimer4:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	CLR_T4_INT();
-			; SOURCE LINE # 463
+			; SOURCE LINE # 499
 	ANL  	INT_REG4,#0F0H
 ; 	EX6 = 1;
-			; SOURCE LINE # 464
+			; SOURCE LINE # 500
 	SETB 	EX6
 ; 	IEX6=0;
-			; SOURCE LINE # 465
+			; SOURCE LINE # 501
 	CLR  	IEX6
 ; }
-			; SOURCE LINE # 466
+			; SOURCE LINE # 502
 ?C0020:
 	RET  	
 ; END OF InitTimer4
@@ -1767,16 +1950,16 @@ InitTimer4:
 	RSEG  ?PR?InitTimer5?INITIAL
 InitTimer5:
 	USING	0
-			; SOURCE LINE # 467
+			; SOURCE LINE # 503
 ; {
-			; SOURCE LINE # 468
+			; SOURCE LINE # 504
 ; 	T5PS = 0;											// no divider
-			; SOURCE LINE # 469
+			; SOURCE LINE # 505
 	MOV  	DPTR,#0E0F4H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 	T5RC = 0x10C0;
-			; SOURCE LINE # 470
+			; SOURCE LINE # 506
 	MOV  	DPTR,#0E0F7H
 	MOV  	A,#010H
 	MOVX 	@DPTR,A
@@ -1785,7 +1968,7 @@ InitTimer5:
 	MOVX 	@DPTR,A
 ; 	
 ; 	T5TF_EINT	 =1;								// timer4 overflow interrupt enable
-			; SOURCE LINE # 472
+			; SOURCE LINE # 508
 	MOV  	DPTR,#0E0F3H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1795,7 +1978,7 @@ InitTimer5:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	T5TR = 1;											// start timer4
-			; SOURCE LINE # 473
+			; SOURCE LINE # 509
 	MOV  	DPTR,#0E0F3H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1805,7 +1988,7 @@ InitTimer5:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	T5TF=0;												// clear interrupt flag
-			; SOURCE LINE # 474
+			; SOURCE LINE # 510
 	MOV  	DPTR,#0E0F3H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1817,16 +2000,16 @@ InitTimer5:
 ; 
 ; 	
 ; 	I3FR=1;
-			; SOURCE LINE # 477
+			; SOURCE LINE # 513
 	SETB 	I3FR
 ; 	EX3 = 1;
-			; SOURCE LINE # 478
+			; SOURCE LINE # 514
 	SETB 	EX3
 ; 	IEX3=0;
-			; SOURCE LINE # 479
+			; SOURCE LINE # 515
 	CLR  	IEX3
 ; }
-			; SOURCE LINE # 480
+			; SOURCE LINE # 516
 ?C0021:
 	RET  	
 ; END OF InitTimer5
@@ -1836,16 +2019,16 @@ InitTimer5:
 	RSEG  ?PR?InitTimer6?INITIAL
 InitTimer6:
 	USING	0
-			; SOURCE LINE # 481
+			; SOURCE LINE # 517
 ; {
-			; SOURCE LINE # 482
+			; SOURCE LINE # 518
 ; 	T6PS = 0;											// no divider
-			; SOURCE LINE # 483
+			; SOURCE LINE # 519
 	MOV  	DPTR,#0E0FAH
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 	T6RC = 0x10C0;
-			; SOURCE LINE # 484
+			; SOURCE LINE # 520
 	MOV  	DPTR,#0E0FDH
 	MOV  	A,#010H
 	MOVX 	@DPTR,A
@@ -1854,7 +2037,7 @@ InitTimer6:
 	MOVX 	@DPTR,A
 ; 	
 ; 	T6TF_EINT	 =1;							// timer4 overflow interrupt enable
-			; SOURCE LINE # 486
+			; SOURCE LINE # 522
 	MOV  	DPTR,#0E0F9H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1864,7 +2047,7 @@ InitTimer6:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	T6TR = 1;										// start timer4
-			; SOURCE LINE # 487
+			; SOURCE LINE # 523
 	MOV  	DPTR,#0E0F9H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1874,7 +2057,7 @@ InitTimer6:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	T6TF=0;											// clear interrupt flag
-			; SOURCE LINE # 488
+			; SOURCE LINE # 524
 	MOV  	DPTR,#0E0F9H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -1887,13 +2070,13 @@ InitTimer6:
 ; 	
 ; 
 ; 	EX5 = 1;
-			; SOURCE LINE # 492
+			; SOURCE LINE # 528
 	SETB 	EX5
 ; 	IEX5=0;
-			; SOURCE LINE # 493
+			; SOURCE LINE # 529
 	CLR  	IEX5
 ; }
-			; SOURCE LINE # 494
+			; SOURCE LINE # 530
 ?C0022:
 	RET  	
 ; END OF InitTimer6
@@ -1903,11 +2086,11 @@ InitTimer6:
 	RSEG  ?PR?SystemClock?INITIAL
 SystemClock:
 	USING	0
-			; SOURCE LINE # 495
+			; SOURCE LINE # 531
 ; {
-			; SOURCE LINE # 496
+			; SOURCE LINE # 532
 ;     RC80M_RES = 0x2e;
-			; SOURCE LINE # 497
+			; SOURCE LINE # 533
 	MOV  	DPTR,#0E0B2H
 	MOV  	A,#02EH
 	MOVX 	@DPTR,A
@@ -1981,12 +2164,12 @@ SystemClock:
 ; 		#pragma endasm
 ; 	
 ; 	  CLK_DIV_L = 0x02;
-			; SOURCE LINE # 534
+			; SOURCE LINE # 570
 	MOV  	DPTR,#0E0E7H
 	MOV  	A,#02H
 	MOVX 	@DPTR,A
 ; 	  CLK_DIV_H = 0x00;
-			; SOURCE LINE # 535
+			; SOURCE LINE # 571
 	MOV  	DPTR,#0E0E6H
 	CLR  	A
 	MOVX 	@DPTR,A
@@ -2058,7 +2241,7 @@ SystemClock:
 	  nop
 ; 		#pragma endasm
 ; }
-			; SOURCE LINE # 571
+			; SOURCE LINE # 607
 ?C0023:
 	RET  	
 ; END OF SystemClock
@@ -2072,25 +2255,25 @@ SystemClock:
 
 	RSEG  ?PR?sInitUART1?INITIAL
 sInitUART1:
-			; SOURCE LINE # 577
+			; SOURCE LINE # 613
 ; {
-			; SOURCE LINE # 578
+			; SOURCE LINE # 614
 ; 	S0CON  = 0x50;		      // set as 8-bit UART,  enable serial 0 reception, enable serial 0 multiprocessor function
-			; SOURCE LINE # 579
+			; SOURCE LINE # 615
 	MOV  	S0CON,#050H
 ;     WDCON = 0x80;            // 0x80: baud rate = (2^smod) * Fclk / (64 * (2^10 - s0rel));
-			; SOURCE LINE # 580
+			; SOURCE LINE # 616
 	MOV  	WDCON,#080H
 ;                               // 0x00: baud rate = (2^smod) * Fclk / (32 * 12 * (256 - th1));
 ;                               // smod = 0;	Fclk = system clock
 ;     S0RELL = 0xF3;             //Fclk = 8MHz, baud rate = 9600
-			; SOURCE LINE # 583
+			; SOURCE LINE # 619
 	MOV  	S0RELL,#0F3H
 ;     S0RELH = 0x03;	
-			; SOURCE LINE # 584
+			; SOURCE LINE # 620
 	MOV  	S0RELH,#03H
 ; }
-			; SOURCE LINE # 585
+			; SOURCE LINE # 621
 ?C0024:
 	RET  	
 ; END OF sInitUART1
@@ -2100,21 +2283,21 @@ sInitUART1:
 
 	RSEG  ?PR?sInitUART2?INITIAL
 sInitUART2:
-			; SOURCE LINE # 587
+			; SOURCE LINE # 623
 ; {
-			; SOURCE LINE # 588
+			; SOURCE LINE # 624
 ;     S1CON  = 0x90;		        //enable serial 1 reception, enable serial 0 multiprocessor function
-			; SOURCE LINE # 589
+			; SOURCE LINE # 625
 	MOV  	S1CON,#090H
 ;                                 //s1con.7 = 1: 8-bit UART(mode B)    s1con.7 = 0: 9-bit UART(mode A)
 ;     S1RELL = 0xE6;            //baud rate = Fclk / (32 * (2^10 - s0rel));
-			; SOURCE LINE # 591
+			; SOURCE LINE # 627
 	MOV  	S1RELL,#0E6H
 ;     S1RELH = 0x03;	          //Fclk = 8MHz, baud rate = 9600
-			; SOURCE LINE # 592
+			; SOURCE LINE # 628
 	MOV  	S1RELH,#03H
 ; }
-			; SOURCE LINE # 593
+			; SOURCE LINE # 629
 ?C0025:
 	RET  	
 ; END OF sInitUART2
