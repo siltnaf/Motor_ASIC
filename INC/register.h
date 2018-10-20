@@ -194,12 +194,7 @@ sfr INT_REG3 = 0xfd;
 		#define EFLASH_INT          CHECK_BIT(INT_REG3,5)
 		
 		
-		#define CLR_CP2_INT()   		CLR_BIT(INT_REG3,0)
-		#define CLR_CP3_INT()   		CLR_BIT(INT_REG3,1)
-		#define CLR_CP4_INT()   		CLR_BIT(INT_REG3,2)
-		#define CLR_I2C_INT()  		  CLR_BIT(INT_REG3,3)
-		#define CLR_SPI_INT()  			CLR_BIT(INT_REG3,4)
-		#define CLR_EFLASH_INT()		CLR_BIT(INT_REG3,5)
+
 		
 
 
@@ -648,8 +643,13 @@ sfr	P4ETFRC		= 0xf7;
 
 // OPAMP ext Ram ==========================================
 #define  OPAMP_CON				(*(unsigned char volatile xdata *)0xe0a4)	
-#define  OPAMP_SEL				(*(unsigned char volatile xdata *)0xe0a5)	
-			
+				#define C1PDO1PD						BIT2(OPAMP_CON,0)
+				#define C2PDO2PD						BIT2(OPAMP_CON,1)
+				#define C3PDO3PD						BIT2(OPAMP_CON,2)
+				#define C4PD								BIT(OPAMP_CON,6)
+
+#define  OPAMP_CURRENT				(*(unsigned char volatile xdata *)0xe0a5)	
+		  	#define OPAMP_SEL							BIT2(OPAMP_CURRENT,0)
 
 
 
@@ -694,6 +694,11 @@ sfr	P4ETFRC		= 0xf7;
 #define 	COMP3_FILTER				(*(unsigned char volatile xdata *)0xe0c4)	
 #define 	COMP4_FILTER				(*(unsigned char volatile xdata *)0xe0c5)	
 #define 	COMP_INT_SEL				(*(unsigned char volatile xdata *)0xe0c6)	
+	 #define C1_INT_SEL				BIT(COMP_INT_SEL,0)	
+	 #define C2_INT_SEL				BIT(COMP_INT_SEL,1)	
+	 #define C3_INT_SEL				BIT(COMP_INT_SEL,2)	
+	 #define C4_INT_SEL				BIT(COMP_INT_SEL,3)	
+
 #define 	COMP_INT    				(*(unsigned char volatile xdata *)0xe0c7)	
 		#define C1INT						BIT(COMP_INT,0)	
 		#define C2INT						BIT(COMP_INT,1)	
@@ -957,6 +962,17 @@ sfr	P4ETFRC		= 0xf7;
 #define 	 LVD_INT_EN     			(*(unsigned char volatile xdata *)0xe0e9)	
 #define 	 RC80M_OUT_EN     		(*(unsigned char volatile xdata *)0xe0ea)	
 #define 	 COMP_INT_EN     			(*(unsigned char volatile xdata *)0xe0eb)	
+		#define  	C1_EN							BIT(COMP_INT_EN,0)
+		#define  	C2_EN							BIT(COMP_INT_EN,1)
+		#define  	C3_EN							BIT(COMP_INT_EN,2)
+		#define  	C4_EN							BIT(COMP_INT_EN,3)
+		#define 	INT_CPU						BIT(COMP_INT_EN,4)
+		#define   T3_SEL						BIT(COMP_INT_EN,5)
+		#define   T4_SEL						BIT(COMP_INT_EN,6)
+
+
+
+
 #define 	 ADC_CLK_CTRL      		(*(unsigned char volatile xdata *)0xe0ec)
 		#define  ADC_CLK_EN					BIT(ADC_CLK_CTRL,3)
 		#define  ADC_CLK_DIV_SEL		BIT2(ADC_CLK_CTRL,0)

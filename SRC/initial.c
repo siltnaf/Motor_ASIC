@@ -24,7 +24,7 @@ void InitEXT(void)
 		EX0=1;
 		IT0=1;
 		IE0=0;
-		INT_REG1 &=0xf0;
+		INT_REG1 &=0xf0;              
 	
 }
 
@@ -355,15 +355,51 @@ void Initepwm(void)
 
 void InitComp234(void)
 {
-	P1_FN_L = P1_FN_L & 0x0F | 0xA0;
-	P1_FN_H = P1_FN_H & 0xF0 | 0x0A;
+	
+		P21_FN= CFG2;								 // P21	output COMP1
+		P14_FN= CFG2;              	 // P14 output COMP2
+		P13_FN= CFG2;              	 // P13 output COMP3
+		P12_FN= CFG2;              	 // P12 output COMP4
+		
+	
+	
+		C1PDO1PD=CFG1;								//COMP1 power on and OP1 power off
+		C2PDO2PD=CFG1;								//COMP2 power on and OP2 power off
+		C3PDO3PD=CFG1;								//COMP3 power on and OP3 power off
+		C4PD=0;												//COMP4 power on
+	
+	
+	
+		C1_INT_SEL=CFG2;							//COMP1 at rising/falling edge triiger 
+		C2_INT_SEL=CFG2;							//COMP2 at rising/falling edge triiger
+		C3_INT_SEL=CFG2;							//COMP3 at rising/falling edge triiger
+		C4_INT_SEL=CFG2;							//COMP4 at rising/falling edge triiger
+	
+	
+		C1_EN=1;											//C1 interrupt enable
+		C2_EN=1;											//C2 interrupt enalbe
+//		C3_EN=1;											//C3 interrupt enalbe
+//		C4_EN=1;											//C4 interrupt enalbe
+		
+		
+		C1INT=0;											//clear C1 INT flag
+		C2INT=0;											//clear C2 INT flag
+		C3INT=0;											//clear C3 INT flag
+		C4INT=0;											//clear C4 INT flag
+	
+	
+		EX4=1;
+	
+	
+//	P1_FN_L = P1_FN_L & 0x0F | 0xA0;
+//	P1_FN_H = P1_FN_H & 0xF0 | 0x0A;
 	//COMP_FILTER_1 = 4;
 	//COMP_FILTER_2 = 4;
 	//COMP_FILTER_3 = 4;
 	//COMP_FILTER_4 = 4;
-	OPAMP_SEL = 0xF0;
-    COMP_INT_SEL = 0xAA;//0;//0x55;                    // comp1 ~ comp4 all trigger at rise egde
-	COMP_INT_EN = 0x3E;//0x1E;//0x14;						// comp2,3,4 interrupt enable,and comp2,3,4 to CPU enable
+////	OPAMP_SEL = 0xF0;
+////    COMP_INT_SEL = 0xAA;//0;//0x55;                    // comp1 ~ comp4 all trigger at rise egde
+//	COMP_INT_EN = 0x3E;//0x1E;//0x14;						// comp2,3,4 interrupt enable,and comp2,3,4 to CPU enable
 	EX4 = 1;								// external interrupt 4 enable
 }
 
