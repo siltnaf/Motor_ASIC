@@ -172,9 +172,8 @@ sfr	SRAM_CON = 0xf8;
 sfr INT_REG1 = 0xf9;
      #define EXT(n)				      CHECK_BIT(INT_REG1,##n-1)
      #define CLR_EXT(n)   	    CLR_BIT(INT_REG1,##n-1)
-		 #define CLR_T3_INT()				CLR_BIT(INT_REG1,4) 
-     #define CLR_CP1_INT()			CLR_BIT(INT_REG1,5) 
-		 #define CP1_INT						CHECK_BIT(INT_REG1,5)
+	
+		 #define C1_INT							CHECK_BIT(INT_REG1,5)
 		 #define T3_INT						  CHECK_BIT(INT_REG1,4)
 
 

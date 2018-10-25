@@ -90,20 +90,20 @@ void TIMER0Interrupt(void)  interrupt 1
 
 void TIMER1Interrupt(void)  interrupt 3
 {
-	
+	P04=~P04;
 	
 	TF1=0;
 }
 
 void TIMER3Interrupt(void)  interrupt 23
 {
-  CLR_T3_INT()	;
+  
 	T3TF=0;
 	T3EXF=0;
 	
-	P26= ~P26;
+ 
 	
-	if ((T3_INT==0)&&(CP1_INT==0))
+	if ((T3_INT==0)&&(C1_INT==0))
 		IE1=0;
 }
 
@@ -212,9 +212,9 @@ void Comp1Interrupt(void) interrupt 22
 	
 	
 	
-	CLR_CP1_INT();		
+	C1INT=0;	
 	
-	if ((T3_INT==0)&&(CP1_INT==0))
+	if ((T3_INT==0)&&(C1_INT==0))
 			IE1=0;
 }
 
@@ -232,7 +232,7 @@ void  Comp234Interrupt(void) interrupt 11
 		
 			C2INT=0;	
 
-     P26=~P26;
+    
 
 
 			
@@ -251,6 +251,7 @@ void  Comp234Interrupt(void) interrupt 11
 		{
 	
 			C4INT=0;	
+			 P26=~P26;
 			
 		}
 		

@@ -16,7 +16,7 @@ void InitTimer5(void);
 void InitTimer6(void);
 
 
-void InitComp234(void);
+void InitComparator(void);
 void Initepwm(void);
 void InitGPIO(void);
 void epwmOutputDisable(void);

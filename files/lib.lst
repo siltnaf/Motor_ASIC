@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   LIB                                                                   10/19/2018 07:59:56 PAGE 1   
+C51 COMPILER V9.54   LIB                                                                   10/25/2018 10:13:59 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE LIB
@@ -62,13 +62,13 @@ line level    source
   52           *
   53           * @return  none
   54           */
-C51 COMPILER V9.54   LIB                                                                   10/19/2018 07:59:56 PAGE 2   
+C51 COMPILER V9.54   LIB                                                                   10/25/2018 10:13:59 PAGE 2   
 
   55          
   56           void EE_write(U8 EE_addr, U32 EE_data)
   57          {
   58   1        
-  59   1        
+  59   1            while (MTP_BUSY==1);
   60   1            MTPCON2=0x53;         //init MTP write mode
   61   1            MTPSADD1=EE_addr;       // EEPROM address
   62   1            MTPSADD2=0x00;
@@ -96,7 +96,7 @@ line level    source
   84          U32 EE_read(U8 EE_addr)
   85          {
   86   1        
-  87   1          
+  87   1            while (MTP_BUSY==1);
   88   1            MTPCON2=0x55;         //init MTP read mode
   89   1            MTPSADD1=EE_addr;       //
   90   1            MTPSADD2=0x00;
@@ -126,7 +126,7 @@ line level    source
  114          S16 sin(S16 dat)
  115          {
  116   1      volatile signed int value;
-C51 COMPILER V9.54   LIB                                                                   10/19/2018 07:59:56 PAGE 3   
+C51 COMPILER V9.54   LIB                                                                   10/25/2018 10:13:59 PAGE 3   
 
  117   1        value= XWORD[dat];
  118   1        
@@ -190,7 +190,7 @@ line level    source
  176          //  nop
  177          //#pragma endasm
  178          //  _md_error = (ARCON&(MD_MDEF|MD_MDOV));
-C51 COMPILER V9.54   LIB                                                                   10/19/2018 07:59:56 PAGE 4   
+C51 COMPILER V9.54   LIB                                                                   10/25/2018 10:13:59 PAGE 4   
 
  179          //#pragma asm
  180          //  mov r7, MD0
@@ -233,7 +233,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    221    ----
+   CODE SIZE        =    253    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =      5    ----
    PDATA SIZE       =   ----    ----

@@ -23,14 +23,14 @@ void main(void)
 		InitISDDebug(); 
  
   //InitTimer4();                          //start timer1
-//	InitTimer01();
+	InitTimer01();
 //	InitADC();                           //ADC use timer0 to trigger AD start
 	
 	
 	
 		InitGPIO();
 	//	InitEXT();
-	InitComp234();
+	InitComparator();
 	
 		EAL=1;
     while(1)

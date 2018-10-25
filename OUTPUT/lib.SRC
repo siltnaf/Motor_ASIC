@@ -354,8 +354,22 @@ _EE_write:
 	MOV  	EE_addr?040,R7
 ; {
 			; SOURCE LINE # 57
+?C0001:
 ; 	
-; 	
+; 			while (MTP_BUSY==1);
+			; SOURCE LINE # 59
+	MOV  	DPTR,#0E08EH
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	SWAP 	A
+	RRC  	A
+	RRC  	A
+	ANL  	A,#03H
+	MOV  	R7,A
+	MOV  	A,R7
+	JB   	ACC.0,?C0001
+?C0002:
 ; 			MTPCON2=0x53;         //init MTP write mode
 			; SOURCE LINE # 60
 	MOV  	DPTR,#0E08FH
@@ -385,7 +399,7 @@ _EE_write:
 	MOV  	DPTR,#0E08EH
 	MOV  	A,#0BH
 	MOVX 	@DPTR,A
-?C0001:
+?C0003:
 ; 			
 ; 			while (MTP_WRITE==0);
 			; SOURCE LINE # 67
@@ -398,8 +412,8 @@ _EE_write:
 	ANL  	A,#07H
 	MOV  	R7,A
 	MOV  	A,R7
-	JNB  	ACC.0,?C0001
-?C0002:
+	JNB  	ACC.0,?C0003
+?C0004:
 ; 			MTPCON1=0x0;
 			; SOURCE LINE # 68
 	MOV  	DPTR,#0E08EH
@@ -408,7 +422,7 @@ _EE_write:
 ; 	
 ; }
 			; SOURCE LINE # 70
-?C0003:
+?C0005:
 	RET  	
 ; END OF _EE_write
 
@@ -434,8 +448,22 @@ _EE_read:
 	MOV  	EE_addr?142,R7
 ; {
 			; SOURCE LINE # 85
+?C0006:
 ; 	
-; 		
+; 			while (MTP_BUSY==1);
+			; SOURCE LINE # 87
+	MOV  	DPTR,#0E08EH
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	MOV  	A,R7
+	SWAP 	A
+	RRC  	A
+	RRC  	A
+	ANL  	A,#03H
+	MOV  	R7,A
+	MOV  	A,R7
+	JB   	ACC.0,?C0006
+?C0007:
 ; 			MTPCON2=0x55;         //init MTP read mode
 			; SOURCE LINE # 88
 	MOV  	DPTR,#0E08FH
@@ -456,7 +484,7 @@ _EE_read:
 	MOV  	DPTR,#0E08EH
 	MOV  	A,#07H
 	MOVX 	@DPTR,A
-?C0004:
+?C0008:
 ; 			while (MTP_READ==0);
 			; SOURCE LINE # 92
 	MOV  	DPTR,#0E08EH
@@ -467,8 +495,8 @@ _EE_read:
 	ANL  	A,#0FH
 	MOV  	R7,A
 	MOV  	A,R7
-	JNB  	ACC.0,?C0004
-?C0005:
+	JNB  	ACC.0,?C0008
+?C0009:
 ; 			MTPCON1=0x0;
 			; SOURCE LINE # 93
 	MOV  	DPTR,#0E08EH
@@ -491,7 +519,7 @@ _EE_read:
 ; 	
 ; }
 			; SOURCE LINE # 96
-?C0006:
+?C0010:
 	RET  	
 ; END OF _EE_read
 
@@ -546,7 +574,7 @@ _sin:
 ; 	
 ; }
 			; SOURCE LINE # 121
-?C0007:
+?C0011:
 	RET  	
 ; END OF _sin
 
@@ -653,17 +681,17 @@ _Normalizing_Write:
 ;  ARCON = 0x00 ; // Start Normalizing
 			; SOURCE LINE # 195
 	MOV  	ARCON,#00H
-?C0008:
+?C0012:
 ;  while(!(PCON & 0x40)) //check MDU finish flag
 			; SOURCE LINE # 196
 	MOV  	A,PCON
-	JNB  	ACC.6,?C0008
+	JNB  	ACC.6,?C0012
 ;  {};
 			; SOURCE LINE # 197
-?C0009:
+?C0013:
 ; }
 			; SOURCE LINE # 198
-?C0010:
+?C0014:
 	RET  	
 ; END OF _Normalizing_Write
 
@@ -690,7 +718,7 @@ Normalizing_Read:
 	MOV  	LD?447,MD3
 ; } 
 			; SOURCE LINE # 207
-?C0011:
+?C0015:
 	RET  	
 ; END OF Normalizing_Read
 
@@ -717,7 +745,7 @@ Normalizing_test:
 	LCALL	Normalizing_Read
 ; 
 ; }			; SOURCE LINE # 216
-?C0012:
+?C0016:
 	RET  	
 ; END OF Normalizing_test
 

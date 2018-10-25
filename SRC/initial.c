@@ -353,7 +353,7 @@ void Initepwm(void)
 }
 
 
-void InitComp234(void)
+void InitComparator(void)
 {
 	
 		P21_FN= CFG2;								 // P21	output COMP1
@@ -378,8 +378,8 @@ void InitComp234(void)
 	
 		C1_EN=1;											//C1 interrupt enable
 		C2_EN=1;											//C2 interrupt enalbe
-//		C3_EN=1;											//C3 interrupt enalbe
-//		C4_EN=1;											//C4 interrupt enalbe
+		C3_EN=1;											//C3 interrupt enalbe
+		C4_EN=1;											//C4 interrupt enalbe
 		
 		
 		C1INT=0;											//clear C1 INT flag
@@ -387,20 +387,12 @@ void InitComp234(void)
 		C3INT=0;											//clear C3 INT flag
 		C4INT=0;											//clear C4 INT flag
 	
+		INT_CPU=1;                    //pass C234 interrupt to EX4
 	
 		EX4=1;
-	
-	
-//	P1_FN_L = P1_FN_L & 0x0F | 0xA0;
-//	P1_FN_H = P1_FN_H & 0xF0 | 0x0A;
-	//COMP_FILTER_1 = 4;
-	//COMP_FILTER_2 = 4;
-	//COMP_FILTER_3 = 4;
-	//COMP_FILTER_4 = 4;
-////	OPAMP_SEL = 0xF0;
-////    COMP_INT_SEL = 0xAA;//0;//0x55;                    // comp1 ~ comp4 all trigger at rise egde
-//	COMP_INT_EN = 0x3E;//0x1E;//0x14;						// comp2,3,4 interrupt enable,and comp2,3,4 to CPU enable
-	EX4 = 1;								// external interrupt 4 enable
+		EX1=1;
+		IE1=0;
+		IEX4=0;
 }
 
 
@@ -459,6 +451,11 @@ void InitGPIO(void)
 			P20_DD = INPUT;               //P20 as input
 			P20_PE = RES_EN;               // P20 output resistor enable
 			P20_PS = PULL_DOWN;               //P20 with pull down resistor
+			
+		  P04_FN= CFG1;              	 //P20 as EXT2
+			P04_DD = OUTPUT;               //P20 as input
+			P04_PE = RES_EN;               // P20 output resistor enable
+			P04_PS = PULL_DOWN;               //P20 with pull down resistor
 	
 		hh=P2_FN_L|0x0;
 	
@@ -467,10 +464,14 @@ void InitGPIO(void)
 void InitTimer01(void)
 {
 		T01_DIV = 0x0240;                 //clock divider is 122
-    TMOD = TMOD & 0xF0 | (3 << 0);                     //timer0 is 16bit timer
-    TL0 = 0x00;
+    TMOD = 0x10;                   //timer1 is 16bit timer, timer0 is 13 bit
+    TL0 = 0x0;
     TH0= 0x00;
 		
+		TL1=0x0;
+		TH1=0x0;
+	
+	
     ET0 = 1;                                //enable timer0 overflow interrupt
     ET1 = 1;                                //enable timer1 overflow interrupt
 		TR0= 1;                                //start timer0
@@ -484,7 +485,7 @@ void InitTimer3(void)
 
 	T3TF_EINT	 =1;							// timer4 overflow interrupt enable
 	T3TR = 1;				// start timer4
-	CLR_T3_INT();
+	T3TF=0;
 	IE1=0;
 	 EX1=1;
 }

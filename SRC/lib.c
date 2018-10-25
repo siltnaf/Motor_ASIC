@@ -56,7 +56,7 @@ const unsigned char tDebugTable[10] = {1,2,3,4,5,6,7,8,9,10};
  void EE_write(U8 EE_addr, U32 EE_data)
 {
 	
-	
+			while (MTP_BUSY==1);
 			MTPCON2=0x53;         //init MTP write mode
 			MTPSADD1=EE_addr;       // EEPROM address
 			MTPSADD2=0x00;
@@ -84,7 +84,7 @@ const unsigned char tDebugTable[10] = {1,2,3,4,5,6,7,8,9,10};
 U32 EE_read(U8 EE_addr)
 {
 	
-		
+			while (MTP_BUSY==1);
 			MTPCON2=0x55;         //init MTP read mode
 			MTPSADD1=EE_addr;       //
 			MTPSADD2=0x00;
