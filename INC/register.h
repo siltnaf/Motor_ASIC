@@ -758,11 +758,24 @@ sfr	P4ETFRC		= 0xf7;
 		#define P06_FN						BIT2(P0_FN_H,2)
 		#define P07_FN						BIT2(P0_FN_H,3)
 
+		#define FN_P04						BIT2(P0_FN_H,0)
+		#define FN_P05						BIT2(P0_FN_H,1)
+		#define FN_P06						BIT2(P0_FN_H,2)
+		#define FN_P07						BIT2(P0_FN_H,3)
+
+
+
 #define 	P0_FN_L     				(*(unsigned char volatile xdata *)0xe0d5)	
 		#define P00_FN						BIT2(P0_FN_L,0)
 		#define P01_FN						BIT2(P0_FN_L,1)
 		#define P02_FN						BIT2(P0_FN_L,2)
 		#define P03_FN						BIT2(P0_FN_L,3)
+
+		#define FN_P00						BIT2(P0_FN_L,0)
+		#define FN_P01						BIT2(P0_FN_L,1)
+		#define FN_P02						BIT2(P0_FN_L,2)
+		#define FN_P03						BIT2(P0_FN_L,3)
+
 
 
 #define 	P0_DD     					(*(unsigned char volatile xdata *)0xe0d6)	
@@ -775,6 +788,14 @@ sfr	P4ETFRC		= 0xf7;
 		#define P06_DD						BIT(P0_DD,6)
 		#define P07_DD						BIT(P0_DD,7)
 
+		#define DD_P00						BIT(P0_DD,0)
+		#define DD_P01						BIT(P0_DD,1)
+		#define DD_P02						BIT(P0_DD,2)
+		#define DD_P03						BIT(P0_DD,3)
+		#define DD_P04						BIT(P0_DD,4)
+		#define DD_P05						BIT(P0_DD,5)
+		#define DD_P06						BIT(P0_DD,6)
+		#define DD_P07						BIT(P0_DD,7)
 
 
 
@@ -789,7 +810,14 @@ sfr	P4ETFRC		= 0xf7;
 		#define P06_DS						BIT(P0_DS,6)
 		#define P07_DS						BIT(P0_DS,7)
 
-
+		#define DS_P00						BIT(P0_DS,0)
+		#define DS_P01						BIT(P0_DS,1)
+		#define DS_P02						BIT(P0_DS,2)
+		#define DS_P03						BIT(P0_DS,3)
+		#define DS_P04						BIT(P0_DS,4)
+		#define DS_P05						BIT(P0_DS,5)
+		#define DS_P06						BIT(P0_DS,6)
+		#define DS_P07						BIT(P0_DS,7)
 
 
 
@@ -803,7 +831,14 @@ sfr	P4ETFRC		= 0xf7;
 		#define P06_PE						BIT(P0_PE,6)
 		#define P07_PE						BIT(P0_PE,7)
 
-	
+		#define PE_P00						BIT(P0_PE,0)
+		#define PE_P01						BIT(P0_PE,1)
+		#define PE_P02						BIT(P0_PE,2)
+		#define PE_P03						BIT(P0_PE,3)
+		#define PE_P04						BIT(P0_PE,4)
+		#define PE_P05						BIT(P0_PE,5)
+		#define PE_P06						BIT(P0_PE,6)
+		#define PE_P07						BIT(P0_PE,7)
 
 
 #define 	P0_PS     					(*(unsigned char volatile xdata *)0xe0d9)	
@@ -816,14 +851,29 @@ sfr	P4ETFRC		= 0xf7;
 		#define P06_PS						BIT(P0_PS,6)
 		#define P07_PS						BIT(P0_PS,7)
 
-
+		#define PS_P00						BIT(P0_PS,0)
+		#define PS_P01						BIT(P0_PS,1)
+		#define PS_P02						BIT(P0_PS,2)
+		#define PS_P03						BIT(P0_PS,3)
+		#define PS_P04						BIT(P0_PS,4)
+		#define PS_P05						BIT(P0_PS,5)
+		#define PS_P06						BIT(P0_PS,6)
+		#define PS_P07						BIT(P0_PS,7)
 
 
 #define 	P1_FN_H     				(*(unsigned char volatile xdata *)0xe0da)	
 		#define P14_FN						BIT2(P1_FN_H,0)
-		#define P15_FN						BIT2(P1_FN_H,1)
+		#define P15_FN						BIT2(P1_FN_H,1)                   
 		#define P16_FN						BIT2(P1_FN_H,2)
 		#define P17_FN						BIT2(P1_FN_H,3)
+
+		#define FN_P14						BIT2(P1_FN_H,0)
+		#define FN_P15						BIT2(P1_FN_H,1)                   
+		#define FN_P16						BIT2(P1_FN_H,2)
+		#define FN_P17						BIT2(P1_FN_H,3)
+
+
+
 
 
 #define 	P1_FN_L     				(*(unsigned char volatile xdata *)0xe0db)	
@@ -831,6 +881,11 @@ sfr	P4ETFRC		= 0xf7;
 		#define P11_FN						BIT2(P1_FN_L,1)
 		#define P12_FN						BIT2(P1_FN_L,2)
 		#define P13_FN						BIT2(P1_FN_L,3)	
+
+		#define FN_P10						BIT2(P1_FN_L,0)
+		#define FN_P11						BIT2(P1_FN_L,1)
+		#define FN_P12						BIT2(P1_FN_L,2)
+		#define FN_P13						BIT2(P1_FN_L,3)	
 
 
 #define 	P1_DD     					(*(unsigned char volatile xdata *)0xe0dc)	
@@ -843,7 +898,14 @@ sfr	P4ETFRC		= 0xf7;
 		#define P16_DD						BIT(P1_DD,6)
 		#define P17_DD						BIT(P1_DD,7)
 
-	
+		#define DD_P10						BIT(P1_DD,0)
+		#define DD_P11						BIT(P1_DD,1)
+		#define DD_P12						BIT(P1_DD,2)
+		#define DD_P13						BIT(P1_DD,3)
+		#define DD_P14						BIT(P1_DD,4)
+		#define DD_P15						BIT(P1_DD,5)
+		#define DD_P16						BIT(P1_DD,6)
+		#define DD_P17						BIT(P1_DD,7)
 
 
 
@@ -857,7 +919,14 @@ sfr	P4ETFRC		= 0xf7;
 		#define P16_DS						BIT(P1_DS,6)
 		#define P17_DS						BIT(P1_DS,7)
 
-
+		#define DS_P10						BIT(P1_DS,0)
+		#define DS_P11						BIT(P1_DS,1)
+		#define DS_P12						BIT(P1_DS,2)
+		#define DS_P13						BIT(P1_DS,3)
+		#define DS_P14						BIT(P1_DS,4)
+		#define DS_P15						BIT(P1_DS,5)
+		#define DS_P16						BIT(P1_DS,6)
+		#define DS_P17						BIT(P1_DS,7)
 
 
 
@@ -871,6 +940,15 @@ sfr	P4ETFRC		= 0xf7;
 		#define P16_PE						BIT(P1_PE,6)
 		#define P17_PE						BIT(P1_PE,7)
 
+		#define PE_P10						BIT(P1_PE,0)
+		#define PE_P11						BIT(P1_PE,1)
+		#define PE_P12						BIT(P1_PE,2)
+		#define PE_P13						BIT(P1_PE,3)
+		#define PE_P14						BIT(P1_PE,4)
+		#define PE_P15						BIT(P1_PE,5)
+		#define PE_P16						BIT(P1_PE,6)
+		#define PE_P17						BIT(P1_PE,7)
+
 
 
 #define 	P1_PS     					(*(unsigned char volatile xdata *)0xe0df)	
@@ -883,7 +961,14 @@ sfr	P4ETFRC		= 0xf7;
 		#define P16_PS						BIT(P1_PS,6)
 		#define P17_PS						BIT(P1_PS,7)
 
-	
+		#define PS_P10						BIT(P1_PS,0)
+		#define PS_P11						BIT(P1_PS,1)
+		#define PS_P12						BIT(P1_PS,2)
+		#define PS_P13    				BIT(P1_PS,3)
+		#define PS_P14						BIT(P1_PS,4)
+		#define PS_P15						BIT(P1_PS,5)
+		#define PS_P16						BIT(P1_PS,6)
+		#define PS_P17						BIT(P1_PS,7)
 
 
 #define 	P2_FN_H     				(*(unsigned char volatile xdata *)0xe0e0)	
@@ -892,12 +977,23 @@ sfr	P4ETFRC		= 0xf7;
 		#define P26_FN						BIT2(P2_FN_H,2)
 		#define P27_FN						BIT2(P2_FN_H,3)
 
+		#define FN_P24						BIT2(P2_FN_H,0)
+		#define FN_P25						BIT2(P2_FN_H,1)
+		#define FN_P26						BIT2(P2_FN_H,2)
+		#define FN_P27						BIT2(P2_FN_H,3)
+
 
 #define 	P2_FN_L     				(*(unsigned char volatile xdata *)0xe0e1)	
 		#define P20_FN						BIT2(P2_FN_L,0)
 		#define P21_FN						BIT2(P2_FN_L,1)
 		#define P22_FN						BIT2(P2_FN_L,2)
 		#define P23_FN						BIT2(P2_FN_L,3)
+
+	  #define FN_P20						BIT2(P2_FN_L,0)
+		#define FN_P21						BIT2(P2_FN_L,1)
+		#define FN_P22						BIT2(P2_FN_L,2)
+		#define FN_P23						BIT2(P2_FN_L,3)
+
 
 
 #define 	P2_DD     					(*(unsigned char volatile xdata *)0xe0e2)	
@@ -910,7 +1006,15 @@ sfr	P4ETFRC		= 0xf7;
 		#define P26_DD						BIT(P2_DD,6)
 		#define P27_DD						BIT(P2_DD,7)
 
-	
+		#define DD_P20						BIT(P2_DD,0)
+		#define DD_P21						BIT(P2_DD,1)
+		#define DD_P22						BIT(P2_DD,2)
+		#define DD_P23						BIT(P2_DD,3)
+		#define DD_P24						BIT(P2_DD,4)
+		#define DD_P25						BIT(P2_DD,5)
+		#define DD_P26						BIT(P2_DD,6)
+		#define DD_P27						BIT(P2_DD,7)
+
 	
 
 
@@ -925,7 +1029,14 @@ sfr	P4ETFRC		= 0xf7;
 		#define P26_DS						BIT(P2_DS,6)
 		#define P27_DS						BIT(P2_DS,7)
 	
-
+		#define DS_P20						BIT(P2_DS,0)
+		#define DS_P21						BIT(P2_DS,1)
+		#define DS_P22						BIT(P2_DS,2)
+		#define DS_P23						BIT(P2_DS,3)
+		#define DS_P24						BIT(P2_DS,4)
+		#define DS_P25						BIT(P2_DS,5)
+		#define DS_P26						BIT(P2_DS,6)
+		#define DS_P27						BIT(P2_DS,7)
 
 
 #define 	P2_PE     					(*(unsigned char volatile xdata *)0xe0e4)	
@@ -938,7 +1049,14 @@ sfr	P4ETFRC		= 0xf7;
 		#define P26_PE						BIT(P2_PE,6)
 		#define P27_PE						BIT(P2_PE,7)
 	
-
+		#define PE_P20						BIT(P2_PE,0)
+		#define PE_P21						BIT(P2_PE,1)
+		#define PE_P22						BIT(P2_PE,2)
+		#define PE_P23						BIT(P2_PE,3)
+		#define PE_P24						BIT(P2_PE,4)
+		#define PE_P25 						BIT(P2_PE,5)
+		#define PE_P26						BIT(P2_PE,6)
+		#define PE_P27						BIT(P2_PE,7)
 
 
 #define 	P2_PS     					(*(unsigned char volatile xdata *)0xe0e5)	
@@ -951,7 +1069,14 @@ sfr	P4ETFRC		= 0xf7;
 		#define P26_PS						BIT(P2_PS,6)
 		#define P27_PS						BIT(P2_PS,7)
 
-	
+		#define PS_P20						BIT(P2_PS,0)
+		#define PS_P21						BIT(P2_PS,1)
+		#define PS_P22						BIT(P2_PS,2)
+		#define PS_P23						BIT(P2_PS,3)
+		#define PS_P24						BIT(P2_PS,4)
+		#define PS_P25						BIT(P2_PS,5)
+		#define PS_P26						BIT(P2_PS,6)
+		#define PS_P27						BIT(P2_PS,7)
 
 
 

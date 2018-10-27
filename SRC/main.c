@@ -8,9 +8,12 @@
 #pragma mdu_r515					//use hardware math unit
 
 
- unsigned char hh;
+
  unsigned int ADresult;
  unsigned int data_value;
+ 
+ unsigned char tmr3_ov;
+ unsigned long last_capture,this_capture, pwm_capture;
  
 U32 EE_data;
  
@@ -21,7 +24,7 @@ void main(void)
     SystemClock();
     #endif
 		InitISDDebug(); 
- 
+InitTimer3();    
   //InitTimer4();                          //start timer1
 	InitTimer01();
 //	InitADC();                           //ADC use timer0 to trigger AD start

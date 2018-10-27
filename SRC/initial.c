@@ -7,6 +7,7 @@
 
 
 
+
 void InitEXT(void)
 {	
 //		EINT1_EN=0; 
@@ -437,36 +438,26 @@ void InitGPIO(void)
     P00_PE = RES_DIS;               //P00 pull resistor off
 		P00_DS = I_4MA;
 
-    P26_FN = CFG0;               //P26 as GPIO
-    P26_DD = OUTPUT;               //P26 as output
-    P26_PE = RES_DIS;               //P26 output resistor off
-		P26_DS = I_4MA;
-
-	
-	
-	
-	// use P20 as EXT2
-	
-	    P20_FN= CFG1;              	 //P20 as EXT2
-			P20_DD = INPUT;               //P20 as input
-			P20_PE = RES_EN;               // P20 output resistor enable
-			P20_PS = PULL_DOWN;               //P20 with pull down resistor
+ 
+//		P26_FN= CFG0;              	 // P00 as GPIO
+//    P26_DD = OUTPUT;               //P00 as output
+//    P26_PE = RES_DIS;               //P00 pull resistor off
+//		P26_DS = I_4MA;
 			
-		  P04_FN= CFG1;              	 //P20 as EXT2
-			P04_DD = OUTPUT;               //P20 as input
-			P04_PE = RES_EN;               // P20 output resistor enable
-			P04_PS = PULL_DOWN;               //P20 with pull down resistor
-	
-		hh=P2_FN_L|0x0;
+			GPIO(P20,CFG1,INPUT,RES_EN,PULL_DOWN,I_4MA);				//P20 as EXT2
+			GPIO(P15,CFG2,INPUT,RES_EN,PULL_DOWN,I_4MA);				//P15 as TIMER3 T_EX
+			GPIO(P04,CFG0,OUTPUT,RES_EN,PULL_DOWN,I_4MA);				//use P14 for timer0 ouput to test timer3 capture
+			GPIO(P26,CFG0,OUTPUT,RES_DIS,PULL_DOWN,I_4MA);			//P26 for LED indication
 	
 }
 
 void InitTimer01(void)
 {
-		T01_DIV = 0x0240;                 //clock divider is 122
-    TMOD = 0x10;                   //timer1 is 16bit timer, timer0 is 13 bit
+		T01_DIV_L= 0x03;                 //clock divider is 122, must write T01_DIV_L first;
+	  T01_DIV_H= 0x00;                
+  	TMOD = 0x10;                   //timer1 is 16bit timer, timer0 is 13 bit
     TL0 = 0x0;
-    TH0= 0x00;
+    TH0= 0xfc;
 		
 		TL1=0x0;
 		TH1=0x0;
@@ -482,10 +473,13 @@ void InitTimer3(void)
 {
 	T3PS = 0;								// no divider
 	T3RC= 0x00C0;
-
+	T3CT=0;
+	T3EXEN=1;
+	
 	T3TF_EINT	 =1;							// timer4 overflow interrupt enable
 	T3TR = 1;				// start timer4
 	T3TF=0;
+	T3EXF=0;
 	IE1=0;
 	 EX1=1;
 }
