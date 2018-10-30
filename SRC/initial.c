@@ -408,6 +408,10 @@ void InitWatchDog(void)
 }
 
 
+
+
+#define GPIO(pin,fn_cfg,in_out,res_en_dis,pull_up_dwn,drive_4_8ma )  FN_##pin=fn_cfg;DD_##pin=in_out;PE_##pin=res_en_dis;PS_##pin=pull_up_dwn;DS_##pin=drive_4_8ma;
+
 void InitGPIO(void)
 {
 		P0_FN_L = 0x00;									// P00 ~ P03as GPIO
@@ -438,11 +442,6 @@ void InitGPIO(void)
     P00_PE = RES_DIS;               //P00 pull resistor off
 		P00_DS = I_4MA;
 
- 
-//		P26_FN= CFG0;              	 // P00 as GPIO
-//    P26_DD = OUTPUT;               //P00 as output
-//    P26_PE = RES_DIS;               //P00 pull resistor off
-//		P26_DS = I_4MA;
 			
 			GPIO(P20,CFG1,INPUT,RES_EN,PULL_DOWN,I_4MA);				//P20 as EXT2
 			GPIO(P15,CFG2,INPUT,RES_EN,PULL_DOWN,I_4MA);				//P15 as TIMER3 T_EX
@@ -453,11 +452,11 @@ void InitGPIO(void)
 
 void InitTimer01(void)
 {
-		T01_DIV_L= 0x03;                 //clock divider is 122, must write T01_DIV_L first;
+		T01_DIV_L= 0x01;                 //clock divider is 122, must write T01_DIV_L first;
 	  T01_DIV_H= 0x00;                
   	TMOD = 0x10;                   //timer1 is 16bit timer, timer0 is 13 bit
     TL0 = 0x0;
-    TH0= 0xfc;
+    TH0= 0xfe;
 		
 		TL1=0x0;
 		TH1=0x0;

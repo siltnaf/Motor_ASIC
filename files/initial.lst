@@ -1,10 +1,10 @@
-C51 COMPILER V9.54   INITIAL                                                               10/27/2018 14:10:03 PAGE 1   
+C51 COMPILER V9.53.0.0   INITIAL                                                           10/29/2018 04:57:08 PAGE 1   
 
 
-C51 COMPILER V9.54, COMPILATION OF MODULE INITIAL
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE INITIAL
 NO OBJECT MODULE REQUESTED
-COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE SRC\initial.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC) BROWSE INTVE
-                    -CTOR(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\initial.lst) TABS(2) SRC(.\OUTPUT\initial.SRC)
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE SRC\initial.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC) BROWSE INTVECTO
+                    -R(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\initial.lst) TABS(2) SRC(.\OUTPUT\initial.SRC)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
   52   2              P10 = 0;
   53   2              P10 = 1;
   54   2              ISDcheck();      // initialize uVision2 Debugger and continue program run
-C51 COMPILER V9.54   INITIAL                                                               10/27/2018 14:10:03 PAGE 2   
+C51 COMPILER V9.53.0.0   INITIAL                                                           10/29/2018 04:57:08 PAGE 2   
 
   55   2              if((BPCTRL & 0x10) != 0) break;
   56   2          }
@@ -126,7 +126,7 @@ line level    source
  114   1        
  115   1          EADC=1;
  116   1          IADC=0;
-C51 COMPILER V9.54   INITIAL                                                               10/27/2018 14:10:03 PAGE 3   
+C51 COMPILER V9.53.0.0   INITIAL                                                           10/29/2018 04:57:08 PAGE 3   
 
  117   1      
  118   1        }
@@ -190,7 +190,7 @@ line level    source
  176   1        P4AQCTLB_H = 0x00;
  177   1      
  178   1      //  P1AQCTLA_L = 0x12;              // CTR = ZERO set,CTR = CMPA up clear,CTR = PRD nothing,CTR = CMPA down nothin
-C51 COMPILER V9.54   INITIAL                                                               10/27/2018 14:10:03 PAGE 4   
+C51 COMPILER V9.53.0.0   INITIAL                                                           10/29/2018 04:57:08 PAGE 4   
 
              -g
  179   1      //  P1AQCTLA_H = 0x00;              // when cmpB pwmxA do nothing
@@ -254,7 +254,7 @@ line level    source
  236   1      //  P4TZEINT = 0x00;
  237   1      
  238   1      //  P1TZSEL = 0x01;             // OSHT enable
-C51 COMPILER V9.54   INITIAL                                                               10/27/2018 14:10:03 PAGE 5   
+C51 COMPILER V9.53.0.0   INITIAL                                                           10/29/2018 04:57:08 PAGE 5   
 
  239   1      //  P2TZSEL = 0x01;
  240   1      //  P3TZSEL = 0x01;
@@ -318,7 +318,7 @@ line level    source
  297   1        P1CMPA_L = 0xE8;            // pwm period is 0x0C8@8MHz 10KHz
  298   1        P1CMPA_H = 0x03;
  299   1        //P1CMPB_L = 0xC8;
-C51 COMPILER V9.54   INITIAL                                                               10/27/2018 14:10:03 PAGE 6   
+C51 COMPILER V9.53.0.0   INITIAL                                                           10/29/2018 04:57:08 PAGE 6   
 
  300   1        //P1CMPB_H = 0x00;
  301   1        P2CMPA_L = 0xE8;
@@ -382,7 +382,7 @@ line level    source
  359   1        
  360   1          P21_FN= CFG2;                // P21 output COMP1
  361   1          P14_FN= CFG2;                // P14 output COMP2
-C51 COMPILER V9.54   INITIAL                                                               10/27/2018 14:10:03 PAGE 7   
+C51 COMPILER V9.53.0.0   INITIAL                                                           10/29/2018 04:57:08 PAGE 7   
 
  362   1          P13_FN= CFG2;                // P13 output COMP3
  363   1          P12_FN= CFG2;                // P12 output COMP4
@@ -433,129 +433,130 @@ line level    source
  408   1      }
  409          
  410          
- 411          void InitGPIO(void)
- 412          {
- 413   1          P0_FN_L = 0x00;                 // P00 ~ P03as GPIO
- 414   1          P0_FN_H = 0x00;                 // P04 ~ P07 as GPIO
- 415   1          P0_DD = 0x00;                   //  P00 ~  P07 intput
- 416   1          P0_PE = 0xFF;                   // output resistor enable 
- 417   1          P0_DS = 0x00;                   //drive current =4mA
- 418   1          P0_PS=  0x00;                   //pull down resistor 
- 419   1        
- 420   1          P1_FN_L = 0x00;                 // P10 ~ P13 as GPIO
- 421   1          P1_FN_H = 0x00;                 // P14 ~ P17 as GPIO
- 422   1          P1_DD = 0x00;                   // P10 ~ P17 intput
- 423   1          P1_PE = 0xFF;                   // output resistor enable 
-C51 COMPILER V9.54   INITIAL                                                               10/27/2018 14:10:03 PAGE 8   
+ 411          
+ 412          
+ 413          #define GPIO(pin,fn_cfg,in_out,res_en_dis,pull_up_dwn,drive_4_8ma )  FN_##pin=fn_cfg;DD_##pin=in_out;PE_##
+             -pin=res_en_dis;PS_##pin=pull_up_dwn;DS_##pin=drive_4_8ma;
+ 414          
+ 415          void InitGPIO(void)
+ 416          {
+ 417   1          P0_FN_L = 0x00;                 // P00 ~ P03as GPIO
+ 418   1          P0_FN_H = 0x00;                 // P04 ~ P07 as GPIO
+ 419   1          P0_DD = 0x00;                   //  P00 ~  P07 intput
+ 420   1          P0_PE = 0xFF;                   // output resistor enable 
+ 421   1          P0_DS = 0x00;                   //drive current =4mA
+ 422   1          P0_PS=  0x00;                   //pull down resistor 
+C51 COMPILER V9.53.0.0   INITIAL                                                           10/29/2018 04:57:08 PAGE 8   
 
- 424   1          P1_DS = 0x00;                   //drive current =4mA
- 425   1          P1_PS=  0x00;                   //pull down resistor 
- 426   1        
- 427   1          P2_FN_L = 0x00;                 // P20 ~ P23 as GPIO
- 428   1          P2_FN_H = 0x00;                 // P24 ~ P27 as GPIO
- 429   1          P2_DD = 0x00;                   // P20~ P27 intput
- 430   1          P2_PE = 0xFF;                   // pull/down resistor enable  
- 431   1          P2_DS = 0x00;                   //drive current =4mA
- 432   1          P2_PS=  0x00;                   //pull down resistor 
- 433   1        
- 434   1        // use P26 and P00 as output
- 435   1        
- 436   1          P00_FN= CFG0;                // P00 as GPIO
- 437   1          P00_DD = OUTPUT;               //P00 as output
- 438   1          P00_PE = RES_DIS;               //P00 pull resistor off
- 439   1          P00_DS = I_4MA;
- 440   1      
- 441   1       
- 442   1      //    P26_FN= CFG0;                // P00 as GPIO
- 443   1      //    P26_DD = OUTPUT;               //P00 as output
- 444   1      //    P26_PE = RES_DIS;               //P00 pull resistor off
- 445   1      //    P26_DS = I_4MA;
- 446   1            
- 447   1            GPIO(P20,CFG1,INPUT,RES_EN,PULL_DOWN,I_4MA);        //P20 as EXT2
- 448   1            GPIO(P15,CFG2,INPUT,RES_EN,PULL_DOWN,I_4MA);        //P15 as TIMER3 T_EX
- 449   1            GPIO(P04,CFG0,OUTPUT,RES_EN,PULL_DOWN,I_4MA);       //use P14 for timer0 ouput to test timer3 capture
- 450   1            GPIO(P26,CFG0,OUTPUT,RES_DIS,PULL_DOWN,I_4MA);      //P26 for LED indication
- 451   1        
- 452   1      }
- 453          
- 454          void InitTimer01(void)
- 455          {
- 456   1          T01_DIV_L= 0x03;                 //clock divider is 122, must write T01_DIV_L first;
- 457   1          T01_DIV_H= 0x00;                
- 458   1          TMOD = 0x10;                   //timer1 is 16bit timer, timer0 is 13 bit
- 459   1          TL0 = 0x0;
- 460   1          TH0= 0xfc;
- 461   1          
- 462   1          TL1=0x0;
- 463   1          TH1=0x0;
+ 423   1        
+ 424   1          P1_FN_L = 0x00;                 // P10 ~ P13 as GPIO
+ 425   1          P1_FN_H = 0x00;                 // P14 ~ P17 as GPIO
+ 426   1          P1_DD = 0x00;                   // P10 ~ P17 intput
+ 427   1          P1_PE = 0xFF;                   // output resistor enable 
+ 428   1          P1_DS = 0x00;                   //drive current =4mA
+ 429   1          P1_PS=  0x00;                   //pull down resistor 
+ 430   1        
+ 431   1          P2_FN_L = 0x00;                 // P20 ~ P23 as GPIO
+ 432   1          P2_FN_H = 0x00;                 // P24 ~ P27 as GPIO
+ 433   1          P2_DD = 0x00;                   // P20~ P27 intput
+ 434   1          P2_PE = 0xFF;                   // pull/down resistor enable  
+ 435   1          P2_DS = 0x00;                   //drive current =4mA
+ 436   1          P2_PS=  0x00;                   //pull down resistor 
+ 437   1        
+ 438   1        // use P26 and P00 as output
+ 439   1        
+ 440   1          P00_FN= CFG0;                // P00 as GPIO
+ 441   1          P00_DD = OUTPUT;               //P00 as output
+ 442   1          P00_PE = RES_DIS;               //P00 pull resistor off
+ 443   1          P00_DS = I_4MA;
+ 444   1      
+ 445   1            
+ 446   1            GPIO(P20,CFG1,INPUT,RES_EN,PULL_DOWN,I_4MA);        //P20 as EXT2
+ 447   1            GPIO(P15,CFG2,INPUT,RES_EN,PULL_DOWN,I_4MA);        //P15 as TIMER3 T_EX
+ 448   1            GPIO(P04,CFG0,OUTPUT,RES_EN,PULL_DOWN,I_4MA);       //use P14 for timer0 ouput to test timer3 capture
+ 449   1            GPIO(P26,CFG0,OUTPUT,RES_DIS,PULL_DOWN,I_4MA);      //P26 for LED indication
+ 450   1        
+ 451   1      }
+ 452          
+ 453          void InitTimer01(void)
+ 454          {
+ 455   1          T01_DIV_L= 0x01;                 //clock divider is 122, must write T01_DIV_L first;
+ 456   1          T01_DIV_H= 0x00;                
+ 457   1          TMOD = 0x10;                   //timer1 is 16bit timer, timer0 is 13 bit
+ 458   1          TL0 = 0x0;
+ 459   1          TH0= 0xfe;
+ 460   1          
+ 461   1          TL1=0x0;
+ 462   1          TH1=0x0;
+ 463   1        
  464   1        
- 465   1        
- 466   1          ET0 = 1;                                //enable timer0 overflow interrupt
- 467   1          ET1 = 1;                                //enable timer1 overflow interrupt
- 468   1          TR0= 1;                                //start timer0
- 469   1          TR1 = 1;    
- 470   1      }
- 471          
- 472          void InitTimer3(void)
- 473          {
- 474   1        T3PS = 0;               // no divider
- 475   1        T3RC= 0x00C0;
- 476   1        T3CT=0;
- 477   1        T3EXEN=1;
- 478   1        
- 479   1        T3TF_EINT  =1;              // timer4 overflow interrupt enable
- 480   1        T3TR = 1;       // start timer4
- 481   1        T3TF=0;
- 482   1        T3EXF=0;
- 483   1        IE1=0;
- 484   1         EX1=1;
- 485   1      }
-C51 COMPILER V9.54   INITIAL                                                               10/27/2018 14:10:03 PAGE 9   
+ 465   1          ET0 = 1;                                //enable timer0 overflow interrupt
+ 466   1          ET1 = 1;                                //enable timer1 overflow interrupt
+ 467   1          TR0= 1;                                //start timer0
+ 468   1          TR1 = 1;    
+ 469   1      }
+ 470          
+ 471          void InitTimer3(void)
+ 472          {
+ 473   1        T3PS = 0;               // no divider
+ 474   1        T3RC= 0x00C0;
+ 475   1        T3CT=0;
+ 476   1        T3EXEN=1;
+ 477   1        
+ 478   1        T3TF_EINT  =1;              // timer4 overflow interrupt enable
+ 479   1        T3TR = 1;       // start timer4
+ 480   1        T3TF=0;
+ 481   1        T3EXF=0;
+ 482   1        IE1=0;
+ 483   1         EX1=1;
+ 484   1      }
+C51 COMPILER V9.53.0.0   INITIAL                                                           10/29/2018 04:57:08 PAGE 9   
 
- 486          
- 487          void InitTimer4(void)
- 488          {
- 489   1        T4PS = 0;               // no divider
- 490   1        T4RC = 0xE0C0;
- 491   1      
- 492   1        T4TF_EINT  =1;              // timer4 overflow interrupt enable
- 493   1        T4TR = 1;       // start timer4
- 494   1        CLR_T4_INT();
- 495   1        EX6 = 1;
- 496   1        IEX6=0;
- 497   1      }
- 498          void InitTimer5(void)
- 499          {
- 500   1        T5PS = 0;                     // no divider
- 501   1        T5RC = 0x10C0;
- 502   1        
- 503   1        T5TF_EINT  =1;                // timer4 overflow interrupt enable
- 504   1        T5TR = 1;                     // start timer4
- 505   1        T5TF=0;                       // clear interrupt flag
- 506   1      
- 507   1        
- 508   1        I3FR=1;
- 509   1        EX3 = 1;
- 510   1        IEX3=0;
- 511   1      }
- 512          void InitTimer6(void)
- 513          {
- 514   1        T6PS = 0;                     // no divider
- 515   1        T6RC = 0x10C0;
- 516   1        
- 517   1        T6TF_EINT  =1;              // timer4 overflow interrupt enable
- 518   1        T6TR = 1;                   // start timer4
- 519   1        T6TF=0;                     // clear interrupt flag
- 520   1      
- 521   1        
- 522   1      
- 523   1        EX5 = 1;
- 524   1        IEX5=0;
- 525   1      }
- 526          void SystemClock(void)
- 527          {
- 528   1          RC80M_RES = 0x2e;
- 529   1          #pragma asm
+ 485          
+ 486          void InitTimer4(void)
+ 487          {
+ 488   1        T4PS = 0;               // no divider
+ 489   1        T4RC = 0xE0C0;
+ 490   1      
+ 491   1        T4TF_EINT  =1;              // timer4 overflow interrupt enable
+ 492   1        T4TR = 1;       // start timer4
+ 493   1        CLR_T4_INT();
+ 494   1        EX6 = 1;
+ 495   1        IEX6=0;
+ 496   1      }
+ 497          void InitTimer5(void)
+ 498          {
+ 499   1        T5PS = 0;                     // no divider
+ 500   1        T5RC = 0x10C0;
+ 501   1        
+ 502   1        T5TF_EINT  =1;                // timer4 overflow interrupt enable
+ 503   1        T5TR = 1;                     // start timer4
+ 504   1        T5TF=0;                       // clear interrupt flag
+ 505   1      
+ 506   1        
+ 507   1        I3FR=1;
+ 508   1        EX3 = 1;
+ 509   1        IEX3=0;
+ 510   1      }
+ 511          void InitTimer6(void)
+ 512          {
+ 513   1        T6PS = 0;                     // no divider
+ 514   1        T6RC = 0x10C0;
+ 515   1        
+ 516   1        T6TF_EINT  =1;              // timer4 overflow interrupt enable
+ 517   1        T6TR = 1;                   // start timer4
+ 518   1        T6TF=0;                     // clear interrupt flag
+ 519   1      
+ 520   1        
+ 521   1      
+ 522   1        EX5 = 1;
+ 523   1        IEX5=0;
+ 524   1      }
+ 525          void SystemClock(void)
+ 526          {
+ 527   1          RC80M_RES = 0x2e;
+ 528   1          #pragma asm
+ 529   1          nop
  530   1          nop
  531   1          nop
  532   1          nop
@@ -573,9 +574,9 @@ line level    source
  544   1          nop
  545   1          nop
  546   1          nop
- 547   1          nop
-C51 COMPILER V9.54   INITIAL                                                               10/27/2018 14:10:03 PAGE 10  
+C51 COMPILER V9.53.0.0   INITIAL                                                           10/29/2018 04:57:08 PAGE 10  
 
+ 547   1          nop
  548   1          nop
  549   1          nop
  550   1          nop
@@ -590,13 +591,13 @@ line level    source
  559   1          nop
  560   1          nop
  561   1          nop
- 562   1          nop
- 563   1          #pragma endasm
- 564   1        
- 565   1          CLK_DIV_L = 0x02;
- 566   1          CLK_DIV_H = 0x00;
- 567   1          
- 568   1          #pragma asm
+ 562   1          #pragma endasm
+ 563   1        
+ 564   1          CLK_DIV_L = 0x02;
+ 565   1          CLK_DIV_H = 0x00;
+ 566   1          
+ 567   1          #pragma asm
+ 568   1          nop
  569   1          nop
  570   1          nop
  571   1          nop
@@ -628,34 +629,33 @@ line level    source
  597   1          nop
  598   1          nop
  599   1          nop
- 600   1          nop
- 601   1          #pragma endasm
- 602   1      }
+ 600   1          #pragma endasm
+ 601   1      }
+ 602          
  603          
  604          
- 605          
- 606          //initial UART1, there are 2 different ways to generate baudrate
- 607          //way 1
- 608          void sInitUART1(void)
- 609          {
-C51 COMPILER V9.54   INITIAL                                                               10/27/2018 14:10:03 PAGE 11  
+ 605          //initial UART1, there are 2 different ways to generate baudrate
+ 606          //way 1
+ 607          void sInitUART1(void)
+ 608          {
+C51 COMPILER V9.53.0.0   INITIAL                                                           10/29/2018 04:57:08 PAGE 11  
 
- 610   1        S0CON  = 0x50;          // set as 8-bit UART,  enable serial 0 reception, enable serial 0 multiprocessor fu
+ 609   1        S0CON  = 0x50;          // set as 8-bit UART,  enable serial 0 reception, enable serial 0 multiprocessor fu
              -nction
- 611   1          WDCON = 0x80;            // 0x80: baud rate = (2^smod) * Fclk / (64 * (2^10 - s0rel));
- 612   1                                    // 0x00: baud rate = (2^smod) * Fclk / (32 * 12 * (256 - th1));
- 613   1                                    // smod = 0;  Fclk = system clock
- 614   1          S0RELL = 0xF3;             //Fclk = 8MHz, baud rate = 9600
- 615   1          S0RELH = 0x03;  
- 616   1      }
- 617          
- 618          void sInitUART2(void)
- 619          {
- 620   1          S1CON  = 0x90;            //enable serial 1 reception, enable serial 0 multiprocessor function
- 621   1                                      //s1con.7 = 1: 8-bit UART(mode B)    s1con.7 = 0: 9-bit UART(mode A)
- 622   1          S1RELL = 0xE6;            //baud rate = Fclk / (32 * (2^10 - s0rel));
- 623   1          S1RELH = 0x03;            //Fclk = 8MHz, baud rate = 9600
- 624   1      }
+ 610   1          WDCON = 0x80;            // 0x80: baud rate = (2^smod) * Fclk / (64 * (2^10 - s0rel));
+ 611   1                                    // 0x00: baud rate = (2^smod) * Fclk / (32 * 12 * (256 - th1));
+ 612   1                                    // smod = 0;  Fclk = system clock
+ 613   1          S0RELL = 0xF3;             //Fclk = 8MHz, baud rate = 9600
+ 614   1          S0RELH = 0x03;  
+ 615   1      }
+ 616          
+ 617          void sInitUART2(void)
+ 618          {
+ 619   1          S1CON  = 0x90;            //enable serial 1 reception, enable serial 0 multiprocessor function
+ 620   1                                      //s1con.7 = 1: 8-bit UART(mode B)    s1con.7 = 0: 9-bit UART(mode A)
+ 621   1          S1RELL = 0xE6;            //baud rate = Fclk / (32 * (2^10 - s0rel));
+ 622   1          S1RELH = 0x03;            //Fclk = 8MHz, baud rate = 9600
+ 623   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE

@@ -33,7 +33,7 @@ InitTimer3();
 	
 		InitGPIO();
 	//	InitEXT();
-	InitComparator();
+	//InitComparator();
 	
 		EAL=1;
     while(1)
