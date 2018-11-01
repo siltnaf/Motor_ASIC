@@ -100,9 +100,20 @@ void InitADC(void)
 		AD_PD = 0;							//Power up ADD
 	  ADC_CLK_EN=1;
 		ADC_CLK_DIV_SEL=0x03;    //system divided by 4
-    ADCHS = 0x08;						// select channel CH4
+    ADCHS = 0x0f;						// select channel CH1-CH4
+		
+	
+	
 		DAC1_PD = 1;						// DAC12 down
 		DAC2_PD = 1;
+	
+	
+	
+		C1PDO1PD=CFG2;								//COMP1 power off and OP1 power on
+		C2PDO2PD=CFG2;								//COMP2 power off and OP2 power on
+		C3PDO3PD=CFG2;								//COMP3 power off and OP3 power on
+	
+	
 		LDO25_PD=0;             //use internal 2.5V for AD VREF
 		BP4=0;                  //CH4 normal and no bypass
 	
@@ -452,7 +463,7 @@ void InitGPIO(void)
 
 void InitTimer01(void)
 {
-		T01_DIV_L= 0x01;                 //clock divider is 122, must write T01_DIV_L first;
+		T01_DIV_L= 0x05;                 //clock divider is 122, must write T01_DIV_L first;
 	  T01_DIV_H= 0x00;                
   	TMOD = 0x10;                   //timer1 is 16bit timer, timer0 is 13 bit
     TL0 = 0x0;
@@ -471,16 +482,18 @@ void InitTimer01(void)
 void InitTimer3(void)
 {
 	T3PS = 0;								// no divider
-	T3RC= 0x00C0;
-	T3CT=0;
-	T3EXEN=1;
-	
-	T3TF_EINT	 =1;							// timer4 overflow interrupt enable
-	T3TR = 1;				// start timer4
-	T3TF=0;
-	T3EXF=0;
-	IE1=0;
-	 EX1=1;
+	T3RC= 0;               //reset T3 capture register
+	T3CTR=0;               //reset T3 counter
+	T3CT=0;                //capture clock from cpu
+	T3CPRL=1;             //capture mode select
+	T3EXEN=1;             //enable T3 external EX pin
+	T3EX_INV=0;           //T3 EX pin ,trigger on rising edge
+	T3TF_EINT	 =1;			  // timer3 overflow interrupt enable
+	T3TR = 1;				      // start timer3 
+	T3TF=0;               //clear T3 overflow flag
+	T3EXF=0;              //clear T3 EX trigger flag
+	IE1=0;                //clear  EX1 interrupt flag
+	 EX1=1;               //enable EX1 interrupt
 }
 
 void InitTimer4(void)
@@ -602,6 +615,9 @@ void SystemClock(void)
 
 
 
+
+
+
 //initial UART1, there are 2 different ways to generate baudrate
 //way 1
 void sInitUART1(void)
@@ -620,4 +636,15 @@ void sInitUART2(void)
                                 //s1con.7 = 1: 8-bit UART(mode B)    s1con.7 = 0: 9-bit UART(mode A)
     S1RELL = 0xE6;            //baud rate = Fclk / (32 * (2^10 - s0rel));
     S1RELH = 0x03;	          //Fclk = 8MHz, baud rate = 9600
+}
+
+
+void InitDAC(void)
+{
+		DAC1_PD=0;		//power up DAC1
+		DAC2_PD=0;		//power up DAC2
+	DAC1_VREF=1;		//use 2.5V as vref
+	DAC2_VREF=1;		//use 2.5V as vref
+	ADC_DAC_SEL1=0;
+	ADC_DAC_SEL2=0;
 }

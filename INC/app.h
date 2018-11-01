@@ -131,7 +131,7 @@
 
 
 extern unsigned int ADresult;
-extern unsigned char tmr3_ov;
+extern unsigned char tmr3_ov,capture_flag;
 extern unsigned long last_capture,this_capture,pwm_capture;
 
 

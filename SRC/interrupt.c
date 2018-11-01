@@ -81,7 +81,7 @@ void TIMER0Interrupt(void)  interrupt 1
 {
 
 	  TF0=0;
- P26=~P26;
+ P04=~P04;
 	
 	
 	SWFTRG=1;				//start next AD
@@ -110,23 +110,43 @@ void TIMER3Interrupt(void)  interrupt 23
 	
 	if (T3EXF==1)
 	{
-   	T3EXF=0;
-		if (P15==0)						//falling edge to reset time count
-		{
-			last_capture=(unsigned long)T3RC_H;
-			tmr3_ov=0;										//reset tmr3_ov
-//			P26=0;
+
+		this_capture=(unsigned long) T3RC;
+		if (T3EX_INV==1)                //capture falling edge and start counting
+				{
+
+				T3EX_INV=0;                 //set to capture next rising edge 
+				last_capture=this_capture;
+				tmr3_ov=0;										//reset tmr3_ov
 			
-		}
-		else 								//rising edge to record time lapse
-		{
-			
-//				P26=1;
-				pwm_capture=(unsigned long)(tmr3_ov<<16)+(unsigned long)T3RC-last_capture;
-			
-			}
-			
-		}
+				}
+				else
+				{
+					
+					
+				if (!tmr3_ov)
+					//rising edge to record time lapse
+					{
+						
+					pwm_capture=this_capture-last_capture;
+		
+					}
+					else 
+					{
+						pwm_capture=(unsigned long)(tmr3_ov)<<16;
+						
+						pwm_capture=pwm_capture+this_capture-last_capture;
+						
+						
+						
+					}
+					
+					T3EX_INV=1;          //reset to capture falling edge 
+
+					
+				}
+				T3EXF=0;
+	}
 	
 	if ((T3TF==0)&&(T3EXF==0)&&(C1_INT==0))
 		

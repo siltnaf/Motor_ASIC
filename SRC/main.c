@@ -12,7 +12,7 @@
  unsigned int ADresult;
  unsigned int data_value;
  
- unsigned char tmr3_ov;
+ unsigned char tmr3_ov,dac_value;
  unsigned long last_capture,this_capture, pwm_capture;
  
 U32 EE_data;
@@ -24,7 +24,7 @@ void main(void)
     SystemClock();
     #endif
 		InitISDDebug(); 
-InitTimer3();    
+InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse width
   //InitTimer4();                          //start timer1
 	InitTimer01();
 //	InitADC();                           //ADC use timer0 to trigger AD start
@@ -38,8 +38,11 @@ InitTimer3();
 		EAL=1;
     while(1)
     {
-
-
+			
+		 
+	
+			dac_value=(unsigned char)(pwm_capture>>11);
+			DAC1_DAT=dac_value;
 			
 			
 			

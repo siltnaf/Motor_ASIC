@@ -1,10 +1,10 @@
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 1   
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 1   
 
 
-C51 COMPILER V9.53.0.0, COMPILATION OF MODULE INTERRUPT
+C51 COMPILER V9.54, COMPILATION OF MODULE INTERRUPT
 OBJECT MODULE PLACED IN .\OUTPUT\interrupt.obj
-COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE SRC\interrupt.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC) BROWSE INTVEC
-                    -TOR(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\interrupt.lst) TABS(2) OBJECT(.\OUTPUT\interrupt.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE SRC\interrupt.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC) BROWSE INT
+                    -VECTOR(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\interrupt.lst) TABS(2) OBJECT(.\OUTPUT\interrupt.obj)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
   52   1        
   53   1        
   54   1        if (EXT(3)==1)
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 2   
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 2   
 
   55   1        {
   56   2          CLR_EXT(3);
@@ -93,7 +93,7 @@ line level    source
   81          {
   82   1      
   83   1          TF0=0;
-  84   1       P26=~P26;
+  84   1       P04=~P04;
   85   1        
   86   1        
   87   1        SWFTRG=1;       //start next AD
@@ -122,311 +122,331 @@ line level    source
  110   1        
  111   1        if (T3EXF==1)
  112   1        {
- 113   2          T3EXF=0;
- 114   2          if (P15==0)           //falling edge to reset time count
- 115   2          {
- 116   3            last_capture=(unsigned long)T3RC_H;
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 3   
+ 113   2      
+ 114   2          this_capture=(unsigned long) T3RC;
+ 115   2          if (T3EX_INV==1)                //capture falling edge and start counting
+ 116   2              {
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 3   
 
- 117   3            tmr3_ov=0;                    //reset tmr3_ov
- 118   3      //      P26=0;
- 119   3            
- 120   3          }
- 121   2          else                //rising edge to record time lapse
- 122   2          {
- 123   3            
- 124   3      //        P26=1;
- 125   3              pwm_capture=(unsigned long)(tmr3_ov<<16)+(unsigned long)T3RC-last_capture;
- 126   3            
- 127   3            }
- 128   2            
- 129   2          }
- 130   1        
- 131   1        if ((T3TF==0)&&(T3EXF==0)&&(C1_INT==0))
- 132   1          
- 133   1          IE1=0;
- 134   1      }
- 135          
- 136          void TIMER4Interrupt(void)  interrupt 17
- 137          {
- 138   1        
- 139   1        
- 140   1        
- 141   1        T4TF=0;
- 142   1      
- 143   1        CLR_T4_INT();
- 144   1      
- 145   1        
- 146   1        P26= ~P26;
- 147   1        
- 148   1            if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0)&&(BP_INT==0))
- 149   1            IEX6=0;
- 150   1            
- 151   1        
- 152   1        
- 153   1      }
- 154          
- 155          void TIMER5Interrupt(void)  interrupt 21
- 156          {
- 157   1      
- 158   1        T5TF=0;
- 159   1        T5EXF=0;
- 160   1      
- 161   1        
- 162   1        P26= ~P26;
- 163   1        if ((T5_INT==0)&&(EPWM_INT(4)==0))
- 164   1          IEX3=0;
+ 117   3      
+ 118   3              T3EX_INV=0;                 //set to capture next rising edge 
+ 119   3              last_capture=this_capture;
+ 120   3              tmr3_ov=0;                    //reset tmr3_ov
+ 121   3            
+ 122   3              }
+ 123   2              else
+ 124   2              {
+ 125   3                
+ 126   3                
+ 127   3              if (!tmr3_ov)
+ 128   3                //rising edge to record time lapse
+ 129   3                {
+ 130   4                  
+ 131   4                pwm_capture=this_capture-last_capture;
+ 132   4          
+ 133   4                }
+ 134   3                else 
+ 135   3                {
+ 136   4                  pwm_capture=(unsigned long)(tmr3_ov)<<16;
+ 137   4                  
+ 138   4                  pwm_capture=pwm_capture+this_capture-last_capture;
+ 139   4                  
+ 140   4                  
+ 141   4                  
+ 142   4                }
+ 143   3                
+ 144   3                T3EX_INV=1;          //reset to capture falling edge 
+ 145   3      
+ 146   3                
+ 147   3              }
+ 148   2              T3EXF=0;
+ 149   2        }
+ 150   1        
+ 151   1        if ((T3TF==0)&&(T3EXF==0)&&(C1_INT==0))
+ 152   1          
+ 153   1          IE1=0;
+ 154   1      }
+ 155          
+ 156          void TIMER4Interrupt(void)  interrupt 17
+ 157          {
+ 158   1        
+ 159   1        
+ 160   1        
+ 161   1        T4TF=0;
+ 162   1      
+ 163   1        CLR_T4_INT();
+ 164   1      
  165   1        
- 166   1        
- 167   1      }
- 168          void TIMER6Interrupt(void)  interrupt 24
- 169          {
- 170   1      
- 171   1        T6TF=0;
- 172   1        T6EXF=0;
- 173   1        
- 174   1        if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
- 175   1          IEX5=0;
- 176   1        P26=~P26;
- 177   1        
- 178   1      }
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 4   
+ 166   1        P26= ~P26;
+ 167   1        
+ 168   1            if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0)&&(BP_INT==0))
+ 169   1            IEX6=0;
+ 170   1            
+ 171   1        
+ 172   1        
+ 173   1      }
+ 174          
+ 175          void TIMER5Interrupt(void)  interrupt 21
+ 176          {
+ 177   1      
+ 178   1        T5TF=0;
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 4   
 
- 179          
- 180          
- 181          
- 182          
- 183          /*     EPWM interrupt */
- 184          
- 185          void ePWM123Interrupt(void) interrupt 9
- 186          {
- 187   1        if (EPWM_INT(1)==1)
- 188   1        {
- 189   2          
- 190   2          
- 191   2          
- 192   2          CLR_EPWM_INT(1);
- 193   2        }
- 194   1      
- 195   1        
- 196   1        if (EPWM_INT(2)==1)
- 197   1        {
- 198   2          
- 199   2          
- 200   2          
- 201   2          
- 202   2          
- 203   2          CLR_EPWM_INT(2);
- 204   2        }
- 205   1        
- 206   1        
- 207   1        if (EPWM_INT(3)==1)
+ 179   1        T5EXF=0;
+ 180   1      
+ 181   1        
+ 182   1        P26= ~P26;
+ 183   1        if ((T5_INT==0)&&(EPWM_INT(4)==0))
+ 184   1          IEX3=0;
+ 185   1        
+ 186   1        
+ 187   1      }
+ 188          void TIMER6Interrupt(void)  interrupt 24
+ 189          {
+ 190   1      
+ 191   1        T6TF=0;
+ 192   1        T6EXF=0;
+ 193   1        
+ 194   1        if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
+ 195   1          IEX5=0;
+ 196   1        P26=~P26;
+ 197   1        
+ 198   1      }
+ 199          
+ 200          
+ 201          
+ 202          
+ 203          /*     EPWM interrupt */
+ 204          
+ 205          void ePWM123Interrupt(void) interrupt 9
+ 206          {
+ 207   1        if (EPWM_INT(1)==1)
  208   1        {
  209   2          
- 210   2          CLR_EPWM_INT(3);
- 211   2        }
- 212   1        
- 213   1        if ((EPWM_INT(1)==0)&&(EPWM_INT(2)==0)&&(EPWM_INT(3)==0))
- 214   1          IEX2=0;
+ 210   2          
+ 211   2          
+ 212   2          CLR_EPWM_INT(1);
+ 213   2        }
+ 214   1      
  215   1        
- 216   1      }
- 217          
- 218          
- 219          void ePWM4Interrupt(void)  interrupt 20
- 220          {
- 221   1      
- 222   1        
- 223   1        CLR_EPWM_INT(4);
- 224   1        if ((T5_INT==0)&&(EPWM_INT(4)==0))
- 225   1            IEX3=0;
+ 216   1        if (EPWM_INT(2)==1)
+ 217   1        {
+ 218   2          
+ 219   2          
+ 220   2          
+ 221   2          
+ 222   2          
+ 223   2          CLR_EPWM_INT(2);
+ 224   2        }
+ 225   1        
  226   1        
- 227   1      }
- 228          
- 229          
- 230          
- 231          
- 232          
- 233          /* comparator interrupt */
- 234          
- 235          void Comp1Interrupt(void) interrupt 22
- 236            
- 237          {
- 238   1        
- 239   1        
- 240   1        
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 5   
+ 227   1        if (EPWM_INT(3)==1)
+ 228   1        {
+ 229   2          
+ 230   2          CLR_EPWM_INT(3);
+ 231   2        }
+ 232   1        
+ 233   1        if ((EPWM_INT(1)==0)&&(EPWM_INT(2)==0)&&(EPWM_INT(3)==0))
+ 234   1          IEX2=0;
+ 235   1        
+ 236   1      }
+ 237          
+ 238          
+ 239          void ePWM4Interrupt(void)  interrupt 20
+ 240          {
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 5   
 
- 241   1        C1INT=0;  
+ 241   1      
  242   1        
- 243   1        if ((T3_INT==0)&&(C1_INT==0))
- 244   1            IE1=0;
- 245   1      }
- 246          
- 247          
- 248          void  Comp234Interrupt(void) interrupt 11
+ 243   1        CLR_EPWM_INT(4);
+ 244   1        if ((T5_INT==0)&&(EPWM_INT(4)==0))
+ 245   1            IEX3=0;
+ 246   1        
+ 247   1      }
+ 248          
  249          
- 250          {
- 251   1        
- 252   1        
- 253   1        if (C2INT==1)
- 254   1      
- 255   1          {
- 256   2            
- 257   2            
- 258   2          
- 259   2            C2INT=0;  
- 260   2      
- 261   2          
- 262   2      
- 263   2      
- 264   2            
- 265   2          }
- 266   1          
- 267   1          if (C3INT==1)
- 268   1      
- 269   1          {
- 270   2          
- 271   2              C3INT=0;  
- 272   2      
- 273   2          }
- 274   1                
- 275   1          if (C4INT==1)
- 276   1      
- 277   1          {
- 278   2        
- 279   2            C4INT=0;  
+ 250          
+ 251          
+ 252          
+ 253          /* comparator interrupt */
+ 254          
+ 255          void Comp1Interrupt(void) interrupt 22
+ 256            
+ 257          {
+ 258   1        
+ 259   1        
+ 260   1        
+ 261   1        C1INT=0;  
+ 262   1        
+ 263   1        if ((T3_INT==0)&&(C1_INT==0))
+ 264   1            IE1=0;
+ 265   1      }
+ 266          
+ 267          
+ 268          void  Comp234Interrupt(void) interrupt 11
+ 269          
+ 270          {
+ 271   1        
+ 272   1        
+ 273   1        if (C2INT==1)
+ 274   1      
+ 275   1          {
+ 276   2            
+ 277   2            
+ 278   2          
+ 279   2            C2INT=0;  
  280   2      
- 281   2            
- 282   2          }
- 283   1          
- 284   1          if ((C2INT==0)&&(C3INT==0)&&(C4INT==0))
- 285   1              IEX4=0;
- 286   1            
- 287   1        }
- 288          
- 289          
- 290          
- 291            /*  serial communication  */
- 292          
- 293          void I2CInterrupt(void)  interrupt 25
- 294          {
- 295   1      
- 296   1      //  CLR_I2C_INT();
- 297   1        
- 298   1        if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
- 299   1          IEX5=0;
- 300   1      }
- 301          
- 302          void SPIInterrupt(void)  interrupt 26
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 6   
+ 281   2          
+ 282   2      
+ 283   2      
+ 284   2            
+ 285   2          }
+ 286   1          
+ 287   1          if (C3INT==1)
+ 288   1      
+ 289   1          {
+ 290   2          
+ 291   2              C3INT=0;  
+ 292   2      
+ 293   2          }
+ 294   1                
+ 295   1          if (C4INT==1)
+ 296   1      
+ 297   1          {
+ 298   2        
+ 299   2            C4INT=0;  
+ 300   2      
+ 301   2            
+ 302   2          }
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 6   
 
- 303          {
- 304   1      
- 305   1      //  CLR_SPI_INT();
- 306   1        if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
- 307   1          IEX5=0;
- 308   1      }
+ 303   1          
+ 304   1          if ((C2INT==0)&&(C3INT==0)&&(C4INT==0))
+ 305   1              IEX4=0;
+ 306   1            
+ 307   1        }
+ 308          
  309          
- 310          void eFlashInterrupt(void)  interrupt 27
- 311          {
- 312   1      
- 313   1      //  CLR_EFLASH_INT();
- 314   1        if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
- 315   1          IEX5=0;
- 316   1      }
- 317          
- 318          
- 319          /*  voltage detect, RTC  */
- 320          
- 321          void RTCInterrupt(void) interrupt 28
- 322          {
- 323   1        
- 324   1        
- 325   1        
- 326   1        CLR_RTC_INT();
- 327   1            if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0)&&(BP_INT==0))
- 328   1            IEX6=0;
- 329   1            
- 330   1        
- 331   1      }
- 332            
- 333          
- 334          void LDV18Interrupt(void) interrupt 29
- 335          {
- 336   1        
- 337   1        CLR_LDV18_INT();
- 338   1            if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0)&&(BP_INT==0))
- 339   1            IEX6=0;
- 340   1            
- 341   1      
- 342   1      }
- 343          
- 344          void LDV33Interrupt(void) interrupt 30
- 345          {
- 346   1        
- 347   1        CLR_LDV33_INT();
- 348   1        
- 349   1            if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0)&&(BP_INT==0))
- 350   1            IEX6=0;
- 351   1            
- 352   1      }
+ 310          
+ 311            /*  serial communication  */
+ 312          
+ 313          void I2CInterrupt(void)  interrupt 25
+ 314          {
+ 315   1      
+ 316   1      //  CLR_I2C_INT();
+ 317   1        
+ 318   1        if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
+ 319   1          IEX5=0;
+ 320   1      }
+ 321          
+ 322          void SPIInterrupt(void)  interrupt 26
+ 323          {
+ 324   1      
+ 325   1      //  CLR_SPI_INT();
+ 326   1        if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
+ 327   1          IEX5=0;
+ 328   1      }
+ 329          
+ 330          void eFlashInterrupt(void)  interrupt 27
+ 331          {
+ 332   1      
+ 333   1      //  CLR_EFLASH_INT();
+ 334   1        if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
+ 335   1          IEX5=0;
+ 336   1      }
+ 337          
+ 338          
+ 339          /*  voltage detect, RTC  */
+ 340          
+ 341          void RTCInterrupt(void) interrupt 28
+ 342          {
+ 343   1        
+ 344   1        
+ 345   1        
+ 346   1        CLR_RTC_INT();
+ 347   1            if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0)&&(BP_INT==0))
+ 348   1            IEX6=0;
+ 349   1            
+ 350   1        
+ 351   1      }
+ 352            
  353          
- 354          
- 355          
- 356          
- 357          
- 358          /* debug and UART port */
- 359            
- 360          
- 361          void UART1Interrupt(void) //interrupt 4
- 362          {
- 363   1          if(RI0 == 1)
- 364   1          {
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 7   
+ 354          void LDV18Interrupt(void) interrupt 29
+ 355          {
+ 356   1        
+ 357   1        CLR_LDV18_INT();
+ 358   1            if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0)&&(BP_INT==0))
+ 359   1            IEX6=0;
+ 360   1            
+ 361   1      
+ 362   1      }
+ 363          
+ 364          void LDV33Interrupt(void) interrupt 30
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 7   
 
- 365   2              RI0 = 0;
- 366   2          }
- 367   1      
- 368   1          if(TI0 == 1)
- 369   1          {
- 370   2             TI0 = 0;
- 371   2          }
+ 365          {
+ 366   1        
+ 367   1        CLR_LDV33_INT();
+ 368   1        
+ 369   1            if ((RTC_INT==0)&&(LDV18_INT==0)&&(LDV33_INT==0)&&(T4_INT==0)&&(BP_INT==0))
+ 370   1            IEX6=0;
+ 371   1            
  372   1      }
  373          
- 374          void UART2Interrupt(void) interrupt 16
- 375          {
- 376   1          //receive
- 377   1          if((S1CON & 0x01) == 0x01)
- 378   1          {
- 379   2              S1CON &= 0xfe;
- 380   2      //        ucUARTReceiver = S1BUF;
- 381   2      //        ucUARTReceiver++;
- 382   2      //        ucUARTReceiver++;
- 383   2      //        ucReceiveFlag = 1;
- 384   2          }
- 385   1      
- 386   1          //transmit
- 387   1          if((S1CON & 0x02) == 0x02)
- 388   1          {
- 389   2              S1CON &= 0xfd;
- 390   2          }
- 391   1      }
- 392          
- 393          void ADCInterrupt(void) interrupt 8
- 394          {
- 395   1        
- 396   1      
- 397   1          if (INTFL==1)
+ 374          
+ 375          
+ 376          
+ 377          
+ 378          /* debug and UART port */
+ 379            
+ 380          
+ 381          void UART1Interrupt(void) //interrupt 4
+ 382          {
+ 383   1          if(RI0 == 1)
+ 384   1          {
+ 385   2              RI0 = 0;
+ 386   2          }
+ 387   1      
+ 388   1          if(TI0 == 1)
+ 389   1          {
+ 390   2             TI0 = 0;
+ 391   2          }
+ 392   1      }
+ 393          
+ 394          void UART2Interrupt(void) interrupt 16
+ 395          {
+ 396   1          //receive
+ 397   1          if((S1CON & 0x01) == 0x01)
  398   1          {
- 399   2              INTFL=0;
- 400   2              IADC=0;
- 401   2          }
- 402   1        
- 403   1          ADresult = AD4OUT;
- 404   1      
- 405   1        
- 406   1      }
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 8   
+ 399   2              S1CON &= 0xfe;
+ 400   2      //        ucUARTReceiver = S1BUF;
+ 401   2      //        ucUARTReceiver++;
+ 402   2      //        ucUARTReceiver++;
+ 403   2      //        ucReceiveFlag = 1;
+ 404   2          }
+ 405   1      
+ 406   1          //transmit
+ 407   1          if((S1CON & 0x02) == 0x02)
+ 408   1          {
+ 409   2              S1CON &= 0xfd;
+ 410   2          }
+ 411   1      }
+ 412          
+ 413          void ADCInterrupt(void) interrupt 8
+ 414          {
+ 415   1        
+ 416   1      
+ 417   1          if (INTFL==1)
+ 418   1          {
+ 419   2              INTFL=0;
+ 420   2              IADC=0;
+ 421   2          }
+ 422   1        
+ 423   1          ADresult = AD4OUT;
+ 424   1      
+ 425   1        
+ 426   1      }
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 8   
 
 ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
@@ -490,7 +510,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0046 7F01              MOV     R7,#01H
 0048 8002              SJMP    ?C0012
 004A         ?C0011:
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 9   
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 9   
 
 004A 7F00              MOV     R7,#00H
 004C         ?C0012:
@@ -554,7 +574,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0002 C083              PUSH    DPH
 0004 C082              PUSH    DPL
 0006 C0D0              PUSH    PSW
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 10  
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 10  
 
 0008 75D000            MOV     PSW,#00H
 000B C007              PUSH    AR7
@@ -562,7 +582,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
                                            ; SOURCE LINE # 83
 000D C28D              CLR     TF0
                                            ; SOURCE LINE # 84
-000F B2A6              CPL     P26
+000F B284              CPL     P04
                                            ; SOURCE LINE # 87
 0011 90E05A            MOV     DPTR,#0E05AH
 0014 E0                MOVX    A,@DPTR
@@ -598,199 +618,237 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0006 C0D0              PUSH    PSW
 0008 75D000            MOV     PSW,#00H
 000B C000              PUSH    AR0
-000D C001              PUSH    AR1
-000F C002              PUSH    AR2
-0011 C003              PUSH    AR3
-0013 C004              PUSH    AR4
-0015 C005              PUSH    AR5
-0017 C006              PUSH    AR6
-0019 C007              PUSH    AR7
+000D C004              PUSH    AR4
+000F C005              PUSH    AR5
+0011 C006              PUSH    AR6
+0013 C007              PUSH    AR7
                                            ; SOURCE LINE # 100
                                            ; SOURCE LINE # 104
-001B 90E0C8            MOV     DPTR,#0E0C8H
-001E E0                MOVX    A,@DPTR
-001F FF                MOV     R7,A
-0020 EF                MOV     A,R7
-0021 C4                SWAP    A
-0022 13                RRC     A
-0023 13                RRC     A
-0024 13                RRC     A
-0025 5401              ANL     A,#01H
-0027 FF                MOV     R7,A
-0028 EF                MOV     A,R7
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 11  
-
-0029 30E00D            JNB     ACC.0,?C0025
+0015 90E0C8            MOV     DPTR,#0E0C8H
+0018 E0                MOVX    A,@DPTR
+0019 FF                MOV     R7,A
+001A EF                MOV     A,R7
+001B C4                SWAP    A
+001C 13                RRC     A
+001D 13                RRC     A
+001E 13                RRC     A
+001F 5401              ANL     A,#01H
+0021 FF                MOV     R7,A
+0022 EF                MOV     A,R7
+0023 30E00D            JNB     ACC.0,?C0025
                                            ; SOURCE LINE # 105
                                            ; SOURCE LINE # 106
-002C 0500        E     INC     tmr3_ov
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 11  
+
+0026 0500        E     INC     tmr3_ov
                                            ; SOURCE LINE # 108
-002E 90E0C8            MOV     DPTR,#0E0C8H
-0031 E0                MOVX    A,@DPTR
-0032 FF                MOV     R7,A
-0033 EF                MOV     A,R7
-0034 547F              ANL     A,#07FH
-0036 FF                MOV     R7,A
-0037 EF                MOV     A,R7
-0038 F0                MOVX    @DPTR,A
+0028 90E0C8            MOV     DPTR,#0E0C8H
+002B E0                MOVX    A,@DPTR
+002C FF                MOV     R7,A
+002D EF                MOV     A,R7
+002E 547F              ANL     A,#07FH
+0030 FF                MOV     R7,A
+0031 EF                MOV     A,R7
+0032 F0                MOVX    @DPTR,A
                                            ; SOURCE LINE # 109
-0039         ?C0025:
+0033         ?C0025:
                                            ; SOURCE LINE # 111
-0039 90E0C8            MOV     DPTR,#0E0C8H
-003C E0                MOVX    A,@DPTR
-003D FF                MOV     R7,A
-003E EF                MOV     A,R7
-003F C4                SWAP    A
-0040 13                RRC     A
-0041 13                RRC     A
-0042 5403              ANL     A,#03H
-0044 FF                MOV     R7,A
-0045 EF                MOV     A,R7
-0046 30E069            JNB     ACC.0,?C0026
+0033 90E0C8            MOV     DPTR,#0E0C8H
+0036 E0                MOVX    A,@DPTR
+0037 FF                MOV     R7,A
+0038 EF                MOV     A,R7
+0039 C4                SWAP    A
+003A 13                RRC     A
+003B 13                RRC     A
+003C 5403              ANL     A,#03H
+003E FF                MOV     R7,A
+003F EF                MOV     A,R7
+0040 20E003            JB      ACC.0,$ + 6H
+0043 020000      R     LJMP    ?C0026
                                            ; SOURCE LINE # 112
-                                           ; SOURCE LINE # 113
-0049 90E0C8            MOV     DPTR,#0E0C8H
+                                           ; SOURCE LINE # 114
+0046 90E0CC            MOV     DPTR,#0E0CCH
+0049 E0                MOVX    A,@DPTR
+004A FE                MOV     R6,A
+004B A3                INC     DPTR
 004C E0                MOVX    A,@DPTR
 004D FF                MOV     R7,A
-004E EF                MOV     A,R7
-004F 54BF              ANL     A,#0BFH
-0051 FF                MOV     R7,A
-0052 EF                MOV     A,R7
-0053 F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 114
-0054 209516            JB      P15,?C0027
+004E E4                CLR     A
+004F FC                MOV     R4,A
+0050 FD                MOV     R5,A
+0051 8F00        E     MOV     this_capture+03H,R7
+0053 8E00        E     MOV     this_capture+02H,R6
+0055 8D00        E     MOV     this_capture+01H,R5
+0057 8C00        E     MOV     this_capture,R4
                                            ; SOURCE LINE # 115
+0059 90E08A            MOV     DPTR,#0E08AH
+005C E0                MOVX    A,@DPTR
+005D FF                MOV     R7,A
+005E EF                MOV     A,R7
+005F 30E020            JNB     ACC.0,?C0027
                                            ; SOURCE LINE # 116
-0057 90E0CC            MOV     DPTR,#0E0CCH
-005A E0                MOVX    A,@DPTR
-005B FF                MOV     R7,A
-005C E4                CLR     A
-005D FC                MOV     R4,A
-005E FD                MOV     R5,A
-005F FE                MOV     R6,A
-0060 8F00        E     MOV     last_capture+03H,R7
-0062 8E00        E     MOV     last_capture+02H,R6
-0064 8D00        E     MOV     last_capture+01H,R5
-0066 8C00        E     MOV     last_capture,R4
-                                           ; SOURCE LINE # 117
-0068 750000      E     MOV     tmr3_ov,#00H
+                                           ; SOURCE LINE # 118
+0062 90E08A            MOV     DPTR,#0E08AH
+0065 E0                MOVX    A,@DPTR
+0066 FF                MOV     R7,A
+0067 EF                MOV     A,R7
+0068 54FE              ANL     A,#0FEH
+006A FF                MOV     R7,A
+006B EF                MOV     A,R7
+006C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 119
+006D AF00        E     MOV     R7,this_capture+03H
+006F AE00        E     MOV     R6,this_capture+02H
+0071 AD00        E     MOV     R5,this_capture+01H
+0073 AC00        E     MOV     R4,this_capture
+0075 8F00        E     MOV     last_capture+03H,R7
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 12  
+
+0077 8E00        E     MOV     last_capture+02H,R6
+0079 8D00        E     MOV     last_capture+01H,R5
+007B 8C00        E     MOV     last_capture,R4
                                            ; SOURCE LINE # 120
-006B 8045              SJMP    ?C0026
-006D         ?C0027:
+007D 750000      E     MOV     tmr3_ov,#00H
                                            ; SOURCE LINE # 122
-                                           ; SOURCE LINE # 125
-006D AF00        E     MOV     R7,tmr3_ov
-006F 7E00              MOV     R6,#00H
-0071 EF                MOV     A,R7
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 12  
-
-0072 7810              MOV     R0,#010H
-0074         ?C0181:
-0074 C3                CLR     C
-0075 33                RLC     A
-0076 CE                XCH     A,R6
-0077 33                RLC     A
-0078 CE                XCH     A,R6
-0079 D8F9              DJNZ    R0,?C0181
-007B FF                MOV     R7,A
-007C AB07              MOV     R3,AR7
-007E AA06              MOV     R2,AR6
-0080 EA                MOV     A,R2
-0081 33                RLC     A
-0082 95E0              SUBB    A,ACC
-0084 F9                MOV     R1,A
-0085 F8                MOV     R0,A
-0086 90E0CC            MOV     DPTR,#0E0CCH
-0089 E0                MOVX    A,@DPTR
-008A FE                MOV     R6,A
-008B A3                INC     DPTR
-008C E0                MOVX    A,@DPTR
-008D FF                MOV     R7,A
-008E E4                CLR     A
-008F FC                MOV     R4,A
-0090 FD                MOV     R5,A
-0091 EB                MOV     A,R3
-0092 2F                ADD     A,R7
-0093 FF                MOV     R7,A
-0094 EA                MOV     A,R2
-0095 3E                ADDC    A,R6
-0096 FE                MOV     R6,A
-0097 E9                MOV     A,R1
-0098 3D                ADDC    A,R5
-0099 FD                MOV     R5,A
-009A E8                MOV     A,R0
-009B 3C                ADDC    A,R4
-009C FC                MOV     R4,A
-009D C3                CLR     C
-009E EF                MOV     A,R7
-009F 9500        E     SUBB    A,last_capture+03H
-00A1 F500        E     MOV     pwm_capture+03H,A
-00A3 EE                MOV     A,R6
-00A4 9500        E     SUBB    A,last_capture+02H
-00A6 F500        E     MOV     pwm_capture+02H,A
-00A8 ED                MOV     A,R5
-00A9 9500        E     SUBB    A,last_capture+01H
-00AB F500        E     MOV     pwm_capture+01H,A
-00AD EC                MOV     A,R4
-00AE 9500        E     SUBB    A,last_capture
-00B0 F500        E     MOV     pwm_capture,A
+0080 8066              SJMP    ?C0028
+0082         ?C0027:
+                                           ; SOURCE LINE # 124
                                            ; SOURCE LINE # 127
-00B2         ?C0028:
+0082 E500        E     MOV     A,tmr3_ov
+0084 701B              JNZ     ?C0029
                                            ; SOURCE LINE # 129
-00B2         ?C0026:
                                            ; SOURCE LINE # 131
-00B2 90E0C8            MOV     DPTR,#0E0C8H
-00B5 E0                MOVX    A,@DPTR
-00B6 FF                MOV     R7,A
-00B7 EF                MOV     A,R7
-00B8 C4                SWAP    A
-00B9 13                RRC     A
-00BA 13                RRC     A
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 13  
-
-00BB 13                RRC     A
-00BC 5401              ANL     A,#01H
-00BE FF                MOV     R7,A
-00BF EF                MOV     A,R7
-00C0 20E020            JB      ACC.0,?C0032
-00C3 90E0C8            MOV     DPTR,#0E0C8H
-00C6 E0                MOVX    A,@DPTR
-00C7 FF                MOV     R7,A
-00C8 EF                MOV     A,R7
-00C9 C4                SWAP    A
-00CA 13                RRC     A
-00CB 13                RRC     A
-00CC 5403              ANL     A,#03H
-00CE FF                MOV     R7,A
-00CF EF                MOV     A,R7
-00D0 20E010            JB      ACC.0,?C0032
-00D3 E5F9              MOV     A,INT_REG1
-00D5 30E504            JNB     ACC.5,?C0030
-00D8 7F01              MOV     R7,#01H
-00DA 8002              SJMP    ?C0031
-00DC         ?C0030:
-00DC 7F00              MOV     R7,#00H
-00DE         ?C0031:
-00DE EF                MOV     A,R7
-00DF 7002              JNZ     ?C0032
+0086 C3                CLR     C
+0087 E500        E     MOV     A,this_capture+03H
+0089 9500        E     SUBB    A,last_capture+03H
+008B F500        E     MOV     pwm_capture+03H,A
+008D E500        E     MOV     A,this_capture+02H
+008F 9500        E     SUBB    A,last_capture+02H
+0091 F500        E     MOV     pwm_capture+02H,A
+0093 E500        E     MOV     A,this_capture+01H
+0095 9500        E     SUBB    A,last_capture+01H
+0097 F500        E     MOV     pwm_capture+01H,A
+0099 E500        E     MOV     A,this_capture
+009B 9500        E     SUBB    A,last_capture
+009D F500        E     MOV     pwm_capture,A
                                            ; SOURCE LINE # 133
-00E1 C28B              CLR     IE1
-00E3         ?C0029:
-                                           ; SOURCE LINE # 134
-00E3         ?C0032:
-00E3 D007              POP     AR7
-00E5 D006              POP     AR6
-00E7 D005              POP     AR5
-00E9 D004              POP     AR4
-00EB D003              POP     AR3
-00ED D002              POP     AR2
-00EF D001              POP     AR1
-00F1 D000              POP     AR0
-00F3 D0D0              POP     PSW
-00F5 D082              POP     DPL
-00F7 D083              POP     DPH
-00F9 D0E0              POP     ACC
-00FB 32                RETI    
+009F 803C              SJMP    ?C0030
+00A1         ?C0029:
+                                           ; SOURCE LINE # 135
+                                           ; SOURCE LINE # 136
+00A1 AF00        E     MOV     R7,tmr3_ov
+00A3 E4                CLR     A
+00A4 FC                MOV     R4,A
+00A5 FD                MOV     R5,A
+00A6 FE                MOV     R6,A
+00A7 7810              MOV     R0,#010H
+00A9 120000      E     LCALL   ?C?LSHL
+00AC 8F00        E     MOV     pwm_capture+03H,R7
+00AE 8E00        E     MOV     pwm_capture+02H,R6
+00B0 8D00        E     MOV     pwm_capture+01H,R5
+00B2 8C00        E     MOV     pwm_capture,R4
+                                           ; SOURCE LINE # 138
+00B4 E500        E     MOV     A,pwm_capture+03H
+00B6 2500        E     ADD     A,this_capture+03H
+00B8 FF                MOV     R7,A
+00B9 E500        E     MOV     A,pwm_capture+02H
+00BB 3500        E     ADDC    A,this_capture+02H
+00BD FE                MOV     R6,A
+00BE E500        E     MOV     A,pwm_capture+01H
+00C0 3500        E     ADDC    A,this_capture+01H
+00C2 FD                MOV     R5,A
+00C3 E500        E     MOV     A,pwm_capture
+00C5 3500        E     ADDC    A,this_capture
+00C7 FC                MOV     R4,A
+00C8 C3                CLR     C
+00C9 EF                MOV     A,R7
+00CA 9500        E     SUBB    A,last_capture+03H
+00CC F500        E     MOV     pwm_capture+03H,A
+00CE EE                MOV     A,R6
+00CF 9500        E     SUBB    A,last_capture+02H
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 13  
+
+00D1 F500        E     MOV     pwm_capture+02H,A
+00D3 ED                MOV     A,R5
+00D4 9500        E     SUBB    A,last_capture+01H
+00D6 F500        E     MOV     pwm_capture+01H,A
+00D8 EC                MOV     A,R4
+00D9 9500        E     SUBB    A,last_capture
+00DB F500        E     MOV     pwm_capture,A
+                                           ; SOURCE LINE # 142
+00DD         ?C0030:
+                                           ; SOURCE LINE # 144
+00DD 90E08A            MOV     DPTR,#0E08AH
+00E0 E0                MOVX    A,@DPTR
+00E1 FF                MOV     R7,A
+00E2 EF                MOV     A,R7
+00E3 4401              ORL     A,#01H
+00E5 FF                MOV     R7,A
+00E6 EF                MOV     A,R7
+00E7 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 147
+00E8         ?C0028:
+                                           ; SOURCE LINE # 148
+00E8 90E0C8            MOV     DPTR,#0E0C8H
+00EB E0                MOVX    A,@DPTR
+00EC FF                MOV     R7,A
+00ED EF                MOV     A,R7
+00EE 54BF              ANL     A,#0BFH
+00F0 FF                MOV     R7,A
+00F1 EF                MOV     A,R7
+00F2 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 149
+00F3         ?C0026:
+                                           ; SOURCE LINE # 151
+00F3 90E0C8            MOV     DPTR,#0E0C8H
+00F6 E0                MOVX    A,@DPTR
+00F7 FF                MOV     R7,A
+00F8 EF                MOV     A,R7
+00F9 C4                SWAP    A
+00FA 13                RRC     A
+00FB 13                RRC     A
+00FC 13                RRC     A
+00FD 5401              ANL     A,#01H
+00FF FF                MOV     R7,A
+0100 EF                MOV     A,R7
+0101 20E020            JB      ACC.0,?C0034
+0104 90E0C8            MOV     DPTR,#0E0C8H
+0107 E0                MOVX    A,@DPTR
+0108 FF                MOV     R7,A
+0109 EF                MOV     A,R7
+010A C4                SWAP    A
+010B 13                RRC     A
+010C 13                RRC     A
+010D 5403              ANL     A,#03H
+010F FF                MOV     R7,A
+0110 EF                MOV     A,R7
+0111 20E010            JB      ACC.0,?C0034
+0114 E5F9              MOV     A,INT_REG1
+0116 30E504            JNB     ACC.5,?C0032
+0119 7F01              MOV     R7,#01H
+011B 8002              SJMP    ?C0033
+011D         ?C0032:
+011D 7F00              MOV     R7,#00H
+011F         ?C0033:
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 14  
+
+011F EF                MOV     A,R7
+0120 7002              JNZ     ?C0034
+                                           ; SOURCE LINE # 153
+0122 C28B              CLR     IE1
+0124         ?C0031:
+                                           ; SOURCE LINE # 154
+0124         ?C0034:
+0124 D007              POP     AR7
+0126 D006              POP     AR6
+0128 D005              POP     AR5
+012A D004              POP     AR4
+012C D000              POP     AR0
+012E D0D0              POP     PSW
+0130 D082              POP     DPL
+0132 D083              POP     DPH
+0134 D0E0              POP     ACC
+0136 32                RETI    
              ; FUNCTION TIMER3Interrupt (END)
 
              ; FUNCTION TIMER4Interrupt (BEGIN)
@@ -800,8 +858,8 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0006 C0D0              PUSH    PSW
 0008 75D000            MOV     PSW,#00H
 000B C007              PUSH    AR7
-                                           ; SOURCE LINE # 136
-                                           ; SOURCE LINE # 141
+                                           ; SOURCE LINE # 156
+                                           ; SOURCE LINE # 161
 000D 90E0CE            MOV     DPTR,#0E0CEH
 0010 E0                MOVX    A,@DPTR
 0011 FF                MOV     R7,A
@@ -810,63 +868,63 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0015 FF                MOV     R7,A
 0016 EF                MOV     A,R7
 0017 F0                MOVX    @DPTR,A
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 14  
-
-                                           ; SOURCE LINE # 143
+                                           ; SOURCE LINE # 163
 0018 53FEF0            ANL     INT_REG4,#0F0H
-                                           ; SOURCE LINE # 146
+                                           ; SOURCE LINE # 166
 001B B2A6              CPL     P26
-                                           ; SOURCE LINE # 148
+                                           ; SOURCE LINE # 168
 001D E5FE              MOV     A,INT_REG4
-001F 30E004            JNB     ACC.0,?C0034
+001F 30E004            JNB     ACC.0,?C0036
 0022 7F01              MOV     R7,#01H
-0024 8002              SJMP    ?C0035
-0026         ?C0034:
+0024 8002              SJMP    ?C0037
+0026         ?C0036:
 0026 7F00              MOV     R7,#00H
-0028         ?C0035:
+0028         ?C0037:
 0028 EF                MOV     A,R7
-0029 703A              JNZ     ?C0044
+0029 703A              JNZ     ?C0046
 002B E5FE              MOV     A,INT_REG4
-002D 30E104            JNB     ACC.1,?C0036
+002D 30E104            JNB     ACC.1,?C0038
 0030 7F01              MOV     R7,#01H
-0032 8002              SJMP    ?C0037
-0034         ?C0036:
+0032 8002              SJMP    ?C0039
+0034         ?C0038:
 0034 7F00              MOV     R7,#00H
-0036         ?C0037:
+0036         ?C0039:
 0036 EF                MOV     A,R7
-0037 702C              JNZ     ?C0044
+0037 702C              JNZ     ?C0046
 0039 E5FE              MOV     A,INT_REG4
-003B 30E204            JNB     ACC.2,?C0038
+003B 30E204            JNB     ACC.2,?C0040
 003E 7F01              MOV     R7,#01H
-0040 8002              SJMP    ?C0039
-0042         ?C0038:
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 15  
+
+0040 8002              SJMP    ?C0041
+0042         ?C0040:
 0042 7F00              MOV     R7,#00H
-0044         ?C0039:
+0044         ?C0041:
 0044 EF                MOV     A,R7
-0045 701E              JNZ     ?C0044
+0045 701E              JNZ     ?C0046
 0047 E5FE              MOV     A,INT_REG4
-0049 30E304            JNB     ACC.3,?C0040
+0049 30E304            JNB     ACC.3,?C0042
 004C 7F01              MOV     R7,#01H
-004E 8002              SJMP    ?C0041
-0050         ?C0040:
+004E 8002              SJMP    ?C0043
+0050         ?C0042:
 0050 7F00              MOV     R7,#00H
-0052         ?C0041:
+0052         ?C0043:
 0052 EF                MOV     A,R7
-0053 7010              JNZ     ?C0044
+0053 7010              JNZ     ?C0046
 0055 E593              MOV     A,BPCTRL
-0057 30E704            JNB     ACC.7,?C0042
+0057 30E704            JNB     ACC.7,?C0044
 005A 7F01              MOV     R7,#01H
-005C 8002              SJMP    ?C0043
-005E         ?C0042:
+005C 8002              SJMP    ?C0045
+005E         ?C0044:
 005E 7F00              MOV     R7,#00H
-0060         ?C0043:
+0060         ?C0045:
 0060 EF                MOV     A,R7
-0061 7002              JNZ     ?C0044
-                                           ; SOURCE LINE # 149
+0061 7002              JNZ     ?C0046
+                                           ; SOURCE LINE # 169
 0063 C2C5              CLR     IEX6
-0065         ?C0033:
-                                           ; SOURCE LINE # 153
-0065         ?C0044:
+0065         ?C0035:
+                                           ; SOURCE LINE # 173
+0065         ?C0046:
 0065 D007              POP     AR7
 0067 D0D0              POP     PSW
 0069 D082              POP     DPL
@@ -874,8 +932,6 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 006D D0E0              POP     ACC
 006F 32                RETI    
              ; FUNCTION TIMER4Interrupt (END)
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 15  
-
 
              ; FUNCTION TIMER5Interrupt (BEGIN)
 0000 C0E0              PUSH    ACC
@@ -885,8 +941,8 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0008 75D000            MOV     PSW,#00H
 000B C006              PUSH    AR6
 000D C007              PUSH    AR7
-                                           ; SOURCE LINE # 155
-                                           ; SOURCE LINE # 158
+                                           ; SOURCE LINE # 175
+                                           ; SOURCE LINE # 178
 000F 90E0F3            MOV     DPTR,#0E0F3H
 0012 E0                MOVX    A,@DPTR
 0013 FF                MOV     R7,A
@@ -895,18 +951,20 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0017 FF                MOV     R7,A
 0018 EF                MOV     A,R7
 0019 F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 159
+                                           ; SOURCE LINE # 179
 001A 90E0F3            MOV     DPTR,#0E0F3H
 001D E0                MOVX    A,@DPTR
 001E FF                MOV     R7,A
 001F EF                MOV     A,R7
 0020 54BF              ANL     A,#0BFH
 0022 FF                MOV     R7,A
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 16  
+
 0023 EF                MOV     A,R7
 0024 F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 162
+                                           ; SOURCE LINE # 182
 0025 B2A6              CPL     P26
-                                           ; SOURCE LINE # 163
+                                           ; SOURCE LINE # 183
 0027 90E0F3            MOV     DPTR,#0E0F3H
 002A E0                MOVX    A,@DPTR
 002B FF                MOV     R7,A
@@ -917,12 +975,12 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0030 5403              ANL     A,#03H
 0032 FF                MOV     R7,A
 0033 EF                MOV     A,R7
-0034 30E004            JNB     ACC.0,?C0046
+0034 30E004            JNB     ACC.0,?C0048
 0037 7F01              MOV     R7,#01H
-0039 8002              SJMP    ?C0047
-003B         ?C0046:
+0039 8002              SJMP    ?C0049
+003B         ?C0048:
 003B 7F00              MOV     R7,#00H
-003D         ?C0047:
+003D         ?C0049:
 003D 90E0F3            MOV     DPTR,#0E0F3H
 0040 E0                MOVX    A,@DPTR
 0041 FE                MOV     R6,A
@@ -934,38 +992,38 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0047 5401              ANL     A,#01H
 0049 FE                MOV     R6,A
 004A EE                MOV     A,R6
-004B 30E004            JNB     ACC.0,?C0048
+004B 30E004            JNB     ACC.0,?C0050
 004E 7E01              MOV     R6,#01H
-0050 8002              SJMP    ?C0049
-0052         ?C0048:
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 16  
-
+0050 8002              SJMP    ?C0051
+0052         ?C0050:
 0052 7E00              MOV     R6,#00H
-0054         ?C0049:
+0054         ?C0051:
 0054 EE                MOV     A,R6
 0055 4F                ORL     A,R7
 0056 FF                MOV     R7,A
 0057 EF                MOV     A,R7
-0058 7010              JNZ     ?C0052
+0058 7010              JNZ     ?C0054
 005A E5FA              MOV     A,INT_REG2
-005C 30E304            JNB     ACC.3,?C0050
+005C 30E304            JNB     ACC.3,?C0052
 005F 7F01              MOV     R7,#01H
-0061 8002              SJMP    ?C0051
-0063         ?C0050:
+0061 8002              SJMP    ?C0053
+0063         ?C0052:
 0063 7F00              MOV     R7,#00H
-0065         ?C0051:
+0065         ?C0053:
 0065 EF                MOV     A,R7
-0066 7002              JNZ     ?C0052
-                                           ; SOURCE LINE # 164
+0066 7002              JNZ     ?C0054
+                                           ; SOURCE LINE # 184
 0068 C2C2              CLR     IEX3
-006A         ?C0045:
-                                           ; SOURCE LINE # 167
-006A         ?C0052:
+006A         ?C0047:
+                                           ; SOURCE LINE # 187
+006A         ?C0054:
 006A D007              POP     AR7
 006C D006              POP     AR6
 006E D0D0              POP     PSW
 0070 D082              POP     DPL
 0072 D083              POP     DPH
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 17  
+
 0074 D0E0              POP     ACC
 0076 32                RETI    
              ; FUNCTION TIMER5Interrupt (END)
@@ -978,8 +1036,8 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0008 75D000            MOV     PSW,#00H
 000B C006              PUSH    AR6
 000D C007              PUSH    AR7
-                                           ; SOURCE LINE # 168
-                                           ; SOURCE LINE # 171
+                                           ; SOURCE LINE # 188
+                                           ; SOURCE LINE # 191
 000F 90E0F9            MOV     DPTR,#0E0F9H
 0012 E0                MOVX    A,@DPTR
 0013 FF                MOV     R7,A
@@ -988,7 +1046,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0017 FF                MOV     R7,A
 0018 EF                MOV     A,R7
 0019 F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 172
+                                           ; SOURCE LINE # 192
 001A 90E0F9            MOV     DPTR,#0E0F9H
 001D E0                MOVX    A,@DPTR
 001E FF                MOV     R7,A
@@ -997,39 +1055,39 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0022 FF                MOV     R7,A
 0023 EF                MOV     A,R7
 0024 F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 174
+                                           ; SOURCE LINE # 194
 0025 E5FD              MOV     A,INT_REG3
-0027 30E304            JNB     ACC.3,?C0054
+0027 30E304            JNB     ACC.3,?C0056
 002A 7F01              MOV     R7,#01H
-002C 8002              SJMP    ?C0055
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 17  
-
-002E         ?C0054:
+002C 8002              SJMP    ?C0057
+002E         ?C0056:
 002E 7F00              MOV     R7,#00H
-0030         ?C0055:
+0030         ?C0057:
 0030 EF                MOV     A,R7
-0031 7051              JNZ     ?C0053
+0031 7051              JNZ     ?C0055
 0033 E5FD              MOV     A,INT_REG3
-0035 30E404            JNB     ACC.4,?C0056
+0035 30E404            JNB     ACC.4,?C0058
 0038 7F01              MOV     R7,#01H
-003A 8002              SJMP    ?C0057
-003C         ?C0056:
+003A 8002              SJMP    ?C0059
+003C         ?C0058:
 003C 7F00              MOV     R7,#00H
-003E         ?C0057:
+003E         ?C0059:
 003E EF                MOV     A,R7
-003F 7043              JNZ     ?C0053
+003F 7043              JNZ     ?C0055
 0041 E5FD              MOV     A,INT_REG3
-0043 30E504            JNB     ACC.5,?C0058
+0043 30E504            JNB     ACC.5,?C0060
 0046 7F01              MOV     R7,#01H
-0048 8002              SJMP    ?C0059
-004A         ?C0058:
+0048 8002              SJMP    ?C0061
+004A         ?C0060:
 004A 7F00              MOV     R7,#00H
-004C         ?C0059:
+004C         ?C0061:
 004C EF                MOV     A,R7
-004D 7035              JNZ     ?C0053
+004D 7035              JNZ     ?C0055
 004F 90E0F9            MOV     DPTR,#0E0F9H
 0052 E0                MOVX    A,@DPTR
 0053 FF                MOV     R7,A
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 18  
+
 0054 EF                MOV     A,R7
 0055 C4                SWAP    A
 0056 13                RRC     A
@@ -1037,12 +1095,12 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0058 5403              ANL     A,#03H
 005A FF                MOV     R7,A
 005B EF                MOV     A,R7
-005C 30E004            JNB     ACC.0,?C0060
+005C 30E004            JNB     ACC.0,?C0062
 005F 7F01              MOV     R7,#01H
-0061 8002              SJMP    ?C0061
-0063         ?C0060:
+0061 8002              SJMP    ?C0063
+0063         ?C0062:
 0063 7F00              MOV     R7,#00H
-0065         ?C0061:
+0065         ?C0063:
 0065 90E0F9            MOV     DPTR,#0E0F9H
 0068 E0                MOVX    A,@DPTR
 0069 FE                MOV     R6,A
@@ -1054,26 +1112,24 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 006F 5401              ANL     A,#01H
 0071 FE                MOV     R6,A
 0072 EE                MOV     A,R6
-0073 30E004            JNB     ACC.0,?C0062
+0073 30E004            JNB     ACC.0,?C0064
 0076 7E01              MOV     R6,#01H
-0078 8002              SJMP    ?C0063
-007A         ?C0062:
+0078 8002              SJMP    ?C0065
+007A         ?C0064:
 007A 7E00              MOV     R6,#00H
-007C         ?C0063:
+007C         ?C0065:
 007C EE                MOV     A,R6
 007D 4F                ORL     A,R7
 007E FF                MOV     R7,A
 007F EF                MOV     A,R7
-0080 7002              JNZ     ?C0053
-                                           ; SOURCE LINE # 175
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 18  
-
+0080 7002              JNZ     ?C0055
+                                           ; SOURCE LINE # 195
 0082 C2C4              CLR     IEX5
-0084         ?C0053:
-                                           ; SOURCE LINE # 176
+0084         ?C0055:
+                                           ; SOURCE LINE # 196
 0084 B2A6              CPL     P26
-                                           ; SOURCE LINE # 178
-0086         ?C0064:
+                                           ; SOURCE LINE # 198
+0086         ?C0066:
 0086 D007              POP     AR7
 0088 D006              POP     AR6
 008A D0D0              POP     PSW
@@ -1088,87 +1144,89 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0002 C0D0              PUSH    PSW
 0004 75D000            MOV     PSW,#00H
 0007 C007              PUSH    AR7
-                                           ; SOURCE LINE # 185
-                                           ; SOURCE LINE # 187
-0009 E5FA              MOV     A,INT_REG2
-000B 30E004            JNB     ACC.0,?C0066
-000E 7F01              MOV     R7,#01H
-0010 8002              SJMP    ?C0067
-0012         ?C0066:
-0012 7F00              MOV     R7,#00H
-0014         ?C0067:
-0014 EF                MOV     A,R7
-0015 B40103            CJNE    A,#01H,?C0065
-                                           ; SOURCE LINE # 188
-                                           ; SOURCE LINE # 192
-0018 53FAFE            ANL     INT_REG2,#0FEH
-                                           ; SOURCE LINE # 193
-001B         ?C0065:
-                                           ; SOURCE LINE # 196
-001B E5FA              MOV     A,INT_REG2
-001D 30E104            JNB     ACC.1,?C0069
-0020 7F01              MOV     R7,#01H
-0022 8002              SJMP    ?C0070
-0024         ?C0069:
-0024 7F00              MOV     R7,#00H
-0026         ?C0070:
-0026 EF                MOV     A,R7
-0027 B40103            CJNE    A,#01H,?C0068
-                                           ; SOURCE LINE # 197
-                                           ; SOURCE LINE # 203
-002A 53FAFC            ANL     INT_REG2,#0FCH
-                                           ; SOURCE LINE # 204
-002D         ?C0068:
+                                           ; SOURCE LINE # 205
                                            ; SOURCE LINE # 207
-002D E5FA              MOV     A,INT_REG2
-002F 30E204            JNB     ACC.2,?C0072
-0032 7F01              MOV     R7,#01H
-0034 8002              SJMP    ?C0073
-0036         ?C0072:
-0036 7F00              MOV     R7,#00H
-0038         ?C0073:
-0038 EF                MOV     A,R7
-0039 B40103            CJNE    A,#01H,?C0071
-                                           ; SOURCE LINE # 208
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 19  
+0009 E5FA              MOV     A,INT_REG2
+000B 30E004            JNB     ACC.0,?C0068
+000E 7F01              MOV     R7,#01H
+0010 8002              SJMP    ?C0069
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 19  
 
-                                           ; SOURCE LINE # 210
-003C 53FAF8            ANL     INT_REG2,#0F8H
-                                           ; SOURCE LINE # 211
-003F         ?C0071:
+0012         ?C0068:
+0012 7F00              MOV     R7,#00H
+0014         ?C0069:
+0014 EF                MOV     A,R7
+0015 B40103            CJNE    A,#01H,?C0067
+                                           ; SOURCE LINE # 208
+                                           ; SOURCE LINE # 212
+0018 53FAFE            ANL     INT_REG2,#0FEH
                                            ; SOURCE LINE # 213
-003F E5FA              MOV     A,INT_REG2
-0041 30E004            JNB     ACC.0,?C0075
-0044 7F01              MOV     R7,#01H
-0046 8002              SJMP    ?C0076
-0048         ?C0075:
-0048 7F00              MOV     R7,#00H
-004A         ?C0076:
-004A EF                MOV     A,R7
-004B 701E              JNZ     ?C0081
-004D E5FA              MOV     A,INT_REG2
-004F 30E104            JNB     ACC.1,?C0077
-0052 7F01              MOV     R7,#01H
-0054 8002              SJMP    ?C0078
-0056         ?C0077:
-0056 7F00              MOV     R7,#00H
-0058         ?C0078:
-0058 EF                MOV     A,R7
-0059 7010              JNZ     ?C0081
-005B E5FA              MOV     A,INT_REG2
-005D 30E204            JNB     ACC.2,?C0079
-0060 7F01              MOV     R7,#01H
-0062 8002              SJMP    ?C0080
-0064         ?C0079:
-0064 7F00              MOV     R7,#00H
-0066         ?C0080:
-0066 EF                MOV     A,R7
-0067 7002              JNZ     ?C0081
-                                           ; SOURCE LINE # 214
-0069 C2C1              CLR     IEX2
-006B         ?C0074:
+001B         ?C0067:
                                            ; SOURCE LINE # 216
-006B         ?C0081:
+001B E5FA              MOV     A,INT_REG2
+001D 30E104            JNB     ACC.1,?C0071
+0020 7F01              MOV     R7,#01H
+0022 8002              SJMP    ?C0072
+0024         ?C0071:
+0024 7F00              MOV     R7,#00H
+0026         ?C0072:
+0026 EF                MOV     A,R7
+0027 B40103            CJNE    A,#01H,?C0070
+                                           ; SOURCE LINE # 217
+                                           ; SOURCE LINE # 223
+002A 53FAFC            ANL     INT_REG2,#0FCH
+                                           ; SOURCE LINE # 224
+002D         ?C0070:
+                                           ; SOURCE LINE # 227
+002D E5FA              MOV     A,INT_REG2
+002F 30E204            JNB     ACC.2,?C0074
+0032 7F01              MOV     R7,#01H
+0034 8002              SJMP    ?C0075
+0036         ?C0074:
+0036 7F00              MOV     R7,#00H
+0038         ?C0075:
+0038 EF                MOV     A,R7
+0039 B40103            CJNE    A,#01H,?C0073
+                                           ; SOURCE LINE # 228
+                                           ; SOURCE LINE # 230
+003C 53FAF8            ANL     INT_REG2,#0F8H
+                                           ; SOURCE LINE # 231
+003F         ?C0073:
+                                           ; SOURCE LINE # 233
+003F E5FA              MOV     A,INT_REG2
+0041 30E004            JNB     ACC.0,?C0077
+0044 7F01              MOV     R7,#01H
+0046 8002              SJMP    ?C0078
+0048         ?C0077:
+0048 7F00              MOV     R7,#00H
+004A         ?C0078:
+004A EF                MOV     A,R7
+004B 701E              JNZ     ?C0083
+004D E5FA              MOV     A,INT_REG2
+004F 30E104            JNB     ACC.1,?C0079
+0052 7F01              MOV     R7,#01H
+0054 8002              SJMP    ?C0080
+0056         ?C0079:
+0056 7F00              MOV     R7,#00H
+0058         ?C0080:
+0058 EF                MOV     A,R7
+0059 7010              JNZ     ?C0083
+005B E5FA              MOV     A,INT_REG2
+005D 30E204            JNB     ACC.2,?C0081
+0060 7F01              MOV     R7,#01H
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 20  
+
+0062 8002              SJMP    ?C0082
+0064         ?C0081:
+0064 7F00              MOV     R7,#00H
+0066         ?C0082:
+0066 EF                MOV     A,R7
+0067 7002              JNZ     ?C0083
+                                           ; SOURCE LINE # 234
+0069 C2C1              CLR     IEX2
+006B         ?C0076:
+                                           ; SOURCE LINE # 236
+006B         ?C0083:
 006B D007              POP     AR7
 006D D0D0              POP     PSW
 006F D0E0              POP     ACC
@@ -1183,10 +1241,10 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0008 75D000            MOV     PSW,#00H
 000B C006              PUSH    AR6
 000D C007              PUSH    AR7
-                                           ; SOURCE LINE # 219
-                                           ; SOURCE LINE # 223
+                                           ; SOURCE LINE # 239
+                                           ; SOURCE LINE # 243
 000F 53FAF0            ANL     INT_REG2,#0F0H
-                                           ; SOURCE LINE # 224
+                                           ; SOURCE LINE # 244
 0012 90E0F3            MOV     DPTR,#0E0F3H
 0015 E0                MOVX    A,@DPTR
 0016 FF                MOV     R7,A
@@ -1194,17 +1252,15 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0018 C4                SWAP    A
 0019 13                RRC     A
 001A 13                RRC     A
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 20  
-
 001B 5403              ANL     A,#03H
 001D FF                MOV     R7,A
 001E EF                MOV     A,R7
-001F 30E004            JNB     ACC.0,?C0083
+001F 30E004            JNB     ACC.0,?C0085
 0022 7F01              MOV     R7,#01H
-0024 8002              SJMP    ?C0084
-0026         ?C0083:
+0024 8002              SJMP    ?C0086
+0026         ?C0085:
 0026 7F00              MOV     R7,#00H
-0028         ?C0084:
+0028         ?C0086:
 0028 90E0F3            MOV     DPTR,#0E0F3H
 002B E0                MOVX    A,@DPTR
 002C FE                MOV     R6,A
@@ -1216,31 +1272,33 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0032 5401              ANL     A,#01H
 0034 FE                MOV     R6,A
 0035 EE                MOV     A,R6
-0036 30E004            JNB     ACC.0,?C0085
+0036 30E004            JNB     ACC.0,?C0087
 0039 7E01              MOV     R6,#01H
-003B 8002              SJMP    ?C0086
-003D         ?C0085:
+003B 8002              SJMP    ?C0088
+003D         ?C0087:
 003D 7E00              MOV     R6,#00H
-003F         ?C0086:
+003F         ?C0088:
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 21  
+
 003F EE                MOV     A,R6
 0040 4F                ORL     A,R7
 0041 FF                MOV     R7,A
 0042 EF                MOV     A,R7
-0043 7010              JNZ     ?C0089
+0043 7010              JNZ     ?C0091
 0045 E5FA              MOV     A,INT_REG2
-0047 30E304            JNB     ACC.3,?C0087
+0047 30E304            JNB     ACC.3,?C0089
 004A 7F01              MOV     R7,#01H
-004C 8002              SJMP    ?C0088
-004E         ?C0087:
+004C 8002              SJMP    ?C0090
+004E         ?C0089:
 004E 7F00              MOV     R7,#00H
-0050         ?C0088:
+0050         ?C0090:
 0050 EF                MOV     A,R7
-0051 7002              JNZ     ?C0089
-                                           ; SOURCE LINE # 225
+0051 7002              JNZ     ?C0091
+                                           ; SOURCE LINE # 245
 0053 C2C2              CLR     IEX3
-0055         ?C0082:
-                                           ; SOURCE LINE # 227
-0055         ?C0089:
+0055         ?C0084:
+                                           ; SOURCE LINE # 247
+0055         ?C0091:
 0055 D007              POP     AR7
 0057 D006              POP     AR6
 0059 D0D0              POP     PSW
@@ -1257,10 +1315,8 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0006 C0D0              PUSH    PSW
 0008 75D000            MOV     PSW,#00H
 000B C007              PUSH    AR7
-                                           ; SOURCE LINE # 235
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 21  
-
-                                           ; SOURCE LINE # 241
+                                           ; SOURCE LINE # 255
+                                           ; SOURCE LINE # 261
 000D 90E0C7            MOV     DPTR,#0E0C7H
 0010 E0                MOVX    A,@DPTR
 0011 FF                MOV     R7,A
@@ -1269,30 +1325,32 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0015 FF                MOV     R7,A
 0016 EF                MOV     A,R7
 0017 F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 243
+                                           ; SOURCE LINE # 263
 0018 E5F9              MOV     A,INT_REG1
-001A 30E404            JNB     ACC.4,?C0091
+001A 30E404            JNB     ACC.4,?C0093
 001D 7F01              MOV     R7,#01H
-001F 8002              SJMP    ?C0092
-0021         ?C0091:
+001F 8002              SJMP    ?C0094
+0021         ?C0093:
 0021 7F00              MOV     R7,#00H
-0023         ?C0092:
+0023         ?C0094:
 0023 EF                MOV     A,R7
-0024 7010              JNZ     ?C0095
+0024 7010              JNZ     ?C0097
 0026 E5F9              MOV     A,INT_REG1
-0028 30E504            JNB     ACC.5,?C0093
+0028 30E504            JNB     ACC.5,?C0095
 002B 7F01              MOV     R7,#01H
-002D 8002              SJMP    ?C0094
-002F         ?C0093:
+002D 8002              SJMP    ?C0096
+002F         ?C0095:
 002F 7F00              MOV     R7,#00H
-0031         ?C0094:
+0031         ?C0096:
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 22  
+
 0031 EF                MOV     A,R7
-0032 7002              JNZ     ?C0095
-                                           ; SOURCE LINE # 244
+0032 7002              JNZ     ?C0097
+                                           ; SOURCE LINE # 264
 0034 C28B              CLR     IE1
-0036         ?C0090:
-                                           ; SOURCE LINE # 245
-0036         ?C0095:
+0036         ?C0092:
+                                           ; SOURCE LINE # 265
+0036         ?C0097:
 0036 D007              POP     AR7
 0038 D0D0              POP     PSW
 003A D082              POP     DPL
@@ -1308,8 +1366,8 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0006 C0D0              PUSH    PSW
 0008 75D000            MOV     PSW,#00H
 000B C007              PUSH    AR7
-                                           ; SOURCE LINE # 248
-                                           ; SOURCE LINE # 253
+                                           ; SOURCE LINE # 268
+                                           ; SOURCE LINE # 273
 000D 90E0C7            MOV     DPTR,#0E0C7H
 0010 E0                MOVX    A,@DPTR
 0011 FF                MOV     R7,A
@@ -1318,12 +1376,10 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0014 13                RRC     A
 0015 FF                MOV     R7,A
 0016 EF                MOV     A,R7
-0017 30E00B            JNB     ACC.0,?C0096
-                                           ; SOURCE LINE # 255
-                                           ; SOURCE LINE # 259
+0017 30E00B            JNB     ACC.0,?C0098
+                                           ; SOURCE LINE # 275
+                                           ; SOURCE LINE # 279
 001A 90E0C7            MOV     DPTR,#0E0C7H
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 22  
-
 001D E0                MOVX    A,@DPTR
 001E FF                MOV     R7,A
 001F EF                MOV     A,R7
@@ -1331,9 +1387,9 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0022 FF                MOV     R7,A
 0023 EF                MOV     A,R7
 0024 F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 265
-0025         ?C0096:
-                                           ; SOURCE LINE # 267
+                                           ; SOURCE LINE # 285
+0025         ?C0098:
+                                           ; SOURCE LINE # 287
 0025 90E0C7            MOV     DPTR,#0E0C7H
 0028 E0                MOVX    A,@DPTR
 0029 FF                MOV     R7,A
@@ -1343,20 +1399,22 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 002D 543F              ANL     A,#03FH
 002F FF                MOV     R7,A
 0030 EF                MOV     A,R7
-0031 30E00B            JNB     ACC.0,?C0097
-                                           ; SOURCE LINE # 269
-                                           ; SOURCE LINE # 271
+0031 30E00B            JNB     ACC.0,?C0099
+                                           ; SOURCE LINE # 289
+                                           ; SOURCE LINE # 291
 0034 90E0C7            MOV     DPTR,#0E0C7H
 0037 E0                MOVX    A,@DPTR
 0038 FF                MOV     R7,A
 0039 EF                MOV     A,R7
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 23  
+
 003A 54FB              ANL     A,#0FBH
 003C FF                MOV     R7,A
 003D EF                MOV     A,R7
 003E F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 273
-003F         ?C0097:
-                                           ; SOURCE LINE # 275
+                                           ; SOURCE LINE # 293
+003F         ?C0099:
+                                           ; SOURCE LINE # 295
 003F 90E0C7            MOV     DPTR,#0E0C7H
 0042 E0                MOVX    A,@DPTR
 0043 FF                MOV     R7,A
@@ -1367,9 +1425,9 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0048 541F              ANL     A,#01FH
 004A FF                MOV     R7,A
 004B EF                MOV     A,R7
-004C 30E00B            JNB     ACC.0,?C0098
-                                           ; SOURCE LINE # 277
-                                           ; SOURCE LINE # 279
+004C 30E00B            JNB     ACC.0,?C0100
+                                           ; SOURCE LINE # 297
+                                           ; SOURCE LINE # 299
 004F 90E0C7            MOV     DPTR,#0E0C7H
 0052 E0                MOVX    A,@DPTR
 0053 FF                MOV     R7,A
@@ -1378,20 +1436,18 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0057 FF                MOV     R7,A
 0058 EF                MOV     A,R7
 0059 F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 282
-005A         ?C0098:
-                                           ; SOURCE LINE # 284
+                                           ; SOURCE LINE # 302
+005A         ?C0100:
+                                           ; SOURCE LINE # 304
 005A 90E0C7            MOV     DPTR,#0E0C7H
 005D E0                MOVX    A,@DPTR
 005E FF                MOV     R7,A
 005F EF                MOV     A,R7
 0060 C3                CLR     C
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 23  
-
 0061 13                RRC     A
 0062 FF                MOV     R7,A
 0063 EF                MOV     A,R7
-0064 20E021            JB      ACC.0,?C0100
+0064 20E021            JB      ACC.0,?C0102
 0067 90E0C7            MOV     DPTR,#0E0C7H
 006A E0                MOVX    A,@DPTR
 006B FF                MOV     R7,A
@@ -1401,7 +1457,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 006F 543F              ANL     A,#03FH
 0071 FF                MOV     R7,A
 0072 EF                MOV     A,R7
-0073 20E012            JB      ACC.0,?C0100
+0073 20E012            JB      ACC.0,?C0102
 0076 90E0C7            MOV     DPTR,#0E0C7H
 0079 E0                MOVX    A,@DPTR
 007A FF                MOV     R7,A
@@ -1412,12 +1468,14 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 007F 541F              ANL     A,#01FH
 0081 FF                MOV     R7,A
 0082 EF                MOV     A,R7
-0083 20E002            JB      ACC.0,?C0100
-                                           ; SOURCE LINE # 285
+0083 20E002            JB      ACC.0,?C0102
+                                           ; SOURCE LINE # 305
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 24  
+
 0086 C2C3              CLR     IEX4
-0088         ?C0099:
-                                           ; SOURCE LINE # 287
-0088         ?C0100:
+0088         ?C0101:
+                                           ; SOURCE LINE # 307
+0088         ?C0102:
 0088 D007              POP     AR7
 008A D0D0              POP     PSW
 008C D082              POP     DPL
@@ -1434,37 +1492,35 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0008 75D000            MOV     PSW,#00H
 000B C006              PUSH    AR6
 000D C007              PUSH    AR7
-                                           ; SOURCE LINE # 293
-                                           ; SOURCE LINE # 298
+                                           ; SOURCE LINE # 313
+                                           ; SOURCE LINE # 318
 000F E5FD              MOV     A,INT_REG3
-0011 30E304            JNB     ACC.3,?C0102
+0011 30E304            JNB     ACC.3,?C0104
 0014 7F01              MOV     R7,#01H
-0016 8002              SJMP    ?C0103
-0018         ?C0102:
+0016 8002              SJMP    ?C0105
+0018         ?C0104:
 0018 7F00              MOV     R7,#00H
-001A         ?C0103:
+001A         ?C0105:
 001A EF                MOV     A,R7
-001B 7051              JNZ     ?C0112
+001B 7051              JNZ     ?C0114
 001D E5FD              MOV     A,INT_REG3
-001F 30E404            JNB     ACC.4,?C0104
+001F 30E404            JNB     ACC.4,?C0106
 0022 7F01              MOV     R7,#01H
-0024 8002              SJMP    ?C0105
-0026         ?C0104:
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 24  
-
+0024 8002              SJMP    ?C0107
+0026         ?C0106:
 0026 7F00              MOV     R7,#00H
-0028         ?C0105:
+0028         ?C0107:
 0028 EF                MOV     A,R7
-0029 7043              JNZ     ?C0112
+0029 7043              JNZ     ?C0114
 002B E5FD              MOV     A,INT_REG3
-002D 30E504            JNB     ACC.5,?C0106
+002D 30E504            JNB     ACC.5,?C0108
 0030 7F01              MOV     R7,#01H
-0032 8002              SJMP    ?C0107
-0034         ?C0106:
+0032 8002              SJMP    ?C0109
+0034         ?C0108:
 0034 7F00              MOV     R7,#00H
-0036         ?C0107:
+0036         ?C0109:
 0036 EF                MOV     A,R7
-0037 7035              JNZ     ?C0112
+0037 7035              JNZ     ?C0114
 0039 90E0F9            MOV     DPTR,#0E0F9H
 003C E0                MOVX    A,@DPTR
 003D FF                MOV     R7,A
@@ -1475,12 +1531,14 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0042 5403              ANL     A,#03H
 0044 FF                MOV     R7,A
 0045 EF                MOV     A,R7
-0046 30E004            JNB     ACC.0,?C0108
+0046 30E004            JNB     ACC.0,?C0110
 0049 7F01              MOV     R7,#01H
-004B 8002              SJMP    ?C0109
-004D         ?C0108:
+004B 8002              SJMP    ?C0111
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 25  
+
+004D         ?C0110:
 004D 7F00              MOV     R7,#00H
-004F         ?C0109:
+004F         ?C0111:
 004F 90E0F9            MOV     DPTR,#0E0F9H
 0052 E0                MOVX    A,@DPTR
 0053 FE                MOV     R6,A
@@ -1492,30 +1550,28 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0059 5401              ANL     A,#01H
 005B FE                MOV     R6,A
 005C EE                MOV     A,R6
-005D 30E004            JNB     ACC.0,?C0110
+005D 30E004            JNB     ACC.0,?C0112
 0060 7E01              MOV     R6,#01H
-0062 8002              SJMP    ?C0111
-0064         ?C0110:
+0062 8002              SJMP    ?C0113
+0064         ?C0112:
 0064 7E00              MOV     R6,#00H
-0066         ?C0111:
+0066         ?C0113:
 0066 EE                MOV     A,R6
 0067 4F                ORL     A,R7
 0068 FF                MOV     R7,A
 0069 EF                MOV     A,R7
-006A 7002              JNZ     ?C0112
-                                           ; SOURCE LINE # 299
+006A 7002              JNZ     ?C0114
+                                           ; SOURCE LINE # 319
 006C C2C4              CLR     IEX5
-006E         ?C0101:
-                                           ; SOURCE LINE # 300
-006E         ?C0112:
+006E         ?C0103:
+                                           ; SOURCE LINE # 320
+006E         ?C0114:
 006E D007              POP     AR7
 0070 D006              POP     AR6
 0072 D0D0              POP     PSW
 0074 D082              POP     DPL
 0076 D083              POP     DPH
 0078 D0E0              POP     ACC
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 25  
-
 007A 32                RETI    
              ; FUNCTION I2CInterrupt (END)
 
@@ -1527,35 +1583,37 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0008 75D000            MOV     PSW,#00H
 000B C006              PUSH    AR6
 000D C007              PUSH    AR7
-                                           ; SOURCE LINE # 302
-                                           ; SOURCE LINE # 306
+                                           ; SOURCE LINE # 322
+                                           ; SOURCE LINE # 326
 000F E5FD              MOV     A,INT_REG3
-0011 30E304            JNB     ACC.3,?C0114
+0011 30E304            JNB     ACC.3,?C0116
 0014 7F01              MOV     R7,#01H
-0016 8002              SJMP    ?C0115
-0018         ?C0114:
+0016 8002              SJMP    ?C0117
+0018         ?C0116:
 0018 7F00              MOV     R7,#00H
-001A         ?C0115:
+001A         ?C0117:
 001A EF                MOV     A,R7
-001B 7051              JNZ     ?C0124
+001B 7051              JNZ     ?C0126
 001D E5FD              MOV     A,INT_REG3
-001F 30E404            JNB     ACC.4,?C0116
+001F 30E404            JNB     ACC.4,?C0118
 0022 7F01              MOV     R7,#01H
-0024 8002              SJMP    ?C0117
-0026         ?C0116:
+0024 8002              SJMP    ?C0119
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 26  
+
+0026         ?C0118:
 0026 7F00              MOV     R7,#00H
-0028         ?C0117:
+0028         ?C0119:
 0028 EF                MOV     A,R7
-0029 7043              JNZ     ?C0124
+0029 7043              JNZ     ?C0126
 002B E5FD              MOV     A,INT_REG3
-002D 30E504            JNB     ACC.5,?C0118
+002D 30E504            JNB     ACC.5,?C0120
 0030 7F01              MOV     R7,#01H
-0032 8002              SJMP    ?C0119
-0034         ?C0118:
+0032 8002              SJMP    ?C0121
+0034         ?C0120:
 0034 7F00              MOV     R7,#00H
-0036         ?C0119:
+0036         ?C0121:
 0036 EF                MOV     A,R7
-0037 7035              JNZ     ?C0124
+0037 7035              JNZ     ?C0126
 0039 90E0F9            MOV     DPTR,#0E0F9H
 003C E0                MOVX    A,@DPTR
 003D FF                MOV     R7,A
@@ -1566,46 +1624,46 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0042 5403              ANL     A,#03H
 0044 FF                MOV     R7,A
 0045 EF                MOV     A,R7
-0046 30E004            JNB     ACC.0,?C0120
+0046 30E004            JNB     ACC.0,?C0122
 0049 7F01              MOV     R7,#01H
-004B 8002              SJMP    ?C0121
-004D         ?C0120:
+004B 8002              SJMP    ?C0123
+004D         ?C0122:
 004D 7F00              MOV     R7,#00H
-004F         ?C0121:
+004F         ?C0123:
 004F 90E0F9            MOV     DPTR,#0E0F9H
 0052 E0                MOVX    A,@DPTR
 0053 FE                MOV     R6,A
 0054 EE                MOV     A,R6
 0055 C4                SWAP    A
 0056 13                RRC     A
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 26  
-
 0057 13                RRC     A
 0058 13                RRC     A
 0059 5401              ANL     A,#01H
 005B FE                MOV     R6,A
 005C EE                MOV     A,R6
-005D 30E004            JNB     ACC.0,?C0122
+005D 30E004            JNB     ACC.0,?C0124
 0060 7E01              MOV     R6,#01H
-0062 8002              SJMP    ?C0123
-0064         ?C0122:
+0062 8002              SJMP    ?C0125
+0064         ?C0124:
 0064 7E00              MOV     R6,#00H
-0066         ?C0123:
+0066         ?C0125:
 0066 EE                MOV     A,R6
 0067 4F                ORL     A,R7
 0068 FF                MOV     R7,A
 0069 EF                MOV     A,R7
-006A 7002              JNZ     ?C0124
-                                           ; SOURCE LINE # 307
+006A 7002              JNZ     ?C0126
+                                           ; SOURCE LINE # 327
 006C C2C4              CLR     IEX5
-006E         ?C0113:
-                                           ; SOURCE LINE # 308
-006E         ?C0124:
+006E         ?C0115:
+                                           ; SOURCE LINE # 328
+006E         ?C0126:
 006E D007              POP     AR7
 0070 D006              POP     AR6
 0072 D0D0              POP     PSW
 0074 D082              POP     DPL
 0076 D083              POP     DPH
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 27  
+
 0078 D0E0              POP     ACC
 007A 32                RETI    
              ; FUNCTION SPIInterrupt (END)
@@ -1618,37 +1676,35 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0008 75D000            MOV     PSW,#00H
 000B C006              PUSH    AR6
 000D C007              PUSH    AR7
-                                           ; SOURCE LINE # 310
-                                           ; SOURCE LINE # 314
+                                           ; SOURCE LINE # 330
+                                           ; SOURCE LINE # 334
 000F E5FD              MOV     A,INT_REG3
-0011 30E304            JNB     ACC.3,?C0126
+0011 30E304            JNB     ACC.3,?C0128
 0014 7F01              MOV     R7,#01H
-0016 8002              SJMP    ?C0127
-0018         ?C0126:
+0016 8002              SJMP    ?C0129
+0018         ?C0128:
 0018 7F00              MOV     R7,#00H
-001A         ?C0127:
+001A         ?C0129:
 001A EF                MOV     A,R7
-001B 7051              JNZ     ?C0136
+001B 7051              JNZ     ?C0138
 001D E5FD              MOV     A,INT_REG3
-001F 30E404            JNB     ACC.4,?C0128
+001F 30E404            JNB     ACC.4,?C0130
 0022 7F01              MOV     R7,#01H
-0024 8002              SJMP    ?C0129
-0026         ?C0128:
+0024 8002              SJMP    ?C0131
+0026         ?C0130:
 0026 7F00              MOV     R7,#00H
-0028         ?C0129:
+0028         ?C0131:
 0028 EF                MOV     A,R7
-0029 7043              JNZ     ?C0136
+0029 7043              JNZ     ?C0138
 002B E5FD              MOV     A,INT_REG3
-002D 30E504            JNB     ACC.5,?C0130
+002D 30E504            JNB     ACC.5,?C0132
 0030 7F01              MOV     R7,#01H
-0032 8002              SJMP    ?C0131
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 27  
-
-0034         ?C0130:
+0032 8002              SJMP    ?C0133
+0034         ?C0132:
 0034 7F00              MOV     R7,#00H
-0036         ?C0131:
+0036         ?C0133:
 0036 EF                MOV     A,R7
-0037 7035              JNZ     ?C0136
+0037 7035              JNZ     ?C0138
 0039 90E0F9            MOV     DPTR,#0E0F9H
 003C E0                MOVX    A,@DPTR
 003D FF                MOV     R7,A
@@ -1659,39 +1715,41 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0042 5403              ANL     A,#03H
 0044 FF                MOV     R7,A
 0045 EF                MOV     A,R7
-0046 30E004            JNB     ACC.0,?C0132
+0046 30E004            JNB     ACC.0,?C0134
 0049 7F01              MOV     R7,#01H
-004B 8002              SJMP    ?C0133
-004D         ?C0132:
+004B 8002              SJMP    ?C0135
+004D         ?C0134:
 004D 7F00              MOV     R7,#00H
-004F         ?C0133:
+004F         ?C0135:
 004F 90E0F9            MOV     DPTR,#0E0F9H
 0052 E0                MOVX    A,@DPTR
 0053 FE                MOV     R6,A
 0054 EE                MOV     A,R6
 0055 C4                SWAP    A
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 28  
+
 0056 13                RRC     A
 0057 13                RRC     A
 0058 13                RRC     A
 0059 5401              ANL     A,#01H
 005B FE                MOV     R6,A
 005C EE                MOV     A,R6
-005D 30E004            JNB     ACC.0,?C0134
+005D 30E004            JNB     ACC.0,?C0136
 0060 7E01              MOV     R6,#01H
-0062 8002              SJMP    ?C0135
-0064         ?C0134:
+0062 8002              SJMP    ?C0137
+0064         ?C0136:
 0064 7E00              MOV     R6,#00H
-0066         ?C0135:
+0066         ?C0137:
 0066 EE                MOV     A,R6
 0067 4F                ORL     A,R7
 0068 FF                MOV     R7,A
 0069 EF                MOV     A,R7
-006A 7002              JNZ     ?C0136
-                                           ; SOURCE LINE # 315
+006A 7002              JNZ     ?C0138
+                                           ; SOURCE LINE # 335
 006C C2C4              CLR     IEX5
-006E         ?C0125:
-                                           ; SOURCE LINE # 316
-006E         ?C0136:
+006E         ?C0127:
+                                           ; SOURCE LINE # 336
+006E         ?C0138:
 006E D007              POP     AR7
 0070 D006              POP     AR6
 0072 D0D0              POP     PSW
@@ -1706,62 +1764,62 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0002 C0D0              PUSH    PSW
 0004 75D000            MOV     PSW,#00H
 0007 C007              PUSH    AR7
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 28  
-
-                                           ; SOURCE LINE # 321
-                                           ; SOURCE LINE # 326
+                                           ; SOURCE LINE # 341
+                                           ; SOURCE LINE # 346
 0009 53FEFE            ANL     INT_REG4,#0FEH
-                                           ; SOURCE LINE # 327
+                                           ; SOURCE LINE # 347
 000C E5FE              MOV     A,INT_REG4
-000E 30E004            JNB     ACC.0,?C0138
+000E 30E004            JNB     ACC.0,?C0140
 0011 7F01              MOV     R7,#01H
-0013 8002              SJMP    ?C0139
-0015         ?C0138:
+0013 8002              SJMP    ?C0141
+0015         ?C0140:
 0015 7F00              MOV     R7,#00H
-0017         ?C0139:
+0017         ?C0141:
 0017 EF                MOV     A,R7
-0018 703A              JNZ     ?C0148
+0018 703A              JNZ     ?C0150
 001A E5FE              MOV     A,INT_REG4
-001C 30E104            JNB     ACC.1,?C0140
+001C 30E104            JNB     ACC.1,?C0142
 001F 7F01              MOV     R7,#01H
-0021 8002              SJMP    ?C0141
-0023         ?C0140:
+0021 8002              SJMP    ?C0143
+0023         ?C0142:
 0023 7F00              MOV     R7,#00H
-0025         ?C0141:
+0025         ?C0143:
 0025 EF                MOV     A,R7
-0026 702C              JNZ     ?C0148
+0026 702C              JNZ     ?C0150
 0028 E5FE              MOV     A,INT_REG4
-002A 30E204            JNB     ACC.2,?C0142
+002A 30E204            JNB     ACC.2,?C0144
 002D 7F01              MOV     R7,#01H
-002F 8002              SJMP    ?C0143
-0031         ?C0142:
+002F 8002              SJMP    ?C0145
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 29  
+
+0031         ?C0144:
 0031 7F00              MOV     R7,#00H
-0033         ?C0143:
+0033         ?C0145:
 0033 EF                MOV     A,R7
-0034 701E              JNZ     ?C0148
+0034 701E              JNZ     ?C0150
 0036 E5FE              MOV     A,INT_REG4
-0038 30E304            JNB     ACC.3,?C0144
+0038 30E304            JNB     ACC.3,?C0146
 003B 7F01              MOV     R7,#01H
-003D 8002              SJMP    ?C0145
-003F         ?C0144:
+003D 8002              SJMP    ?C0147
+003F         ?C0146:
 003F 7F00              MOV     R7,#00H
-0041         ?C0145:
+0041         ?C0147:
 0041 EF                MOV     A,R7
-0042 7010              JNZ     ?C0148
+0042 7010              JNZ     ?C0150
 0044 E593              MOV     A,BPCTRL
-0046 30E704            JNB     ACC.7,?C0146
+0046 30E704            JNB     ACC.7,?C0148
 0049 7F01              MOV     R7,#01H
-004B 8002              SJMP    ?C0147
-004D         ?C0146:
+004B 8002              SJMP    ?C0149
+004D         ?C0148:
 004D 7F00              MOV     R7,#00H
-004F         ?C0147:
+004F         ?C0149:
 004F EF                MOV     A,R7
-0050 7002              JNZ     ?C0148
-                                           ; SOURCE LINE # 328
+0050 7002              JNZ     ?C0150
+                                           ; SOURCE LINE # 348
 0052 C2C5              CLR     IEX6
-0054         ?C0137:
-                                           ; SOURCE LINE # 331
-0054         ?C0148:
+0054         ?C0139:
+                                           ; SOURCE LINE # 351
+0054         ?C0150:
 0054 D007              POP     AR7
 0056 D0D0              POP     PSW
 0058 D0E0              POP     ACC
@@ -1770,183 +1828,183 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
              ; FUNCTION LDV18Interrupt (BEGIN)
 0000 C0E0              PUSH    ACC
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 29  
-
 0002 C0D0              PUSH    PSW
 0004 75D000            MOV     PSW,#00H
 0007 C007              PUSH    AR7
-                                           ; SOURCE LINE # 334
-                                           ; SOURCE LINE # 337
+                                           ; SOURCE LINE # 354
+                                           ; SOURCE LINE # 357
 0009 53FEFC            ANL     INT_REG4,#0FCH
-                                           ; SOURCE LINE # 338
+                                           ; SOURCE LINE # 358
 000C E5FE              MOV     A,INT_REG4
-000E 30E004            JNB     ACC.0,?C0150
+000E 30E004            JNB     ACC.0,?C0152
 0011 7F01              MOV     R7,#01H
-0013 8002              SJMP    ?C0151
-0015         ?C0150:
+0013 8002              SJMP    ?C0153
+0015         ?C0152:
 0015 7F00              MOV     R7,#00H
-0017         ?C0151:
+0017         ?C0153:
 0017 EF                MOV     A,R7
-0018 703A              JNZ     ?C0160
+0018 703A              JNZ     ?C0162
 001A E5FE              MOV     A,INT_REG4
-001C 30E104            JNB     ACC.1,?C0152
+001C 30E104            JNB     ACC.1,?C0154
 001F 7F01              MOV     R7,#01H
-0021 8002              SJMP    ?C0153
-0023         ?C0152:
+0021 8002              SJMP    ?C0155
+0023         ?C0154:
 0023 7F00              MOV     R7,#00H
-0025         ?C0153:
+0025         ?C0155:
 0025 EF                MOV     A,R7
-0026 702C              JNZ     ?C0160
+0026 702C              JNZ     ?C0162
 0028 E5FE              MOV     A,INT_REG4
-002A 30E204            JNB     ACC.2,?C0154
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 30  
+
+002A 30E204            JNB     ACC.2,?C0156
 002D 7F01              MOV     R7,#01H
-002F 8002              SJMP    ?C0155
-0031         ?C0154:
+002F 8002              SJMP    ?C0157
+0031         ?C0156:
 0031 7F00              MOV     R7,#00H
-0033         ?C0155:
+0033         ?C0157:
 0033 EF                MOV     A,R7
-0034 701E              JNZ     ?C0160
+0034 701E              JNZ     ?C0162
 0036 E5FE              MOV     A,INT_REG4
-0038 30E304            JNB     ACC.3,?C0156
+0038 30E304            JNB     ACC.3,?C0158
 003B 7F01              MOV     R7,#01H
-003D 8002              SJMP    ?C0157
-003F         ?C0156:
+003D 8002              SJMP    ?C0159
+003F         ?C0158:
 003F 7F00              MOV     R7,#00H
-0041         ?C0157:
+0041         ?C0159:
 0041 EF                MOV     A,R7
-0042 7010              JNZ     ?C0160
+0042 7010              JNZ     ?C0162
 0044 E593              MOV     A,BPCTRL
-0046 30E704            JNB     ACC.7,?C0158
+0046 30E704            JNB     ACC.7,?C0160
 0049 7F01              MOV     R7,#01H
-004B 8002              SJMP    ?C0159
-004D         ?C0158:
+004B 8002              SJMP    ?C0161
+004D         ?C0160:
 004D 7F00              MOV     R7,#00H
-004F         ?C0159:
+004F         ?C0161:
 004F EF                MOV     A,R7
-0050 7002              JNZ     ?C0160
-                                           ; SOURCE LINE # 339
+0050 7002              JNZ     ?C0162
+                                           ; SOURCE LINE # 359
 0052 C2C5              CLR     IEX6
-0054         ?C0149:
-                                           ; SOURCE LINE # 342
-0054         ?C0160:
+0054         ?C0151:
+                                           ; SOURCE LINE # 362
+0054         ?C0162:
 0054 D007              POP     AR7
 0056 D0D0              POP     PSW
 0058 D0E0              POP     ACC
 005A 32                RETI    
              ; FUNCTION LDV18Interrupt (END)
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 30  
-
 
              ; FUNCTION LDV33Interrupt (BEGIN)
 0000 C0E0              PUSH    ACC
 0002 C0D0              PUSH    PSW
 0004 75D000            MOV     PSW,#00H
 0007 C007              PUSH    AR7
-                                           ; SOURCE LINE # 344
-                                           ; SOURCE LINE # 347
+                                           ; SOURCE LINE # 364
+                                           ; SOURCE LINE # 367
 0009 53FEF8            ANL     INT_REG4,#0F8H
-                                           ; SOURCE LINE # 349
+                                           ; SOURCE LINE # 369
 000C E5FE              MOV     A,INT_REG4
-000E 30E004            JNB     ACC.0,?C0162
+000E 30E004            JNB     ACC.0,?C0164
 0011 7F01              MOV     R7,#01H
-0013 8002              SJMP    ?C0163
-0015         ?C0162:
+0013 8002              SJMP    ?C0165
+0015         ?C0164:
 0015 7F00              MOV     R7,#00H
-0017         ?C0163:
+0017         ?C0165:
 0017 EF                MOV     A,R7
-0018 703A              JNZ     ?C0172
+0018 703A              JNZ     ?C0174
 001A E5FE              MOV     A,INT_REG4
-001C 30E104            JNB     ACC.1,?C0164
+001C 30E104            JNB     ACC.1,?C0166
 001F 7F01              MOV     R7,#01H
-0021 8002              SJMP    ?C0165
-0023         ?C0164:
+0021 8002              SJMP    ?C0167
+0023         ?C0166:
 0023 7F00              MOV     R7,#00H
-0025         ?C0165:
+0025         ?C0167:
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 31  
+
 0025 EF                MOV     A,R7
-0026 702C              JNZ     ?C0172
+0026 702C              JNZ     ?C0174
 0028 E5FE              MOV     A,INT_REG4
-002A 30E204            JNB     ACC.2,?C0166
+002A 30E204            JNB     ACC.2,?C0168
 002D 7F01              MOV     R7,#01H
-002F 8002              SJMP    ?C0167
-0031         ?C0166:
+002F 8002              SJMP    ?C0169
+0031         ?C0168:
 0031 7F00              MOV     R7,#00H
-0033         ?C0167:
+0033         ?C0169:
 0033 EF                MOV     A,R7
-0034 701E              JNZ     ?C0172
+0034 701E              JNZ     ?C0174
 0036 E5FE              MOV     A,INT_REG4
-0038 30E304            JNB     ACC.3,?C0168
+0038 30E304            JNB     ACC.3,?C0170
 003B 7F01              MOV     R7,#01H
-003D 8002              SJMP    ?C0169
-003F         ?C0168:
+003D 8002              SJMP    ?C0171
+003F         ?C0170:
 003F 7F00              MOV     R7,#00H
-0041         ?C0169:
+0041         ?C0171:
 0041 EF                MOV     A,R7
-0042 7010              JNZ     ?C0172
+0042 7010              JNZ     ?C0174
 0044 E593              MOV     A,BPCTRL
-0046 30E704            JNB     ACC.7,?C0170
+0046 30E704            JNB     ACC.7,?C0172
 0049 7F01              MOV     R7,#01H
-004B 8002              SJMP    ?C0171
-004D         ?C0170:
+004B 8002              SJMP    ?C0173
+004D         ?C0172:
 004D 7F00              MOV     R7,#00H
-004F         ?C0171:
+004F         ?C0173:
 004F EF                MOV     A,R7
-0050 7002              JNZ     ?C0172
-                                           ; SOURCE LINE # 350
+0050 7002              JNZ     ?C0174
+                                           ; SOURCE LINE # 370
 0052 C2C5              CLR     IEX6
-0054         ?C0161:
-                                           ; SOURCE LINE # 352
-0054         ?C0172:
+0054         ?C0163:
+                                           ; SOURCE LINE # 372
+0054         ?C0174:
 0054 D007              POP     AR7
 0056 D0D0              POP     PSW
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 31  
-
 0058 D0E0              POP     ACC
 005A 32                RETI    
              ; FUNCTION LDV33Interrupt (END)
 
              ; FUNCTION UART1Interrupt (BEGIN)
-                                           ; SOURCE LINE # 361
-                                           ; SOURCE LINE # 362
-                                           ; SOURCE LINE # 363
-0000 309802            JNB     RI0,?C0173
-                                           ; SOURCE LINE # 364
-                                           ; SOURCE LINE # 365
+                                           ; SOURCE LINE # 381
+                                           ; SOURCE LINE # 382
+                                           ; SOURCE LINE # 383
+0000 309802            JNB     RI0,?C0175
+                                           ; SOURCE LINE # 384
+                                           ; SOURCE LINE # 385
 0003 C298              CLR     RI0
-                                           ; SOURCE LINE # 366
-0005         ?C0173:
-                                           ; SOURCE LINE # 368
-0005 309902            JNB     TI0,?C0175
-                                           ; SOURCE LINE # 369
-                                           ; SOURCE LINE # 370
+                                           ; SOURCE LINE # 386
+0005         ?C0175:
+                                           ; SOURCE LINE # 388
+0005 309902            JNB     TI0,?C0177
+                                           ; SOURCE LINE # 389
+                                           ; SOURCE LINE # 390
 0008 C299              CLR     TI0
-                                           ; SOURCE LINE # 371
-000A         ?C0174:
-                                           ; SOURCE LINE # 372
-000A         ?C0175:
+                                           ; SOURCE LINE # 391
+000A         ?C0176:
+                                           ; SOURCE LINE # 392
+000A         ?C0177:
 000A 22                RET     
              ; FUNCTION UART1Interrupt (END)
 
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 32  
+
              ; FUNCTION UART2Interrupt (BEGIN)
 0000 C0E0              PUSH    ACC
-                                           ; SOURCE LINE # 374
-                                           ; SOURCE LINE # 377
+                                           ; SOURCE LINE # 394
+                                           ; SOURCE LINE # 397
 0002 E59B              MOV     A,S1CON
-0004 30E003            JNB     ACC.0,?C0176
-                                           ; SOURCE LINE # 378
-                                           ; SOURCE LINE # 379
+0004 30E003            JNB     ACC.0,?C0178
+                                           ; SOURCE LINE # 398
+                                           ; SOURCE LINE # 399
 0007 539BFE            ANL     S1CON,#0FEH
-                                           ; SOURCE LINE # 384
-000A         ?C0176:
-                                           ; SOURCE LINE # 387
+                                           ; SOURCE LINE # 404
+000A         ?C0178:
+                                           ; SOURCE LINE # 407
 000A E59B              MOV     A,S1CON
-000C 30E103            JNB     ACC.1,?C0178
-                                           ; SOURCE LINE # 388
-                                           ; SOURCE LINE # 389
+000C 30E103            JNB     ACC.1,?C0180
+                                           ; SOURCE LINE # 408
+                                           ; SOURCE LINE # 409
 000F 539BFD            ANL     S1CON,#0FDH
-                                           ; SOURCE LINE # 390
-0012         ?C0177:
-                                           ; SOURCE LINE # 391
-0012         ?C0178:
+                                           ; SOURCE LINE # 410
+0012         ?C0179:
+                                           ; SOURCE LINE # 411
+0012         ?C0180:
 0012 D0E0              POP     ACC
 0014 32                RETI    
              ; FUNCTION UART2Interrupt (END)
@@ -1958,17 +2016,15 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0006 C0D0              PUSH    PSW
 0008 75D000            MOV     PSW,#00H
 000B C007              PUSH    AR7
-                                           ; SOURCE LINE # 393
-                                           ; SOURCE LINE # 397
+                                           ; SOURCE LINE # 413
+                                           ; SOURCE LINE # 417
 000D 90E05B            MOV     DPTR,#0E05BH
 0010 E0                MOVX    A,@DPTR
-C51 COMPILER V9.53.0.0   INTERRUPT                                                         10/29/2018 04:57:11 PAGE 32  
-
 0011 FF                MOV     R7,A
 0012 EF                MOV     A,R7
-0013 30E00D            JNB     ACC.0,?C0179
-                                           ; SOURCE LINE # 398
-                                           ; SOURCE LINE # 399
+0013 30E00D            JNB     ACC.0,?C0181
+                                           ; SOURCE LINE # 418
+                                           ; SOURCE LINE # 419
 0016 90E05B            MOV     DPTR,#0E05BH
 0019 E0                MOVX    A,@DPTR
 001A FF                MOV     R7,A
@@ -1977,19 +2033,21 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 001E FF                MOV     R7,A
 001F EF                MOV     A,R7
 0020 F0                MOVX    @DPTR,A
-                                           ; SOURCE LINE # 400
+                                           ; SOURCE LINE # 420
 0021 C2C0              CLR     IADC
-                                           ; SOURCE LINE # 401
-0023         ?C0179:
-                                           ; SOURCE LINE # 403
+                                           ; SOURCE LINE # 421
+0023         ?C0181:
+                                           ; SOURCE LINE # 423
 0023 90E072            MOV     DPTR,#0E072H
 0026 E0                MOVX    A,@DPTR
 0027 F500        E     MOV     ADresult,A
 0029 A3                INC     DPTR
 002A E0                MOVX    A,@DPTR
 002B F500        E     MOV     ADresult+01H,A
-                                           ; SOURCE LINE # 406
-002D         ?C0180:
+                                           ; SOURCE LINE # 426
+002D         ?C0182:
+C51 COMPILER V9.54   INTERRUPT                                                             11/01/2018 12:43:23 PAGE 33  
+
 002D D007              POP     AR7
 002F D0D0              POP     PSW
 0031 D082              POP     DPL
@@ -2001,7 +2059,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1974    ----
+   CODE SIZE        =   2033    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

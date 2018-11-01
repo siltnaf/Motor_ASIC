@@ -26,7 +26,8 @@ void InitGPIO(void);
 void epwmOutputDisable(void);
 void epwmOutputEnable(void);
 void InitADC(void);
-void InitBreakPoint  (void);
+void InitDAC(void);
+void InitBreakPoint(void);
 void InitISDDebug(void);
 
 

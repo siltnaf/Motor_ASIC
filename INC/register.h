@@ -539,7 +539,7 @@ sfr	P4ETFRC		= 0xf7;
 
 #define DAC_CON    	(*(unsigned char volatile xdata *)0xe07a)	
     #define  DAC2_PD 			BIT(DAC_CON,0)
-		#define  DAC2_VREF		BIT(DAC_COM,1)
+		#define  DAC2_VREF		BIT(DAC_CON,1)
 		#define  DAC1_PD			BIT(DAC_CON,2)
 		#define  DAC1_VREF		BIT(DAC_CON,3)
 		
@@ -574,9 +574,10 @@ sfr	P4ETFRC		= 0xf7;
 // LVD ext Ram ==========================================
 #define LVD_CON 		(*(unsigned char volatile xdata *)0xe087)		
 
+#define AD_DA_SEL   		(*(unsigned char volatile xdata *)0xe089)		
+		#define ADC_DAC_SEL1						BIT(AD_DA_SEL,0)	
+		#define ADC_DAC_SEL2						BIT(AD_DA_SEL,1)
 
-
-#define AD_DA_SEL  		`		(*(unsigned char volatile xdata *)0xe089)		
 #define T3456_EX_INV   		(*(unsigned char volatile xdata *)0xe08a)		
 		#define T3EX_INV						BIT(T3456_EX_INV,0)	
 		#define T4EX_INV						BIT(T3456_EX_INV,1)	
@@ -1120,7 +1121,7 @@ sfr	P4ETFRC		= 0xf7;
 		#define T5CPRL						 	BITREF(T5CON,0)	
 		#define T5CT							 	BITREF(T5CON,1)
 		#define T5TR								BITREF(T5CON,2)
-		#define T5EXEN							BITREF(T5CON,3)
+		#define T5EXEN		dsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss					BITREF(T5CON,3)
 		#define T5EXF_EINT					BITREF(T5CON,4)
 		#define T5TF_EINT						BITREF(T5CON,5)
 		#define T5EXF								BITREF(T5CON,6)
