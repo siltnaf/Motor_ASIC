@@ -3,6 +3,7 @@
 #include "app.h"
 #include "initial.h"
 #include "ISD51.H"
+#include "epwm.h"
 
 
 
@@ -131,235 +132,334 @@ void InitADC(void)
 
 void Initepwm(void)
 {
-	P2_FN_H = 0x55;							// p2_4 ~ p2_7 as pwm2x ~ pwm1x
-	P2_FN_L = P2_FN_L & 0x0F | 0x50;		// p2_2 ~ p2_3 as pwm3x
-	//P0_FN_L = P0_FN_L & 0xF0 | 0x05;		  // p0_0 ~ p0_1 as pwm4x
+	
+	
+	// config IO for ePWM output
 
-//	P1TBPRD_L = 0x90;						// pwm period is 10KHz
-//	P1TBPRD_H = 0x01;
-//	P2TBPRD_L = 0x90;
-//	P2TBPRD_H = 0x01;
-//	P3TBPRD_L = 0x90;
-//	P3TBPRD_H = 0x01;
-//	P4TBPRD_L = 0x90;
-//	P4TBPRD_H = 0x01;
+	P22_FN=CFG1;          //P22 output  PWM3B
+	P23_FN=CFG1;					//P23 output  PWM3A
+	
+	P24_FN=CFG1;          //P24 output  PWM2B
+	P25_FN=CFG1;					//P25 output  PWM2A
+	
+	P26_FN=CFG1;					//P26 output  PWM1B
+	P27_FN=CFG1;          //P27 output  PWM1A
+	
+//	P00_FN=CFG1;					//P00 output  PWM4B
+//  P01_FN=CFG1;          //P01 output  PWM4A	
 
-	PCLKCR = 0x1E;//0x1F							// clock for pwm1 ~ pwm4 is enable,and synchronize all channel disable
-//	PSYNCICR = 0x3C;//0x1F;						// all synchronize input enable
 
-	P1TBCTL_L = 0x02;//0x12;						// period load from shadow,up down mode,synchronize at CTR = ZERO
-	P1TBCTL_H = 0x80;						// time base free run when emulation
-	P2TBCTL_L = 0x02;//0x12;
-	P2TBCTL_H = 0x80;
-	P3TBCTL_L = 0x02;//0x12;
-	P3TBCTL_H = 0x80;
-	P4TBCTL_L = 0x02;//0x12;
-	P4TBCTL_H = 0x80;
+// set period	
 
-//	P1TBCTL_L = 0x00;						// period load from shadow,up mode
-//	P1TBCTL_H = 0x80;
-//	P2TBCTL_L = 0x00;
-//	P2TBCTL_H = 0x80;
-//	P3TBCTL_L = 0x00;
-//	P3TBCTL_H = 0x80;
-//	P4TBCTL_L = 0x00;
-//	P4TBCTL_H = 0x80;
+	P1TBPRD	=	0x0190;						// 400 step per pwm period or 10KHz
+	P2TBPRD = 0x0190;
+	P3TBPRD = 0x0190;
+	P4TBPRD = 0x0190;
 
-	P1CMPCTL = 0x00;						// shadow on,update at CTR = ZERO
-	P2CMPCTL = 0x00;
-	P3CMPCTL = 0x00;
-	P4CMPCTL = 0x00;
-	P1AQCTLA_L = 0x60;						// when cmpA,count up is set,count down is clear
-	P1AQCTLA_H = 0x00;						// when cmpB pwmxA do nothing
-	P2AQCTLA_L = 0x60;
-	P2AQCTLA_H = 0x00;
-	P3AQCTLA_L = 0x60;
-	P3AQCTLA_H = 0x00;
-	P4AQCTLA_L = 0x60;
-	P4AQCTLA_H = 0x00;
-	P1AQCTLB_L = 0x00;//0x60;
-	P1AQCTLB_H = 0x00;
-	P2AQCTLB_L = 0x00;//0x60;
-	P2AQCTLB_H = 0x00;
-	P3AQCTLB_L = 0x00;//0x60;
-	P3AQCTLB_H = 0x00;
-	P4AQCTLB_L = 0x00;//0x60;
-	P4AQCTLB_H = 0x00;
+	
+//enable epwm clock 
+	
+	
+	EPWM1_ENCLK =1;							// clock for pwm1 ~ pwm4 is enable,and synchronize all channel disable
+	EPWM2_ENCLK	=1;
+	EPWM3_ENCLK =1;
+	EPWM4_ENCLK =1;
+	TBCLKSYNC=0;
+	
+	
+	//pwm count up or down
+	
+	P1CTRMODE=TB_COUNT_UPDOWN;     // period load from shadow,up down mode,synchronize at CTR = ZERO
+	P2CTRMODE=TB_COUNT_UPDOWN;
+	P3CTRMODE=TB_COUNT_UPDOWN;
+	P4CTRMODE=TB_COUNT_UPDOWN;
+	
+	
+	P1PRDLD=TB_SHADOW;
+	
+	
+	//time base free run or emulation 
+	
+	P1FREE_SOFT=FREE_RUN;							// time base free run when emulation
+	P2FREE_SOFT=FREE_RUN;
+	P3FREE_SOFT=FREE_RUN;
+	P4FREE_SOFT=FREE_RUN;
 
-//	P1AQCTLA_L = 0x12;							// CTR = ZERO set,CTR = CMPA up clear,CTR = PRD nothing,CTR = CMPA down nothing
-//	P1AQCTLA_H = 0x00;							// when cmpB pwmxA do nothing
-//	P1AQCTLB_L = 0x02;							// CTR = ZERO set,CTR = CMPA up nothing,CTR = PRD nothing,CTR = CMPA down nothing
-//	P1AQCTLB_H = 0x01;							// CTR = CMPB clear
-//	P2AQCTLA_L = 0x12;
-//	P2AQCTLA_H = 0x00;
-//	P2AQCTLB_L = 0x02;
-//	P2AQCTLB_H = 0x01;
-//	P3AQCTLA_L = 0x12;
-//	P3AQCTLA_H = 0x00;
-//	P3AQCTLB_L = 0x02;
-//	P3AQCTLB_H = 0x01;
-//	P4AQCTLA_L = 0x12;
-//	P4AQCTLA_H = 0x00;
-//	P4AQCTLB_L = 0x02;
-//	P4AQCTLB_H = 0x01;
+// shadow register load mode
 
-	P1DBCTL = 0x0B;							// delay source is epwmxA,dead band full,epwmxB invert
-	P2DBCTL = 0x0B;
-	P3DBCTL = 0x0B;
-	P4DBCTL = 0x0B;
-//	P1DBCTL = 0x07;							// delay source is epwmxA,dead band full,epwmxA invert
-//	P2DBCTL = 0x07;
-//	P3DBCTL = 0x07;
-//	P4DBCTL = 0x07;
-	P1DBRED_L = 0x32;//0x0A						// rise edge dead time is 1.25uS
-	P1DBRED_H = 0x00;
-	P2DBRED_L = 0x32;
-	P2DBRED_H = 0x00;
-	P3DBRED_L = 0x32;
-	P3DBRED_H = 0x00;
-	P4DBRED_L = 0x32;
-	P4DBRED_H = 0x00;
-	P1DBFED_L = 0x32;						// fall edge dead time is 1.25uS
-	P1DBFED_H = 0x00;
-	P2DBFED_L = 0x32;
-	P2DBFED_H = 0x00;
-	P3DBFED_L = 0x32;
-	P3DBFED_H = 0x00;
-	P4DBFED_L = 0x32;
-	P4DBFED_H = 0x00;
 
-//	P1DBCTL = 0x00;							// dead band is bypass
-//	P2DBCTL = 0x00;
-//	P3DBCTL = 0x00;
-//	P4DBCTL = 0x00;
+	P1SHDWA_MODE = CC_SHADOW;;						// shadow on,update at CTR = ZERO
+	P1SHDWB_MODE = CC_SHADOW;
+	P1LOADA_MODE = CC_CTR_ZERO;
+	P1LOADB_MODE = CC_CTR_ZERO;
+	
+	P2SHDWA_MODE = CC_SHADOW;;						// shadow on,update at CTR = ZERO
+	P2SHDWB_MODE = CC_SHADOW;
+	P2LOADA_MODE = CC_CTR_ZERO;
+	P2LOADB_MODE = CC_CTR_ZERO;
+	
+	P3SHDWA_MODE = CC_SHADOW;;						// shadow on,update at CTR = ZERO
+	P3SHDWB_MODE = CC_SHADOW;
+	P3LOADA_MODE = CC_CTR_ZERO;
+	P3LOADB_MODE = CC_CTR_ZERO;
+	
+	P4SHDWA_MODE = CC_SHADOW;;						// shadow on,update at CTR = ZERO
+	P4SHDWB_MODE = CC_SHADOW;
+	P4LOADA_MODE = CC_CTR_ZERO;
+	P4LOADB_MODE = CC_CTR_ZERO;
+	
+	
+	
+	//PWMxA waveform counter condition
+	// when counter count up to cmpA value, PWMxA output is set high, when counter count down to cmpA value, PWMxA output is clear
+	// when cmpB is disable 
+	
+	P1CADA=AQ_CLEAR;                    
+	P1CAUA=AQ_SET;
+	P1CBDA=AQ_NO_ACTION;                
+	P1CBUA=AQ_NO_ACTION;
+	P1PRDA=AQ_NO_ACTION;
+	P1ZROA=AQ_NO_ACTION;
+	
+	P2CADA=AQ_CLEAR;                    
+	P2CAUA=AQ_SET;
+	P2CBDA=AQ_NO_ACTION;               	 
+	P2CBUA=AQ_NO_ACTION;
+	P2PRDA=AQ_NO_ACTION;
+	P2ZROA=AQ_NO_ACTION;
+	
+	
+	P3CADA=AQ_CLEAR;                     
+	P3CAUA=AQ_SET;
+	P3CBDA=AQ_NO_ACTION;               	   
+	P3CBUA=AQ_NO_ACTION;
+	P3PRDA=AQ_NO_ACTION;
+	P3ZROA=AQ_NO_ACTION;
+	
+	
+	P4CADA=AQ_CLEAR;                     
+	P4CAUA=AQ_SET;
+	P4CBDA=AQ_NO_ACTION;                
+	P4CBUA=AQ_NO_ACTION;
+	P4PRDA=AQ_NO_ACTION;
+	P4ZROA=AQ_NO_ACTION;
+	
+	
+	
 
-	P1TZSEL = 0x00;							// disable all trigger zone
-	P2TZSEL = 0x00;
-	P3TZSEL = 0x00;
-	P4TZSEL = 0x00;
-	P1TZCTL = 0x00;							// when trigger,epwmxA and epwmxB high impedance
-	P2TZCTL = 0x00;
-	P3TZCTL = 0x00;
-	P4TZCTL = 0x00;
+//	P1ZROA = AQ_SET;							 // CTR = ZERO set,CTR = CMPA up clear,CTR = PRD nothing,CTR = CMPA down nothing
+//  P1CAUA = AQ_CLEAR;
+//  P1PRDA = AQ_NO_ACTION;
+//  P1CADA = AQ_NO_ACTION;
+//  P1CBDA = AQ_NO_ACTION;         // when cmpB pwmxA do nothing
+//  P1CBUA = AQ_NO_ACTION;
+
+
+//	P1ZROA = AQ_SET;							
+//	P1CAUA = AQ_NO_ACTION;							// CTR = ZERO set,CTR = CMPA up nothing,CTR = PRD nothing,CTR = CMPA down nothing
+//  P1PRDA = AQ_NO_ACTION;
+//  P!CADA = AQ_NO_ACTION;
+//	P1CBUA = AQ_CLEAR;		   					// CTR increment upto CMPB  then clear PWMxA output
+//  P1CBDA = AQ_NO_ACTION;
+;
+
+
+	//PWMxB waveform counter condition , PWMxB can be use seperately by setting P1OUT_MODE=DB_DISABLE
+	// when counter count up to cmpA value, PWMxB output is clear, when counter count down to cmpA value, PWMxB output is set,  PWMxB is complement of PWMxA
+	// when cmpB is disable 
+	
+//	P1CADB=AQ_SET;                    
+//	P1CAUB=AQ_CLEAR;
+//	P1CBDB=AQ_NO_ACTION;                
+//	P1CBUB=AQ_NO_ACTION;
+//	P1PRDB=AQ_NO_ACTION;
+//	P1ZROB=AQ_NO_ACTION;
+	
+
+//Dead band generator control enable and set dead band time
+
+
+  P1OUT_MODE=DB_FULL_ENABLE;   // output is dead band full enable, rising edge delay on PWMxA and falling edge delay on PWMxB
+  P1POLSEL=DB_ACTV_HIC;        //PWMxB is inverted or active high complement
+  P1IN_MODE=DB_AUAD;           // rising edge delay source from epwmxA, falling edge delay source from epwmxA,
+
+  P2OUT_MODE=DB_FULL_ENABLE;   // output is dead band full enable, rising edge delay on PWMxA and falling edge delay on PWMxB
+  P2POLSEL=DB_ACTV_HIC;        //PWMxB is inverted or active high complement
+  P2IN_MODE=DB_AUAD;           // rising edge delay source from epwmxA, falling edge delay source from epwmxA,
+
+  P3OUT_MODE=DB_FULL_ENABLE;   // output is dead band full enable, rising edge delay on PWMxA and falling edge delay on PWMxB
+  P3POLSEL=DB_ACTV_HIC;        //PWMxB is inverted or active high complement
+  P3IN_MODE=DB_AUAD;           // rising edge delay source from epwmxA, falling edge delay source from epwmxA,
+
+  P4OUT_MODE=DB_FULL_ENABLE;   // output is dead band full enable, rising edge delay on PWMxA and falling edge delay on PWMxB
+  P4POLSEL=DB_ACTV_HIC;        //PWMxB is inverted or active high complement
+  P4IN_MODE=DB_AUAD;           // rising edge delay source from epwmxA, falling edge delay source from epwmxA,
+
+
+
+//	P1OUT_MODE=DB_FULL_ENABLE; 							// delay source is epwmxA,dead band full,epwmxA invert
+//	P1POLSEL=DB_ACTV_LOC;
+//	P1IN_MODE=DB_AUAD;
+ 
+
+
+
+  P1DBRED = 0x0032;//0x0A						// rise edge dead time is 1.25uS
+	P2DBRED = 0x0032;
+	P3DBRED = 0x0032;
+	P4DBRED = 0x0032;
+	
+	P1DBFED = 0x0032;               // fall edge dead time is 1.25uS
+  P2DBFED = 0x0032;
+  P3DBFED = 0x0032;
+  P4DBFED = 0x0032;
+
+
+//	 P1OUT_MODE=DB_DISABLE;						// dead band is bypass
+//	 P2OUT_MODE=DB_DISABLE;		
+//	 P3OUT_MODE=DB_DISABLE;		
+//	 P4OUT_MODE=DB_DISABLE;		
+
+
+
+// trip zone control: OSHT ---for one time; CBC for cycle by cycle
+
+	P1TZ_OSHT =	TZ_ENABLE;			// OSHT enable
+	P1TZ_CBC =   TZ_DISABLE;
+	
+ 	P2TZ_OSHT =	TZ_ENABLE;				// OSHT enable
+	P2TZ_CBC =   TZ_DISABLE;
+	
+	P3TZ_OSHT =	TZ_ENABLE;				// OSHT enable
+	P3TZ_CBC =   TZ_DISABLE;
+	
+	P4TZ_OSHT =	TZ_ENABLE;				// OSHT enable
+	P4TZ_CBC =   TZ_DISABLE;
+	
+	P1TZA=TZ_HIZ;              // when trigger,epwmxA high impedance
+	P1TZB=TZ_HIZ;              // when trigger,epwmxB high impedance
+	
+	P2TZA=TZ_HIZ;              // when trigger,epwmxA high impedance
+	P2TZB=TZ_HIZ;              // when trigger,epwmxB high impedance
+	
+	P3TZA=TZ_HIZ;              // when trigger,epwmxA high impedance
+	P3TZB=TZ_HIZ;              // when trigger,epwmxB high impedance
+	
+		
+	P4TZA=TZ_HIZ;              // when trigger,epwmxA high impedance
+	P4TZB=TZ_HIZ;              // when trigger,epwmxB high impedance
+	
+	
+// trip zone interrupt  ???  no description in datasheet
+
+	
+	
+	
 //	P1TZEINT = 0x00;						// CBC trigger interrupt and OST interrupt disable
 //	P2TZEINT = 0x00;
 //	P3TZEINT = 0x00;
 //	P4TZEINT = 0x00;
 
-//	P1TZSEL = 0x01;							// OSHT enable
-//	P2TZSEL = 0x01;
-//	P3TZSEL = 0x01;
-//	P4TZSEL = 0x01;
-//	P1TZCTL = 0x00;							// when trigger,epwmxA and epwmxB high impedance
-//	P2TZCTL = 0x00;
-//	P3TZCTL = 0x00;
-//	P4TZCTL = 0x00;
-//	P1TZEINT = 0x00;						// CBC trigger interrupt and OST interrupt disable
-//	P2TZEINT = 0x00;
-//	P3TZEINT = 0x00;
-//	P4TZEINT = 0x00;
 
-//	P1TZSEL = 0x02;							// CBC enable
-//	P2TZSEL = 0x02;
-//	P3TZSEL = 0x02;
-//	P4TZSEL = 0x02;
-//	P1TZCTL = 0x00;							// when trigger,epwmxA and epwmxB high impedance
-//	P2TZCTL = 0x00;
-//	P3TZCTL = 0x00;
-//	P4TZCTL = 0x00;
-//	P1TZEINT = 0x00;						// CBC trigger interrupt and OST interrupt disable
-//	P2TZEINT = 0x00;
-//	P3TZEINT = 0x00;
-//	P4TZEINT = 0x00;
 
-	P1ETSEL_L = 0x09;						// epwm interrupt enable at CTR = ZERO
-    P1ETSEL_H = 0x0C;//0xE0;//0xA0;//0x90;//0x0A;//0x09;                       // enable SOCA,SOCA is CTR = ZERO
-	P2ETSEL_L = 0x00;
-	P2ETSEL_H = 0x00;//0xF0;//0x00;
-	P3ETSEL_L = 0x00;
-	P3ETSEL_H = 0x00;
-	P4ETSEL_L = 0x00;
-	P4ETSEL_H = 0x00;
-	P1ETPS_L = 0x05;						// 1 event 1 interrupt
-    P1ETPS_H = 0x05;//0x50;//0x05;                        // 1 evnt,SOCA period is 1
-	P2ETPS_L = 0x00;
-    P2ETPS_H = 0x00;//0x50;
-	P3ETPS_L = 0x00;
-	P4ETPS_L = 0x00;
+//event trigger select 
 
-	P1TBPRD_L = 0xD0;						// pwm period is 0x0190@8MHz 10KHz 0x7D0@40MHz
-	P1TBPRD_H = 0x07;
-	P2TBPRD_L = 0xD0;
-	P2TBPRD_H = 0x07;
-	P3TBPRD_L = 0xD0;
-	P3TBPRD_H = 0x07;
-	P4TBPRD_L = 0xD0;
-	P4TBPRD_H = 0x07;
+	P1ET_INTEN=1;							//enable epwmx_INT interrupt
+	P1ET_INTSEL=ET_CTR_ZERO;	// epwm interrupt enable at CTR = ZERO
+	P1ET_SOCAEN=1;						//enable SOCA pulse
+	P1ET_SOCASEL=ET_CTR_ZERO;  // enable SOCA,SOCA is CTR = ZERO
+	P1ET_SOCBEN=0 ;						//disable SOCB pulse
+	P1ET_SOCBSEL=ET_CTR_ZERO;  // SOCB is CTR = ZERO		
+ 
+	P2ET_INTEN=1;							//enable epwmx_INT interrupt
+	P2ET_INTSEL=ET_CTR_ZERO;	// epwm interrupt enable at CTR = ZERO
+	P2ET_SOCAEN=1;						//enable SOCA pulse
+	P2ET_SOCASEL=ET_CTR_ZERO;  // enable SOCA,SOCA is CTR = ZERO
+	P2ET_SOCBEN=0 ;						//disable SOCB pulse
+	P2ET_SOCBSEL=ET_CTR_ZERO;  // SOCB is CTR = ZERO		
+ 
+	P3ET_INTEN=1;							//enable epwmx_INT interrupt
+	P3ET_INTSEL=ET_CTR_ZERO;	// epwm interrupt enable at CTR = ZERO
+	P3ET_SOCAEN=1;						//enable SOCA pulse
+	P3ET_SOCASEL=ET_CTR_ZERO;  // enable SOCA,SOCA is CTR = ZERO
+	P3ET_SOCBEN=0 ;						//disable SOCB pulse
+	P3ET_SOCBSEL=ET_CTR_ZERO;  // SOCB is CTR = ZERO		
+ 
+	P4ET_INTEN=1;							//enable epwmx_INT interrupt
+	P4ET_INTSEL=ET_CTR_ZERO;	// epwm interrupt enable at CTR = ZERO
+	P4ET_SOCAEN=1;						//enable SOCA pulse
+	P4ET_SOCASEL=ET_CTR_ZERO;  // enable SOCA,SOCA is CTR = ZERO
+	P4ET_SOCBEN=0 ;						//disable SOCB pulse
+	P4ET_SOCBSEL=ET_CTR_ZERO;  // SOCB is CTR = ZERO		
+ 
+ 
+ 
+ //event trigger prescaler, generate SOCA and SOCB pulse for AD conversion
+ 
+ P1ET_INTPRD=ET_1ST;	      //generate interrupt on 1st event
+ P1ET_INTCNT= ET_1ST;      // event counter period =1
+ P1ET_SOCAPRD=ET_1ST;      //generate SOCA pulse on 1at event
+ P1ET_SOCACNT=ET_1ST;      // SOCA event counter =1
+ P1ET_SOCBPRD=ET_DISABLE;  //SOCB is not used
+ P1ET_SOCBCNT=ET_DISABLE;
+ 
+ P2ET_INTPRD=ET_1ST;	      //generate interrupt on 1st event
+ P2ET_INTCNT= ET_1ST;      // event counter period =1
+ P2ET_SOCAPRD=ET_1ST;      //generate SOCA pulse on 1at event
+ P2ET_SOCACNT=ET_1ST;      // SOCA event counter =1
+ P2ET_SOCBPRD=ET_DISABLE;  //SOCB is not used
+ P2ET_SOCBCNT=ET_DISABLE;
+ 
+ P3ET_INTPRD=ET_1ST;	      //generate interrupt on 1st event
+ P3ET_INTCNT= ET_1ST;      // event counter period =1
+ P3ET_SOCAPRD=ET_1ST;      //generate SOCA pulse on 1at event
+ P3ET_SOCACNT=ET_1ST;      // SOCA event counter =1
+ P3ET_SOCBPRD=ET_DISABLE;  //SOCB is not used
+ P3ET_SOCBCNT=ET_DISABLE;
+      
+ P4ET_INTPRD=ET_1ST;	      //generate interrupt on 1st event
+ P4ET_INTCNT= ET_1ST;      // event counter period =1
+ P4ET_SOCAPRD=ET_1ST;      //generate SOCA pulse on 1at event
+ P4ET_SOCACNT=ET_1ST;      // SOCA event counter =1
+ P4ET_SOCBPRD=ET_DISABLE;  //SOCB is not used
+ P4ET_SOCBCNT=ET_DISABLE;
+      
 
-//	P1TBPRD_L = 0x1F;						// pwm period is 10KHz
-//	P1TBPRD_H = 0x03;
-//	P2TBPRD_L = 0x1F;
-//	P2TBPRD_H = 0x03;
-//	P3TBPRD_L = 0x1F;
-//	P3TBPRD_H = 0x03;
-//	P4TBPRD_L = 0x1F;
-//	P4TBPRD_H = 0x03;
 
-	P1CMPA_L = 0xE8;						// pwm period is 0x0C8@8MHz 10KHz
-	P1CMPA_H = 0x03;
-	//P1CMPB_L = 0xC8;
-	//P1CMPB_H = 0x00;
-	P2CMPA_L = 0xE8;
-	P2CMPA_H = 0x03;
-	//P2CMPB_L = 0xC8;
-	//P2CMPB_H = 0x00;
-	P3CMPA_L = 0xE8;
-	P3CMPA_H = 0x03;
-	//P3CMPB_L = 0xC8;
-	//P3CMPB_H = 0x00;
-	P4CMPA_L = 0xE8;
-	P4CMPA_H = 0x03;
-	//P4CMPB_L = 0xC8;
-	//P4CMPB_H = 0x00;
 
-//	P1CMPA_L = 0xF4;						// pwm period is 0x0C8@8MHz 10KHz
-//	P1CMPA_H = 0x01;
-//	P1CMPB_L = 0xEE;
-//	P1CMPB_H = 0x02;
-//	P2CMPA_L = 0xE8;
-//	P2CMPA_H = 0x03;
-//	P2CMPB_L = 0xE2;
-//	P2CMPB_H = 0x04;
-//	P3CMPA_L = 0xDC;
-//	P3CMPA_H = 0x05;
 
-//	P1CMPA_L = 0x90;
-//	P1CMPA_H = 0x01;
-//	P1CMPB_L = 0x90;
-//	P1CMPB_H = 0x01;
-//	P2CMPA_L = 0x90;
-//	P2CMPA_H = 0x01;
-//	P2CMPB_L = 0x90;
-//	P2CMPB_H = 0x01;
-//	P3CMPA_L = 0x90;
-//	P3CMPA_H = 0x01;
-//	P3CMPB_L = 0x90;
-//	P3CMPB_H = 0x01;
-//	P4CMPA_L = 0x90;
-//	P4CMPA_H = 0x01;
-//	P4CMPB_L = 0x90;
-//	P4CMPB_H = 0x01;
+//set PWM period
 
-//	OPAMP_SEL = 0xF0;
-//	COMP_INT_EN = COMP_INT_EN | (1 << 0);	// comparator1 interrupt output enable
-//	COMP_INT_SET = COMP_INT_SET & 0xFC;		// comparator1 falling edge trigger
-//	P1_FN_H = P1_FN_H & 0xF3 | 0x08;		// comp1 output
-//	ex1 = 1;								// enable comp1 to CPU interrupt
 
-	PCLKCR = PCLKCR | 1;					// all epwm channel synchronize enable
 
-	P1ETCLR = 1;
-	I2FR = 1;
+	P1TBPRD = 0x07D0;						// pwm period is 0x0190@8MHz 10KHz 0x7D0@40MHz; 0x031f?
+	P2TBPRD = 0x07D0;
+  P3TBPRD = 0x07D0;
+  P4TBPRD = 0x07D0;
+
+
+
+	P1CMPA = 0x03E8;						// CMPA counter value
+	P2CMPA = 0x03E8;
+	P3CMPA = 0x03E8;
+	P4CMPA = 0x03E8;
+	
+	P1CMPB = 0x0190;						// CMPA counter value
+	P2CMPB = 0x0190;
+	P3CMPB = 0x0190;
+	P4CMPB = 0x0190;
+	
+	
+
+	TBCLKSYNC = 1;					// all epwm channel synchronize enable
+
+	CLR_EPWM1_INT();
+	CLR_EPWM2_INT();
+  CLR_EPWM3_INT();
+	CLR_EPWM4_INT();
+	
+	
+	I2FR = 1;                //rising edge triger interrupt
 	EX2 = 1;								// enable epwm1,2,3 interrupt
 	//ex3 = 1;								// enable epwm4 interrupt
 }
@@ -643,8 +743,8 @@ void InitDAC(void)
 {
 		DAC1_PD=0;		//power up DAC1
 		DAC2_PD=0;		//power up DAC2
-	DAC1_VREF=1;		//use 2.5V as vref
-	DAC2_VREF=1;		//use 2.5V as vref
-	ADC_DAC_SEL1=0;
-	ADC_DAC_SEL2=0;
+	DAC1_VREF=0;		//use 3.3V as vref
+	DAC2_VREF=0;		//use 3.3V as vref
+	ADC_DAC_SEL1=0; //select DAC output
+	ADC_DAC_SEL2=0; //select DAC output
 }

@@ -2,9 +2,12 @@
 #ifndef __REGISTER_H__
 #define __REGISTER_H__
 
-#define BIT(aByte,aPos)((struct {unsigned char _0:1;unsigned char _1:1;unsigned char _2:1;unsigned char _3:1;unsigned char _4:1;unsigned char _5:1;unsigned char _6:1;unsigned char _7:1;}*)&aByte)->_##aPos
-#define BIT2(bByte,bPos)((struct {unsigned char _0:2;unsigned char _1:2;unsigned char _2:2;unsigned char _3:2;}*)&bByte)->_##bPos
-#define BIT3(bByte,bPos)((struct {unsigned char _0:1;unsigned char _1:2;unsigned char _2:2;unsigned char _3:2;unsigned char_4:1;}*)&bByte)->_##bPos
+#define BIT(aByte,aPos)((struct {unsigned char _0:1;unsigned char _1:1;unsigned char _2:1;unsigned char _3:1;unsigned char _4:1;unsigned char _5:1;unsigned char _6:1;unsigned char _7:1;}*)&aByte)->_##aPos   //BIT(0,1,2,3,4,5,6,7)
+#define BIT2(bByte,bPos)((struct {unsigned char _0:2;unsigned char _1:2;unsigned char _2:2;unsigned char _3:2;}*)&bByte)->_##bPos																																							//BIT2(01,23,45,67)
+#define BIT3(bByte,bPos)((struct {unsigned char _0:1;unsigned char _1:2;unsigned char _2:2;unsigned char _3:2;unsigned char_4:1;}*)&bByte)->_##bPos																									          //BIT3(0,12,34,56,7)
+#define BIT4(bByte,bPos)((struct {unsigned char _0:3;unsigned char _1:1;unsigned char _2:3;unsigned char _3:1;}*)&bByte)->_##bPos	                                                                            //BIT4(012,3,456,7)
+
+
 #define SET_BIT(p,n) ((p) |= (1 << (n)))
 #define CLR_BIT(p,n) ((p) &= (~(1) << (n)))
 #define CHECK_BIT(var,pos) (((var) & (1<<(pos)))==(1<<(pos)))
@@ -180,7 +183,7 @@ sfr INT_REG1 = 0xf9;
 sfr INT_REG2 = 0xfa;
 
 #define EPWM_INT(n)   		CHECK_BIT(INT_REG2,##n-1)
-#define CLR_EPWM_INT(n)		CLR_BIT(INT_REG2,##n-1)
+
 
 
 //0xfb,0xfc reserved by 8051
@@ -252,8 +255,20 @@ sfr	P1TZFLG		= 0xb2;
 sfr	P1TZCLR		= 0xb3;
 sfr	P1TZFRC		= 0xb4;
 sfr	P1ETFLG		= 0xb5;
+	#define EPWM1_INT						  CHECK_BIT(P1ETFLG,0)
+	#define EPWM1_SOCA						CHECK_BIT(P1ETFLG,2)
+	#define EPWM1_SOCB				    CHECK_BIT(P1ETFLG,3)
+	
 sfr	P1ETCLR		= 0xb6;
+	#define CLR_EPWM1_INT()   		    SET_BIT(P1ETCLR,0)
+	#define CLR_EPWM1_SOCA()   		  SET_BIT(P1ETCLR,2)
+	#define CLR_EPWM1_SOCB()   		  SET_BIT(P1ETCLR,3)
 sfr	P1ETFRC		= 0xb7;
+  #define FORCE_EPWM1_INT()          SET_BIT(P1ETFRC,0)
+	#define FORCE_EPWM1_SOCA()         SET_BIT(P1ETFRC,2)
+	#define FORCE_EPWM1_SOCB()         SET_BIT(P1ETFRC,3)
+	
+	
 	
 // ePWM2 SFR ==============================================
 sfr16 P2TBPRD =0xc1;
@@ -271,8 +286,19 @@ sfr	P2TZFLG		= 0xca;
 sfr	P2TZCLR		= 0xcb;
 sfr	P2TZFRC		= 0xcc;
 sfr	P2ETFLG		= 0xcd;
+	#define EPWM2_INT						  CHECK_BIT(P2ETFLG,0)
+	#define EPWM2_SOCA						CHECK_BIT(P2ETFLG,2)
+	#define EPWM2_SOCB				    CHECK_BIT(P2ETFLG,3)
 sfr	P2ETCLR		= 0xce;
+	#define CLR_EPWM2_INT()   		    SET_BIT(P2ETCLR,0)
+	#define CLR_EPWM2_SOCA()   		  SET_BIT(P2ETCLR,2)
+	#define CLR_EPWM2_SOCB()   		  SET_BIT(P2ETCLR,3)
 sfr	P2ETFRC		= 0xcf;
+  #define FORCE_EPWM2_INT()          SET_BIT(P2ETFRC,0)
+	#define FORCE_EPWM2_SOCA()         SET_BIT(P2ETFRC,2)
+	#define FORCE_EPWM2_SOCB()         SET_BIT(P2ETFRC,3)
+	
+	
 
 // ePWM3 SFR ==============================================
 sfr16 P3TBPRD =0xd1;
@@ -290,8 +316,21 @@ sfr	P3TZFLG		= 0xda;
 sfr	P3TZCLR		= 0xdb;
 sfr	P3TZFRC		= 0xdc;
 sfr	P3ETFLG		= 0xdd;
+	#define EPWM3_INT						  CHECK_BIT(P3ETFLG,0)
+	#define EPWM3_SOCA						CHECK_BIT(P3ETFLG,2)
+	#define EPWM3_SOCB				    CHECK_BIT(P3ETFLG,3)
 sfr	P3ETCLR		= 0xde;
+	#define CLR_EPWM3_INT()   		    SET_BIT(P3ETCLR,0)
+	#define CLR_EPWM3_SOCA()   		  SET_BIT(P3ETCLR,2)
+	#define CLR_EPWM3_SOCB()   		  SET_BIT(P3ETCLR,3)
 sfr	P3ETFRC		= 0xdf;		
+  #define FORCE_EPWM3_INT()          SET_BIT(P3ETFRC,0)
+	#define FORCE_EPWM3_SOCA()         SET_BIT(P3ETFRC,2)
+	#define FORCE_EPWM3_SOCB()         SET_BIT(P3ETFRC,3)
+	
+	
+
+
 	
 // ePWM4 SFR ==============================================
 sfr16 P4TBPRD =0xe1;
@@ -309,82 +348,176 @@ sfr	P4TZFLG		= 0xf2;
 sfr	P4TZCLR		= 0xf3;
 sfr	P4TZFRC		= 0xf4;
 sfr	P4ETFLG		= 0xf5;
+	#define EPWM4_INT						  CHECK_BIT(P4ETFLG,0)
+	#define EPWM4_SOCA						CHECK_BIT(P4ETFLG,2)
+	#define EPWM4_SOCB				    CHECK_BIT(P4ETFLG,3)
 sfr	P4ETCLR		= 0xf6;
+	#define CLR_EPWM4_INT()   		    SET_BIT(P4ETCLR,0)
+	#define CLR_EPWM4_SOCA()   		  SET_BIT(P4ETCLR,2)
+	#define CLR_EPWM4_SOCB()   		  SET_BIT(P4ETCLR,3)
 sfr	P4ETFRC		= 0xf7;
+  #define FORCE_EPWM4_INT()          SET_BIT(P4ETFRC,0)
+	#define FORCE_EPWM4_SOCA()         SET_BIT(P4ETFRC,2)
+	#define FORCE_EPWM4_SOCB()         SET_BIT(P4ETFRC,3)
+	
+	
 
 	// ePWM top ext Ram =======================================
 	
 
 	
 #define PCLKCR   (*(unsigned char volatile xdata *)0xe000)
+		#define TBCLKSYNC			BIT(PCLKCR,0)
+		#define EPWM1_ENCLK		BIT(PCLKCR,1)
+		#define EPWM2_ENCLK		BIT(PCLKCR,2)
+		#define EPWM3_ENCLK		BIT(PCLKCR,3)
+		#define EPWM4_ENCLK		BIT(PCLKCR,4)
+
+
+
 #define TZ_SRC_SEL   (*(unsigned char volatile xdata *)0xe001)
 	
 // ePWM1 ext Ram ==========================================
-#define P1TBCTL    		(*(unsigned int volatile xdata *)0xe002)
+ 
 #define P1TBCTL_H    	(*(unsigned char volatile xdata *)0xe002)
+		#define P1FREE_SOFT		BIT2(P1TBCTL_H,3)
 #define P1TBCTL_L    	(*(unsigned char volatile xdata *)0xe003)
+		#define P1CTRMODE			BIT2(P1TBCTL_L,0)
+		#define P1PRDLD				BIT(P1TBCTL_L,3)
 #define P1TBSTS    		(*(unsigned char volatile xdata *)0xe004)
-#define P1TBCTR    		(*(unsigned int volatile xdata *)0xe005)	
+#define P1TBCTR	    	(*(unsigned int volatile xdata *)0xe005)
 #define P1TBCTR_H    	(*(unsigned char volatile xdata *)0xe005)
 #define P1TBCTR_L    	(*(unsigned char volatile xdata *)0xe006)	
 #define P1CMPCTL   		(*(unsigned char volatile xdata *)0xe007)
-#define P1AQCTLA    	(*(unsigned int volatile xdata *)0xe008)	
+			#define P1LOADA_MODE				BIT2(P1CMPCTL,0)
+			#define P1LOADB_MODE				BIT2(P1CMPCTL,1)
+			#define P1SHDWA_MODE				BIT(P1CMPCTL,4)
+			#define P1SHDWB_MODE				BIT(P1CMPCTL,5)
+			#define P1SHDWA_FULL				BIT(P1CMPCTL,6)
+			#define P1SHDWB_FULL				BIT(P1CMPCTL,7)
 #define P1AQCTLA_H   	(*(unsigned char volatile xdata *)0xe008)
+			#define P1CBUA							BIT2(P1AQCTLA_H,0)
+			#define P1CBDA							BIT2(P1AQCTLA_H,1)
 #define P1AQCTLA_L    (*(unsigned char volatile xdata *)0xe009)	
-#define P1AQCTLB    	(*(unsigned int volatile xdata *)0xe00a)	
+			#define P1ZROA							BIT2(P1AQCTLA_L,0)
+			#define P1PRDA							BIT2(P1AQCTLA_L,1)
+			#define P1CAUA							BIT2(P1AQCTLA_L,2)
+			#define P1CADA							BIT2(P1AQCTLA_L,3)
 #define P1AQCTLB_H  	(*(unsigned char volatile xdata *)0xe00a)
+			#define P1CBUB							BIT2(P1AQCTLB_H,0)
+			#define P1CBDB							BIT2(P1AQCTLB_H,1)
 #define P1AQCTLB_L    (*(unsigned char volatile xdata *)0xe00b)
+      #define P1ZROB							BIT2(P1AQCTLB_L,0)
+			#define P1PRDB							BIT2(P1AQCTLB_L,1)
+			#define P1CAUB							BIT2(P1AQCTLB_L,2)
+			#define P1CADB							BIT2(P1AQCTLB_L,3)
 #define P1DBCTL	  		(*(unsigned char volatile xdata *)0xe00c)	
-#define P1DBRED    		(*(unsigned int volatile xdata *)0xe00d)	
+	    #define P1OUT_MODE					BIT2(P1DBCTL,0)
+			#define P1POLSEL						BIT2(P1DBCTL,1)
+			#define P1IN_MODE						BIT2(P1DBCTL,2)
+#define P1DBRED  		  (*(unsigned int volatile xdata *)0xe00d)
 #define P1DBRED_H  		(*(unsigned char volatile xdata *)0xe00d)
 #define P1DBRED_L    	(*(unsigned char volatile xdata *)0xe00e)
-#define P1DBFED    		(*(unsigned int volatile xdata *)0xe00f)	
+#define P1DBFED    		(*(unsigned int volatile xdata *)0xe00f)
 #define P1DBFED_H  		(*(unsigned char volatile xdata *)0xe00f)
 #define P1DBFED_L    	(*(unsigned char volatile xdata *)0xe010)
 #define P1TZSEL   		(*(unsigned char volatile xdata *)0xe011)
+	   #define P1TZ_OSHT				           BIT(P1TZSEL,0)
+	   #define P1TZ_CBC   			           BIT(P1TZSEL,1)
 #define P1TZCTL   		(*(unsigned char volatile xdata *)0xe012)
-
-#define P1ETSEL   		(*(unsigned int volatile xdata *)0xe014)	
+	    #define P1TZA							BIT2(P1TZCTL,0)
+			#define P1TZB							BIT2(P1TZCTL,1)
+#define P1TZEINT   		(*(unsigned char volatile xdata *)0xe013)
+			#define P1TZEINT_CBC  		BIT(P1TZEINT,1)
+			#define P1TZEINT_OSHT  		BIT(P1TZEINT,2)
 #define P1ETSEL_H  		(*(unsigned char volatile xdata *)0xe014)
+	  #define P1ET_SOCASEL				BIT4(P1ETSEL_H ,0)
+	  #define P1ET_SOCAEN					BIT4(P1ETSEL_H ,1)
+	  #define P1ET_SOCBSEL				BIT4(P1ETSEL_H ,2)
+		#define P1ET_SOCBEN					BIT4(P1ETSEL_H ,3)
 #define P1ETSEL_L    	(*(unsigned char volatile xdata *)0xe015)
-#define P1ETPS   			(*(unsigned int volatile xdata *)0xe016)	
+	  #define P1ET_INTSEL				BIT4(P1ETSEL_L ,0)
+	  #define P1ET_INTEN				BIT4(P1ETSEL_L ,1)
 #define P1ETPS_H  		(*(unsigned char volatile xdata *)0xe016)
+	    #define P1ET_SOCAPRD				BIT2(P1ETPS_H,0)
+	    #define P1ET_SOCACNT				BIT2(P1ETPS_H,1)
+	    #define P1ET_SOCBPRD				BIT2(P1ETPS_H,2)
+	    #define P1ET_SOCBCNT				BIT2(P1ETPS_H,3)
 #define P1ETPS_L    	(*(unsigned char volatile xdata *)0xe017)	
-
+	    #define P1ET_INTPRD				BIT2(P1ETPS_L,0)
+	    #define P1ET_INTCNT				BIT2(P1ETPS_L,1)
 
 	
 // ePWM2 ext Ram ==========================================
 
-#define P2TBCTL   		(*(unsigned int volatile xdata *)0xe018)
+ 
 #define P2TBCTL_H    	(*(unsigned char volatile xdata *)0xe018)
+		#define P2FREE_SOFT		BIT2(P2TBCTL_H,3)
 #define P2TBCTL_L    	(*(unsigned char volatile xdata *)0xe019)
+		#define P2CTRMODE			BIT2(P2TBCTL_L,0)
+		#define P2PRDLD				BIT(P2TBCTL_L,3)
 #define P2TBSTS    		(*(unsigned char volatile xdata *)0xe01a)
-#define P2TBCTR    		(*(unsigned int volatile xdata *)0xe01b)	
+#define P2TBCTR    		(*(unsigned int volatile xdata *)0xe01b)
 #define P2TBCTR_H    	(*(unsigned char volatile xdata *)0xe01b)
 #define P2TBCTR_L    	(*(unsigned char volatile xdata *)0xe01c)	
 #define P2CMPCTL   		(*(unsigned char volatile xdata *)0xe01d)
-#define P2AQCTLA    	(*(unsigned int volatile xdata *)0xe01e)	
+			#define P2LOADA_MODE				BIT2(P2CMPCTL,0)
+			#define P2LOADB_MODE				BIT2(P2CMPCTL,1)
+			#define P2SHDWA_MODE				BIT(P2CMPCTL,4)
+			#define P2SHDWB_MODE				BIT(P2CMPCTL,5)
+			#define P2SHDWA_FULL				BIT(P2CMPCTL,6)
+			#define P2SHDWB_FULL				BIT(P2CMPCTL,7)	
 #define P2AQCTLA_H   	(*(unsigned char volatile xdata *)0xe01e)
+			#define P2CBUA							BIT2(P2AQCTLA_H,0)
+			#define P2CBDA							BIT2(P2AQCTLA_H,1)	
 #define P2AQCTLA_L    (*(unsigned char volatile xdata *)0xe01f)
-#define P2AQCTLB    	(*(unsigned int volatile xdata *)0xe020)	
+			#define P2ZROA							BIT2(P2AQCTLA_L,0)
+			#define P2PRDA							BIT2(P2AQCTLA_L,1)
+			#define P2CAUA							BIT2(P2AQCTLA_L,2)
+			#define P2CADA							BIT2(P2AQCTLA_L,3)
 #define P2AQCTLB_H  	(*(unsigned char volatile xdata *)0xe020)
+			#define P2CBUB							BIT2(P2AQCTLB_H,0)
+			#define P2CBDB							BIT2(P2AQCTLB_H,1)
 #define P2AQCTLB_L    (*(unsigned char volatile xdata *)0xe021)
+	    #define P2ZROB							BIT2(P2AQCTLB_L,0)
+			#define P2PRDB							BIT2(P2AQCTLB_L,1)
+			#define P2CAUB							BIT2(P2AQCTLB_L,2)
+			#define P2CADB							BIT2(P2AQCTLB_L,3)
 #define P2DBCTL	  		(*(unsigned char volatile xdata *)0xe022)
-#define P2DBRED    		(*(unsigned int volatile xdata *)0xe023)	
+	    #define P2OUT_MODE					BIT2(P2DBCTL,0)
+			#define P2POLSEL						BIT2(P2DBCTL,1)
+			#define P2IN_MODE						BIT2(P2DBCTL,2)
+#define P2DBRED  		  (*(unsigned int volatile xdata *)0xe023)	
 #define P2DBRED_H  		(*(unsigned char volatile xdata *)0xe023)
 #define P2DBRED_L    	(*(unsigned char volatile xdata *)0xe024)
-#define P2DBFED    		(*(unsigned int volatile xdata *)0xe025)	
+#define P2DBFED   		(*(unsigned int volatile xdata *)0xe025)
 #define P2DBFED_H  		(*(unsigned char volatile xdata *)0xe025)
 #define P2DBFED_L    	(*(unsigned char volatile xdata *)0xe026)
 #define P2TZSEL   		(*(unsigned char volatile xdata *)0xe027)
+		 #define P2TZ_OSHT				           BIT(P2TZSEL,0)
+     #define P2TZ_CBC   			           BIT(P2TZSEL,1)
 #define P2TZCTL   		(*(unsigned char volatile xdata *)0xe028)
-#define P2ETSEL   		(*(unsigned int volatile xdata *)0xe02a)	
+		  #define P2TZA							BIT2(P2TZCTL,0)
+			#define P2TZB							BIT2(P2TZCTL,1)
+#define P2TZEINT   		(*(unsigned char volatile xdata *)0xe029)
+			#define P2TZEINT_CBC  		BIT(P2TZEINT,1)
+			#define P2TZEINT_OSHT  		BIT(P2TZEINT,2)
 #define P2ETSEL_H  		(*(unsigned char volatile xdata *)0xe02a)
+	  #define P2ET_SOCASEL				BIT4(P2ETSEL_H ,0)
+	  #define P2ET_SOCAEN					BIT4(P2ETSEL_H ,1)
+	  #define P2ET_SOCBSEL				BIT4(P2ETSEL_H ,2)
+		#define P2ET_SOCBEN					BIT4(P2ETSEL_H ,3)	
 #define P2ETSEL_L    	(*(unsigned char volatile xdata *)0xe02b)
-#define P2ETPS   			(*(unsigned int volatile xdata *)0xe02c)	
+	  #define P2ET_INTSEL				BIT4(P2ETSEL_L ,0)
+	  #define P2ET_INTEN				BIT4(P2ETSEL_L ,1)	
 #define P2ETPS_H  		(*(unsigned char volatile xdata *)0xe02c)
+		  #define P2ET_SOCAPRD				BIT2(P2ETPS_H,0)
+	    #define P2ET_SOCACNT				BIT2(P2ETPS_H,1)
+	    #define P2ET_SOCBPRD				BIT2(P2ETPS_H,2)
+	    #define P2ET_SOCBCNT				BIT2(P2ETPS_H,3)
 #define P2ETPS_L    	(*(unsigned char volatile xdata *)0xe02d)	
-
+	    #define P2ET_INTPRD				BIT2(P2ETPS_L,0)
+	    #define P2ET_INTCNT				BIT2(P2ETPS_L,1)
 
 
 
@@ -392,36 +525,74 @@ sfr	P4ETFRC		= 0xf7;
 // ePWM3 ext Ram ==========================================
 
 
-#define P3TBCTL   		(*(unsigned int volatile xdata *)0xe02e)
+ 
 #define P3TBCTL_H    	(*(unsigned char volatile xdata *)0xe02e)
+		#define P3FREE_SOFT		BIT2(P3TBCTL_H,3)
 #define P3TBCTL_L    	(*(unsigned char volatile xdata *)0xe02f)
+		#define P3CTRMODE			BIT2(P3TBCTL_L,0)
+		#define P3PRDLD				BIT(P3TBCTL_L,3)
 #define P3TBSTS    		(*(unsigned char volatile xdata *)0xe030)
-#define P3TBCTR    		(*(unsigned int volatile xdata *)0xe031)	
+#define P3TBCTR    		(*(unsigned int volatile xdata *)0xe031)
 #define P3TBCTR_H    	(*(unsigned char volatile xdata *)0xe031)
 #define P3TBCTR_L    	(*(unsigned char volatile xdata *)0xe032)	
 #define P3CMPCTL   		(*(unsigned char volatile xdata *)0xe033)
-#define P3AQCTLA    	(*(unsigned int volatile xdata *)0xe034)	
+			#define P3LOADA_MODE				BIT2(P3CMPCTL,0)
+			#define P3LOADB_MODE				BIT2(P3CMPCTL,1)
+			#define P3SHDWA_MODE				BIT(P3CMPCTL,4)
+			#define P3SHDWB_MODE				BIT(P3CMPCTL,5)
+			#define P3SHDWA_FULL				BIT(P3CMPCTL,6)
+			#define P3SHDWB_FULL				BIT(P3CMPCTL,7)
 #define P3AQCTLA_H   	(*(unsigned char volatile xdata *)0xe034)
+			#define P3CBUA							BIT2(P3AQCTLA_H,0)
+			#define P3CBDA							BIT2(P3AQCTLA_H,1)	
 #define P3AQCTLA_L    (*(unsigned char volatile xdata *)0xe035)
-#define P3AQCTLB    	(*(unsigned int volatile xdata *)0xe036)	
+			#define P3ZROA							BIT2(P3AQCTLA_L,0)
+			#define P3PRDA							BIT2(P3AQCTLA_L,1)
+			#define P3CAUA							BIT2(P3AQCTLA_L,2)
+			#define P3CADA							BIT2(P3AQCTLA_L,3)
 #define P3AQCTLB_H  	(*(unsigned char volatile xdata *)0xe036)
+		  #define P3CBUB							BIT2(P3AQCTLB_H,0)
+			#define P3CBDB							BIT2(P3AQCTLB_H,1)
 #define P3AQCTLB_L    (*(unsigned char volatile xdata *)0xe037)
+		  #define P3ZROB							BIT2(P3AQCTLB_L,0)
+			#define P3PRDB							BIT2(P3AQCTLB_L,1)
+			#define P3CAUB							BIT2(P3AQCTLB_L,2)
+			#define P3CADB							BIT2(P3AQCTLB_L,3)
 #define P3DBCTL	  		(*(unsigned char volatile xdata *)0xe038)
-#define P3DBRED    		(*(unsigned int volatile xdata *)0xe039)	
+	    #define P3OUT_MODE					BIT2(P3DBCTL,0)
+			#define P3POLSEL						BIT2(P3DBCTL,1)
+			#define P3IN_MODE						BIT2(P3DBCTL,2)
+#define P3DBRED   		(*(unsigned int volatile xdata *)0xe039)
 #define P3DBRED_H  		(*(unsigned char volatile xdata *)0xe039)
 #define P3DBRED_L    	(*(unsigned char volatile xdata *)0xe03a)
-#define P3DBFED    		(*(unsigned int volatile xdata *)0xe03b)	
+#define P3DBFED   		(*(unsigned int volatile xdata *)0xe03b)
 #define P3DBFED_H  		(*(unsigned char volatile xdata *)0xe03b)
 #define P3DBFED_L    	(*(unsigned char volatile xdata *)0xe03c)
 #define P3TZSEL   		(*(unsigned char volatile xdata *)0xe03d)
+		 #define P3TZ_OSHT				           BIT(P3TZSEL,0)
+     #define P3TZ_CBC   			           BIT(P3TZSEL,1)
 #define P3TZCTL   		(*(unsigned char volatile xdata *)0xe03e)
-#define P3ETSEL   		(*(unsigned int volatile xdata *)0xe040)	
+		  #define P3TZA							BIT2(P3TZCTL,0)
+			#define P3TZB							BIT2(P3TZCTL,1)
+#define P3TZEINT   		(*(unsigned char volatile xdata *)0xe03f)
+			#define P3TZEINT_CBC  		BIT(P3TZEINT,1)
+			#define P3TZEINT_OSHT  		BIT(P3TZEINT,2)	
 #define P3ETSEL_H  		(*(unsigned char volatile xdata *)0xe040)
+		#define P3ET_SOCASEL				BIT4(P3ETSEL_H ,0)
+	  #define P3ET_SOCAEN					BIT4(P3ETSEL_H ,1)
+	  #define P3ET_SOCBSEL				BIT4(P3ETSEL_H ,2)
+		#define P3ET_SOCBEN					BIT4(P3ETSEL_H ,3)
 #define P3ETSEL_L    	(*(unsigned char volatile xdata *)0xe041)
-#define P3ETPS   			(*(unsigned int volatile xdata *)0xe042)	
+		#define P3ET_INTSEL				BIT4(P3ETSEL_L ,0)
+	  #define P3ET_INTEN				BIT4(P3ETSEL_L ,1)
 #define P3ETPS_H  		(*(unsigned char volatile xdata *)0xe042)
+	    #define P3ET_SOCAPRD				BIT2(P3ETPS_H,0)
+	    #define P3ET_SOCACNT				BIT2(P3ETPS_H,1)
+	    #define P3ET_SOCBPRD				BIT2(P3ETPS_H,2)
+	    #define P3ET_SOCBCNT				BIT2(P3ETPS_H,3)	
 #define P3ETPS_L    	(*(unsigned char volatile xdata *)0xe043)	
-
+	    #define P3ET_INTPRD				BIT2(P3ETPS_L,0)
+	    #define P3ET_INTCNT				BIT2(P3ETPS_L,1)
 
 
 	
@@ -429,36 +600,74 @@ sfr	P4ETFRC		= 0xf7;
 
 
 
-#define P4TBCTL   		(*(unsigned int volatile xdata *)0xe044)
+ 
 #define P4TBCTL_H    	(*(unsigned char volatile xdata *)0xe044)
+		#define P4FREE_SOFT		BIT2(P4TBCTL_H,3)
 #define P4TBCTL_L    	(*(unsigned char volatile xdata *)0xe045)
+		#define P4CTRMODE			BIT2(P4TBCTL_L,0)
+		#define P4PRDLD				BIT(P4TBCTL_L,3)	
 #define P4TBSTS    		(*(unsigned char volatile xdata *)0xe046)
 #define P4TBCTR    		(*(unsigned int volatile xdata *)0xe047)	
 #define P4TBCTR_H    	(*(unsigned char volatile xdata *)0xe047)
 #define P4TBCTR_L    	(*(unsigned char volatile xdata *)0xe048)	
 #define P4CMPCTL   		(*(unsigned char volatile xdata *)0xe049)
-#define P4AQCTLA    	(*(unsigned int volatile xdata *)0xe04a)	
+			#define P4LOADA_MODE				BIT2(P4CMPCTL,0)
+			#define P4LOADB_MODE				BIT2(P4CMPCTL,1)
+			#define P4SHDWA_MODE				BIT(P4CMPCTL,4)
+			#define P4SHDWB_MODE				BIT(P4CMPCTL,5)
+			#define P4SHDWA_FULL				BIT(P4CMPCTL,6)
+			#define P4SHDWB_FULL				BIT(P4CMPCTL,7)
 #define P4AQCTLA_H   	(*(unsigned char volatile xdata *)0xe04a)
+			#define P4CBUA							BIT2(P4AQCTLA_H,0)
+			#define P4CBDA							BIT2(P4AQCTLA_H,1)	
 #define P4AQCTLA_L    (*(unsigned char volatile xdata *)0xe04b)
-#define P4AQCTLB    	(*(unsigned int volatile xdata *)0xe04c)	
+			#define P4ZROA							BIT2(P4AQCTLA_L,0)
+			#define P4PRDA							BIT2(P4AQCTLA_L,1)
+			#define P4CAUA							BIT2(P4AQCTLA_L,2)
+			#define P4CADA							BIT2(P4AQCTLA_L,3)	
 #define P4AQCTLB_H  	(*(unsigned char volatile xdata *)0xe04c)
+			#define P4CBUB							BIT2(P4AQCTLB_H,0)
+			#define P4CBDB							BIT2(P4AQCTLB_H,1)
 #define P4AQCTLB_L    (*(unsigned char volatile xdata *)0xe04d)
+	    #define P4ZROB							BIT2(P4AQCTLB_L,0)
+			#define P4PRDB							BIT2(P4AQCTLB_L,1)
+			#define P4CAUB							BIT2(P4AQCTLB_L,2)
+			#define P4CADB							BIT2(P4AQCTLB_L,3)
 #define P4DBCTL	  		(*(unsigned char volatile xdata *)0xe04e)
-#define P4DBRED    		(*(unsigned int volatile xdata *)0xe04f)	
+      #define P4OUT_MODE					BIT2(P4DBCTL,0)
+			#define P4POLSEL						BIT2(P4DBCTL,1)
+			#define P4IN_MODE						BIT2(P4DBCTL,2)	
+#define P4DBRED    		(*(unsigned int volatile xdata *)0xe04f)
 #define P4DBRED_H  		(*(unsigned char volatile xdata *)0xe04f)
 #define P4DBRED_L    	(*(unsigned char volatile xdata *)0xe050)
-#define P4DBFED    		(*(unsigned int volatile xdata *)0xe051)	
+#define P4DBFED   		(*(unsigned int volatile xdata *)0xe051)
 #define P4DBFED_H  		(*(unsigned char volatile xdata *)0xe051)
 #define P4DBFED_L    	(*(unsigned char volatile xdata *)0xe052)
 #define P4TZSEL   		(*(unsigned char volatile xdata *)0xe053)
+		 #define P4TZ_OSHT				           BIT(P4TZSEL,0)
+     #define P4TZ_CBC   			           BIT(P4TZSEL,1)
 #define P4TZCTL   		(*(unsigned char volatile xdata *)0xe054)
-#define P4ETSEL   		(*(unsigned int volatile xdata *)0xe056)	
+		  #define P4TZA							BIT2(P4TZCTL,0)
+			#define P4TZB							BIT2(P4TZCTL,1)
+#define P4TZEINT   		(*(unsigned char volatile xdata *)0xe055)
+			#define P4TZEINT_CBC  		BIT(P4TZEINT,1)
+			#define P4TZEINT_OSHT  		BIT(P4TZEINT,2)
 #define P4ETSEL_H  		(*(unsigned char volatile xdata *)0xe056)
+		#define P4ET_SOCASEL				BIT4(P4ETSEL_H ,0)
+	  #define P4ET_SOCAEN					BIT4(P4ETSEL_H ,1)
+	  #define P4ET_SOCBSEL				BIT4(P4ETSEL_H ,2)
+		#define P4ET_SOCBEN					BIT4(P4ETSEL_H ,3)
 #define P4ETSEL_L    	(*(unsigned char volatile xdata *)0xe057)
-#define P4ETPS   			(*(unsigned int volatile xdata *)0xe058)	
+	  #define P4ET_INTSEL				BIT4(P4ETSEL_L ,0)
+	  #define P4ET_INTEN				BIT4(P4ETSEL_L ,1)	
 #define P4ETPS_H  		(*(unsigned char volatile xdata *)0xe058)
+		  #define P4ET_SOCAPRD				BIT2(P4ETPS_H,0)
+	    #define P4ET_SOCACNT				BIT2(P4ETPS_H,1)
+	    #define P4ET_SOCBPRD				BIT2(P4ETPS_H,2)
+	    #define P4ET_SOCBCNT				BIT2(P4ETPS_H,3)
 #define P4ETPS_L    	(*(unsigned char volatile xdata *)0xe059)	
-
+	    #define P4ET_INTPRD				BIT2(P4ETPS_L,0)
+	    #define P4ET_INTCNT				BIT2(P4ETPS_L,1)
  
 
 

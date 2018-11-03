@@ -204,33 +204,33 @@ void TIMER6Interrupt(void)  interrupt 24
 
 void ePWM123Interrupt(void) interrupt 9
 {
-	if (EPWM_INT(1)==1)
+	if (EPWM1_INT==1)
 	{
 		
 		
 		
-		CLR_EPWM_INT(1);
+		CLR_EPWM1_INT();
 	}
 
 	
-	if (EPWM_INT(2)==1)
+	if (EPWM2_INT==1)
 	{
 		
 		
 		
 		
 		
-		CLR_EPWM_INT(2);
+		CLR_EPWM2_INT();
 	}
 	
 	
-	if (EPWM_INT(3)==1)
+	if (EPWM3_INT==1)
 	{
 		
-		CLR_EPWM_INT(3);
+    CLR_EPWM3_INT(); 
 	}
 	
-	if ((EPWM_INT(1)==0)&&(EPWM_INT(2)==0)&&(EPWM_INT(3)==0))
+	if ((EPWM1_INT==0)&&(EPWM2_INT==0)&&(EPWM3_INT==0))
 		IEX2=0;
 	
 }
@@ -239,9 +239,9 @@ void ePWM123Interrupt(void) interrupt 9
 void ePWM4Interrupt(void)  interrupt 20
 {
 
+	 CLR_EPWM4_INT(); 
 	
-	CLR_EPWM_INT(4);
-	if ((T5_INT==0)&&(EPWM_INT(4)==0))
+	if ((T5_INT==0)&&(EPWM4_INT==0))
 			IEX3=0;
 	
 }

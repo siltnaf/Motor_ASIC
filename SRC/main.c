@@ -4,6 +4,7 @@
 #include "initial.h"
 #include "lib.h"
 #include "ISD51.H"
+#include "epwm.h"
 
 #pragma mdu_r515					//use hardware math unit
 
@@ -29,7 +30,7 @@ InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse wi
 	InitTimer01();
 //	InitADC();                           //ADC use timer0 to trigger AD start
 	
-	
+	InitDAC();
 	
 		InitGPIO();
 	//	InitEXT();
@@ -42,7 +43,8 @@ InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse wi
 		 
 	
 			dac_value=(unsigned char)(pwm_capture>>11);
-			DAC1_DAT=dac_value;
+			DAC1_DAT=0x88;
+			DAC2_DAT=0xff;
 			
 			
 			
