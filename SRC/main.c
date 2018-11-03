@@ -35,6 +35,7 @@ InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse wi
 		InitGPIO();
 	//	InitEXT();
 	//InitComparator();
+	Initepwm();
 	
 		EAL=1;
     while(1)

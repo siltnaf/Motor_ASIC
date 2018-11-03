@@ -439,10 +439,10 @@ void Initepwm(void)
 
 
 
-	P1CMPA = 0x03E8;						// CMPA counter value
-	P2CMPA = 0x03E8;
-	P3CMPA = 0x03E8;
-	P4CMPA = 0x03E8;
+	P1CMPA = 0x01E8;						// CMPA counter value
+	P2CMPA = 0x01E8;
+	P3CMPA = 0x01E8;
+	P4CMPA = 0x01E8;
 	
 	P1CMPB = 0x0190;						// CMPA counter value
 	P2CMPB = 0x0190;
