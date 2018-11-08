@@ -146,9 +146,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>48</LineNumber>
+          <LineNumber>49</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>-16763503</Address>
+          <Address>-16763491</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -157,7 +157,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>SRC\MAIN.C</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\motor\MAIN\49</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -241,7 +241,12 @@
         <Ww>
           <count>6</count>
           <WinNumber>2</WinNumber>
-          <ItemText>test</ItemText>
+          <ItemText>input</ItemText>
+        </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>sin_out</ItemText>
         </Ww>
       </WatchWindow2>
       <MemoryWindow1>

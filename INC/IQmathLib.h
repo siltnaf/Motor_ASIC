@@ -56,7 +56,7 @@ extern "C"
 //
 //*****************************************************************************
 #ifndef GLOBAL_Q
-#define GLOBAL_Q                24
+#define GLOBAL_Q                15
 #endif
 
 //*****************************************************************************
@@ -179,36 +179,36 @@ typedef long _iq;
 // Convert a value into an IQ number.
 //
 //*****************************************************************************
-#define _IQ30(A)                ((_iq30)((A) * (1 << 30)))
-#define _IQ29(A)                ((_iq29)((A) * (1 << 29)))
-#define _IQ28(A)                ((_iq28)((A) * (1 << 28)))
-#define _IQ27(A)                ((_iq27)((A) * (1 << 27)))
-#define _IQ26(A)                ((_iq26)((A) * (1 << 26)))
-#define _IQ25(A)                ((_iq25)((A) * (1 << 25)))
-#define _IQ24(A)                ((_iq24)((A) * (1 << 24)))
-#define _IQ23(A)                ((_iq23)((A) * (1 << 23)))
-#define _IQ22(A)                ((_iq22)((A) * (1 << 22)))
-#define _IQ21(A)                ((_iq21)((A) * (1 << 21)))
-#define _IQ20(A)                ((_iq20)((A) * (1 << 20)))
-#define _IQ19(A)                ((_iq19)((A) * (1 << 19)))
-#define _IQ18(A)                ((_iq18)((A) * (1 << 18)))
-#define _IQ17(A)                ((_iq17)((A) * (1 << 17)))
-#define _IQ16(A)                ((_iq16)((A) * (1 << 16)))
-#define _IQ15(A)                ((_iq15)((A) * (1 << 15)))
-#define _IQ14(A)                ((_iq14)((A) * (1 << 14)))
-#define _IQ13(A)                ((_iq13)((A) * (1 << 13)))
-#define _IQ12(A)                ((_iq12)((A) * (1 << 12)))
-#define _IQ11(A)                ((_iq11)((A) * (1 << 11)))
-#define _IQ10(A)                ((_iq10)((A) * (1 << 10)))
-#define _IQ9(A)                 ((_iq9)((A) * (1 << 9)))
-#define _IQ8(A)                 ((_iq8)((A) * (1 << 8)))
-#define _IQ7(A)                 ((_iq7)((A) * (1 << 7)))
-#define _IQ6(A)                 ((_iq6)((A) * (1 << 6)))
-#define _IQ5(A)                 ((_iq5)((A) * (1 << 5)))
-#define _IQ4(A)                 ((_iq4)((A) * (1 << 4)))
-#define _IQ3(A)                 ((_iq3)((A) * (1 << 3)))
-#define _IQ2(A)                 ((_iq2)((A) * (1 << 2)))
-#define _IQ1(A)                 ((_iq1)((A) * (1 << 1)))
+#define _IQ30(A)                ((_iq30)((A) *0x400000000))
+#define _IQ29(A)                ((_iq29)((A) *0x200000000 ))
+#define _IQ28(A)                ((_iq28)((A) *0x100000000 ))
+#define _IQ27(A)                ((_iq27)((A) *0x080000000))
+#define _IQ26(A)                ((_iq26)((A) *0x040000000 ))
+#define _IQ25(A)                ((_iq25)((A) *0x020000000 ))
+#define _IQ24(A)                ((_iq24)((A) *0x010000000 ))
+#define _IQ23(A)                ((_iq23)((A) *0x008000000))
+#define _IQ22(A)                ((_iq22)((A) *0x004000000 ))
+#define _IQ21(A)                ((_iq21)((A) *0x002000000))
+#define _IQ20(A)                ((_iq20)((A) *0x001000000 ))
+#define _IQ19(A)                ((_iq19)((A) *0x000800000))
+#define _IQ18(A)                ((_iq18)((A) *0x00040000))
+#define _IQ17(A)                ((_iq17)((A) *0x00020000))
+#define _IQ16(A)                ((_iq16)((A) *0x00010000))
+#define _IQ15(A)                ((_iq15)((A) *0x00008000))
+#define _IQ14(A)                ((_iq14)((A) *0x00004000))
+#define _IQ13(A)                ((_iq13)((A) *0x00002000))
+#define _IQ12(A)                ((_iq12)((A) *0x00001000))
+#define _IQ11(A)                ((_iq11)((A) *0x00000800))
+#define _IQ10(A)                ((_iq10)((A) *0x00000400))
+#define _IQ9(A)                 ((_iq9)((A) *0x00000200))
+#define _IQ8(A)                 ((_iq8)((A) *0x00000100))
+#define _IQ7(A)                 ((_iq7)((A) *0x00000080))
+#define _IQ6(A)                 ((_iq6)((A) *0x00000040))
+#define _IQ5(A)                 ((_iq5)((A) *0x00000020))
+#define _IQ4(A)                 ((_iq4)((A) *0x00000010))
+#define _IQ3(A)                 ((_iq3)((A) *0x00000008)
+#define _IQ2(A)                 ((_iq2)((A) *0x00000004))
+#define _IQ1(A)                 ((_iq1)((A) *0x00000002))
 
 #if GLOBAL_Q == 30
 #define _IQ(A)                  _IQ30(A)

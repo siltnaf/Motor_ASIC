@@ -45,8 +45,9 @@ InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse wi
     {
 			
 		 
-			input = _IQ29(0.25*PI);
-			sin_out=_IQ29sin(input);
+			input =  _IQ10(0.25*PI);
+			input =  _IQ10toIQ(input);
+//			sin_out=_IQ29sin(input);
 	
 			dac_value=(unsigned char)(pwm_capture>>11);
 			DAC1_DAT=0x88;
@@ -59,8 +60,8 @@ InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse wi
 		 
 		
 	
-		while (BUSY==1);
-				data_value= ADresult;
+//		while (BUSY==1);
+//				data_value= ADresult;
 			
 			
         #if ISDDebug == ENABLE_ISD
