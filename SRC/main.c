@@ -45,8 +45,12 @@ InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse wi
     {
 			
 		 
-			input =  _IQ10(0.25*PI);
-			input =  _IQ10toIQ(input);
+			
+			
+			
+//			input =  _IQ10((0.25*PI));
+			
+	
 //			sin_out=_IQ29sin(input);
 	
 			dac_value=(unsigned char)(pwm_capture>>11);
