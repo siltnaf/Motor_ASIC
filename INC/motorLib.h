@@ -94,4 +94,6 @@ extern void EE_write(U8 EE_addr, U32 EE_data);
 extern U32 EE_read(U8 EE_addr); 
 
 
+extern S32 Normalize(S32 Data);
+
 #endif //_LIB_H_

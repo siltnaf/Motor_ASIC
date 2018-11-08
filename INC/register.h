@@ -8,6 +8,8 @@
 #define BIT4(bByte,bPos)((struct {unsigned char _0:3;unsigned char _1:1;unsigned char _2:3;unsigned char _3:1;}*)&bByte)->_##bPos	                                                                            //BIT4(012,3,456,7)
 
 
+
+
 #define SET_BIT(p,n) ((p) |= (1 << (n)))
 #define CLR_BIT(p,n) ((p) &= (~(1) << (n)))
 #define CHECK_BIT(var,pos) (((var) & (1<<(pos)))==(1<<(pos)))
@@ -166,6 +168,8 @@ sfr MD0	     = 0xe9;
 sfr MD1	     = 0xea;
 sfr MD2	     = 0xeb;
 sfr MD3	     = 0xec;
+    #define MD3_7				      CHECK_BIT(MD3,7)
+
 sfr MD4	     = 0xed;
 sfr MD5	     = 0xee;
 sfr ARCON	   = 0xef;

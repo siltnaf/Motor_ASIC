@@ -121,70 +121,8 @@ return value;
 }
 
 
-/*
- * @fn		Normalize
- *
- * @brief	Normalize
- * 
- * @param	none
- *
- * @return 	none
- */
-//S32 Normalize(S32 dat)
-//{
-//#pragma asm
-//  mov MD0, r7
-//  mov MD1, r6
-//  mov MD2, r5
-//  mov MD3, r4
 
-//	ANL  ARCON , #0xE0
-
-//	nop    ;wait 34
-//  nop
-//  nop
-//  nop
-//  nop
-//	nop    
-//  nop
-//  nop
-//  nop
-//  nop
-//	nop    ;wait 24
-//  nop
-//  nop
-//  nop
-//  nop
-//	nop    
-//  nop
-//  nop
-//  nop
-//  nop
-//	nop    ;wait 14
-//  nop
-//  nop
-//  nop
-//  nop
-//	nop    
-//  nop
-//  nop
-//  nop
-//  nop
-//	nop    ;wait 4
-//  nop
-//  nop
-//  nop
-//#pragma endasm
-//  _md_error = (ARCON&(MD_MDEF|MD_MDOV));
-//#pragma asm
-// 	mov r7, MD0
-//	mov r6, MD1
-//	mov r5, MD2
-//	mov r4, MD3
-//#pragma endasm
-//return MD0;
-//}
-void Normalizing_Write(unsigned long Data)
+S32 Normalize(S32 Data)
 {
  Long_Data LD;
  LD.Ldata =Data;
@@ -193,24 +131,12 @@ void Normalizing_Write(unsigned long Data)
  MD2 = LD.ss1.Byte2;
  MD3 = LD.ss1.Byte3;
  ARCON = 0x00 ; // Start Normalizing
- while(!(PCON & 0x40)) //check MDU finish flag
- {};
+ while(MD3_7==0 ); //check MDU finish flag
+	LD.ss1.Byte0=MD0;
+	LD.ss1.Byte1=MD1;
+	LD.ss1.Byte2=MD2;
+	LD.ss1.Byte3=MD3;
+ 
+	 return LD.Ldata ;
 }
 
-void Normalizing_Read(void)
-{ 
-Long_Data LD;
- LD.ss1.Byte0 = MD0; //first read
- LD.ss1.Byte1 = MD1;
- LD.ss1.Byte2 = MD2;
- LD.ss1.Byte3 = MD3; //last read, MDEF(error flag) happen if not read
-} 
-
-void Normalizing_test(void)
-{
-
- Normalizing_Write(0x00000001); //ANS=0x1F -->MDOV=0
-
- Normalizing_Read();
-
-}

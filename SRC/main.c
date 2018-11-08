@@ -20,7 +20,8 @@
 _iq input,sin_out;     //gobal_q =24
  
 U32 EE_data;
- 
+S32 math_data;
+U8  index; 
 
 void main(void)
 {
@@ -28,43 +29,49 @@ void main(void)
     SystemClock();
     #endif
 		InitISDDebug(); 
-InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse width
-  //InitTimer4();                          //start timer1
-	InitTimer01();
-//	InitADC();                           //ADC use timer0 to trigger AD start
+
 	
-	InitDAC();
+	//InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse width
+  //InitTimer4();                          //start timer1
+	//InitTimer01();
+  //	InitADC();                           //ADC use timer0 to trigger AD start
+	
+	//InitDAC();
 	
 		InitGPIO();
 	//	InitEXT();
 	//InitComparator();
-	Initepwm();
+	//Initepwm();
 	
 		EAL=1;
     while(1)
     {
 			
 		 
+		math_data=Normalize(0x00000324);
+			index=ARCON;
 			
+			math_data=math_data>>index;
+			 
 			
-			
-//			input =  _IQ10((0.25*PI));
+//			input =  _IQ10((0.25*PI));           //test IQmathlib
 			
 	
-//			sin_out=_IQ29sin(input);
+			
+			
 	
-			dac_value=(unsigned char)(pwm_capture>>11);
-			DAC1_DAT=0x88;
-			DAC2_DAT=0xff;
+//			dac_value=(unsigned char)(pwm_capture>>11);             //check DAC
+//			DAC1_DAT=dac_value;
+//			DAC2_DAT=0xff;
 			
 			
 			
-//			EE_write(0x0a, 0xabcdef12);
+//			EE_write(0x0a, 0xabcdef12);                        //check EPROM
 //			EE_data=EE_read(0x0a);
 		 
 		
 	
-//		while (BUSY==1);
+//		while (BUSY==1);                                     //check ADC
 //				data_value= ADresult;
 			
 			
@@ -76,5 +83,5 @@ InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse wi
 }
 
 
-//void EE_write ( unsigned int  addr, unsigned char dat1, unsigned char dat2
+
 

@@ -221,11 +221,8 @@ P1ETCLR	DATA	0B6H
 ?DT?_EE_read?MOTORLIB                    SEGMENT DATA 
 ?PR?_sin?MOTORLIB    SEGMENT CODE 
 ?DT?_sin?MOTORLIB    SEGMENT DATA 
-?PR?_Normalizing_Write?MOTORLIB          SEGMENT CODE 
-?DT?_Normalizing_Write?MOTORLIB          SEGMENT DATA 
-?PR?Normalizing_Read?MOTORLIB            SEGMENT CODE 
-?DT?Normalizing_Read?MOTORLIB            SEGMENT DATA 
-?PR?Normalizing_test?MOTORLIB            SEGMENT CODE 
+?PR?_Normalize?MOTORLIB                  SEGMENT CODE 
+?DT?_Normalize?MOTORLIB                  SEGMENT DATA 
 ?C_INITSEG           SEGMENT CODE 
 ?XD?MOTORLIB         SEGMENT XDATA 
 ?DT?MOTORLIB         SEGMENT DATA 
@@ -234,19 +231,11 @@ P1ETCLR	DATA	0B6H
 	PUBLIC	_div_remainder
 	PUBLIC	_md_error
 	PUBLIC	_div_denominator
-	PUBLIC	Normalizing_test
-	PUBLIC	Normalizing_Read
-	PUBLIC	_Normalizing_Write
+	PUBLIC	_Normalize
 	PUBLIC	_sin
 	PUBLIC	_EE_read
 	PUBLIC	?_EE_write?BYTE
 	PUBLIC	_EE_write
-
-	RSEG  ?DT?_Normalizing_Write?MOTORLIB
-?_Normalizing_Write?BYTE:
-       Data?345:   DS   4
-	ORG  4
-         LD?346:   DS   4
 
 	RSEG  ?DT?_EE_read?MOTORLIB
 ?_EE_read?BYTE:
@@ -258,15 +247,17 @@ P1ETCLR	DATA	0B6H
 	ORG  1
     EE_data?041:   DS   4
 
+	RSEG  ?DT?_Normalize?MOTORLIB
+?_Normalize?BYTE:
+       Data?345:   DS   4
+	ORG  4
+         LD?346:   DS   4
+
 	RSEG  ?DT?_sin?MOTORLIB
 ?_sin?BYTE:
         dat?243:   DS   2
 	ORG  2
       value?244:   DS   2
-
-	RSEG  ?DT?Normalizing_Read?MOTORLIB
-?Normalizing_Read?BYTE:
-         LD?447:   DS   4
 
 	RSEG  ?XD?MOTORLIB
 _div_denominator:   DS   2
@@ -580,84 +571,22 @@ _sin:
 
 ; 
 ; 
-; /*
-;  * @fn		Normalize
-;  *
-;  * @brief	Normalize
-;  * 
-;  * @param	none
-;  *
-;  * @return 	none
-;  */
-; //S32 Normalize(S32 dat)
-; //{
-; //#pragma asm
-; //  mov MD0, r7
-; //  mov MD1, r6
-; //  mov MD2, r5
-; //  mov MD3, r4
 ; 
-; //	ANL  ARCON , #0xE0
-; 
-; //	nop    ;wait 34
-; //  nop
-; //  nop
-; //  nop
-; //  nop
-; //	nop    
-; //  nop
-; //  nop
-; //  nop
-; //  nop
-; //	nop    ;wait 24
-; //  nop
-; //  nop
-; //  nop
-; //  nop
-; //	nop    
-; //  nop
-; //  nop
-; //  nop
-; //  nop
-; //	nop    ;wait 14
-; //  nop
-; //  nop
-; //  nop
-; //  nop
-; //	nop    
-; //  nop
-; //  nop
-; //  nop
-; //  nop
-; //	nop    ;wait 4
-; //  nop
-; //  nop
-; //  nop
-; //#pragma endasm
-; //  _md_error = (ARCON&(MD_MDEF|MD_MDOV));
-; //#pragma asm
-; // 	mov r7, MD0
-; //	mov r6, MD1
-; //	mov r5, MD2
-; //	mov r4, MD3
-; //#pragma endasm
-; //return MD0;
-; //}
-; void Normalizing_Write(unsigned long Data)
+; S32 Normalize(S32 Data)
 
-	RSEG  ?PR?_Normalizing_Write?MOTORLIB
-_Normalizing_Write:
+	RSEG  ?PR?_Normalize?MOTORLIB
+_Normalize:
 	USING	0
-			; SOURCE LINE # 187
+			; SOURCE LINE # 125
 	MOV  	Data?345+03H,R7
 	MOV  	Data?345+02H,R6
 	MOV  	Data?345+01H,R5
 	MOV  	Data?345,R4
 ; {
-			; SOURCE LINE # 188
+			; SOURCE LINE # 126
 ;  Long_Data LD;
 ;  LD.Ldata =Data;
-			; SOURCE LINE # 190
+			; SOURCE LINE # 128
 	MOV  	R7,Data?345+03H
 	MOV  	R6,Data?345+02H
 	MOV  	R5,Data?345+01H
@@ -667,86 +596,56 @@ _Normalizing_Write:
 	MOV  	LD?346+01H,R5
 	MOV  	LD?346,R4
 ;  MD0 = LD.ss1.Byte0;
-			; SOURCE LINE # 191
+			; SOURCE LINE # 129
 	MOV  	MD0,LD?346+03H
 ;  MD1 = LD.ss1.Byte1;
-			; SOURCE LINE # 192
+			; SOURCE LINE # 130
 	MOV  	MD1,LD?346+02H
 ;  MD2 = LD.ss1.Byte2;
-			; SOURCE LINE # 193
+			; SOURCE LINE # 131
 	MOV  	MD2,LD?346+01H
 ;  MD3 = LD.ss1.Byte3;
-			; SOURCE LINE # 194
+			; SOURCE LINE # 132
 	MOV  	MD3,LD?346
 ;  ARCON = 0x00 ; // Start Normalizing
-			; SOURCE LINE # 195
+			; SOURCE LINE # 133
 	MOV  	ARCON,#00H
 ?C0012:
-;  while(!(PCON & 0x40)) //check MDU finish flag
-			; SOURCE LINE # 196
-	MOV  	A,PCON
-	JNB  	ACC.6,?C0012
-;  {};
-			; SOURCE LINE # 197
-?C0013:
-; }
-			; SOURCE LINE # 198
-?C0014:
-	RET  	
-; END OF _Normalizing_Write
-
-; 
-; void Normalizing_Read(void)
-
-	RSEG  ?PR?Normalizing_Read?MOTORLIB
-Normalizing_Read:
-			; SOURCE LINE # 200
-; { 
-			; SOURCE LINE # 201
-; Long_Data LD;
-;  LD.ss1.Byte0 = MD0; //first read
-			; SOURCE LINE # 203
-	MOV  	LD?447+03H,MD0
-;  LD.ss1.Byte1 = MD1;
-			; SOURCE LINE # 204
-	MOV  	LD?447+02H,MD1
-;  LD.ss1.Byte2 = MD2;
-			; SOURCE LINE # 205
-	MOV  	LD?447+01H,MD2
-;  LD.ss1.Byte3 = MD3; //last read, MDEF(error flag) happen if not read
-			; SOURCE LINE # 206
-	MOV  	LD?447,MD3
-; } 
-			; SOURCE LINE # 207
-?C0015:
-	RET  	
-; END OF Normalizing_Read
-
-; 
-; void Normalizing_test(void)
-
-	RSEG  ?PR?Normalizing_test?MOTORLIB
-Normalizing_test:
-	USING	0
-			; SOURCE LINE # 209
-; {
-			; SOURCE LINE # 210
-; 
-;  Normalizing_Write(0x00000001); //ANS=0x1F -->MDOV=0
-			; SOURCE LINE # 212
+;  while(MD3_7==0 ); //check MDU finish flag
+			; SOURCE LINE # 134
+	MOV  	A,MD3
+	JNB  	ACC.7,?C0014
 	MOV  	R7,#01H
-	MOV  	R6,#00H
-	MOV  	R5,#00H
-	MOV  	R4,#00H
-	LCALL	_Normalizing_Write
-; 
-;  Normalizing_Read();
-			; SOURCE LINE # 214
-	LCALL	Normalizing_Read
-; 
-; }			; SOURCE LINE # 216
+	SJMP 	?C0015
+?C0014:
+	MOV  	R7,#00H
+?C0015:
+	MOV  	A,R7
+	JZ   	?C0012
+?C0013:
+; 	LD.ss1.Byte0=MD0;
+			; SOURCE LINE # 135
+	MOV  	LD?346+03H,MD0
+; 	LD.ss1.Byte1=MD1;
+			; SOURCE LINE # 136
+	MOV  	LD?346+02H,MD1
+; 	LD.ss1.Byte2=MD2;
+			; SOURCE LINE # 137
+	MOV  	LD?346+01H,MD2
+; 	LD.ss1.Byte3=MD3;
+			; SOURCE LINE # 138
+	MOV  	LD?346,MD3
+;  
+; 	 return LD.Ldata ;
+			; SOURCE LINE # 140
+	MOV  	R7,LD?346+03H
+	MOV  	R6,LD?346+02H
+	MOV  	R5,LD?346+01H
+	MOV  	R4,LD?346
+; }
+			; SOURCE LINE # 141
 ?C0016:
 	RET  	
-; END OF Normalizing_test
+; END OF _Normalize
 
 	END

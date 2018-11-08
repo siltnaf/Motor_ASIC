@@ -146,9 +146,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>49</LineNumber>
+          <LineNumber>76</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>-16763491</Address>
+          <Address>-16762463</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -157,7 +157,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>SRC\MAIN.C</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\motor\MAIN\49</Expression>
+          <Expression>\\motor\MAIN\76</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -211,42 +211,32 @@
         <Ww>
           <count>0</count>
           <WinNumber>2</WinNumber>
-          <ItemText>tmr3_ov</ItemText>
+          <ItemText>ARCON</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>2</WinNumber>
-          <ItemText>last_capture</ItemText>
+          <ItemText>MD3</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>2</WinNumber>
-          <ItemText>this_capture</ItemText>
+          <ItemText>MD2</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>2</WinNumber>
-          <ItemText>pwm_capture</ItemText>
+          <ItemText>MD1</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>2</WinNumber>
-          <ItemText>dac_value</ItemText>
+          <ItemText>MD0</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>2</WinNumber>
-          <ItemText>P1CMPA</ItemText>
-        </Ww>
-        <Ww>
-          <count>6</count>
-          <WinNumber>2</WinNumber>
-          <ItemText>input</ItemText>
-        </Ww>
-        <Ww>
-          <count>7</count>
-          <WinNumber>2</WinNumber>
-          <ItemText>sin_out</ItemText>
+          <ItemText>math_data</ItemText>
         </Ww>
       </WatchWindow2>
       <MemoryWindow1>
@@ -349,7 +339,7 @@
       <GroupNumber>1</GroupNumber>
       <FileNumber>4</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
@@ -366,8 +356,8 @@
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\SRC\lib.c</PathWithFileName>
-      <FilenameWithoutPath>lib.c</FilenameWithoutPath>
+      <PathWithFileName>.\SRC\MotorLib.c</PathWithFileName>
+      <FilenameWithoutPath>MotorLib.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
