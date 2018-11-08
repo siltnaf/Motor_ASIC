@@ -2,9 +2,10 @@
 #include <intrins.h>
 #include "app.h"
 #include "initial.h"
-#include "lib.h"
+#include "motorLib.h"
 #include "ISD51.H"
 #include "epwm.h"
+#include "IQmathLib.h"
 
 #pragma mdu_r515					//use hardware math unit
 
@@ -15,6 +16,8 @@
  
  unsigned char tmr3_ov,dac_value;
  unsigned long last_capture,this_capture, pwm_capture;
+ 
+_iq input,sin_out;     //gobal_q =24
  
 U32 EE_data;
  
@@ -42,6 +45,8 @@ InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse wi
     {
 			
 		 
+			input = _IQ29(0.25*PI);
+			sin_out=_IQ29sin(input);
 	
 			dac_value=(unsigned char)(pwm_capture>>11);
 			DAC1_DAT=0x88;

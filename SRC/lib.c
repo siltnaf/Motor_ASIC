@@ -26,7 +26,7 @@
 #include <intrins.h>   
 #include <absacc.h>
 #include "register.h"
-#include "lib.h"
+#include "motorLib.h"
 
 
 

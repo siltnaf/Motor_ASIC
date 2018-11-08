@@ -6,6 +6,12 @@
 #define ISDDebug  ENABLE_ISD
 
 
+// math parameter
+#define PI 3.14159
+
+
+
+
 
 //  GPIO parameter
 
