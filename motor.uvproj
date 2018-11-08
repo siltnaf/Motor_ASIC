@@ -425,9 +425,9 @@
               <FilePath>.\SRC\interrupt.c</FilePath>
             </File>
             <File>
-              <FileName>lib.c</FileName>
+              <FileName>MotorLib.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\SRC\lib.c</FilePath>
+              <FilePath>.\SRC\MotorLib.c</FilePath>
               <FileOption>
                 <CommonProperty>
                   <UseCPPCompiler>2</UseCPPCompiler>
