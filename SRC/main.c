@@ -48,7 +48,7 @@ void main(void)
     {
 			
 		 
-		math_data=Normalize(0x00000324);
+		math_data=Normalize(0x80000324);
 			index=ARCON;
 			
 			math_data=math_data>>index;
