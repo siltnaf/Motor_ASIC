@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 C51 COMPILER V9.54   INITIAL                                                               11/08/2018 17:04:39 PAGE 1   
+=======
+C51 COMPILER V9.54   INITIAL                                                               11/11/2018 11:38:19 PAGE 1   
+>>>>>>> No update
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE INITIAL
@@ -62,7 +66,11 @@ line level    source
   52   1          {
   53   2              P10 = 0;
   54   2              P10 = 1;
+<<<<<<< HEAD
 C51 COMPILER V9.54   INITIAL                                                               11/08/2018 17:04:39 PAGE 2   
+=======
+C51 COMPILER V9.54   INITIAL                                                               11/11/2018 11:38:19 PAGE 2   
+>>>>>>> No update
 
   55   2              ISDcheck();      // initialize uVision2 Debugger and continue program run
   56   2              if((BPCTRL & 0x10) != 0) break;
@@ -126,7 +134,11 @@ line level    source
  114   1          C2PDO2PD=CFG2;                //COMP2 power off and OP2 power on
  115   1          C3PDO3PD=CFG2;                //COMP3 power off and OP3 power on
  116   1        
+<<<<<<< HEAD
 C51 COMPILER V9.54   INITIAL                                                               11/08/2018 17:04:39 PAGE 3   
+=======
+C51 COMPILER V9.54   INITIAL                                                               11/11/2018 11:38:19 PAGE 3   
+>>>>>>> No update
 
  117   1        
  118   1          LDO25_PD=0;             //use internal 2.5V for AD VREF
@@ -190,7 +202,11 @@ line level    source
  176   1        
  177   1        
  178   1        P1PRDLD=TB_SHADOW;
+<<<<<<< HEAD
 C51 COMPILER V9.54   INITIAL                                                               11/08/2018 17:04:39 PAGE 4   
+=======
+C51 COMPILER V9.54   INITIAL                                                               11/11/2018 11:38:19 PAGE 4   
+>>>>>>> No update
 
  179   1        
  180   1        
@@ -254,7 +270,11 @@ line level    source
  237   1        P3ZROA=AQ_NO_ACTION;
  238   1        
  239   1        
+<<<<<<< HEAD
 C51 COMPILER V9.54   INITIAL                                                               11/08/2018 17:04:39 PAGE 5   
+=======
+C51 COMPILER V9.54   INITIAL                                                               11/11/2018 11:38:19 PAGE 5   
+>>>>>>> No update
 
  240   1        P4CADA=AQ_CLEAR;                     
  241   1        P4CAUA=AQ_SET;
@@ -318,7 +338,11 @@ line level    source
  292   1        P3IN_MODE=DB_AUAD;           // rising edge delay source from epwmxA, falling edge delay source from epw
              -mxA,
  293   1      
+<<<<<<< HEAD
 C51 COMPILER V9.54   INITIAL                                                               11/08/2018 17:04:39 PAGE 6   
+=======
+C51 COMPILER V9.54   INITIAL                                                               11/11/2018 11:38:19 PAGE 6   
+>>>>>>> No update
 
  294   1        P4OUT_MODE=DB_FULL_ENABLE;   // output is dead band full enable, rising edge delay on PWMxA and falling 
              -edge delay on PWMxB
@@ -382,7 +406,11 @@ line level    source
  351   1        
  352   1        
  353   1      // trip zone interrupt  ???  no description in datasheet
+<<<<<<< HEAD
 C51 COMPILER V9.54   INITIAL                                                               11/08/2018 17:04:39 PAGE 7   
+=======
+C51 COMPILER V9.54   INITIAL                                                               11/11/2018 11:38:19 PAGE 7   
+>>>>>>> No update
 
  354   1      
  355   1        
@@ -446,7 +474,11 @@ line level    source
  413   1       P3ET_INTPRD=ET_1ST;        //generate interrupt on 1st event
  414   1       P3ET_INTCNT= ET_1ST;      // event counter period =1
  415   1       P3ET_SOCAPRD=ET_1ST;      //generate SOCA pulse on 1at event
+<<<<<<< HEAD
 C51 COMPILER V9.54   INITIAL                                                               11/08/2018 17:04:39 PAGE 8   
+=======
+C51 COMPILER V9.54   INITIAL                                                               11/11/2018 11:38:19 PAGE 8   
+>>>>>>> No update
 
  416   1       P3ET_SOCACNT=ET_1ST;      // SOCA event counter =1
  417   1       P3ET_SOCBPRD=ET_DISABLE;  //SOCB is not used
@@ -510,7 +542,11 @@ line level    source
  475   1          
  476   1        
  477   1        
+<<<<<<< HEAD
 C51 COMPILER V9.54   INITIAL                                                               11/08/2018 17:04:39 PAGE 9   
+=======
+C51 COMPILER V9.54   INITIAL                                                               11/11/2018 11:38:19 PAGE 9   
+>>>>>>> No update
 
  478   1          C1PDO1PD=CFG1;                //COMP1 power on and OP1 power off
  479   1          C2PDO2PD=CFG1;                //COMP2 power on and OP2 power off
@@ -574,7 +610,11 @@ line level    source
  536   1          P1_FN_H = 0x00;                 // P14 ~ P17 as GPIO
  537   1          P1_DD = 0x00;                   // P10 ~ P17 intput
  538   1          P1_PE = 0xFF;                   // output resistor enable 
+<<<<<<< HEAD
 C51 COMPILER V9.54   INITIAL                                                               11/08/2018 17:04:39 PAGE 10  
+=======
+C51 COMPILER V9.54   INITIAL                                                               11/11/2018 11:38:19 PAGE 10  
+>>>>>>> No update
 
  539   1          P1_DS = 0x00;                   //drive current =4mA
  540   1          P1_PS=  0x00;                   //pull down resistor 
@@ -638,7 +678,11 @@ line level    source
  598          
  599          void InitTimer4(void)
  600          {
+<<<<<<< HEAD
 C51 COMPILER V9.54   INITIAL                                                               11/08/2018 17:04:39 PAGE 11  
+=======
+C51 COMPILER V9.54   INITIAL                                                               11/11/2018 11:38:19 PAGE 11  
+>>>>>>> No update
 
  601   1        T4PS = 0;               // no divider
  602   1        T4RC = 0xE0C0;
@@ -702,7 +746,11 @@ line level    source
  660   1          nop
  661   1          nop
  662   1          nop
+<<<<<<< HEAD
 C51 COMPILER V9.54   INITIAL                                                               11/08/2018 17:04:39 PAGE 12  
+=======
+C51 COMPILER V9.54   INITIAL                                                               11/11/2018 11:38:19 PAGE 12  
+>>>>>>> No update
 
  663   1          nop
  664   1          nop
@@ -766,7 +814,11 @@ line level    source
  722          //way 1
  723          void sInitUART1(void)
  724          {
+<<<<<<< HEAD
 C51 COMPILER V9.54   INITIAL                                                               11/08/2018 17:04:39 PAGE 13  
+=======
+C51 COMPILER V9.54   INITIAL                                                               11/11/2018 11:38:19 PAGE 13  
+>>>>>>> No update
 
  725   1        S0CON  = 0x50;          // set as 8-bit UART,  enable serial 0 reception, enable serial 0 multiprocessor fu
              -nction

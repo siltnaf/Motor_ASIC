@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                        11/08/2018  17:04:40  PAGE 1
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                        11/11/2018  11:38:20  PAGE 1
+>>>>>>> No update
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
@@ -59,7 +63,11 @@ LINK MAP OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
                     2016H     0005H                  *** GAP ***
             CODE    201BH     0003H     ABSOLUTE     
                     201EH     0005H                  *** GAP ***
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 2
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 2
+>>>>>>> No update
 
 
             CODE    2023H     0003H     ABSOLUTE     
@@ -119,7 +127,11 @@ LINK MAP OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
             CODE    3429H     0072H     UNIT         ?PR?INITTIMER3?INITIAL
             CODE    349BH     0072H     UNIT         ?PR?EPWM123INTERRUPT?INTERRUPT
             CODE    350DH     0070H     UNIT         ?PR?TIMER4INTERRUPT?INTERRUPT
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 3
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 3
+>>>>>>> No update
 
 
             CODE    357DH     0062H     UNIT         ?PR?EPWM4INTERRUPT?INTERRUPT
@@ -179,7 +191,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
 
   VALUE           TYPE          NAME
   ----------------------------------
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 4
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 4
+>>>>>>> No update
 
 
 
@@ -239,7 +255,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   D:0038H         PUBLIC        ADresult
   D:003AH         PUBLIC        dac_value
   D:003BH         PUBLIC        pwm_capture
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 5
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 5
+>>>>>>> No update
 
 
   D:0099H         PUBLIC        SBUF
@@ -299,7 +319,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:3A87H         PUBLIC        INITEXT
   C:2BAAH         PUBLIC        INITGPIO
   C:386FH         PUBLIC        INITISDDEBUG
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 6
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 6
+>>>>>>> No update
 
 
   C:3A64H         PUBLIC        INITTIMER01
@@ -359,7 +383,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   D:0085H         SYMBOL        DPH1
   D:0082H         SYMBOL        DPL
   D:0084H         SYMBOL        DPL1
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 7
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 7
+>>>>>>> No update
 
 
   D:0092H         SYMBOL        DPS
@@ -419,7 +447,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   D:0090H         SYMBOL        P1
   B:0090H.0       SYMBOL        P10
   B:0090H.1       SYMBOL        P11
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 8
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 8
+>>>>>>> No update
 
 
   B:0090H.2       SYMBOL        P12
@@ -479,7 +511,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   B:00B0H.4       SYMBOL        P34
   B:00B0H.5       SYMBOL        P35
   B:00B0H.6       SYMBOL        P36
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 9
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 9
+>>>>>>> No update
 
 
   B:00B0H.7       SYMBOL        P37
@@ -539,7 +575,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   D:0081H         SYMBOL        SP
   D:00F8H         SYMBOL        SRAM_CON
   B:00B8H.6       SYMBOL        SWDT
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 10
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 10
+>>>>>>> No update
 
 
   D:00C8H         SYMBOL        T2CON
@@ -599,7 +639,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:3896H         LINE#         389
   C:3898H         LINE#         390
   C:389AH         LINE#         391
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 11
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 11
+>>>>>>> No update
 
 
   C:389CH         LINE#         393
@@ -659,7 +703,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2F81H         LINE#         569
   C:2F82H         LINE#         570
   C:2F84H         LINE#         571
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 12
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 12
+>>>>>>> No update
 
 
   C:2F85H         LINE#         572
@@ -719,7 +767,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2FCFH         LINE#         643
   C:2FD0H         LINE#         644
   C:2FD2H         LINE#         645
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 13
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 13
+>>>>>>> No update
 
 
   C:2FD3H         LINE#         646
@@ -779,7 +831,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:211CH         LINE#         741
   C:211DH         LINE#         742
   C:211EH         LINE#         743
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 14
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 14
+>>>>>>> No update
 
 
   C:2120H         LINE#         744
@@ -839,7 +895,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2177H         LINE#         829
   C:2178H         LINE#         830
   C:2179H         LINE#         831
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 15
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 15
+>>>>>>> No update
 
 
   C:217BH         LINE#         832
@@ -899,7 +959,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:21C5H         LINE#         902
   C:21C6H         LINE#         903
   C:21C7H         LINE#         904
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 16
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 16
+>>>>>>> No update
 
 
   C:21C9H         LINE#         905
@@ -959,7 +1023,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2212H         LINE#         975
   C:2213H         LINE#         978
   C:2216H         LINE#         979
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 17
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 17
+>>>>>>> No update
 
 
   C:2217H         LINE#         980
@@ -1019,7 +1087,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2261H         LINE#         1051
   C:2262H         LINE#         1052
   C:2263H         LINE#         1053
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 18
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 18
+>>>>>>> No update
 
 
   C:2264H         LINE#         1056
@@ -1079,7 +1151,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:22AFH         LINE#         1124
   C:22B0H         LINE#         1125
   C:22B1H         LINE#         1128
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 19
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 19
+>>>>>>> No update
 
 
   C:22B4H         LINE#         1129
@@ -1139,7 +1215,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:22FEH         LINE#         1202
   C:22FFH         LINE#         1203
   C:2300H         LINE#         1204
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 20
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 20
+>>>>>>> No update
 
 
   C:2301H         LINE#         1205
@@ -1199,7 +1279,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:234BH         LINE#         1272
   C:234DH         LINE#         1273
   C:234EH         LINE#         1274
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 21
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 21
+>>>>>>> No update
 
 
   C:234FH         LINE#         1275
@@ -1259,7 +1343,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2399H         LINE#         1343
   C:239AH         LINE#         1346
   C:239DH         LINE#         1347
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 22
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 22
+>>>>>>> No update
 
 
   C:239EH         LINE#         1348
@@ -1319,7 +1407,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:23E8H         LINE#         1416
   C:23E9H         LINE#         1417
   C:23EAH         LINE#         1418
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 23
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 23
+>>>>>>> No update
 
 
   C:23ECH         LINE#         1419
@@ -1379,7 +1471,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2436H         LINE#         1522
   C:2437H         LINE#         1523
   C:2438H         LINE#         1524
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 24
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 24
+>>>>>>> No update
 
 
   C:2439H         LINE#         1527
@@ -1439,7 +1535,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2483H         LINE#         1595
   C:2486H         LINE#         1596
   C:2487H         LINE#         1597
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 25
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 25
+>>>>>>> No update
 
 
   C:2488H         LINE#         1598
@@ -1499,7 +1599,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:24D9H         LINE#         1692
   C:24DAH         LINE#         1693
   C:24DBH         LINE#         1694
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 26
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 26
+>>>>>>> No update
 
 
   C:24DCH         LINE#         1695
@@ -1559,7 +1663,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2527H         LINE#         1766
   C:2528H         LINE#         1767
   C:2529H         LINE#         1768
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 27
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 27
+>>>>>>> No update
 
 
   C:252BH         LINE#         1769
@@ -1619,7 +1727,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2575H         LINE#         1842
   C:2576H         LINE#         1843
   C:2578H         LINE#         1844
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 28
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 28
+>>>>>>> No update
 
 
   C:2579H         LINE#         1845
@@ -1679,7 +1791,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:25C3H         LINE#         1927
   C:25C4H         LINE#         1928
   C:25C5H         LINE#         1931
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 29
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 29
+>>>>>>> No update
 
 
   C:25C8H         LINE#         1932
@@ -1739,7 +1855,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2611H         LINE#         1997
   C:2612H         LINE#         1998
   C:2613H         LINE#         2001
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 30
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 30
+>>>>>>> No update
 
 
   C:2616H         LINE#         2002
@@ -1799,7 +1919,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:265FH         LINE#         2067
   C:2660H         LINE#         2068
   C:2661H         LINE#         2071
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 31
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 31
+>>>>>>> No update
 
 
   C:2664H         LINE#         2072
@@ -1859,7 +1983,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:26ADH         LINE#         2137
   C:26AEH         LINE#         2138
   C:26AFH         LINE#         2141
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 32
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 32
+>>>>>>> No update
 
 
   C:26B2H         LINE#         2142
@@ -1919,7 +2047,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:26FAH         LINE#         2211
   C:26FDH         LINE#         2212
   C:26FEH         LINE#         2213
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 33
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 33
+>>>>>>> No update
 
 
   C:26FFH         LINE#         2214
@@ -1979,7 +2111,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2749H         LINE#         2279
   C:274AH         LINE#         2280
   C:274BH         LINE#         2281
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 34
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 34
+>>>>>>> No update
 
 
   C:274CH         LINE#         2284
@@ -2039,7 +2175,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2797H         LINE#         2349
   C:2798H         LINE#         2350
   C:2799H         LINE#         2351
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 35
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 35
+>>>>>>> No update
 
 
   C:279BH         LINE#         2352
@@ -2099,7 +2239,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:27E5H         LINE#         2419
   C:27E6H         LINE#         2420
   C:27E7H         LINE#         2421
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 36
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 36
+>>>>>>> No update
 
 
   C:27E9H         LINE#         2422
@@ -2159,7 +2303,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2859H         LINE#         2525
   C:285CH         LINE#         2528
   C:285FH         LINE#         2531
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 37
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 37
+>>>>>>> No update
 
 
   C:2862H         LINE#         2534
@@ -2219,7 +2367,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2E94H         LINE#         2624
   C:2E95H         LINE#         2625
   C:2E97H         LINE#         2626
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 38
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 38
+>>>>>>> No update
 
 
   C:2E98H         LINE#         2627
@@ -2279,7 +2431,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2EE2H         LINE#         2696
   C:2EE3H         LINE#         2697
   C:2EE4H         LINE#         2700
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 39
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 39
+>>>>>>> No update
 
 
   C:2EE7H         LINE#         2701
@@ -2339,7 +2495,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2F30H         LINE#         2771
   C:2F31H         LINE#         2774
   C:2F34H         LINE#         2775
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 40
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 40
+>>>>>>> No update
 
 
   C:2F35H         LINE#         2776
@@ -2399,7 +2559,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2BB7H         LINE#         2895
   C:2BB8H         LINE#         2896
   C:2BB9H         LINE#         2899
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 41
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 41
+>>>>>>> No update
 
 
   C:2BBCH         LINE#         2900
@@ -2459,7 +2623,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2C16H         LINE#         2991
   C:2C17H         LINE#         2992
   C:2C18H         LINE#         2993
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 42
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 42
+>>>>>>> No update
 
 
   C:2C1AH         LINE#         2994
@@ -2519,7 +2687,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2C63H         LINE#         3056
   C:2C66H         LINE#         3057
   C:2C67H         LINE#         3058
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 43
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 43
+>>>>>>> No update
 
 
   C:2C68H         LINE#         3059
@@ -2579,7 +2751,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2CB2H         LINE#         3117
   C:2CB3H         LINE#         3118
   C:2CB4H         LINE#         3119
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 44
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 44
+>>>>>>> No update
 
 
   C:2CB7H         LINE#         3120
@@ -2639,7 +2815,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2D00H         LINE#         3176
   C:2D01H         LINE#         3177
   C:2D04H         LINE#         3178
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 45
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 45
+>>>>>>> No update
 
 
   C:2D05H         LINE#         3179
@@ -2699,7 +2879,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:3449H         LINE#         3296
   C:344CH         LINE#         3297
   C:344DH         LINE#         3298
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 46
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 46
+>>>>>>> No update
 
 
   C:344EH         LINE#         3299
@@ -2759,7 +2943,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:3498H         LINE#         3369
   C:349AH         LINE#         3373
   C:3A10H         LINE#         3387
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 47
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 47
+>>>>>>> No update
 
 
   C:3A13H         LINE#         3388
@@ -2819,7 +3007,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:3999H         LINE#         3479
   C:399AH         LINE#         3480
   C:399BH         LINE#         3481
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 48
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 48
+>>>>>>> No update
 
 
   C:399CH         LINE#         3482
@@ -2879,7 +3071,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:36FDH         LINE#         3599
   C:36FEH         LINE#         3601
   C:36FFH         LINE#         3603
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 49
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 49
+>>>>>>> No update
 
 
   C:3700H         LINE#         3605
@@ -2939,7 +3135,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:373BH         LINE#         3715
   C:373CH         LINE#         3717
   C:373DH         LINE#         3719
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 50
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 50
+>>>>>>> No update
 
 
   C:373EH         LINE#         3721
@@ -2999,7 +3199,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:38ECH         LINE#         3856
   C:38EFH         LINE#         3857
   C:38F0H         LINE#         3858
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 51
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 51
+>>>>>>> No update
 
 
   C:38F1H         LINE#         3859
@@ -3059,7 +3263,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   D:00F9H         PUBLIC        INT_REG1
   D:00FAH         PUBLIC        INT_REG2
   D:00FDH         PUBLIC        INT_REG3
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 52
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 52
+>>>>>>> No update
 
 
   D:00FEH         PUBLIC        INT_REG4
@@ -3119,7 +3327,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2D4BH         LINE#         111
   C:2D5EH         LINE#         112
   C:2D5EH         LINE#         114
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 53
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 53
+>>>>>>> No update
 
 
   C:2D71H         LINE#         115
@@ -3179,7 +3391,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:34B3H         LINE#         212
   C:34B6H         LINE#         213
   C:34B6H         LINE#         216
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 54
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 54
+>>>>>>> No update
 
 
   C:34C5H         LINE#         217
@@ -3239,7 +3455,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   -------         ENDPROC       SPIINTERRUPT
   -------         PROC          EFLASHINTERRUPT
   C:3337H         LINE#         330
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 55
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 55
+>>>>>>> No update
 
 
   C:3346H         LINE#         334
@@ -3299,7 +3519,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:394FH         LINE#         419
   C:395AH         LINE#         420
   C:395CH         LINE#         421
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 56
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 56
+>>>>>>> No update
 
 
   C:395CH         LINE#         423
@@ -3359,7 +3583,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   D:00AEH         SYMBOL        BSHI_2
   D:00AFH         SYMBOL        BSHI_3
   D:00BCH         SYMBOL        BSHO_0
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 57
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 57
+>>>>>>> No update
 
 
   D:00BDH         SYMBOL        BSHO_1
@@ -3419,7 +3647,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   D:00EAH         SYMBOL        MD1
   D:00EBH         SYMBOL        MD2
   D:00ECH         SYMBOL        MD3
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 58
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 58
+>>>>>>> No update
 
 
   D:00EDH         SYMBOL        MD4
@@ -3479,7 +3711,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   D:00C6H         SYMBOL        P2CMPB_H
   D:00C5H         SYMBOL        P2CMPB_L
   D:00CEH         SYMBOL        P2ETCLR
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 59
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 59
+>>>>>>> No update
 
 
   D:00CDH         SYMBOL        P2ETFLG
@@ -3539,7 +3775,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   B:0098H.2       SYMBOL        RB80
   B:0098H.4       SYMBOL        REN0
   B:0098H.0       SYMBOL        RI
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 60
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 60
+>>>>>>> No update
 
 
   B:0098H.0       SYMBOL        RI0
@@ -3599,7 +3839,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:3765H         LINE#         378
   C:3766H         LINE#         381
   C:3768H         LINE#         382
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 61
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 61
+>>>>>>> No update
 
 
   C:376AH         LINE#         383
@@ -3659,7 +3903,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:3811H         LINE#         493
   C:3814H         LINE#         494
   C:3815H         LINE#         495
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 62
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 62
+>>>>>>> No update
 
 
   C:3816H         LINE#         498
@@ -3719,7 +3967,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:3858H         LINE#         624
   C:385AH         LINE#         628
   C:385DH         LINE#         631
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 63
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 63
+>>>>>>> No update
 
 
   C:3860H         LINE#         634
@@ -3779,7 +4031,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2961H         SYMBOL        ?ISD?CMDLOOP2
   D:00E0H         SYMBOL        ACC
   D:008EH         SYMBOL        AUXR
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 64
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 64
+>>>>>>> No update
 
 
   D:00F0H         SYMBOL        B
@@ -3839,7 +4095,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   B:0020H.0       SYMBOL        SAVEEAI
   D:0099H         SYMBOL        SBUF
   D:0098H         SYMBOL        SCON
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 65
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 65
+>>>>>>> No update
 
 
   C:2914H         SYMBOL        SELECTHWBP1
@@ -3899,7 +4159,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:28BEH         LINE#         249
   C:28C0H         LINE#         250
   C:28C3H         LINE#         261
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 66
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 66
+>>>>>>> No update
 
 
   C:28C5H         LINE#         262
@@ -3959,7 +4223,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:293DH         LINE#         361
   C:293FH         LINE#         362
   C:2942H         LINE#         363
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 67
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 67
+>>>>>>> No update
 
 
   C:2944H         LINE#         364
@@ -4019,7 +4287,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:29A8H         LINE#         456
   C:29AAH         LINE#         457
   C:29ACH         LINE#         458
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 68
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 68
+>>>>>>> No update
 
 
   C:29ADH         LINE#         459
@@ -4079,7 +4351,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2A18H         LINE#         663
   C:2A1AH         LINE#         664
   C:2A1CH         LINE#         665
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 69
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 69
+>>>>>>> No update
 
 
   C:2A1EH         LINE#         666
@@ -4139,7 +4415,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2A8AH         LINE#         762
   C:2A8CH         LINE#         763
   C:2A8EH         LINE#         764
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 70
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 70
+>>>>>>> No update
 
 
   C:2A90H         LINE#         771
@@ -4199,7 +4479,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2AFCH         LINE#         861
   C:2AFEH         LINE#         862
   C:2B00H         LINE#         871
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 71
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 71
+>>>>>>> No update
 
 
   C:2B03H         LINE#         872
@@ -4259,7 +4543,11 @@ SYMBOL TABLE OF MODULE:  .\OUTPUT\motor (?C_STARTUP)
   C:2B6EH         LINE#         964
   C:2B6FH         LINE#         965
   -------         ENDMOD        ISD51_CONFIGURATION
+<<<<<<< HEAD
 BL51 BANKED LINKER/LOCATER V6.22                                                      11/08/2018  17:04:40  PAGE 72
+=======
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 72
+>>>>>>> No update
 
 
 
@@ -4313,5 +4601,16 @@ TIMER6INTERRUPT. . . @0xf303
 UART1INTERRUPT . . . @0xc000
 UART2INTERRUPT . . . @0xe000
 
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 19B3H BYTE (321%) *
+******************************************************************************
+
 Program Size: data=73.1 xdata=5 code=6817
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/11/2018  11:38:20  PAGE 73
+
+
+
+*** FATAL ERROR L250: CODE SIZE LIMIT IN RESTRICTED VERSION EXCEEDED
+    MODULE:  C:\KEIL_V5\C51\LIB\C51S.LIB (-----)
+    LIMIT:   0800H BYTES

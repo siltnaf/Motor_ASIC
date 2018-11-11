@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  MOTORLIB                                                             11/08/2018 17:04:39 PAGE     1
+=======
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/11/2018 11:38:19 PAGE     1
+>>>>>>> No update
 
 
 MACRO ASSEMBLER A51 V8.02c
@@ -65,7 +69,11 @@ LOC  OBJ            LINE     SOURCE
   0098                54     RI      BIT     098H.0
   00C3                55     IEX4    BIT     0C0H.3
   00C4                56     IEX5    BIT     0C0H.4
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  MOTORLIB                                                             11/08/2018 17:04:39 PAGE     2
+=======
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/11/2018 11:38:19 PAGE     2
+>>>>>>> No update
 
   00C5                57     IEX6    BIT     0C0H.5
   0091                58     CLK_DIV DATA    091H
@@ -133,7 +141,11 @@ LOC  OBJ            LINE     SOURCE
   00B7               120     P37     BIT     0B0H.7
   00AF               121     BSHI_3  DATA    0AFH
   00BC               122     BSHO_0  DATA    0BCH
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  MOTORLIB                                                             11/08/2018 17:04:39 PAGE     3
+=======
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/11/2018 11:38:19 PAGE     3
+>>>>>>> No update
 
   00BD               123     BSHO_1  DATA    0BDH
   0089               124     IE0     BIT     088H.1
@@ -201,7 +213,11 @@ LOC  OBJ            LINE     SOURCE
   008C               186     TR0     BIT     088H.4
   008E               187     TR1     BIT     088H.6
   00F9               188     INT_REG1        DATA    0F9H
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  MOTORLIB                                                             11/08/2018 17:04:39 PAGE     4
+=======
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/11/2018 11:38:19 PAGE     4
+>>>>>>> No update
 
   0083               189     DPH     DATA    083H
   00FA               190     INT_REG2        DATA    0FAH
@@ -269,7 +285,11 @@ LOC  OBJ            LINE     SOURCE
 0000                 252            Data?345:   DS   4
 0004                 253             ORG  4
 0004                 254              LD?346:   DS   4
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  MOTORLIB                                                             11/08/2018 17:04:39 PAGE     5
+=======
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/11/2018 11:38:19 PAGE     5
+>>>>>>> No update
 
                      255     
 ----                 256             RSEG  ?DT?_sin?MOTORLIB
@@ -337,7 +357,11 @@ LOC  OBJ            LINE     SOURCE
                      318     ; volatile U16 xdata _div_denominator;// _at_ (0xA4FB);
                      319     ; 
                      320     ; #pragma asm
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  MOTORLIB                                                             11/08/2018 17:04:39 PAGE     6
+=======
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/11/2018 11:38:19 PAGE     6
+>>>>>>> No update
 
 ----                 321                                                                     CSEG    AT      4000h
                      322     ; #pragma endasm
@@ -405,7 +429,11 @@ LOC  OBJ            LINE     SOURCE
 0029 AC00     F      384             MOV     R4,EE_data?041
 002B 90E093          385             MOV     DPTR,#0E093H
 002E 120000   F      386             LCALL   ?C?LSTXDATA
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  MOTORLIB                                                             11/08/2018 17:04:39 PAGE     7
+=======
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/11/2018 11:38:19 PAGE     7
+>>>>>>> No update
 
                      387     ;                       
                      388     ;                       MTPCON1=0x0b;                           //start 
@@ -473,7 +501,11 @@ LOC  OBJ            LINE     SOURCE
 0008 C4              450             SWAP    A
 0009 13              451             RRC     A
 000A 13              452             RRC     A
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  MOTORLIB                                                             11/08/2018 17:04:39 PAGE     8
+=======
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/11/2018 11:38:19 PAGE     8
+>>>>>>> No update
 
 000B 5403            453             ANL     A,#03H
 000D FF              454             MOV     R7,A
@@ -541,7 +573,11 @@ LOC  OBJ            LINE     SOURCE
                      516     
                      517     ; 
                      518     ; 
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  MOTORLIB                                                             11/08/2018 17:04:39 PAGE     9
+=======
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/11/2018 11:38:19 PAGE     9
+>>>>>>> No update
 
                      519     ; 
                      520     ; 
@@ -609,7 +645,11 @@ LOC  OBJ            LINE     SOURCE
 0002 8E00     F      582             MOV     Data?345+02H,R6
 0004 8D00     F      583             MOV     Data?345+01H,R5
 0006 8C00     F      584             MOV     Data?345,R4
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  MOTORLIB                                                             11/08/2018 17:04:39 PAGE    10
+=======
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/11/2018 11:38:19 PAGE    10
+>>>>>>> No update
 
                      585     ; {
                      586                             ; SOURCE LINE # 126
@@ -677,10 +717,17 @@ LOC  OBJ            LINE     SOURCE
 0049 22              648             RET     
                      649     ; END OF _Normalize
                      650     
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  MOTORLIB                                                             11/08/2018 17:04:39 PAGE    11
 
                      651             END
 A51 MACRO ASSEMBLER  MOTORLIB                                                             11/08/2018 17:04:39 PAGE    12
+=======
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/11/2018 11:38:19 PAGE    11
+
+                     651             END
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/11/2018 11:38:19 PAGE    12
+>>>>>>> No update
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -748,7 +795,11 @@ DPS . . . . . . . . . .  D ADDR   0092H   A
 EADC. . . . . . . . . .  B ADDR   00B8H.0 A   
 EAL . . . . . . . . . .  B ADDR   00A8H.7 A   
 EE_ADDR?040 . . . . . .  D ADDR   0000H   R   SEG=?DT?_EE_WRITE?MOTORLIB
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  MOTORLIB                                                             11/08/2018 17:04:39 PAGE    13
+=======
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/11/2018 11:38:19 PAGE    13
+>>>>>>> No update
 
 EE_ADDR?142 . . . . . .  D ADDR   0000H   R   SEG=?DT?_EE_READ?MOTORLIB
 EE_DATA?041 . . . . . .  D ADDR   0001H   R   SEG=?DT?_EE_WRITE?MOTORLIB
@@ -816,7 +867,11 @@ P17 . . . . . . . . . .  B ADDR   0090H.7 A
 P1AQCSFRC . . . . . . .  D ADDR   00B1H   A   
 P1AQSFRC. . . . . . . .  D ADDR   00A7H   A   
 P1CMPA. . . . . . . . .  D ADDR   00A3H   A   
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  MOTORLIB                                                             11/08/2018 17:04:39 PAGE    14
+=======
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/11/2018 11:38:19 PAGE    14
+>>>>>>> No update
 
 P1CMPA_H. . . . . . . .  D ADDR   00A4H   A   
 P1CMPA_L. . . . . . . .  D ADDR   00A3H   A   
@@ -884,7 +939,11 @@ P3TBPRD_L . . . . . . .  D ADDR   00D1H   A
 P3TZCLR . . . . . . . .  D ADDR   00DBH   A   
 P3TZFLG . . . . . . . .  D ADDR   00DAH   A   
 P3TZFRC . . . . . . . .  D ADDR   00DCH   A   
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  MOTORLIB                                                             11/08/2018 17:04:39 PAGE    15
+=======
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/11/2018 11:38:19 PAGE    15
+>>>>>>> No update
 
 P4AQCSFRC . . . . . . .  D ADDR   00F1H   A   
 P4AQSFRC. . . . . . . .  D ADDR   00E7H   A   
