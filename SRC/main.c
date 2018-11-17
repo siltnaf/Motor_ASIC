@@ -17,11 +17,15 @@
  unsigned char tmr3_ov,dac_value;
  unsigned long last_capture,this_capture, pwm_capture;
  
-_iq input,sin_out;     //gobal_q =24
+_iq input, tbl_out,theta,beta;     //gobal_q =24
  
 U32 EE_data;
 S32 math_data;
 U8  index; 
+
+
+
+
 
 void main(void)
 {
@@ -48,15 +52,20 @@ void main(void)
     {
 			
 		 
-		math_data=Normalize(0x80000324);
-			index=ARCON;
-			
-			math_data=math_data>>index;
+//		math_data=Normalize(0x80000324);               //test normalizes a number
+//		index=ARCON;
+//		math_data=math_data>>index;
 			 
 			
 //			input =  _IQ10((0.25*PI));           //test IQmathlib
 			
 	
+			 theta=_IQ(146.45);                    //cover 0 to 360
+			
+			
+			tbl_out=_IQcos(theta);
+//			 sin_out=_IQsin(theta);
+			
 			
 			
 	

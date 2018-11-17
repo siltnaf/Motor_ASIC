@@ -27,6 +27,7 @@
 #include <absacc.h>
 #include "register.h"
 #include "motorLib.h"
+#include "IQmathLib.h"
 
 
 
@@ -111,18 +112,83 @@ U32 EE_read(U8 EE_addr)
  *
  * @return 	none
  */
-S16 sin(S16 dat)
+
+
+_iq _IQsin(_iq dat)
 {
-volatile signed int value;
-	value= XWORD[dat];
+volatile _iq angle_in,sin_out;
+volatile U32 table_angle;
+	 
 	
-return value;
+	
+								
+	
+	angle_in=(((dat) < 0) ? - (dat) : (dat));
+			
+	//limit the search anlge to <360)
+	
+  while (angle_in>=_IQ(360.0))
+			{
+				angle_in-=_IQ(360.0);
+			}
+	
+	// convert angle to data in sin table, angle =angle/360 * 512  or  =angle *64/45
+			
+	table_angle=(U32)((angle_in<<6)>>GLOBAL_Q ); 
+	table_angle/=45;	
+ 
+  sin_out=XWORD[table_angle+sin_table];
+	
+	if (dat<0) sin_out=-(sin_out);
+	
+
+	
+return sin_out ;
 	
 }
 
 
 
-S32 Normalize(S32 Data)
+
+_iq _IQcos(_iq dat)
+{
+volatile _iq angle_in,cos_out;
+volatile U32 table_angle;
+	 
+	
+	
+								
+	
+	angle_in=(((dat) < 0) ? - (dat) : (dat));
+			
+	//limit the search anlge to <360)
+	
+  while (angle_in>=_IQ(360.0))
+			{
+				angle_in-=_IQ(360.0);
+			}
+	
+	// convert angle to data in cos table, cos(angle) =sin(angle+90)
+			
+	table_angle=(U32)((angle_in<<6)>>GLOBAL_Q ); 
+	table_angle/=45;
+	table_angle+=128;
+ 
+  cos_out=XWORD[table_angle+sin_table];
+	
+
+	
+return cos_out ;
+	
+}
+
+
+
+
+
+
+
+S32 Normalize(S32 Data)              //normalize only work for positive value. it return error if the MD3_7=1 
 {
  Long_Data LD;
  LD.Ldata =Data;
@@ -130,6 +196,9 @@ S32 Normalize(S32 Data)
  MD1 = LD.ss1.Byte1;
  MD2 = LD.ss1.Byte2;
  MD3 = LD.ss1.Byte3;
+	
+
+	
  ARCON = 0x00 ; // Start Normalizing
  while(MD3_7==0 ); //check MDU finish flag
 	LD.ss1.Byte0=MD0;

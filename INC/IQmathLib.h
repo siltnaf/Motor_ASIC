@@ -1383,7 +1383,7 @@ extern _iq1 _IQ1div(_iq1 A, _iq1 B);
 #define _IQdiv(A, B)            _IQ16div(A, B)
 #endif
 #if GLOBAL_Q == 15
-#define _IQdiv(A, B)            _IQ15div(A, B)
+#define _IQdiv(A, B)           (A, B)
 #endif
 #if GLOBAL_Q == 14
 #define _IQdiv(A, B)            _IQ14div(A, B)

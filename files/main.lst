@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-C51 COMPILER V9.54   MAIN                                                                  11/08/2018 17:04:39 PAGE 1   
-=======
-C51 COMPILER V9.54   MAIN                                                                  11/11/2018 11:38:19 PAGE 1   
->>>>>>> No update
+C51 COMPILER V9.54   MAIN                                                                  11/17/2018 17:39:30 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
@@ -31,163 +27,151 @@ line level    source
   17           unsigned char tmr3_ov,dac_value;
   18           unsigned long last_capture,this_capture, pwm_capture;
   19           
-  20          _iq input,sin_out;     //gobal_q =24
+  20          _iq input, tbl_out,theta,beta;     //gobal_q =24
   21           
   22          U32 EE_data;
   23          S32 math_data;
   24          U8  index; 
   25          
-  26          void main(void)
-  27          {
-  28   1          #if ISDDebug == DISABLE_ISD
+  26          
+  27          
+  28          
+  29          
+  30          void main(void)
+  31          {
+  32   1          #if ISDDebug == DISABLE_ISD
                   SystemClock();
                   #endif
-  31   1          InitISDDebug(); 
-  32   1      
-  33   1        
-  34   1        //InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse width
-  35   1        //InitTimer4();                          //start timer1
-  36   1        //InitTimer01();
-  37   1        //  InitADC();                           //ADC use timer0 to trigger AD start
-  38   1        
-  39   1        //InitDAC();
-  40   1        
-  41   1          InitGPIO();
-  42   1        //  InitEXT();
-  43   1        //InitComparator();
-  44   1        //Initepwm();
-  45   1        
-  46   1          EAL=1;
-  47   1          while(1)
-  48   1          {
-  49   2            
-  50   2           
-  51   2          math_data=Normalize(0x80000324);
-  52   2            index=ARCON;
+  35   1          InitISDDebug(); 
+  36   1      
+  37   1        
+  38   1        //InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse width
+  39   1        //InitTimer4();                          //start timer1
+  40   1        //InitTimer01();
+  41   1        //  InitADC();                           //ADC use timer0 to trigger AD start
+  42   1        
+  43   1        //InitDAC();
+  44   1        
+  45   1          InitGPIO();
+  46   1        //  InitEXT();
+  47   1        //InitComparator();
+  48   1        //Initepwm();
+  49   1        
+  50   1          EAL=1;
+  51   1          while(1)
+  52   1          {
   53   2            
-  54   2            math_data=math_data>>index;
-<<<<<<< HEAD
-C51 COMPILER V9.54   MAIN                                                                  11/08/2018 17:04:39 PAGE 2   
-=======
-C51 COMPILER V9.54   MAIN                                                                  11/11/2018 11:38:19 PAGE 2   
->>>>>>> No update
+  54   2           
+C51 COMPILER V9.54   MAIN                                                                  11/17/2018 17:39:30 PAGE 2   
 
-  55   2             
-  56   2            
-  57   2      //      input =  _IQ10((0.25*PI));           //test IQmathlib
-  58   2            
-  59   2        
-  60   2            
+  55   2      //    math_data=Normalize(0x80000324);               //test normalizes a number
+  56   2      //    index=ARCON;
+  57   2      //    math_data=math_data>>index;
+  58   2             
+  59   2            
+  60   2      //      input =  _IQ10((0.25*PI));           //test IQmathlib
   61   2            
   62   2        
-  63   2      //      dac_value=(unsigned char)(pwm_capture>>11);             //check DAC
-  64   2      //      DAC1_DAT=dac_value;
-  65   2      //      DAC2_DAT=0xff;
-  66   2            
-  67   2            
+  63   2             theta=_IQ(146.45);                    //cover 0 to 360
+  64   2            
+  65   2            
+  66   2            tbl_out=_IQcos(theta);
+  67   2      //       sin_out=_IQsin(theta);
   68   2            
-  69   2      //      EE_write(0x0a, 0xabcdef12);                        //check EPROM
-  70   2      //      EE_data=EE_read(0x0a);
-  71   2           
-  72   2          
-  73   2        
-  74   2      //    while (BUSY==1);                                     //check ADC
-  75   2      //        data_value= ADresult;
+  69   2            
+  70   2            
+  71   2        
+  72   2      //      dac_value=(unsigned char)(pwm_capture>>11);             //check DAC
+  73   2      //      DAC1_DAT=dac_value;
+  74   2      //      DAC2_DAT=0xff;
+  75   2            
   76   2            
   77   2            
-  78   2              #if ISDDebug == ENABLE_ISD
-  79   2              ISDcheck();      // Polling for ISD command for software breakpoint
-  80   2              #endif
-  81   2              
-  82   2          }
-  83   1      }
-  84          
-  85          
-  86          
-  87          
-<<<<<<< HEAD
-C51 COMPILER V9.54   MAIN                                                                  11/08/2018 17:04:39 PAGE 3   
-=======
-C51 COMPILER V9.54   MAIN                                                                  11/11/2018 11:38:19 PAGE 3   
->>>>>>> No update
+  78   2      //      EE_write(0x0a, 0xabcdef12);                        //check EPROM
+  79   2      //      EE_data=EE_read(0x0a);
+  80   2           
+  81   2          
+  82   2        
+  83   2      //    while (BUSY==1);                                     //check ADC
+  84   2      //        data_value= ADresult;
+  85   2            
+  86   2            
+  87   2              #if ISDDebug == ENABLE_ISD
+  88   2              ISDcheck();      // Polling for ISD command for software breakpoint
+  89   2              #endif
+  90   2              
+  91   2          }
+  92   1      }
+  93          
+  94          
+  95          
+  96          
+C51 COMPILER V9.54   MAIN                                                                  11/17/2018 17:39:30 PAGE 3   
 
 ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
 
              ; FUNCTION main (BEGIN)
-                                           ; SOURCE LINE # 26
-                                           ; SOURCE LINE # 27
+                                           ; SOURCE LINE # 30
                                            ; SOURCE LINE # 31
+                                           ; SOURCE LINE # 35
 0000 120000      E     LCALL   InitISDDebug
-                                           ; SOURCE LINE # 41
+                                           ; SOURCE LINE # 45
 0003 120000      E     LCALL   InitGPIO
-                                           ; SOURCE LINE # 46
+                                           ; SOURCE LINE # 50
 0006 D2AF              SETB    EAL
 0008         ?C0001:
-                                           ; SOURCE LINE # 47
-                                           ; SOURCE LINE # 48
                                            ; SOURCE LINE # 51
-0008 7F24              MOV     R7,#024H
-000A 7E03              MOV     R6,#03H
-000C 7D00              MOV     R5,#00H
-000E 7C80              MOV     R4,#080H
-0010 120000      E     LCALL   _Normalize
-0013 8F00        R     MOV     math_data+03H,R7
-0015 8E00        R     MOV     math_data+02H,R6
-0017 8D00        R     MOV     math_data+01H,R5
-0019 8C00        R     MOV     math_data,R4
                                            ; SOURCE LINE # 52
-001B 85EF00      R     MOV     index,ARCON
-                                           ; SOURCE LINE # 54
-001E AF00        R     MOV     R7,math_data+03H
-0020 AE00        R     MOV     R6,math_data+02H
-0022 AD00        R     MOV     R5,math_data+01H
-0024 AC00        R     MOV     R4,math_data
-0026 A900        R     MOV     R1,index
-0028 A801              MOV     R0,AR1
-002A 120000      E     LCALL   ?C?SLSHR
-002D 8F00        R     MOV     math_data+03H,R7
-002F 8E00        R     MOV     math_data+02H,R6
-0031 8D00        R     MOV     math_data+01H,R5
-0033 8C00        R     MOV     math_data,R4
-                                           ; SOURCE LINE # 79
-0035 20ACD0            JB      ES,?C0001
-0038 3098CD            JNB     RI,?C0001
-003B E599              MOV     A,SBUF
-003D 64A5              XRL     A,#0A5H
-003F 6004              JZ      ?C0005
-0041 C298              CLR     RI
-0043 80C3              SJMP    ?C0001
-0045         ?C0005:
-0045 120000      E     LCALL   __isd_init
-0048         ?C0006:
-0048         ?C0004:
-0048         ?C0003:
-                                           ; SOURCE LINE # 82
-0048 80BE              SJMP    ?C0001
-004A         ?C0002:
-                                           ; SOURCE LINE # 83
-004A         ?C0007:
-004A 22                RET     
+                                           ; SOURCE LINE # 63
+0008 750099      R     MOV     theta+03H,#099H
+000B 750039      R     MOV     theta+02H,#039H
+000E 750049      R     MOV     theta+01H,#049H
+0011 750000      R     MOV     theta,#00H
+                                           ; SOURCE LINE # 66
+0014 AF00        R     MOV     R7,theta+03H
+0016 AE00        R     MOV     R6,theta+02H
+0018 AD00        R     MOV     R5,theta+01H
+001A AC00        R     MOV     R4,theta
+001C 120000      E     LCALL   __IQ15cos
+001F 8F00        R     MOV     tbl_out+03H,R7
+0021 8E00        R     MOV     tbl_out+02H,R6
+0023 8D00        R     MOV     tbl_out+01H,R5
+0025 8C00        R     MOV     tbl_out,R4
+                                           ; SOURCE LINE # 88
+0027 20ACDE            JB      ES,?C0001
+002A 3098DB            JNB     RI,?C0001
+002D E599              MOV     A,SBUF
+002F 64A5              XRL     A,#0A5H
+0031 6004              JZ      ?C0005
+0033 C298              CLR     RI
+0035 80D1              SJMP    ?C0001
+0037         ?C0005:
+0037 120000      E     LCALL   __isd_init
+003A         ?C0006:
+003A         ?C0004:
+003A         ?C0003:
+                                           ; SOURCE LINE # 91
+003A 80CC              SJMP    ?C0001
+003C         ?C0002:
+                                           ; SOURCE LINE # 92
+003C         ?C0007:
+003C 22                RET     
              ; FUNCTION main (END)
 
 
 
-<<<<<<< HEAD
-C51 COMPILER V9.54   MAIN                                                                  11/08/2018 17:04:39 PAGE 4   
-=======
-C51 COMPILER V9.54   MAIN                                                                  11/11/2018 11:38:19 PAGE 4   
->>>>>>> No update
-
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     75    ----
+   CODE SIZE        =     61    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     35    ----
+   DATA SIZE        =     43    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
+
+C51 COMPILER V9.54   MAIN                                                                  11/17/2018 17:39:30 PAGE 4   
 
 
 C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

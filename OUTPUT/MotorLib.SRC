@@ -219,20 +219,29 @@ P1ETCLR	DATA	0B6H
 ?DT?_EE_write?MOTORLIB                   SEGMENT DATA 
 ?PR?_EE_read?MOTORLIB                    SEGMENT CODE 
 ?DT?_EE_read?MOTORLIB                    SEGMENT DATA 
-?PR?_sin?MOTORLIB    SEGMENT CODE 
-?DT?_sin?MOTORLIB    SEGMENT DATA 
+?PR?__IQ15sin?MOTORLIB                   SEGMENT CODE 
+?DT?__IQ15sin?MOTORLIB                   SEGMENT DATA 
+?PR?__IQ15cos?MOTORLIB                   SEGMENT CODE 
+?DT?__IQ15cos?MOTORLIB                   SEGMENT DATA 
 ?PR?_Normalize?MOTORLIB                  SEGMENT CODE 
 ?DT?_Normalize?MOTORLIB                  SEGMENT DATA 
 ?C_INITSEG           SEGMENT CODE 
 ?XD?MOTORLIB         SEGMENT XDATA 
 ?DT?MOTORLIB         SEGMENT DATA 
 	EXTRN	CODE (?C?LSTXDATA)
+	EXTRN	CODE (?C?SLCMP)
+	EXTRN	CODE (?C?LNEG)
+	EXTRN	CODE (?C?LSHL)
+	EXTRN	CODE (?C?SLSHR)
+	EXTRN	CODE (?C?ULDIV)
+	EXTRN	CODE (?C?LMUL)
 	PUBLIC	tDebugTable
 	PUBLIC	_div_remainder
 	PUBLIC	_md_error
 	PUBLIC	_div_denominator
 	PUBLIC	_Normalize
-	PUBLIC	_sin
+	PUBLIC	__IQ15cos
+	PUBLIC	__IQ15sin
 	PUBLIC	_EE_read
 	PUBLIC	?_EE_write?BYTE
 	PUBLIC	_EE_write
@@ -247,17 +256,31 @@ P1ETCLR	DATA	0B6H
 	ORG  1
     EE_data?041:   DS   4
 
+	RSEG  ?DT?__IQ15cos?MOTORLIB
+?__IQ15cos?BYTE:
+        dat?347:   DS   4
+	ORG  4
+   angle_in?348:   DS   4
+	ORG  8
+    cos_out?349:   DS   4
+	ORG  12
+table_angle?350:   DS   4
+
+	RSEG  ?DT?__IQ15sin?MOTORLIB
+?__IQ15sin?BYTE:
+        dat?243:   DS   4
+	ORG  4
+   angle_in?244:   DS   4
+	ORG  8
+    sin_out?245:   DS   4
+	ORG  12
+table_angle?246:   DS   4
+
 	RSEG  ?DT?_Normalize?MOTORLIB
 ?_Normalize?BYTE:
-       Data?345:   DS   4
+       Data?451:   DS   4
 	ORG  4
-         LD?346:   DS   4
-
-	RSEG  ?DT?_sin?MOTORLIB
-?_sin?BYTE:
-        dat?243:   DS   2
-	ORG  2
-      value?244:   DS   2
+         LD?452:   DS   4
 
 	RSEG  ?XD?MOTORLIB
 _div_denominator:   DS   2
@@ -310,6 +333,7 @@ _div_denominator:   DS   2
 ; #include <absacc.h>
 ; #include "register.h"
 ; #include "motorLib.h"
+; #include "IQmathLib.h"
 ; 
 ; 
 ; 
@@ -341,14 +365,14 @@ _div_denominator:   DS   2
 	RSEG  ?PR?_EE_write?MOTORLIB
 _EE_write:
 	USING	0
-			; SOURCE LINE # 56
+			; SOURCE LINE # 57
 	MOV  	EE_addr?040,R7
 ; {
-			; SOURCE LINE # 57
+			; SOURCE LINE # 58
 ?C0001:
 ; 	
 ; 			while (MTP_BUSY==1);
-			; SOURCE LINE # 59
+			; SOURCE LINE # 60
 	MOV  	DPTR,#0E08EH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -362,22 +386,22 @@ _EE_write:
 	JB   	ACC.0,?C0001
 ?C0002:
 ; 			MTPCON2=0x53;         //init MTP write mode
-			; SOURCE LINE # 60
+			; SOURCE LINE # 61
 	MOV  	DPTR,#0E08FH
 	MOV  	A,#053H
 	MOVX 	@DPTR,A
 ; 			MTPSADD1=EE_addr;       // EEPROM address
-			; SOURCE LINE # 61
+			; SOURCE LINE # 62
 	MOV  	DPTR,#0E091H
 	MOV  	A,EE_addr?040
 	MOVX 	@DPTR,A
 ; 			MTPSADD2=0x00;
-			; SOURCE LINE # 62
+			; SOURCE LINE # 63
 	MOV  	DPTR,#0E092H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 			MTPDATA=EE_data;
-			; SOURCE LINE # 63
+			; SOURCE LINE # 64
 	MOV  	R7,EE_data?041+03H
 	MOV  	R6,EE_data?041+02H
 	MOV  	R5,EE_data?041+01H
@@ -386,14 +410,14 @@ _EE_write:
 	LCALL	?C?LSTXDATA
 ; 			
 ; 			MTPCON1=0x0b;				//start 
-			; SOURCE LINE # 65
+			; SOURCE LINE # 66
 	MOV  	DPTR,#0E08EH
 	MOV  	A,#0BH
 	MOVX 	@DPTR,A
 ?C0003:
 ; 			
 ; 			while (MTP_WRITE==0);
-			; SOURCE LINE # 67
+			; SOURCE LINE # 68
 	MOV  	DPTR,#0E08EH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -406,13 +430,13 @@ _EE_write:
 	JNB  	ACC.0,?C0003
 ?C0004:
 ; 			MTPCON1=0x0;
-			; SOURCE LINE # 68
+			; SOURCE LINE # 69
 	MOV  	DPTR,#0E08EH
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 	
 ; }
-			; SOURCE LINE # 70
+			; SOURCE LINE # 71
 ?C0005:
 	RET  	
 ; END OF _EE_write
@@ -435,14 +459,14 @@ _EE_write:
 	RSEG  ?PR?_EE_read?MOTORLIB
 _EE_read:
 	USING	0
-			; SOURCE LINE # 84
+			; SOURCE LINE # 85
 	MOV  	EE_addr?142,R7
 ; {
-			; SOURCE LINE # 85
+			; SOURCE LINE # 86
 ?C0006:
 ; 	
 ; 			while (MTP_BUSY==1);
-			; SOURCE LINE # 87
+			; SOURCE LINE # 88
 	MOV  	DPTR,#0E08EH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -456,28 +480,28 @@ _EE_read:
 	JB   	ACC.0,?C0006
 ?C0007:
 ; 			MTPCON2=0x55;         //init MTP read mode
-			; SOURCE LINE # 88
+			; SOURCE LINE # 89
 	MOV  	DPTR,#0E08FH
 	MOV  	A,#055H
 	MOVX 	@DPTR,A
 ; 			MTPSADD1=EE_addr;       //
-			; SOURCE LINE # 89
+			; SOURCE LINE # 90
 	MOV  	DPTR,#0E091H
 	MOV  	A,EE_addr?142
 	MOVX 	@DPTR,A
 ; 			MTPSADD2=0x00;
-			; SOURCE LINE # 90
+			; SOURCE LINE # 91
 	MOV  	DPTR,#0E092H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 			MTPCON1=0x07;					//start
-			; SOURCE LINE # 91
+			; SOURCE LINE # 92
 	MOV  	DPTR,#0E08EH
 	MOV  	A,#07H
 	MOVX 	@DPTR,A
 ?C0008:
 ; 			while (MTP_READ==0);
-			; SOURCE LINE # 92
+			; SOURCE LINE # 93
 	MOV  	DPTR,#0E08EH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -489,12 +513,12 @@ _EE_read:
 	JNB  	ACC.0,?C0008
 ?C0009:
 ; 			MTPCON1=0x0;
-			; SOURCE LINE # 93
+			; SOURCE LINE # 94
 	MOV  	DPTR,#0E08EH
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 			return MTPDATA;
-			; SOURCE LINE # 94
+			; SOURCE LINE # 95
 	MOV  	DPTR,#0E093H
 	MOVX 	A,@DPTR
 	MOV  	R4,A
@@ -509,7 +533,7 @@ _EE_read:
 	MOV  	R7,A
 ; 	
 ; }
-			; SOURCE LINE # 96
+			; SOURCE LINE # 97
 ?C0010:
 	RET  	
 ; END OF _EE_read
@@ -531,120 +555,453 @@ _EE_read:
 ;  *
 ;  * @return 	none
 ;  */
-; S16 sin(S16 dat)
+; 
+; 
+; _iq _IQsin(_iq dat)
 
-	RSEG  ?PR?_sin?MOTORLIB
-_sin:
+	RSEG  ?PR?__IQ15sin?MOTORLIB
+__IQ15sin:
 	USING	0
-			; SOURCE LINE # 114
-	MOV  	dat?243,R6
-	MOV  	dat?243+01H,R7
-; {
-			; SOURCE LINE # 115
-; volatile signed int value;
-; 	value= XWORD[dat];
 			; SOURCE LINE # 117
-	MOV  	A,dat?243+01H
-	ADD  	A,ACC
-	MOV  	R7,A
-	MOV  	A,dat?243
-	RLC  	A
-	MOV  	R6,A
+	MOV  	dat?243+03H,R7
+	MOV  	dat?243+02H,R6
+	MOV  	dat?243+01H,R5
+	MOV  	dat?243,R4
+; {
+			; SOURCE LINE # 118
+; volatile _iq angle_in,sin_out;
+; volatile U32 table_angle;
+; 	 
+; 	
+; 	
+; 								
+; 	
+; 	angle_in=(((dat) < 0) ? - (dat) : (dat));
+			; SOURCE LINE # 126
+	MOV  	R7,#00H
+	MOV  	R6,#00H
+	MOV  	R5,#00H
+	MOV  	R4,#00H
+	MOV  	R3,dat?243+03H
+	MOV  	R2,dat?243+02H
+	MOV  	R1,dat?243+01H
+	MOV  	R0,dat?243
+	CLR  	C
+	LCALL	?C?SLCMP
+	JNC  	?C0011
+	MOV  	R7,dat?243+03H
+	MOV  	R6,dat?243+02H
+	MOV  	R5,dat?243+01H
+	MOV  	R4,dat?243
+	LCALL	?C?LNEG
+	SJMP 	?C0012
+?C0011:
+	MOV  	R7,dat?243+03H
+	MOV  	R6,dat?243+02H
+	MOV  	R5,dat?243+01H
+	MOV  	R4,dat?243
+?C0012:
+	MOV  	angle_in?244+03H,R7
+	MOV  	angle_in?244+02H,R6
+	MOV  	angle_in?244+01H,R5
+	MOV  	angle_in?244,R4
+?C0013:
+; 			
+; 	//limit the search anlge to <360)
+; 	
+;   while (angle_in>=_IQ(360.0))
+			; SOURCE LINE # 130
+	MOV  	R7,#00H
+	MOV  	R6,#00H
+	MOV  	R5,#0B4H
+	MOV  	R4,#00H
+	MOV  	R3,angle_in?244+03H
+	MOV  	R2,angle_in?244+02H
+	MOV  	R1,angle_in?244+01H
+	MOV  	R0,angle_in?244
+	CLR  	C
+	LCALL	?C?SLCMP
+	JC   	?C0014
+; 			{
+			; SOURCE LINE # 131
+; 				angle_in-=_IQ(360.0);
+			; SOURCE LINE # 132
+	CLR  	C
+	MOV  	A,angle_in?244+03H
+	SUBB 	A,#00H
+	MOV  	angle_in?244+03H,A
+	MOV  	A,angle_in?244+02H
+	SUBB 	A,#00H
+	MOV  	angle_in?244+02H,A
+	MOV  	A,angle_in?244+01H
+	SUBB 	A,#0B4H
+	MOV  	angle_in?244+01H,A
+	MOV  	A,angle_in?244
+	SUBB 	A,#00H
+	MOV  	angle_in?244,A
+; 			}
+			; SOURCE LINE # 133
+	SJMP 	?C0013
+?C0014:
+; 	
+; 	// convert angle to data in sin table, angle =angle/360 * 512  or  =angle *64/45
+; 			
+; 	table_angle=(U32)((angle_in<<6)>>GLOBAL_Q ); 
+			; SOURCE LINE # 137
+	MOV  	R7,angle_in?244+03H
+	MOV  	R6,angle_in?244+02H
+	MOV  	R5,angle_in?244+01H
+	MOV  	R4,angle_in?244
+	MOV  	R0,#06H
+	LCALL	?C?LSHL
+	MOV  	R0,#0FH
+	LCALL	?C?SLSHR
+	MOV  	table_angle?246+03H,R7
+	MOV  	table_angle?246+02H,R6
+	MOV  	table_angle?246+01H,R5
+	MOV  	table_angle?246,R4
+; 	table_angle/=45;	
+			; SOURCE LINE # 138
+	MOV  	R7,table_angle?246+03H
+	MOV  	R6,table_angle?246+02H
+	MOV  	R5,table_angle?246+01H
+	MOV  	R4,table_angle?246
+	MOV  	R3,#02DH
+	MOV  	R2,#00H
+	MOV  	R1,#00H
+	MOV  	R0,#00H
+	LCALL	?C?ULDIV
+	MOV  	table_angle?246+03H,R7
+	MOV  	table_angle?246+02H,R6
+	MOV  	table_angle?246+01H,R5
+	MOV  	table_angle?246,R4
+;  
+;   sin_out=XWORD[table_angle+sin_table];
+			; SOURCE LINE # 140
+	MOV  	R7,#02H
+	MOV  	R6,#00H
+	MOV  	R5,#00H
+	MOV  	R4,#00H
+	MOV  	R3,table_angle?246+03H
+	MOV  	R2,table_angle?246+02H
+	MOV  	R1,table_angle?246+01H
+	MOV  	R0,table_angle?246
+	LCALL	?C?LMUL
 	MOV  	DPL,R7
 	MOV  	DPH,R6
 	MOVX 	A,@DPTR
-	MOV  	value?244,A
+	MOV  	R6,A
 	INC  	DPTR
 	MOVX 	A,@DPTR
-	MOV  	value?244+01H,A
+	MOV  	R7,A
+	CLR  	A
+	MOV  	R4,A
+	MOV  	R5,A
+	MOV  	sin_out?245+03H,R7
+	MOV  	sin_out?245+02H,R6
+	MOV  	sin_out?245+01H,R5
+	MOV  	sin_out?245,R4
 ; 	
-; return value;
-			; SOURCE LINE # 119
-	MOV  	R6,value?244
-	MOV  	R7,value?244+01H
+; 	if (dat<0) sin_out=-(sin_out);
+			; SOURCE LINE # 142
+	MOV  	R7,#00H
+	MOV  	R6,#00H
+	MOV  	R5,#00H
+	MOV  	R4,#00H
+	MOV  	R3,dat?243+03H
+	MOV  	R2,dat?243+02H
+	MOV  	R1,dat?243+01H
+	MOV  	R0,dat?243
+	CLR  	C
+	LCALL	?C?SLCMP
+	JNC  	?C0015
+	MOV  	R7,sin_out?245+03H
+	MOV  	R6,sin_out?245+02H
+	MOV  	R5,sin_out?245+01H
+	MOV  	R4,sin_out?245
+	LCALL	?C?LNEG
+	MOV  	sin_out?245+03H,R7
+	MOV  	sin_out?245+02H,R6
+	MOV  	sin_out?245+01H,R5
+	MOV  	sin_out?245,R4
+?C0015:
+; 	
+; 
+; 	
+; return sin_out ;
+			; SOURCE LINE # 146
+	MOV  	R7,sin_out?245+03H
+	MOV  	R6,sin_out?245+02H
+	MOV  	R5,sin_out?245+01H
+	MOV  	R4,sin_out?245
 ; 	
 ; }
-			; SOURCE LINE # 121
-?C0011:
+			; SOURCE LINE # 148
+?C0016:
 	RET  	
-; END OF _sin
+; END OF __IQ15sin
 
 ; 
 ; 
 ; 
-; S32 Normalize(S32 Data)
+; 
+; _iq _IQcos(_iq dat)
+
+	RSEG  ?PR?__IQ15cos?MOTORLIB
+__IQ15cos:
+	USING	0
+			; SOURCE LINE # 153
+	MOV  	dat?347+03H,R7
+	MOV  	dat?347+02H,R6
+	MOV  	dat?347+01H,R5
+	MOV  	dat?347,R4
+; {
+			; SOURCE LINE # 154
+; volatile _iq angle_in,cos_out;
+; volatile U32 table_angle;
+; 	 
+; 	
+; 	
+; 								
+; 	
+; 	angle_in=(((dat) < 0) ? - (dat) : (dat));
+			; SOURCE LINE # 162
+	MOV  	R7,#00H
+	MOV  	R6,#00H
+	MOV  	R5,#00H
+	MOV  	R4,#00H
+	MOV  	R3,dat?347+03H
+	MOV  	R2,dat?347+02H
+	MOV  	R1,dat?347+01H
+	MOV  	R0,dat?347
+	CLR  	C
+	LCALL	?C?SLCMP
+	JNC  	?C0017
+	MOV  	R7,dat?347+03H
+	MOV  	R6,dat?347+02H
+	MOV  	R5,dat?347+01H
+	MOV  	R4,dat?347
+	LCALL	?C?LNEG
+	SJMP 	?C0018
+?C0017:
+	MOV  	R7,dat?347+03H
+	MOV  	R6,dat?347+02H
+	MOV  	R5,dat?347+01H
+	MOV  	R4,dat?347
+?C0018:
+	MOV  	angle_in?348+03H,R7
+	MOV  	angle_in?348+02H,R6
+	MOV  	angle_in?348+01H,R5
+	MOV  	angle_in?348,R4
+?C0019:
+; 			
+; 	//limit the search anlge to <360)
+; 	
+;   while (angle_in>=_IQ(360.0))
+			; SOURCE LINE # 166
+	MOV  	R7,#00H
+	MOV  	R6,#00H
+	MOV  	R5,#0B4H
+	MOV  	R4,#00H
+	MOV  	R3,angle_in?348+03H
+	MOV  	R2,angle_in?348+02H
+	MOV  	R1,angle_in?348+01H
+	MOV  	R0,angle_in?348
+	CLR  	C
+	LCALL	?C?SLCMP
+	JC   	?C0020
+; 			{
+			; SOURCE LINE # 167
+; 				angle_in-=_IQ(360.0);
+			; SOURCE LINE # 168
+	CLR  	C
+	MOV  	A,angle_in?348+03H
+	SUBB 	A,#00H
+	MOV  	angle_in?348+03H,A
+	MOV  	A,angle_in?348+02H
+	SUBB 	A,#00H
+	MOV  	angle_in?348+02H,A
+	MOV  	A,angle_in?348+01H
+	SUBB 	A,#0B4H
+	MOV  	angle_in?348+01H,A
+	MOV  	A,angle_in?348
+	SUBB 	A,#00H
+	MOV  	angle_in?348,A
+; 			}
+			; SOURCE LINE # 169
+	SJMP 	?C0019
+?C0020:
+; 	
+; 	// convert angle to data in cos table, cos(angle) =sin(angle+90)
+; 			
+; 	table_angle=(U32)((angle_in<<6)>>GLOBAL_Q ); 
+			; SOURCE LINE # 173
+	MOV  	R7,angle_in?348+03H
+	MOV  	R6,angle_in?348+02H
+	MOV  	R5,angle_in?348+01H
+	MOV  	R4,angle_in?348
+	MOV  	R0,#06H
+	LCALL	?C?LSHL
+	MOV  	R0,#0FH
+	LCALL	?C?SLSHR
+	MOV  	table_angle?350+03H,R7
+	MOV  	table_angle?350+02H,R6
+	MOV  	table_angle?350+01H,R5
+	MOV  	table_angle?350,R4
+; 	table_angle/=45;
+			; SOURCE LINE # 174
+	MOV  	R7,table_angle?350+03H
+	MOV  	R6,table_angle?350+02H
+	MOV  	R5,table_angle?350+01H
+	MOV  	R4,table_angle?350
+	MOV  	R3,#02DH
+	MOV  	R2,#00H
+	MOV  	R1,#00H
+	MOV  	R0,#00H
+	LCALL	?C?ULDIV
+	MOV  	table_angle?350+03H,R7
+	MOV  	table_angle?350+02H,R6
+	MOV  	table_angle?350+01H,R5
+	MOV  	table_angle?350,R4
+; 	table_angle+=128;
+			; SOURCE LINE # 175
+	MOV  	A,table_angle?350+03H
+	ADD  	A,#080H
+	MOV  	table_angle?350+03H,A
+	MOV  	A,table_angle?350+02H
+	ADDC 	A,#00H
+	MOV  	table_angle?350+02H,A
+	MOV  	A,table_angle?350+01H
+	ADDC 	A,#00H
+	MOV  	table_angle?350+01H,A
+	MOV  	A,table_angle?350
+	ADDC 	A,#00H
+	MOV  	table_angle?350,A
+;  
+;   cos_out=XWORD[table_angle+sin_table];
+			; SOURCE LINE # 177
+	MOV  	R7,#02H
+	MOV  	R6,#00H
+	MOV  	R5,#00H
+	MOV  	R4,#00H
+	MOV  	R3,table_angle?350+03H
+	MOV  	R2,table_angle?350+02H
+	MOV  	R1,table_angle?350+01H
+	MOV  	R0,table_angle?350
+	LCALL	?C?LMUL
+	MOV  	DPL,R7
+	MOV  	DPH,R6
+	MOVX 	A,@DPTR
+	MOV  	R6,A
+	INC  	DPTR
+	MOVX 	A,@DPTR
+	MOV  	R7,A
+	CLR  	A
+	MOV  	R4,A
+	MOV  	R5,A
+	MOV  	cos_out?349+03H,R7
+	MOV  	cos_out?349+02H,R6
+	MOV  	cos_out?349+01H,R5
+	MOV  	cos_out?349,R4
+; 	
+; 
+; 	
+; return cos_out ;
+			; SOURCE LINE # 181
+	MOV  	R7,cos_out?349+03H
+	MOV  	R6,cos_out?349+02H
+	MOV  	R5,cos_out?349+01H
+	MOV  	R4,cos_out?349
+; 	
+; }
+			; SOURCE LINE # 183
+?C0021:
+	RET  	
+; END OF __IQ15cos
+
+; 
+; 
+; 
+; 
+; 
+; 
+; 
+; S32 Normalize(S32 Data)              //normalize only work for positive value. it return error if the MD3_7=1 
 
 	RSEG  ?PR?_Normalize?MOTORLIB
 _Normalize:
 	USING	0
-			; SOURCE LINE # 125
-	MOV  	Data?345+03H,R7
-	MOV  	Data?345+02H,R6
-	MOV  	Data?345+01H,R5
-	MOV  	Data?345,R4
+			; SOURCE LINE # 191
+	MOV  	Data?451+03H,R7
+	MOV  	Data?451+02H,R6
+	MOV  	Data?451+01H,R5
+	MOV  	Data?451,R4
 ; {
-			; SOURCE LINE # 126
+			; SOURCE LINE # 192
 ;  Long_Data LD;
 ;  LD.Ldata =Data;
-			; SOURCE LINE # 128
-	MOV  	R7,Data?345+03H
-	MOV  	R6,Data?345+02H
-	MOV  	R5,Data?345+01H
-	MOV  	R4,Data?345
-	MOV  	LD?346+03H,R7
-	MOV  	LD?346+02H,R6
-	MOV  	LD?346+01H,R5
-	MOV  	LD?346,R4
+			; SOURCE LINE # 194
+	MOV  	R7,Data?451+03H
+	MOV  	R6,Data?451+02H
+	MOV  	R5,Data?451+01H
+	MOV  	R4,Data?451
+	MOV  	LD?452+03H,R7
+	MOV  	LD?452+02H,R6
+	MOV  	LD?452+01H,R5
+	MOV  	LD?452,R4
 ;  MD0 = LD.ss1.Byte0;
-			; SOURCE LINE # 129
-	MOV  	MD0,LD?346+03H
+			; SOURCE LINE # 195
+	MOV  	MD0,LD?452+03H
 ;  MD1 = LD.ss1.Byte1;
-			; SOURCE LINE # 130
-	MOV  	MD1,LD?346+02H
+			; SOURCE LINE # 196
+	MOV  	MD1,LD?452+02H
 ;  MD2 = LD.ss1.Byte2;
-			; SOURCE LINE # 131
-	MOV  	MD2,LD?346+01H
+			; SOURCE LINE # 197
+	MOV  	MD2,LD?452+01H
 ;  MD3 = LD.ss1.Byte3;
-			; SOURCE LINE # 132
-	MOV  	MD3,LD?346
+			; SOURCE LINE # 198
+	MOV  	MD3,LD?452
+; 	
+; 
+; 	
 ;  ARCON = 0x00 ; // Start Normalizing
-			; SOURCE LINE # 133
+			; SOURCE LINE # 202
 	MOV  	ARCON,#00H
-?C0012:
+?C0022:
 ;  while(MD3_7==0 ); //check MDU finish flag
-			; SOURCE LINE # 134
+			; SOURCE LINE # 203
 	MOV  	A,MD3
-	JNB  	ACC.7,?C0014
+	JNB  	ACC.7,?C0024
 	MOV  	R7,#01H
-	SJMP 	?C0015
-?C0014:
+	SJMP 	?C0025
+?C0024:
 	MOV  	R7,#00H
-?C0015:
+?C0025:
 	MOV  	A,R7
-	JZ   	?C0012
-?C0013:
+	JZ   	?C0022
+?C0023:
 ; 	LD.ss1.Byte0=MD0;
-			; SOURCE LINE # 135
-	MOV  	LD?346+03H,MD0
+			; SOURCE LINE # 204
+	MOV  	LD?452+03H,MD0
 ; 	LD.ss1.Byte1=MD1;
-			; SOURCE LINE # 136
-	MOV  	LD?346+02H,MD1
+			; SOURCE LINE # 205
+	MOV  	LD?452+02H,MD1
 ; 	LD.ss1.Byte2=MD2;
-			; SOURCE LINE # 137
-	MOV  	LD?346+01H,MD2
+			; SOURCE LINE # 206
+	MOV  	LD?452+01H,MD2
 ; 	LD.ss1.Byte3=MD3;
-			; SOURCE LINE # 138
-	MOV  	LD?346,MD3
+			; SOURCE LINE # 207
+	MOV  	LD?452,MD3
 ;  
 ; 	 return LD.Ldata ;
-			; SOURCE LINE # 140
-	MOV  	R7,LD?346+03H
-	MOV  	R6,LD?346+02H
-	MOV  	R5,LD?346+01H
-	MOV  	R4,LD?346
+			; SOURCE LINE # 209
+	MOV  	R7,LD?452+03H
+	MOV  	R6,LD?452+02H
+	MOV  	R5,LD?452+01H
+	MOV  	R4,LD?452
 ; }
-			; SOURCE LINE # 141
-?C0016:
+			; SOURCE LINE # 210
+?C0026:
 	RET  	
 ; END OF _Normalize
 

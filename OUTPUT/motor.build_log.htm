@@ -3,12 +3,12 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: µVision V5.14.1
+IDE-Version: £gVision V5.14.1
 Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Gary Chan, Quatro, LIC=----
+License Information: z z, x, LIC=BU3TG-V31WJ-YFTI4-FI5RZ-P91M0-7QGNW
  
 Tool Versions:
-Toolchain:       PK51 Prof. Develpers Kit  Version: 9.54
+Toolchain:       PK51 Prof. Developers Kit  Version: 9.54
 Toolchain Path:  C:\Keil_v5\C51\BIN
 C Compiler:      C51.exe V9.54
 Assembler:       A51.exe V8.02c
@@ -21,8 +21,8 @@ Target DLL:      ISD51.DLL V2.49.0.1
 Dialog DLL:      TP51.DLL V2.58
  
 <h2>Project:</h2>
-C:\00 SELF\GITHUB\Three Phase\motor.uvproj
-Project File Date:  11/09/2018
+C:\project\asic\motor.uvproj
+Project File Date:  11/08/2018
 
 <h2>Output:</h2>
 Rebuild target 'Target 1'
@@ -35,27 +35,22 @@ compiling MotorLib.c...
 assembling .\OUTPUT\MotorLib.src...
 assembling ISD51.A51...
 linking...
-BL51 BANKED LINKER/LOCATER V6.22 - SN: Eval Version
-COPYRIGHT KEIL ELEKTRONIK GmbH 1987 - 2009
-".\OUTPUT\STARTUP.obj",
-".\OUTPUT\main.obj",
-".\OUTPUT\initial.obj",
-".\OUTPUT\interrupt.obj",
-".\OUTPUT\MotorLib.obj",
-".\OUTPUT\ISD51.obj" 
-TO ".\OUTPUT\motor" REGFILE (.\OUTPUT\motor.ORC) 
-PRINT(".\files\motor.m51") DISABLEWARNING (16) 
-CODE( 0x2000-0x9FFF )
-XDATA( 0xA000-0xDFFF )
-******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 19B3H BYTE (321%) *
-******************************************************************************
-Program Size: data=73.1 xdata=5 code=6817
-LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
-*** FATAL ERROR L250: CODE SIZE LIMIT IN RESTRICTED VERSION EXCEEDED
-    MODULE:  C:\KEIL_V5\C51\LIB\C51S.LIB (-----)
-    LIMIT:   0800H BYTES
-Target not created.
+Program Size: data=109.1 xdata=5 code=7578
+creating hex file from ".\OUTPUT\motor"...
+User command #1: .\tools\user.bat
+C:\project\asic>.\tools\hex2bin.exe -p 00 .\output\motor.hex 
+hex2bin v2.2, Copyright (C) 2015 Jacques Pelletier & contributors
+Allocate_Memory_and_Rewind:
+Lowest address:   00002000
+Highest address:  00003E12
+Starting address: 00002000
+Max Length:       7699
+Binary file start = 00002000
+Records start     = 00002000
+Highest address   = 00003E12
+Pad Byte          = 0
+Force/Check address outside of memory range
+".\OUTPUT\motor" - 0 Error(s), 0 Warning(s).
 </pre>
 </body>
 </html>

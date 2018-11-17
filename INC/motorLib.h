@@ -57,41 +57,20 @@ unsigned long Ldata;
 //========================================================= 
 	
 	
-	
-	
+#define pos  0
+#define neg  1
 
-#define  BSH_MODE_MASK         (0xE0)
-#define  BSH_MODE_POSITION     (5)
+#define sin_table 0x0000
 
-#define  BSH_RR                (0x00)
-#define  BSH_RRA               (0x20)
-#define  BSH_RRC               (0x40)
-#define  BSH_RL                (0x80)
-#define  BSH_RLA               (0xA0)
-#define  BSH_RLC               (0xC0)
 
-#define  MD_RR                 (0x20)
-#define  MD_RL                 (0x00)
-#define  MD_MDEF               (0x80)
-#define  MD_MDOV               (0x40)
-
-extern volatile U8 xdata _md_error;
-extern volatile U16 xdata _div_remainder;
-extern volatile U16 xdata _div_denominator;
-
-extern S32 BarrelShift(S32 in, S8 cmd);
-
-extern S32 Div32(S32 numerator , S16 denominator);
-extern S16 Div16(S16 numerator, S16 denominator);
-extern S32 Shift32(S32 dat, U8 cmd);
-extern S32 Normalize(S32 dat);
-extern S32 Mul(S16 multiplicand, S16 multiplicator);
 
 
 extern S32 UartPass(void);
 
 extern void EE_write(U8 EE_addr, U32 EE_data);
 extern U32 EE_read(U8 EE_addr); 
+
+//extern _iq (_IQsin(S16 dat));
 
 
 #endif //_LIB_H_
