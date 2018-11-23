@@ -70,6 +70,64 @@ extern "C"
 #include <limits.h>
 #include <stdlib.h>
 
+
+
+#define pos  0
+#define neg  1
+
+#define sin_table 		0x0000
+#define inverse_table 0x0200		  
+#define sqrt_table 		0x0400	
+#define artan_table 	0x0c00	
+
+
+
+
+
+typedef char S8;
+typedef int  S16;
+typedef long S32;
+typedef unsigned char U8;
+typedef unsigned int  U16;
+typedef unsigned long U32;
+typedef char* PS8;
+typedef int*  PS16;
+typedef long* PS32;
+typedef unsigned char* PU8;
+typedef unsigned int*  PU16;
+typedef unsigned long* PU32;
+
+
+
+typedef  struct {
+ unsigned char D3; //MSB
+ unsigned char D2;
+ unsigned char D1;
+ unsigned char D0; //LSB
+ } EE32;
+ 
+
+
+typedef union {
+ struct {
+ unsigned char Byte3; //MSB
+ unsigned char Byte2;
+ unsigned char Byte1;
+ unsigned char Byte0; //LSB
+ }ss1;
+ struct {
+ unsigned int Word1; //MSW
+ unsigned int Word0; //LSW
+ }ss2; 	
+unsigned long Ldata;
+}Long_Data;
+//========================================================= 
+
+
+
+
+
+
 //*****************************************************************************
 //
 // Various Useful Constant Definitions:
@@ -155,6 +213,15 @@ typedef long _iq3;
 typedef long _iq2;
 typedef long _iq1;
 typedef long _iq;
+
+
+
+//********************************************************************
+//  Normalized
+//**************************************************
+
+extern _iq Normalize(_iq dat);
+
 
 //*****************************************************************************
 //
@@ -1677,6 +1744,134 @@ extern _iq1 _IQ1sinPU(_iq1 A);
 #if GLOBAL_Q == 1
 #define _IQsinPU(A)             _IQ1sinPU(A)
 #endif
+
+
+
+//*****************************************************************************
+//
+// Computes the inverse of an IQ number.
+//
+//*****************************************************************************
+extern _iq29 _IQ29inv(_iq29 A);
+extern _iq28 _IQ28inv(_iq28 A);
+extern _iq27 _IQ27inv(_iq27 A);
+extern _iq26 _IQ26inv(_iq26 A);
+extern _iq25 _IQ25inv(_iq25 A);
+extern _iq24 _IQ24inv(_iq24 A);
+extern _iq23 _IQ23inv(_iq23 A);
+extern _iq22 _IQ22inv(_iq22 A);
+extern _iq21 _IQ21inv(_iq21 A);
+extern _iq20 _IQ20inv(_iq20 A);
+extern _iq19 _IQ19inv(_iq19 A);
+extern _iq18 _IQ18inv(_iq18 A);
+extern _iq17 _IQ17inv(_iq17 A);
+extern _iq16 _IQ16inv(_iq16 A);
+extern _iq15 _IQ15inv(_iq15 A);
+extern _iq14 _IQ14inv(_iq14 A);
+extern _iq13 _IQ13inv(_iq13 A);
+extern _iq12 _IQ12inv(_iq12 A);
+extern _iq11 _IQ11inv(_iq11 A);
+extern _iq10 _IQ10inv(_iq10 A);
+extern _iq9 _IQ9inv(_iq9 A);
+extern _iq8 _IQ8inv(_iq8 A);
+extern _iq7 _IQ7inv(_iq7 A);
+extern _iq6 _IQ6inv(_iq6 A);
+extern _iq5 _IQ5inv(_iq5 A);
+extern _iq4 _IQ4inv(_iq4 A);
+extern _iq3 _IQ3inv(_iq3 A);
+extern _iq2 _IQ2inv(_iq2 A);
+extern _iq1 _IQ1inv(_iq1 A);
+
+#if GLOBAL_Q == 29
+#define _IQinv(A)               _IQ29inv(A)
+#endif
+#if GLOBAL_Q == 28
+#define _IQinv(A)               _IQ28inv(A)
+#endif
+#if GLOBAL_Q == 27
+#define _IQinv(A)               _IQ27inv(A)
+#endif
+#if GLOBAL_Q == 26
+#define _IQinv(A)               _IQ26inv(A)
+#endif
+#if GLOBAL_Q == 25
+#define _IQinv(A)               _IQ25inv(A)
+#endif
+#if GLOBAL_Q == 24
+#define _IQinv(A)               _IQ24inv(A)
+#endif
+#if GLOBAL_Q == 23
+#define _IQinv(A)               _IQ23inv(A)
+#endif
+#if GLOBAL_Q == 22
+#define _IQinv(A)               _IQ22inv(A)
+#endif
+#if GLOBAL_Q == 21
+#define _IQinv(A)               _IQ21inv(A)
+#endif
+#if GLOBAL_Q == 20
+#define _IQinv(A)               _IQ20inv(A)
+#endif
+#if GLOBAL_Q == 19
+#define _IQinv(A)               _IQ19inv(A)
+#endif
+#if GLOBAL_Q == 18
+#define _IQinv(A)               _IQ18inv(A)
+#endif
+#if GLOBAL_Q == 17
+#define _IQinv(A)               _IQ17inv(A)
+#endif
+#if GLOBAL_Q == 16
+#define _IQinv(A)               _IQ16inv(A)
+#endif
+#if GLOBAL_Q == 15
+#define _IQinv(A)               _IQ15inv(A)
+#endif
+#if GLOBAL_Q == 14
+#define _IQinv(A)               _IQ14inv(A)
+#endif
+#if GLOBAL_Q == 13
+#define _IQinv(A)               _IQ13inv(A)
+#endif
+#if GLOBAL_Q == 12
+#define _IQinv(A)               _IQ12inv(A)
+#endif
+#if GLOBAL_Q == 11
+#define _IQinv(A)               _IQ11inv(A)
+#endif
+#if GLOBAL_Q == 10
+#define _IQinv(A)               _IQ10inv(A)
+#endif
+#if GLOBAL_Q == 9
+#define _IQinv(A)               _IQ9inv(A)
+#endif
+#if GLOBAL_Q == 8
+#define _IQinv(A)               _IQ8inv(A)
+#endif
+#if GLOBAL_Q == 7
+#define _IQinv(A)               _IQ7inv(A)
+#endif
+#if GLOBAL_Q == 6
+#define _IQinv(A)               _IQ6inv(A)
+#endif
+#if GLOBAL_Q == 5
+#define _IQinv(A)               _IQ5inv(A)
+#endif
+#if GLOBAL_Q == 4
+#define _IQinv(A)               _IQ4inv(A)
+#endif
+#if GLOBAL_Q == 3
+#define _IQinv(A)               _IQ3inv(A)
+#endif
+#if GLOBAL_Q == 2
+#define _IQinv(A)               _IQ2inv(A)
+#endif
+#if GLOBAL_Q == 1
+#define _IQinv(A)               _IQ1inv(A)
+#endif
+
+
+
 
 //*****************************************************************************
 //

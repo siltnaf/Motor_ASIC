@@ -425,6 +425,11 @@
               <FilePath>.\SRC\interrupt.c</FilePath>
             </File>
             <File>
+              <FileName>IQmathLib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\SRC\IQmathLib.c</FilePath>
+            </File>
+            <File>
               <FileName>MotorLib.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\SRC\MotorLib.c</FilePath>

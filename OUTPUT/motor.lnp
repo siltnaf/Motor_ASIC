@@ -2,6 +2,7 @@
 ".\OUTPUT\main.obj",
 ".\OUTPUT\initial.obj",
 ".\OUTPUT\interrupt.obj",
+".\OUTPUT\IQmathLib.obj",
 ".\OUTPUT\MotorLib.obj",
 ".\OUTPUT\ISD51.obj" 
 TO ".\OUTPUT\motor" REGFILE (.\OUTPUT\motor.ORC) 

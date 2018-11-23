@@ -135,10 +135,10 @@
 //extern unsigned char ucUARTReceiver;
 //extern unsigned char ucReceiveFlag;
 
+extern unsigned int xdata ADresult;
+extern unsigned char xdata tmr3_ov,capture_flag;
+extern unsigned long xdata last_capture,this_capture,pwm_capture;
 
-extern unsigned int ADresult;
-extern unsigned char tmr3_ov,capture_flag;
-extern unsigned long last_capture,this_capture,pwm_capture;
 
 
 

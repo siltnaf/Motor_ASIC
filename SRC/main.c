@@ -11,18 +11,17 @@
 
 
 
- unsigned int ADresult;
- unsigned int data_value;
- 
- unsigned char tmr3_ov,dac_value;
- unsigned long last_capture,this_capture, pwm_capture;
- 
-_iq input, tbl_out,theta,beta;     //gobal_q =24
- 
-U32 EE_data;
-S32 math_data;
-U8  index; 
+ unsigned int xdata ADresult;
+ unsigned char xdata tmr3_ov,capture_flag;
+ unsigned long xdata last_capture,this_capture,pwm_capture;
 
+
+  
+
+ 
+_iq   tbl_out,theta  ;     //gobal_q =24
+ 
+U32 xdata EE_data;
 
 
 
@@ -52,21 +51,23 @@ void main(void)
     {
 			
 		 
-//		math_data=Normalize(0x80000324);               //test normalizes a number
-//		index=ARCON;
-//		math_data=math_data>>index;
+
 			 
 			
 //			input =  _IQ10((0.25*PI));           //test IQmathlib
 			
 	
-			 theta=_IQ(146.45);                    //cover 0 to 360
+			theta=_IQ(145.25);    
+
+
+			
+			tbl_out=_IQsqrt(theta);
+	
 			
 			
-			tbl_out=_IQcos(theta);
-//			 sin_out=_IQsin(theta);
-			
-			
+//			tbl_out=_IQsin(theta);
+//  			tbl_out=_IQcos(theta);
+//			
 			
 	
 //			dac_value=(unsigned char)(pwm_capture>>11);             //check DAC

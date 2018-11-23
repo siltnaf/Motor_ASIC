@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   MOTORLIB                                                              11/17/2018 17:39:31 PAGE 1   
+C51 COMPILER V9.54   MOTORLIB                                                              11/23/2018 17:01:52 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MOTORLIB
@@ -41,199 +41,81 @@ line level    source
   31          
   32          
   33          
-  34          volatile U8 xdata _md_error;// _at_ (0xDFFF);
-  35          volatile U16 xdata _div_remainder;// _at_ (0xDFFD);
-  36          volatile U16 xdata _div_denominator;// _at_ (0xA4FB);
-  37          
-  38          #pragma asm
-  39                          CSEG    AT      4000h
-  40          #pragma endasm
-  41          const unsigned char tDebugTable[10] = {1,2,3,4,5,6,7,8,9,10};
-  42          
+  34          
+  35          
+  36          /*
+  37           * @fn    EE_write
+  38           *
+  39           * @brief write data to EEPROM , 64x32 bit
+  40           * 
+  41           * @param none
+  42           * EE_write(eeprom address, eeprom data)
   43          
-  44          
-  45          /*
-  46           * @fn    EE_write
-  47           *
-  48           * @brief write data to EEPROM , 64x32 bit
-  49           * 
-  50           * @param none
-  51           * EE_write(eeprom address, eeprom data)
-  52          
-  53           *
-  54           * @return  none
-C51 COMPILER V9.54   MOTORLIB                                                              11/17/2018 17:39:31 PAGE 2   
+  44           *
+  45           * @return  none
+  46           */
+  47          
+  48          
+  49          
+  50           void EE_write(U8 EE_addr, U32 EE_data)
+  51          {
+  52   1        
+  53   1            while (MTP_BUSY==1);
+  54   1            MTPCON2=0x53;         //init MTP write mode
+C51 COMPILER V9.54   MOTORLIB                                                              11/23/2018 17:01:52 PAGE 2   
 
-  55           */
-  56          
-  57           void EE_write(U8 EE_addr, U32 EE_data)
-  58          {
-  59   1        
-  60   1            while (MTP_BUSY==1);
-  61   1            MTPCON2=0x53;         //init MTP write mode
-  62   1            MTPSADD1=EE_addr;       // EEPROM address
-  63   1            MTPSADD2=0x00;
-  64   1            MTPDATA=EE_data;
-  65   1            
-  66   1            MTPCON1=0x0b;       //start 
-  67   1            
-  68   1            while (MTP_WRITE==0);
-  69   1            MTPCON1=0x0;
-  70   1        
-  71   1      }
-  72          
-  73          /*
-  74           * @fn    EE_read
-  75           *
-  76           * @brief read data from EEPROM , 64x32 bit
-  77           * 
-  78           * @param none
-  79           * EE_read(eeprom address)
-  80          
-  81           *
-  82           * @return  eprom data
-  83           */
-  84          
-  85          U32 EE_read(U8 EE_addr)
-  86          {
-  87   1        
-  88   1            while (MTP_BUSY==1);
-  89   1            MTPCON2=0x55;         //init MTP read mode
-  90   1            MTPSADD1=EE_addr;       //
-  91   1            MTPSADD2=0x00;
-  92   1            MTPCON1=0x07;         //start
-  93   1            while (MTP_READ==0);
-  94   1            MTPCON1=0x0;
-  95   1            return MTPDATA;
-  96   1        
-  97   1      }
+  55   1            MTPSADD1=EE_addr;       // EEPROM address
+  56   1            MTPSADD2=0x00;
+  57   1            MTPDATA=EE_data;
+  58   1            
+  59   1            MTPCON1=0x0b;       //start 
+  60   1            
+  61   1            while (MTP_WRITE==0);
+  62   1            MTPCON1=0x0;
+  63   1        
+  64   1      }
+  65          
+  66          /*
+  67           * @fn    EE_read
+  68           *
+  69           * @brief read data from EEPROM , 64x32 bit
+  70           * 
+  71           * @param none
+  72           * EE_read(eeprom address)
+  73          
+  74           *
+  75           * @return  eprom data
+  76           */
+  77          
+  78          U32 EE_read(U8 EE_addr)
+  79          {
+  80   1        
+  81   1            while (MTP_BUSY==1);
+  82   1            MTPCON2=0x55;         //init MTP read mode
+  83   1            MTPSADD1=EE_addr;       //
+  84   1            MTPSADD2=0x00;
+  85   1            MTPCON1=0x07;         //start
+  86   1            while (MTP_READ==0);
+  87   1            MTPCON1=0x0;
+  88   1            return MTPDATA;
+  89   1        
+  90   1      }
+  91          
+  92          
+  93          
+  94          
+  95          
+  96          
+  97          
   98          
-  99          
- 100          
- 101          
- 102          
- 103          
- 104          /*
- 105           * @fn    sin16
- 106           *
- 107           * @brief sin16
- 108           * 
- 109           * @param none
- 110           * sin(x) , where x is 
- 111          
- 112           *
- 113           * @return  none
- 114           */
- 115          
- 116          
-C51 COMPILER V9.54   MOTORLIB                                                              11/17/2018 17:39:31 PAGE 3   
-
- 117          _iq _IQsin(_iq dat)
- 118          {
- 119   1      volatile _iq angle_in,sin_out;
- 120   1      volatile U32 table_angle;
- 121   1         
- 122   1        
- 123   1        
- 124   1                      
- 125   1        
- 126   1        angle_in=(((dat) < 0) ? - (dat) : (dat));
- 127   1            
- 128   1        //limit the search anlge to <360)
- 129   1        
- 130   1        while (angle_in>=_IQ(360.0))
- 131   1            {
- 132   2              angle_in-=_IQ(360.0);
- 133   2            }
- 134   1        
- 135   1        // convert angle to data in sin table, angle =angle/360 * 512  or  =angle *64/45
- 136   1            
- 137   1        table_angle=(U32)((angle_in<<6)>>GLOBAL_Q ); 
- 138   1        table_angle/=45;  
- 139   1       
- 140   1        sin_out=XWORD[table_angle+sin_table];
- 141   1        
- 142   1        if (dat<0) sin_out=-(sin_out);
- 143   1        
- 144   1      
- 145   1        
- 146   1      return sin_out ;
- 147   1        
- 148   1      }
- 149          
- 150          
- 151          
- 152          
- 153          _iq _IQcos(_iq dat)
- 154          {
- 155   1      volatile _iq angle_in,cos_out;
- 156   1      volatile U32 table_angle;
- 157   1         
- 158   1        
- 159   1        
- 160   1                      
- 161   1        
- 162   1        angle_in=(((dat) < 0) ? - (dat) : (dat));
- 163   1            
- 164   1        //limit the search anlge to <360)
- 165   1        
- 166   1        while (angle_in>=_IQ(360.0))
- 167   1            {
- 168   2              angle_in-=_IQ(360.0);
- 169   2            }
- 170   1        
- 171   1        // convert angle to data in cos table, cos(angle) =sin(angle+90)
- 172   1            
- 173   1        table_angle=(U32)((angle_in<<6)>>GLOBAL_Q ); 
- 174   1        table_angle/=45;
- 175   1        table_angle+=128;
- 176   1       
- 177   1        cos_out=XWORD[table_angle+sin_table];
- 178   1        
-C51 COMPILER V9.54   MOTORLIB                                                              11/17/2018 17:39:31 PAGE 4   
-
- 179   1      
- 180   1        
- 181   1      return cos_out ;
- 182   1        
- 183   1      }
- 184          
- 185          
- 186          
- 187          
- 188          
- 189          
- 190          
- 191          S32 Normalize(S32 Data)              //normalize only work for positive value. it return error if the MD3_
-             -7=1 
- 192          {
- 193   1       Long_Data LD;
- 194   1       LD.Ldata =Data;
- 195   1       MD0 = LD.ss1.Byte0;
- 196   1       MD1 = LD.ss1.Byte1;
- 197   1       MD2 = LD.ss1.Byte2;
- 198   1       MD3 = LD.ss1.Byte3;
- 199   1        
- 200   1      
- 201   1        
- 202   1       ARCON = 0x00 ; // Start Normalizing
- 203   1       while(MD3_7==0 ); //check MDU finish flag
- 204   1        LD.ss1.Byte0=MD0;
- 205   1        LD.ss1.Byte1=MD1;
- 206   1        LD.ss1.Byte2=MD2;
- 207   1        LD.ss1.Byte3=MD3;
- 208   1       
- 209   1         return LD.Ldata ;
- 210   1      }
- 211          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    708    ----
+   CODE SIZE        =    151    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =      5    ----
+   XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     56    ----
+   DATA SIZE        =      6    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

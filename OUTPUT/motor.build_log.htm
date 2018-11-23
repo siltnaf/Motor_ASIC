@@ -22,7 +22,7 @@ Dialog DLL:      TP51.DLL V2.58
  
 <h2>Project:</h2>
 C:\project\asic\motor.uvproj
-Project File Date:  11/08/2018
+Project File Date:  11/21/2018
 
 <h2>Output:</h2>
 Rebuild target 'Target 1'
@@ -31,23 +31,24 @@ compiling main.c...
 compiling initial.c...
 assembling .\OUTPUT\initial.src...
 compiling interrupt.c...
+compiling IQmathLib.c...
 compiling MotorLib.c...
 assembling .\OUTPUT\MotorLib.src...
 assembling ISD51.A51...
 linking...
-Program Size: data=109.1 xdata=5 code=7578
+Program Size: data=98.1 xdata=20 code=8317
 creating hex file from ".\OUTPUT\motor"...
 User command #1: .\tools\user.bat
 C:\project\asic>.\tools\hex2bin.exe -p 00 .\output\motor.hex 
 hex2bin v2.2, Copyright (C) 2015 Jacques Pelletier & contributors
 Allocate_Memory_and_Rewind:
 Lowest address:   00002000
-Highest address:  00003E12
+Highest address:  000040F3
 Starting address: 00002000
-Max Length:       7699
+Max Length:       8436
 Binary file start = 00002000
 Records start     = 00002000
-Highest address   = 00003E12
+Highest address   = 000040F3
 Pad Byte          = 0
 Force/Check address outside of memory range
 ".\OUTPUT\motor" - 0 Error(s), 0 Warning(s).

@@ -8,7 +8,6 @@
 
 
 
-
 void InitEXT(void)
 {	
 //		EINT1_EN=0; 

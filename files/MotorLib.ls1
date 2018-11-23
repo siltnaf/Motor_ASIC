@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE     1
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/23/2018 17:01:52 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.02c
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
   0098                54     RI      BIT     098H.0
   00C3                55     IEX4    BIT     0C0H.3
   00C4                56     IEX5    BIT     0C0H.4
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE     2
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/23/2018 17:01:52 PAGE     2
 
   00C5                57     IEX6    BIT     0C0H.5
   0091                58     CLK_DIV DATA    091H
@@ -133,7 +133,7 @@ LOC  OBJ            LINE     SOURCE
   00B7               120     P37     BIT     0B0H.7
   00AF               121     BSHI_3  DATA    0AFH
   00BC               122     BSHO_0  DATA    0BCH
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE     3
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/23/2018 17:01:52 PAGE     3
 
   00BD               123     BSHO_1  DATA    0BDH
   0089               124     IE0     BIT     088H.1
@@ -201,7 +201,7 @@ LOC  OBJ            LINE     SOURCE
   008C               186     TR0     BIT     088H.4
   008E               187     TR1     BIT     088H.6
   00F9               188     INT_REG1        DATA    0F9H
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE     4
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/23/2018 17:01:52 PAGE     4
 
   0083               189     DPH     DATA    083H
   00FA               190     INT_REG2        DATA    0FAH
@@ -236,1117 +236,502 @@ LOC  OBJ            LINE     SOURCE
                      219     ?DT?_EE_write?MOTORLIB                   SEGMENT DATA 
                      220     ?PR?_EE_read?MOTORLIB                    SEGMENT CODE 
                      221     ?DT?_EE_read?MOTORLIB                    SEGMENT DATA 
-                     222     ?PR?__IQ15sin?MOTORLIB                   SEGMENT CODE 
-                     223     ?DT?__IQ15sin?MOTORLIB                   SEGMENT DATA 
-                     224     ?PR?__IQ15cos?MOTORLIB                   SEGMENT CODE 
-                     225     ?DT?__IQ15cos?MOTORLIB                   SEGMENT DATA 
-                     226     ?PR?_Normalize?MOTORLIB                  SEGMENT CODE 
-                     227     ?DT?_Normalize?MOTORLIB                  SEGMENT DATA 
-                     228     ?C_INITSEG           SEGMENT CODE 
-                     229     ?XD?MOTORLIB         SEGMENT XDATA 
-                     230     ?DT?MOTORLIB         SEGMENT DATA 
-                     231             EXTRN   CODE (?C?LSTXDATA)
-                     232             EXTRN   CODE (?C?SLCMP)
-                     233             EXTRN   CODE (?C?LNEG)
-                     234             EXTRN   CODE (?C?LSHL)
-                     235             EXTRN   CODE (?C?SLSHR)
-                     236             EXTRN   CODE (?C?ULDIV)
-                     237             EXTRN   CODE (?C?LMUL)
-                     238             PUBLIC  tDebugTable
-                     239             PUBLIC  _div_remainder
-                     240             PUBLIC  _md_error
-                     241             PUBLIC  _div_denominator
-                     242             PUBLIC  _Normalize
-                     243             PUBLIC  __IQ15cos
-                     244             PUBLIC  __IQ15sin
-                     245             PUBLIC  _EE_read
-                     246             PUBLIC  ?_EE_write?BYTE
-                     247             PUBLIC  _EE_write
-                     248     
-----                 249             RSEG  ?DT?_EE_read?MOTORLIB
-0000                 250     ?_EE_read?BYTE:
-0000                 251         EE_addr?142:   DS   1
-                     252     
-----                 253             RSEG  ?DT?_EE_write?MOTORLIB
-0000                 254     ?_EE_write?BYTE:
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE     5
+                     222             EXTRN   CODE (?C?LSTXDATA)
+                     223             PUBLIC  _EE_read
+                     224             PUBLIC  ?_EE_write?BYTE
+                     225             PUBLIC  _EE_write
+                     226     
+----                 227             RSEG  ?DT?_EE_read?MOTORLIB
+0000                 228     ?_EE_read?BYTE:
+0000                 229         EE_addr?142:   DS   1
+                     230     
+----                 231             RSEG  ?DT?_EE_write?MOTORLIB
+0000                 232     ?_EE_write?BYTE:
+0000                 233         EE_addr?040:   DS   1
+0001                 234             ORG  1
+0001                 235         EE_data?041:   DS   4
+                     236     ; /*
+                     237     ;  * lib.c
+                     238     ;  *    Copy Right (c) of JE
+                     239     ;  *  Created on: 
+                     240     ;  *      18 Sep 2018
+                     241     ;  *  Author: 
+                     242     ;  *      Ken
+                     243     ;  *  Last Modified: 
+                     244     ;  *     
+                     245     ;  *  Description: 
+                     246     ;  *      lib for JE8MCU
+                     247     ;  *  History:
+                     248     ;  *      ver 0.1 created by ken on 12 August 2016 
+                     249     ;  *
+                     250     ;  *            Use math table for fuctions of 
+                     251     ;  *                            sin, cos, inverse, sqrt, artan
+                     252     ;  *                            Park transform and Clark transform
+                     253     ;  *
+                     254     ;  *
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/23/2018 17:01:52 PAGE     5
 
-0000                 255         EE_addr?040:   DS   1
-0001                 256             ORG  1
-0001                 257         EE_data?041:   DS   4
-                     258     
-----                 259             RSEG  ?DT?__IQ15cos?MOTORLIB
-0000                 260     ?__IQ15cos?BYTE:
-0000                 261             dat?347:   DS   4
-0004                 262             ORG  4
-0004                 263        angle_in?348:   DS   4
-0008                 264             ORG  8
-0008                 265         cos_out?349:   DS   4
-000C                 266             ORG  12
-000C                 267     table_angle?350:   DS   4
-                     268     
-----                 269             RSEG  ?DT?__IQ15sin?MOTORLIB
-0000                 270     ?__IQ15sin?BYTE:
-0000                 271             dat?243:   DS   4
-0004                 272             ORG  4
-0004                 273        angle_in?244:   DS   4
-0008                 274             ORG  8
-0008                 275         sin_out?245:   DS   4
-000C                 276             ORG  12
-000C                 277     table_angle?246:   DS   4
-                     278     
-----                 279             RSEG  ?DT?_Normalize?MOTORLIB
-0000                 280     ?_Normalize?BYTE:
-0000                 281            Data?451:   DS   4
-0004                 282             ORG  4
-0004                 283              LD?452:   DS   4
-                     284     
-----                 285             RSEG  ?XD?MOTORLIB
-0000                 286     _div_denominator:   DS   2
-0002                 287           _md_error:   DS   1
-0003                 288      _div_remainder:   DS   2
-                     289     
-----                 290             RSEG  ?DT?MOTORLIB
-0000                 291         tDebugTable:   DS   10
-                     292     
-----                 293             RSEG  ?C_INITSEG
-0000 0A              294             DB      00AH
-0001 00       F      295             DB      tDebugTable
-0002 01              296             DB      001H
-0003 02              297             DB      002H
-0004 03              298             DB      003H
-0005 04              299             DB      004H
-0006 05              300             DB      005H
-0007 06              301             DB      006H
-0008 07              302             DB      007H
-0009 08              303             DB      008H
-000A 09              304             DB      009H
-000B 0A              305             DB      00AH
-                     306     
-                     307     ; /*
-                     308     ;  * lib.c
-                     309     ;  *    Copy Right (c) of JE
-                     310     ;  *  Created on: 
-                     311     ;  *      18 Sep 2018
-                     312     ;  *  Author: 
-                     313     ;  *      Ken
-                     314     ;  *  Last Modified: 
-                     315     ;  *     
-                     316     ;  *  Description: 
-                     317     ;  *      lib for JE8MCU
-                     318     ;  *  History:
-                     319     ;  *      ver 0.1 created by ken on 12 August 2016 
-                     320     ;  *
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE     6
+                     255     ;  */
+                     256     ;  
+                     257     ;  /***************************************************
+                     258     ;  * Includes
+                     259     ;  */
+                     260     ; #include <stdio.h>
+                     261     ; #include <intrins.h>   
+                     262     ; #include <absacc.h>
+                     263     ; #include "register.h"
+                     264     ; #include "motorLib.h"
+                     265     ; #include "IQmathLib.h"
+                     266     ; 
+                     267     ; 
+                     268     ; 
+                     269     ; 
+                     270     ; 
+                     271     ; /*
+                     272     ;  * @fn                EE_write
+                     273     ;  *
+                     274     ;  * @brief write data to EEPROM , 64x32 bit
+                     275     ;  * 
+                     276     ;  * @param     none
+                     277     ;  * EE_write(eeprom address, eeprom data)
+                     278     ; 
+                     279     ;  *
+                     280     ;  * @return    none
+                     281     ;  */
+                     282     ; 
+                     283     ; 
+                     284     ; 
+                     285     ;  void EE_write(U8 EE_addr, U32 EE_data)
+                     286     
+----                 287             RSEG  ?PR?_EE_write?MOTORLIB
+0000                 288     _EE_write:
+                     289             USING   0
+                     290                             ; SOURCE LINE # 50
+0000 8F00     F      291             MOV     EE_addr?040,R7
+                     292     ; {
+                     293                             ; SOURCE LINE # 51
+0002                 294     ?C0001:
+                     295     ;       
+                     296     ;                       while (MTP_BUSY==1);
+                     297                             ; SOURCE LINE # 53
+0002 90E08E          298             MOV     DPTR,#0E08EH
+0005 E0              299             MOVX    A,@DPTR
+0006 FF              300             MOV     R7,A
+0007 EF              301             MOV     A,R7
+0008 C4              302             SWAP    A
+0009 13              303             RRC     A
+000A 13              304             RRC     A
+000B 5403            305             ANL     A,#03H
+000D FF              306             MOV     R7,A
+000E EF              307             MOV     A,R7
+000F 20E0F0          308             JB      ACC.0,?C0001
+0012                 309     ?C0002:
+                     310     ;                       MTPCON2=0x53;         //init MTP write mode
+                     311                             ; SOURCE LINE # 54
+0012 90E08F          312             MOV     DPTR,#0E08FH
+0015 7453            313             MOV     A,#053H
+0017 F0              314             MOVX    @DPTR,A
+                     315     ;                       MTPSADD1=EE_addr;       // EEPROM address
+                     316                             ; SOURCE LINE # 55
+0018 90E091          317             MOV     DPTR,#0E091H
+001B E500     F      318             MOV     A,EE_addr?040
+001D F0              319             MOVX    @DPTR,A
+                     320     ;                       MTPSADD2=0x00;
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/23/2018 17:01:52 PAGE     6
 
-                     321     ;  *            Use math table for fuctions of 
-                     322     ;  *                            sin, cos, inverse, sqrt, artan
-                     323     ;  *                            Park transform and Clark transform
-                     324     ;  *
-                     325     ;  *
-                     326     ;  */
-                     327     ;  
-                     328     ;  /***************************************************
-                     329     ;  * Includes
-                     330     ;  */
-                     331     ; #include <stdio.h>
-                     332     ; #include <intrins.h>   
-                     333     ; #include <absacc.h>
-                     334     ; #include "register.h"
-                     335     ; #include "motorLib.h"
-                     336     ; #include "IQmathLib.h"
-                     337     ; 
-                     338     ; 
-                     339     ; 
-                     340     ; volatile U8 xdata _md_error;// _at_ (0xDFFF);
-                     341     ; volatile U16 xdata _div_remainder;// _at_ (0xDFFD);
-                     342     ; volatile U16 xdata _div_denominator;// _at_ (0xA4FB);
-                     343     ; 
-                     344     ; #pragma asm
-----                 345                                                                     CSEG    AT      4000h
-                     346     ; #pragma endasm
-                     347     ; const unsigned char tDebugTable[10] = {1,2,3,4,5,6,7,8,9,10};
-                     348     ; 
-                     349     ; 
-                     350     ; 
-                     351     ; /*
-                     352     ;  * @fn                EE_write
-                     353     ;  *
-                     354     ;  * @brief write data to EEPROM , 64x32 bit
-                     355     ;  * 
-                     356     ;  * @param     none
-                     357     ;  * EE_write(eeprom address, eeprom data)
-                     358     ; 
-                     359     ;  *
-                     360     ;  * @return    none
-                     361     ;  */
-                     362     ; 
-                     363     ;  void EE_write(U8 EE_addr, U32 EE_data)
-                     364     
-----                 365             RSEG  ?PR?_EE_write?MOTORLIB
-0000                 366     _EE_write:
-                     367             USING   0
-                     368                             ; SOURCE LINE # 57
-0000 8F00     F      369             MOV     EE_addr?040,R7
-                     370     ; {
-                     371                             ; SOURCE LINE # 58
-0002                 372     ?C0001:
-                     373     ;       
-                     374     ;                       while (MTP_BUSY==1);
-                     375                             ; SOURCE LINE # 60
-0002 90E08E          376             MOV     DPTR,#0E08EH
-0005 E0              377             MOVX    A,@DPTR
-0006 FF              378             MOV     R7,A
-0007 EF              379             MOV     A,R7
-0008 C4              380             SWAP    A
-0009 13              381             RRC     A
-000A 13              382             RRC     A
-000B 5403            383             ANL     A,#03H
-000D FF              384             MOV     R7,A
-000E EF              385             MOV     A,R7
-000F 20E0F0          386             JB      ACC.0,?C0001
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE     7
+                     321                             ; SOURCE LINE # 56
+001E 90E092          322             MOV     DPTR,#0E092H
+0021 E4              323             CLR     A
+0022 F0              324             MOVX    @DPTR,A
+                     325     ;                       MTPDATA=EE_data;
+                     326                             ; SOURCE LINE # 57
+0023 AF00     F      327             MOV     R7,EE_data?041+03H
+0025 AE00     F      328             MOV     R6,EE_data?041+02H
+0027 AD00     F      329             MOV     R5,EE_data?041+01H
+0029 AC00     F      330             MOV     R4,EE_data?041
+002B 90E093          331             MOV     DPTR,#0E093H
+002E 120000   F      332             LCALL   ?C?LSTXDATA
+                     333     ;                       
+                     334     ;                       MTPCON1=0x0b;                           //start 
+                     335                             ; SOURCE LINE # 59
+0031 90E08E          336             MOV     DPTR,#0E08EH
+0034 740B            337             MOV     A,#0BH
+0036 F0              338             MOVX    @DPTR,A
+0037                 339     ?C0003:
+                     340     ;                       
+                     341     ;                       while (MTP_WRITE==0);
+                     342                             ; SOURCE LINE # 61
+0037 90E08E          343             MOV     DPTR,#0E08EH
+003A E0              344             MOVX    A,@DPTR
+003B FF              345             MOV     R7,A
+003C EF              346             MOV     A,R7
+003D C4              347             SWAP    A
+003E 13              348             RRC     A
+003F 5407            349             ANL     A,#07H
+0041 FF              350             MOV     R7,A
+0042 EF              351             MOV     A,R7
+0043 30E0F1          352             JNB     ACC.0,?C0003
+0046                 353     ?C0004:
+                     354     ;                       MTPCON1=0x0;
+                     355                             ; SOURCE LINE # 62
+0046 90E08E          356             MOV     DPTR,#0E08EH
+0049 E4              357             CLR     A
+004A F0              358             MOVX    @DPTR,A
+                     359     ;       
+                     360     ; }
+                     361                             ; SOURCE LINE # 64
+004B                 362     ?C0005:
+004B 22              363             RET     
+                     364     ; END OF _EE_write
+                     365     
+                     366     ; 
+                     367     ; /*
+                     368     ;  * @fn                EE_read
+                     369     ;  *
+                     370     ;  * @brief read data from EEPROM , 64x32 bit
+                     371     ;  * 
+                     372     ;  * @param     none
+                     373     ;  * EE_read(eeprom address)
+                     374     ; 
+                     375     ;  *
+                     376     ;  * @return    eprom data
+                     377     ;  */
+                     378     ; 
+                     379     ; U32 EE_read(U8 EE_addr)
+                     380     
+----                 381             RSEG  ?PR?_EE_read?MOTORLIB
+0000                 382     _EE_read:
+                     383             USING   0
+                     384                             ; SOURCE LINE # 78
+0000 8F00     F      385             MOV     EE_addr?142,R7
+                     386     ; {
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/23/2018 17:01:52 PAGE     7
 
-0012                 387     ?C0002:
-                     388     ;                       MTPCON2=0x53;         //init MTP write mode
-                     389                             ; SOURCE LINE # 61
-0012 90E08F          390             MOV     DPTR,#0E08FH
-0015 7453            391             MOV     A,#053H
-0017 F0              392             MOVX    @DPTR,A
-                     393     ;                       MTPSADD1=EE_addr;       // EEPROM address
-                     394                             ; SOURCE LINE # 62
-0018 90E091          395             MOV     DPTR,#0E091H
-001B E500     F      396             MOV     A,EE_addr?040
-001D F0              397             MOVX    @DPTR,A
-                     398     ;                       MTPSADD2=0x00;
-                     399                             ; SOURCE LINE # 63
-001E 90E092          400             MOV     DPTR,#0E092H
-0021 E4              401             CLR     A
-0022 F0              402             MOVX    @DPTR,A
-                     403     ;                       MTPDATA=EE_data;
-                     404                             ; SOURCE LINE # 64
-0023 AF00     F      405             MOV     R7,EE_data?041+03H
-0025 AE00     F      406             MOV     R6,EE_data?041+02H
-0027 AD00     F      407             MOV     R5,EE_data?041+01H
-0029 AC00     F      408             MOV     R4,EE_data?041
-002B 90E093          409             MOV     DPTR,#0E093H
-002E 120000   F      410             LCALL   ?C?LSTXDATA
-                     411     ;                       
-                     412     ;                       MTPCON1=0x0b;                           //start 
-                     413                             ; SOURCE LINE # 66
-0031 90E08E          414             MOV     DPTR,#0E08EH
-0034 740B            415             MOV     A,#0BH
-0036 F0              416             MOVX    @DPTR,A
-0037                 417     ?C0003:
-                     418     ;                       
-                     419     ;                       while (MTP_WRITE==0);
-                     420                             ; SOURCE LINE # 68
-0037 90E08E          421             MOV     DPTR,#0E08EH
-003A E0              422             MOVX    A,@DPTR
-003B FF              423             MOV     R7,A
-003C EF              424             MOV     A,R7
-003D C4              425             SWAP    A
-003E 13              426             RRC     A
-003F 5407            427             ANL     A,#07H
-0041 FF              428             MOV     R7,A
-0042 EF              429             MOV     A,R7
-0043 30E0F1          430             JNB     ACC.0,?C0003
-0046                 431     ?C0004:
-                     432     ;                       MTPCON1=0x0;
-                     433                             ; SOURCE LINE # 69
-0046 90E08E          434             MOV     DPTR,#0E08EH
-0049 E4              435             CLR     A
-004A F0              436             MOVX    @DPTR,A
-                     437     ;       
-                     438     ; }
-                     439                             ; SOURCE LINE # 71
-004B                 440     ?C0005:
-004B 22              441             RET     
-                     442     ; END OF _EE_write
-                     443     
-                     444     ; 
-                     445     ; /*
-                     446     ;  * @fn                EE_read
-                     447     ;  *
-                     448     ;  * @brief read data from EEPROM , 64x32 bit
-                     449     ;  * 
-                     450     ;  * @param     none
-                     451     ;  * EE_read(eeprom address)
-                     452     ; 
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE     8
+                     387                             ; SOURCE LINE # 79
+0002                 388     ?C0006:
+                     389     ;       
+                     390     ;                       while (MTP_BUSY==1);
+                     391                             ; SOURCE LINE # 81
+0002 90E08E          392             MOV     DPTR,#0E08EH
+0005 E0              393             MOVX    A,@DPTR
+0006 FF              394             MOV     R7,A
+0007 EF              395             MOV     A,R7
+0008 C4              396             SWAP    A
+0009 13              397             RRC     A
+000A 13              398             RRC     A
+000B 5403            399             ANL     A,#03H
+000D FF              400             MOV     R7,A
+000E EF              401             MOV     A,R7
+000F 20E0F0          402             JB      ACC.0,?C0006
+0012                 403     ?C0007:
+                     404     ;                       MTPCON2=0x55;         //init MTP read mode
+                     405                             ; SOURCE LINE # 82
+0012 90E08F          406             MOV     DPTR,#0E08FH
+0015 7455            407             MOV     A,#055H
+0017 F0              408             MOVX    @DPTR,A
+                     409     ;                       MTPSADD1=EE_addr;       //
+                     410                             ; SOURCE LINE # 83
+0018 90E091          411             MOV     DPTR,#0E091H
+001B E500     F      412             MOV     A,EE_addr?142
+001D F0              413             MOVX    @DPTR,A
+                     414     ;                       MTPSADD2=0x00;
+                     415                             ; SOURCE LINE # 84
+001E 90E092          416             MOV     DPTR,#0E092H
+0021 E4              417             CLR     A
+0022 F0              418             MOVX    @DPTR,A
+                     419     ;                       MTPCON1=0x07;                                   //start
+                     420                             ; SOURCE LINE # 85
+0023 90E08E          421             MOV     DPTR,#0E08EH
+0026 7407            422             MOV     A,#07H
+0028 F0              423             MOVX    @DPTR,A
+0029                 424     ?C0008:
+                     425     ;                       while (MTP_READ==0);
+                     426                             ; SOURCE LINE # 86
+0029 90E08E          427             MOV     DPTR,#0E08EH
+002C E0              428             MOVX    A,@DPTR
+002D FF              429             MOV     R7,A
+002E EF              430             MOV     A,R7
+002F C4              431             SWAP    A
+0030 540F            432             ANL     A,#0FH
+0032 FF              433             MOV     R7,A
+0033 EF              434             MOV     A,R7
+0034 30E0F2          435             JNB     ACC.0,?C0008
+0037                 436     ?C0009:
+                     437     ;                       MTPCON1=0x0;
+                     438                             ; SOURCE LINE # 87
+0037 90E08E          439             MOV     DPTR,#0E08EH
+003A E4              440             CLR     A
+003B F0              441             MOVX    @DPTR,A
+                     442     ;                       return MTPDATA;
+                     443                             ; SOURCE LINE # 88
+003C 90E093          444             MOV     DPTR,#0E093H
+003F E0              445             MOVX    A,@DPTR
+0040 FC              446             MOV     R4,A
+0041 A3              447             INC     DPTR
+0042 E0              448             MOVX    A,@DPTR
+0043 FD              449             MOV     R5,A
+0044 A3              450             INC     DPTR
+0045 E0              451             MOVX    A,@DPTR
+0046 FE              452             MOV     R6,A
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/23/2018 17:01:52 PAGE     8
 
-                     453     ;  *
-                     454     ;  * @return    eprom data
-                     455     ;  */
-                     456     ; 
-                     457     ; U32 EE_read(U8 EE_addr)
-                     458     
-----                 459             RSEG  ?PR?_EE_read?MOTORLIB
-0000                 460     _EE_read:
-                     461             USING   0
-                     462                             ; SOURCE LINE # 85
-0000 8F00     F      463             MOV     EE_addr?142,R7
-                     464     ; {
-                     465                             ; SOURCE LINE # 86
-0002                 466     ?C0006:
-                     467     ;       
-                     468     ;                       while (MTP_BUSY==1);
-                     469                             ; SOURCE LINE # 88
-0002 90E08E          470             MOV     DPTR,#0E08EH
-0005 E0              471             MOVX    A,@DPTR
-0006 FF              472             MOV     R7,A
-0007 EF              473             MOV     A,R7
-0008 C4              474             SWAP    A
-0009 13              475             RRC     A
-000A 13              476             RRC     A
-000B 5403            477             ANL     A,#03H
-000D FF              478             MOV     R7,A
-000E EF              479             MOV     A,R7
-000F 20E0F0          480             JB      ACC.0,?C0006
-0012                 481     ?C0007:
-                     482     ;                       MTPCON2=0x55;         //init MTP read mode
-                     483                             ; SOURCE LINE # 89
-0012 90E08F          484             MOV     DPTR,#0E08FH
-0015 7455            485             MOV     A,#055H
-0017 F0              486             MOVX    @DPTR,A
-                     487     ;                       MTPSADD1=EE_addr;       //
-                     488                             ; SOURCE LINE # 90
-0018 90E091          489             MOV     DPTR,#0E091H
-001B E500     F      490             MOV     A,EE_addr?142
-001D F0              491             MOVX    @DPTR,A
-                     492     ;                       MTPSADD2=0x00;
-                     493                             ; SOURCE LINE # 91
-001E 90E092          494             MOV     DPTR,#0E092H
-0021 E4              495             CLR     A
-0022 F0              496             MOVX    @DPTR,A
-                     497     ;                       MTPCON1=0x07;                                   //start
-                     498                             ; SOURCE LINE # 92
-0023 90E08E          499             MOV     DPTR,#0E08EH
-0026 7407            500             MOV     A,#07H
-0028 F0              501             MOVX    @DPTR,A
-0029                 502     ?C0008:
-                     503     ;                       while (MTP_READ==0);
-                     504                             ; SOURCE LINE # 93
-0029 90E08E          505             MOV     DPTR,#0E08EH
-002C E0              506             MOVX    A,@DPTR
-002D FF              507             MOV     R7,A
-002E EF              508             MOV     A,R7
-002F C4              509             SWAP    A
-0030 540F            510             ANL     A,#0FH
-0032 FF              511             MOV     R7,A
-0033 EF              512             MOV     A,R7
-0034 30E0F2          513             JNB     ACC.0,?C0008
-0037                 514     ?C0009:
-                     515     ;                       MTPCON1=0x0;
-                     516                             ; SOURCE LINE # 94
-0037 90E08E          517             MOV     DPTR,#0E08EH
-003A E4              518             CLR     A
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE     9
-
-003B F0              519             MOVX    @DPTR,A
-                     520     ;                       return MTPDATA;
-                     521                             ; SOURCE LINE # 95
-003C 90E093          522             MOV     DPTR,#0E093H
-003F E0              523             MOVX    A,@DPTR
-0040 FC              524             MOV     R4,A
-0041 A3              525             INC     DPTR
-0042 E0              526             MOVX    A,@DPTR
-0043 FD              527             MOV     R5,A
-0044 A3              528             INC     DPTR
-0045 E0              529             MOVX    A,@DPTR
-0046 FE              530             MOV     R6,A
-0047 A3              531             INC     DPTR
-0048 E0              532             MOVX    A,@DPTR
-0049 FF              533             MOV     R7,A
-                     534     ;       
-                     535     ; }
-                     536                             ; SOURCE LINE # 97
-004A                 537     ?C0010:
-004A 22              538             RET     
-                     539     ; END OF _EE_read
-                     540     
-                     541     ; 
-                     542     ; 
-                     543     ; 
-                     544     ; 
-                     545     ; 
-                     546     ; 
-                     547     ; /*
-                     548     ;  * @fn                sin16
-                     549     ;  *
-                     550     ;  * @brief     sin16
-                     551     ;  * 
-                     552     ;  * @param     none
-                     553     ;  * sin(x) , where x is 
-                     554     ; 
-                     555     ;  *
-                     556     ;  * @return    none
-                     557     ;  */
-                     558     ; 
-                     559     ; 
-                     560     ; _iq _IQsin(_iq dat)
-                     561     
-----                 562             RSEG  ?PR?__IQ15sin?MOTORLIB
-0000                 563     __IQ15sin:
-                     564             USING   0
-                     565                             ; SOURCE LINE # 117
-0000 8F00     F      566             MOV     dat?243+03H,R7
-0002 8E00     F      567             MOV     dat?243+02H,R6
-0004 8D00     F      568             MOV     dat?243+01H,R5
-0006 8C00     F      569             MOV     dat?243,R4
-                     570     ; {
-                     571                             ; SOURCE LINE # 118
-                     572     ; volatile _iq angle_in,sin_out;
-                     573     ; volatile U32 table_angle;
-                     574     ;        
-                     575     ;       
-                     576     ;       
-                     577     ;                                                               
-                     578     ;       
-                     579     ;       angle_in=(((dat) < 0) ? - (dat) : (dat));
-                     580                             ; SOURCE LINE # 126
-0008 7F00            581             MOV     R7,#00H
-000A 7E00            582             MOV     R6,#00H
-000C 7D00            583             MOV     R5,#00H
-000E 7C00            584             MOV     R4,#00H
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE    10
-
-0010 AB00     F      585             MOV     R3,dat?243+03H
-0012 AA00     F      586             MOV     R2,dat?243+02H
-0014 A900     F      587             MOV     R1,dat?243+01H
-0016 A800     F      588             MOV     R0,dat?243
-0018 C3              589             CLR     C
-0019 120000   F      590             LCALL   ?C?SLCMP
-001C 500D            591             JNC     ?C0011
-001E AF00     F      592             MOV     R7,dat?243+03H
-0020 AE00     F      593             MOV     R6,dat?243+02H
-0022 AD00     F      594             MOV     R5,dat?243+01H
-0024 AC00     F      595             MOV     R4,dat?243
-0026 120000   F      596             LCALL   ?C?LNEG
-0029 8008            597             SJMP    ?C0012
-002B                 598     ?C0011:
-002B AF00     F      599             MOV     R7,dat?243+03H
-002D AE00     F      600             MOV     R6,dat?243+02H
-002F AD00     F      601             MOV     R5,dat?243+01H
-0031 AC00     F      602             MOV     R4,dat?243
-0033                 603     ?C0012:
-0033 8F00     F      604             MOV     angle_in?244+03H,R7
-0035 8E00     F      605             MOV     angle_in?244+02H,R6
-0037 8D00     F      606             MOV     angle_in?244+01H,R5
-0039 8C00     F      607             MOV     angle_in?244,R4
-003B                 608     ?C0013:
-                     609     ;                       
-                     610     ;       //limit the search anlge to <360)
-                     611     ;       
-                     612     ;   while (angle_in>=_IQ(360.0))
-                     613                             ; SOURCE LINE # 130
-003B 7F00            614             MOV     R7,#00H
-003D 7E00            615             MOV     R6,#00H
-003F 7DB4            616             MOV     R5,#0B4H
-0041 7C00            617             MOV     R4,#00H
-0043 AB00     F      618             MOV     R3,angle_in?244+03H
-0045 AA00     F      619             MOV     R2,angle_in?244+02H
-0047 A900     F      620             MOV     R1,angle_in?244+01H
-0049 A800     F      621             MOV     R0,angle_in?244
-004B C3              622             CLR     C
-004C 120000   F      623             LCALL   ?C?SLCMP
-004F 401B            624             JC      ?C0014
-                     625     ;                       {
-                     626                             ; SOURCE LINE # 131
-                     627     ;                               angle_in-=_IQ(360.0);
-                     628                             ; SOURCE LINE # 132
-0051 C3              629             CLR     C
-0052 E500     F      630             MOV     A,angle_in?244+03H
-0054 9400            631             SUBB    A,#00H
-0056 F500     F      632             MOV     angle_in?244+03H,A
-0058 E500     F      633             MOV     A,angle_in?244+02H
-005A 9400            634             SUBB    A,#00H
-005C F500     F      635             MOV     angle_in?244+02H,A
-005E E500     F      636             MOV     A,angle_in?244+01H
-0060 94B4            637             SUBB    A,#0B4H
-0062 F500     F      638             MOV     angle_in?244+01H,A
-0064 E500     F      639             MOV     A,angle_in?244
-0066 9400            640             SUBB    A,#00H
-0068 F500     F      641             MOV     angle_in?244,A
-                     642     ;                       }
-                     643                             ; SOURCE LINE # 133
-006A 80CF            644             SJMP    ?C0013
-006C                 645     ?C0014:
-                     646     ;       
-                     647     ;       // convert angle to data in sin table, angle =angle/360 * 512  or  =angle *64/45
-                     648     ;                       
-                     649     ;       table_angle=(U32)((angle_in<<6)>>GLOBAL_Q ); 
-                     650                             ; SOURCE LINE # 137
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE    11
-
-006C AF00     F      651             MOV     R7,angle_in?244+03H
-006E AE00     F      652             MOV     R6,angle_in?244+02H
-0070 AD00     F      653             MOV     R5,angle_in?244+01H
-0072 AC00     F      654             MOV     R4,angle_in?244
-0074 7806            655             MOV     R0,#06H
-0076 120000   F      656             LCALL   ?C?LSHL
-0079 780F            657             MOV     R0,#0FH
-007B 120000   F      658             LCALL   ?C?SLSHR
-007E 8F00     F      659             MOV     table_angle?246+03H,R7
-0080 8E00     F      660             MOV     table_angle?246+02H,R6
-0082 8D00     F      661             MOV     table_angle?246+01H,R5
-0084 8C00     F      662             MOV     table_angle?246,R4
-                     663     ;       table_angle/=45;        
-                     664                             ; SOURCE LINE # 138
-0086 AF00     F      665             MOV     R7,table_angle?246+03H
-0088 AE00     F      666             MOV     R6,table_angle?246+02H
-008A AD00     F      667             MOV     R5,table_angle?246+01H
-008C AC00     F      668             MOV     R4,table_angle?246
-008E 7B2D            669             MOV     R3,#02DH
-0090 7A00            670             MOV     R2,#00H
-0092 7900            671             MOV     R1,#00H
-0094 7800            672             MOV     R0,#00H
-0096 120000   F      673             LCALL   ?C?ULDIV
-0099 8F00     F      674             MOV     table_angle?246+03H,R7
-009B 8E00     F      675             MOV     table_angle?246+02H,R6
-009D 8D00     F      676             MOV     table_angle?246+01H,R5
-009F 8C00     F      677             MOV     table_angle?246,R4
-                     678     ;  
-                     679     ;   sin_out=XWORD[table_angle+sin_table];
-                     680                             ; SOURCE LINE # 140
-00A1 7F02            681             MOV     R7,#02H
-00A3 7E00            682             MOV     R6,#00H
-00A5 7D00            683             MOV     R5,#00H
-00A7 7C00            684             MOV     R4,#00H
-00A9 AB00     F      685             MOV     R3,table_angle?246+03H
-00AB AA00     F      686             MOV     R2,table_angle?246+02H
-00AD A900     F      687             MOV     R1,table_angle?246+01H
-00AF A800     F      688             MOV     R0,table_angle?246
-00B1 120000   F      689             LCALL   ?C?LMUL
-00B4 8F82            690             MOV     DPL,R7
-00B6 8E83            691             MOV     DPH,R6
-00B8 E0              692             MOVX    A,@DPTR
-00B9 FE              693             MOV     R6,A
-00BA A3              694             INC     DPTR
-00BB E0              695             MOVX    A,@DPTR
-00BC FF              696             MOV     R7,A
-00BD E4              697             CLR     A
-00BE FC              698             MOV     R4,A
-00BF FD              699             MOV     R5,A
-00C0 8F00     F      700             MOV     sin_out?245+03H,R7
-00C2 8E00     F      701             MOV     sin_out?245+02H,R6
-00C4 8D00     F      702             MOV     sin_out?245+01H,R5
-00C6 8C00     F      703             MOV     sin_out?245,R4
-                     704     ;       
-                     705     ;       if (dat<0) sin_out=-(sin_out);
-                     706                             ; SOURCE LINE # 142
-00C8 7F00            707             MOV     R7,#00H
-00CA 7E00            708             MOV     R6,#00H
-00CC 7D00            709             MOV     R5,#00H
-00CE 7C00            710             MOV     R4,#00H
-00D0 AB00     F      711             MOV     R3,dat?243+03H
-00D2 AA00     F      712             MOV     R2,dat?243+02H
-00D4 A900     F      713             MOV     R1,dat?243+01H
-00D6 A800     F      714             MOV     R0,dat?243
-00D8 C3              715             CLR     C
-00D9 120000   F      716             LCALL   ?C?SLCMP
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE    12
-
-00DC 5013            717             JNC     ?C0015
-00DE AF00     F      718             MOV     R7,sin_out?245+03H
-00E0 AE00     F      719             MOV     R6,sin_out?245+02H
-00E2 AD00     F      720             MOV     R5,sin_out?245+01H
-00E4 AC00     F      721             MOV     R4,sin_out?245
-00E6 120000   F      722             LCALL   ?C?LNEG
-00E9 8F00     F      723             MOV     sin_out?245+03H,R7
-00EB 8E00     F      724             MOV     sin_out?245+02H,R6
-00ED 8D00     F      725             MOV     sin_out?245+01H,R5
-00EF 8C00     F      726             MOV     sin_out?245,R4
-00F1                 727     ?C0015:
-                     728     ;       
-                     729     ; 
-                     730     ;       
-                     731     ; return sin_out ;
-                     732                             ; SOURCE LINE # 146
-00F1 AF00     F      733             MOV     R7,sin_out?245+03H
-00F3 AE00     F      734             MOV     R6,sin_out?245+02H
-00F5 AD00     F      735             MOV     R5,sin_out?245+01H
-00F7 AC00     F      736             MOV     R4,sin_out?245
-                     737     ;       
-                     738     ; }
-                     739                             ; SOURCE LINE # 148
-00F9                 740     ?C0016:
-00F9 22              741             RET     
-                     742     ; END OF __IQ15sin
-                     743     
-                     744     ; 
-                     745     ; 
-                     746     ; 
-                     747     ; 
-                     748     ; _iq _IQcos(_iq dat)
-                     749     
-----                 750             RSEG  ?PR?__IQ15cos?MOTORLIB
-0000                 751     __IQ15cos:
-                     752             USING   0
-                     753                             ; SOURCE LINE # 153
-0000 8F00     F      754             MOV     dat?347+03H,R7
-0002 8E00     F      755             MOV     dat?347+02H,R6
-0004 8D00     F      756             MOV     dat?347+01H,R5
-0006 8C00     F      757             MOV     dat?347,R4
-                     758     ; {
-                     759                             ; SOURCE LINE # 154
-                     760     ; volatile _iq angle_in,cos_out;
-                     761     ; volatile U32 table_angle;
-                     762     ;        
-                     763     ;       
-                     764     ;       
-                     765     ;                                                               
-                     766     ;       
-                     767     ;       angle_in=(((dat) < 0) ? - (dat) : (dat));
-                     768                             ; SOURCE LINE # 162
-0008 7F00            769             MOV     R7,#00H
-000A 7E00            770             MOV     R6,#00H
-000C 7D00            771             MOV     R5,#00H
-000E 7C00            772             MOV     R4,#00H
-0010 AB00     F      773             MOV     R3,dat?347+03H
-0012 AA00     F      774             MOV     R2,dat?347+02H
-0014 A900     F      775             MOV     R1,dat?347+01H
-0016 A800     F      776             MOV     R0,dat?347
-0018 C3              777             CLR     C
-0019 120000   F      778             LCALL   ?C?SLCMP
-001C 500D            779             JNC     ?C0017
-001E AF00     F      780             MOV     R7,dat?347+03H
-0020 AE00     F      781             MOV     R6,dat?347+02H
-0022 AD00     F      782             MOV     R5,dat?347+01H
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE    13
-
-0024 AC00     F      783             MOV     R4,dat?347
-0026 120000   F      784             LCALL   ?C?LNEG
-0029 8008            785             SJMP    ?C0018
-002B                 786     ?C0017:
-002B AF00     F      787             MOV     R7,dat?347+03H
-002D AE00     F      788             MOV     R6,dat?347+02H
-002F AD00     F      789             MOV     R5,dat?347+01H
-0031 AC00     F      790             MOV     R4,dat?347
-0033                 791     ?C0018:
-0033 8F00     F      792             MOV     angle_in?348+03H,R7
-0035 8E00     F      793             MOV     angle_in?348+02H,R6
-0037 8D00     F      794             MOV     angle_in?348+01H,R5
-0039 8C00     F      795             MOV     angle_in?348,R4
-003B                 796     ?C0019:
-                     797     ;                       
-                     798     ;       //limit the search anlge to <360)
-                     799     ;       
-                     800     ;   while (angle_in>=_IQ(360.0))
-                     801                             ; SOURCE LINE # 166
-003B 7F00            802             MOV     R7,#00H
-003D 7E00            803             MOV     R6,#00H
-003F 7DB4            804             MOV     R5,#0B4H
-0041 7C00            805             MOV     R4,#00H
-0043 AB00     F      806             MOV     R3,angle_in?348+03H
-0045 AA00     F      807             MOV     R2,angle_in?348+02H
-0047 A900     F      808             MOV     R1,angle_in?348+01H
-0049 A800     F      809             MOV     R0,angle_in?348
-004B C3              810             CLR     C
-004C 120000   F      811             LCALL   ?C?SLCMP
-004F 401B            812             JC      ?C0020
-                     813     ;                       {
-                     814                             ; SOURCE LINE # 167
-                     815     ;                               angle_in-=_IQ(360.0);
-                     816                             ; SOURCE LINE # 168
-0051 C3              817             CLR     C
-0052 E500     F      818             MOV     A,angle_in?348+03H
-0054 9400            819             SUBB    A,#00H
-0056 F500     F      820             MOV     angle_in?348+03H,A
-0058 E500     F      821             MOV     A,angle_in?348+02H
-005A 9400            822             SUBB    A,#00H
-005C F500     F      823             MOV     angle_in?348+02H,A
-005E E500     F      824             MOV     A,angle_in?348+01H
-0060 94B4            825             SUBB    A,#0B4H
-0062 F500     F      826             MOV     angle_in?348+01H,A
-0064 E500     F      827             MOV     A,angle_in?348
-0066 9400            828             SUBB    A,#00H
-0068 F500     F      829             MOV     angle_in?348,A
-                     830     ;                       }
-                     831                             ; SOURCE LINE # 169
-006A 80CF            832             SJMP    ?C0019
-006C                 833     ?C0020:
-                     834     ;       
-                     835     ;       // convert angle to data in cos table, cos(angle) =sin(angle+90)
-                     836     ;                       
-                     837     ;       table_angle=(U32)((angle_in<<6)>>GLOBAL_Q ); 
-                     838                             ; SOURCE LINE # 173
-006C AF00     F      839             MOV     R7,angle_in?348+03H
-006E AE00     F      840             MOV     R6,angle_in?348+02H
-0070 AD00     F      841             MOV     R5,angle_in?348+01H
-0072 AC00     F      842             MOV     R4,angle_in?348
-0074 7806            843             MOV     R0,#06H
-0076 120000   F      844             LCALL   ?C?LSHL
-0079 780F            845             MOV     R0,#0FH
-007B 120000   F      846             LCALL   ?C?SLSHR
-007E 8F00     F      847             MOV     table_angle?350+03H,R7
-0080 8E00     F      848             MOV     table_angle?350+02H,R6
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE    14
-
-0082 8D00     F      849             MOV     table_angle?350+01H,R5
-0084 8C00     F      850             MOV     table_angle?350,R4
-                     851     ;       table_angle/=45;
-                     852                             ; SOURCE LINE # 174
-0086 AF00     F      853             MOV     R7,table_angle?350+03H
-0088 AE00     F      854             MOV     R6,table_angle?350+02H
-008A AD00     F      855             MOV     R5,table_angle?350+01H
-008C AC00     F      856             MOV     R4,table_angle?350
-008E 7B2D            857             MOV     R3,#02DH
-0090 7A00            858             MOV     R2,#00H
-0092 7900            859             MOV     R1,#00H
-0094 7800            860             MOV     R0,#00H
-0096 120000   F      861             LCALL   ?C?ULDIV
-0099 8F00     F      862             MOV     table_angle?350+03H,R7
-009B 8E00     F      863             MOV     table_angle?350+02H,R6
-009D 8D00     F      864             MOV     table_angle?350+01H,R5
-009F 8C00     F      865             MOV     table_angle?350,R4
-                     866     ;       table_angle+=128;
-                     867                             ; SOURCE LINE # 175
-00A1 E500     F      868             MOV     A,table_angle?350+03H
-00A3 2480            869             ADD     A,#080H
-00A5 F500     F      870             MOV     table_angle?350+03H,A
-00A7 E500     F      871             MOV     A,table_angle?350+02H
-00A9 3400            872             ADDC    A,#00H
-00AB F500     F      873             MOV     table_angle?350+02H,A
-00AD E500     F      874             MOV     A,table_angle?350+01H
-00AF 3400            875             ADDC    A,#00H
-00B1 F500     F      876             MOV     table_angle?350+01H,A
-00B3 E500     F      877             MOV     A,table_angle?350
-00B5 3400            878             ADDC    A,#00H
-00B7 F500     F      879             MOV     table_angle?350,A
-                     880     ;  
-                     881     ;   cos_out=XWORD[table_angle+sin_table];
-                     882                             ; SOURCE LINE # 177
-00B9 7F02            883             MOV     R7,#02H
-00BB 7E00            884             MOV     R6,#00H
-00BD 7D00            885             MOV     R5,#00H
-00BF 7C00            886             MOV     R4,#00H
-00C1 AB00     F      887             MOV     R3,table_angle?350+03H
-00C3 AA00     F      888             MOV     R2,table_angle?350+02H
-00C5 A900     F      889             MOV     R1,table_angle?350+01H
-00C7 A800     F      890             MOV     R0,table_angle?350
-00C9 120000   F      891             LCALL   ?C?LMUL
-00CC 8F82            892             MOV     DPL,R7
-00CE 8E83            893             MOV     DPH,R6
-00D0 E0              894             MOVX    A,@DPTR
-00D1 FE              895             MOV     R6,A
-00D2 A3              896             INC     DPTR
-00D3 E0              897             MOVX    A,@DPTR
-00D4 FF              898             MOV     R7,A
-00D5 E4              899             CLR     A
-00D6 FC              900             MOV     R4,A
-00D7 FD              901             MOV     R5,A
-00D8 8F00     F      902             MOV     cos_out?349+03H,R7
-00DA 8E00     F      903             MOV     cos_out?349+02H,R6
-00DC 8D00     F      904             MOV     cos_out?349+01H,R5
-00DE 8C00     F      905             MOV     cos_out?349,R4
-                     906     ;       
-                     907     ; 
-                     908     ;       
-                     909     ; return cos_out ;
-                     910                             ; SOURCE LINE # 181
-00E0 AF00     F      911             MOV     R7,cos_out?349+03H
-00E2 AE00     F      912             MOV     R6,cos_out?349+02H
-00E4 AD00     F      913             MOV     R5,cos_out?349+01H
-00E6 AC00     F      914             MOV     R4,cos_out?349
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE    15
-
-                     915     ;       
-                     916     ; }
-                     917                             ; SOURCE LINE # 183
-00E8                 918     ?C0021:
-00E8 22              919             RET     
-                     920     ; END OF __IQ15cos
-                     921     
-                     922     ; 
-                     923     ; 
-                     924     ; 
-                     925     ; 
-                     926     ; 
-                     927     ; 
-                     928     ; 
-                     929     ; S32 Normalize(S32 Data)              //normalize only work for positive value. it return 
-                             error if the MD3_7=1 
-                     930     
-----                 931             RSEG  ?PR?_Normalize?MOTORLIB
-0000                 932     _Normalize:
-                     933             USING   0
-                     934                             ; SOURCE LINE # 191
-0000 8F00     F      935             MOV     Data?451+03H,R7
-0002 8E00     F      936             MOV     Data?451+02H,R6
-0004 8D00     F      937             MOV     Data?451+01H,R5
-0006 8C00     F      938             MOV     Data?451,R4
-                     939     ; {
-                     940                             ; SOURCE LINE # 192
-                     941     ;  Long_Data LD;
-                     942     ;  LD.Ldata =Data;
-                     943                             ; SOURCE LINE # 194
-0008 AF00     F      944             MOV     R7,Data?451+03H
-000A AE00     F      945             MOV     R6,Data?451+02H
-000C AD00     F      946             MOV     R5,Data?451+01H
-000E AC00     F      947             MOV     R4,Data?451
-0010 8F00     F      948             MOV     LD?452+03H,R7
-0012 8E00     F      949             MOV     LD?452+02H,R6
-0014 8D00     F      950             MOV     LD?452+01H,R5
-0016 8C00     F      951             MOV     LD?452,R4
-                     952     ;  MD0 = LD.ss1.Byte0;
-                     953                             ; SOURCE LINE # 195
-0018 8500E9   F      954             MOV     MD0,LD?452+03H
-                     955     ;  MD1 = LD.ss1.Byte1;
-                     956                             ; SOURCE LINE # 196
-001B 8500EA   F      957             MOV     MD1,LD?452+02H
-                     958     ;  MD2 = LD.ss1.Byte2;
-                     959                             ; SOURCE LINE # 197
-001E 8500EB   F      960             MOV     MD2,LD?452+01H
-                     961     ;  MD3 = LD.ss1.Byte3;
-                     962                             ; SOURCE LINE # 198
-0021 8500EC   F      963             MOV     MD3,LD?452
-                     964     ;       
-                     965     ; 
-                     966     ;       
-                     967     ;  ARCON = 0x00 ; // Start Normalizing
-                     968                             ; SOURCE LINE # 202
-0024 75EF00          969             MOV     ARCON,#00H
-0027                 970     ?C0022:
-                     971     ;  while(MD3_7==0 ); //check MDU finish flag
-                     972                             ; SOURCE LINE # 203
-0027 E5EC            973             MOV     A,MD3
-0029 30E704          974             JNB     ACC.7,?C0024
-002C 7F01            975             MOV     R7,#01H
-002E 8002            976             SJMP    ?C0025
-0030                 977     ?C0024:
-0030 7F00            978             MOV     R7,#00H
-0032                 979     ?C0025:
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE    16
-
-0032 EF              980             MOV     A,R7
-0033 60F2            981             JZ      ?C0022
-0035                 982     ?C0023:
-                     983     ;       LD.ss1.Byte0=MD0;
-                     984                             ; SOURCE LINE # 204
-0035 85E900   F      985             MOV     LD?452+03H,MD0
-                     986     ;       LD.ss1.Byte1=MD1;
-                     987                             ; SOURCE LINE # 205
-0038 85EA00   F      988             MOV     LD?452+02H,MD1
-                     989     ;       LD.ss1.Byte2=MD2;
-                     990                             ; SOURCE LINE # 206
-003B 85EB00   F      991             MOV     LD?452+01H,MD2
-                     992     ;       LD.ss1.Byte3=MD3;
-                     993                             ; SOURCE LINE # 207
-003E 85EC00   F      994             MOV     LD?452,MD3
-                     995     ;  
-                     996     ;        return LD.Ldata ;
-                     997                             ; SOURCE LINE # 209
-0041 AF00     F      998             MOV     R7,LD?452+03H
-0043 AE00     F      999             MOV     R6,LD?452+02H
-0045 AD00     F     1000             MOV     R5,LD?452+01H
-0047 AC00     F     1001             MOV     R4,LD?452
-                    1002     ; }
-                    1003                             ; SOURCE LINE # 210
-0049                1004     ?C0026:
-0049 22             1005             RET     
-                    1006     ; END OF _Normalize
-                    1007     
-                    1008             END
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE    17
+0047 A3              453             INC     DPTR
+0048 E0              454             MOVX    A,@DPTR
+0049 FF              455             MOV     R7,A
+                     456     ;       
+                     457     ; }
+                     458                             ; SOURCE LINE # 90
+004A                 459     ?C0010:
+004A 22              460             RET     
+                     461     ; END OF _EE_read
+                     462     
+                     463             END
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/23/2018 17:01:52 PAGE     9
 
 SYMBOL TABLE LISTING
 ------ ----- -------
 
 
-N A M E                  T Y P E  V A L U E   ATTRIBUTES
+N A M E                 T Y P E  V A L U E   ATTRIBUTES
 
-?C0001. . . . . . . . .  C ADDR   0002H   R   SEG=?PR?_EE_WRITE?MOTORLIB
-?C0002. . . . . . . . .  C ADDR   0012H   R   SEG=?PR?_EE_WRITE?MOTORLIB
-?C0003. . . . . . . . .  C ADDR   0037H   R   SEG=?PR?_EE_WRITE?MOTORLIB
-?C0004. . . . . . . . .  C ADDR   0046H   R   SEG=?PR?_EE_WRITE?MOTORLIB
-?C0005. . . . . . . . .  C ADDR   004BH   R   SEG=?PR?_EE_WRITE?MOTORLIB
-?C0006. . . . . . . . .  C ADDR   0002H   R   SEG=?PR?_EE_READ?MOTORLIB
-?C0007. . . . . . . . .  C ADDR   0012H   R   SEG=?PR?_EE_READ?MOTORLIB
-?C0008. . . . . . . . .  C ADDR   0029H   R   SEG=?PR?_EE_READ?MOTORLIB
-?C0009. . . . . . . . .  C ADDR   0037H   R   SEG=?PR?_EE_READ?MOTORLIB
-?C0010. . . . . . . . .  C ADDR   004AH   R   SEG=?PR?_EE_READ?MOTORLIB
-?C0011. . . . . . . . .  C ADDR   002BH   R   SEG=?PR?__IQ15SIN?MOTORLIB
-?C0012. . . . . . . . .  C ADDR   0033H   R   SEG=?PR?__IQ15SIN?MOTORLIB
-?C0013. . . . . . . . .  C ADDR   003BH   R   SEG=?PR?__IQ15SIN?MOTORLIB
-?C0014. . . . . . . . .  C ADDR   006CH   R   SEG=?PR?__IQ15SIN?MOTORLIB
-?C0015. . . . . . . . .  C ADDR   00F1H   R   SEG=?PR?__IQ15SIN?MOTORLIB
-?C0016. . . . . . . . .  C ADDR   00F9H   R   SEG=?PR?__IQ15SIN?MOTORLIB
-?C0017. . . . . . . . .  C ADDR   002BH   R   SEG=?PR?__IQ15COS?MOTORLIB
-?C0018. . . . . . . . .  C ADDR   0033H   R   SEG=?PR?__IQ15COS?MOTORLIB
-?C0019. . . . . . . . .  C ADDR   003BH   R   SEG=?PR?__IQ15COS?MOTORLIB
-?C0020. . . . . . . . .  C ADDR   006CH   R   SEG=?PR?__IQ15COS?MOTORLIB
-?C0021. . . . . . . . .  C ADDR   00E8H   R   SEG=?PR?__IQ15COS?MOTORLIB
-?C0022. . . . . . . . .  C ADDR   0027H   R   SEG=?PR?_NORMALIZE?MOTORLIB
-?C0023. . . . . . . . .  C ADDR   0035H   R   SEG=?PR?_NORMALIZE?MOTORLIB
-?C0024. . . . . . . . .  C ADDR   0030H   R   SEG=?PR?_NORMALIZE?MOTORLIB
-?C0025. . . . . . . . .  C ADDR   0032H   R   SEG=?PR?_NORMALIZE?MOTORLIB
-?C0026. . . . . . . . .  C ADDR   0049H   R   SEG=?PR?_NORMALIZE?MOTORLIB
-?C?LMUL . . . . . . . .  C ADDR   -----       EXT
-?C?LNEG . . . . . . . .  C ADDR   -----       EXT
-?C?LSHL . . . . . . . .  C ADDR   -----       EXT
-?C?LSTXDATA . . . . . .  C ADDR   -----       EXT
-?C?SLCMP. . . . . . . .  C ADDR   -----       EXT
-?C?SLSHR. . . . . . . .  C ADDR   -----       EXT
-?C?ULDIV. . . . . . . .  C ADDR   -----       EXT
-?C_INITSEG. . . . . . .  C SEG    000CH       REL=UNIT
-?DT?MOTORLIB. . . . . .  D SEG    000AH       REL=UNIT
-?DT?_EE_READ?MOTORLIB .  D SEG    0001H       REL=UNIT
-?DT?_EE_WRITE?MOTORLIB.  D SEG    0005H       REL=UNIT
-?DT?_NORMALIZE?MOTORLIB  D SEG    0008H       REL=UNIT
-?DT?__IQ15COS?MOTORLIB.  D SEG    0010H       REL=UNIT
-?DT?__IQ15SIN?MOTORLIB.  D SEG    0010H       REL=UNIT
-?PR?_EE_READ?MOTORLIB .  C SEG    004BH       REL=UNIT
-?PR?_EE_WRITE?MOTORLIB.  C SEG    004CH       REL=UNIT
-?PR?_NORMALIZE?MOTORLIB  C SEG    004AH       REL=UNIT
-?PR?__IQ15COS?MOTORLIB.  C SEG    00E9H       REL=UNIT
-?PR?__IQ15SIN?MOTORLIB.  C SEG    00FAH       REL=UNIT
-?XD?MOTORLIB. . . . . .  X SEG    0005H       REL=UNIT
-?_EE_READ?BYTE. . . . .  D ADDR   0000H   R   SEG=?DT?_EE_READ?MOTORLIB
-?_EE_WRITE?BYTE . . . .  D ADDR   0000H   R   SEG=?DT?_EE_WRITE?MOTORLIB
-?_NORMALIZE?BYTE. . . .  D ADDR   0000H   R   SEG=?DT?_NORMALIZE?MOTORLIB
-?__IQ15COS?BYTE . . . .  D ADDR   0000H   R   SEG=?DT?__IQ15COS?MOTORLIB
-?__IQ15SIN?BYTE . . . .  D ADDR   0000H   R   SEG=?DT?__IQ15SIN?MOTORLIB
-ACC . . . . . . . . . .  D ADDR   00E0H   A   
-ANGLE_IN?244. . . . . .  D ADDR   0004H   R   SEG=?DT?__IQ15SIN?MOTORLIB
-ANGLE_IN?348. . . . . .  D ADDR   0004H   R   SEG=?DT?__IQ15COS?MOTORLIB
-ARCON . . . . . . . . .  D ADDR   00EFH   A   
-B . . . . . . . . . . .  D ADDR   00F0H   A   
-BPCTRL. . . . . . . . .  D ADDR   0093H   A   
-BREAKH. . . . . . . . .  D ADDR   0095H   A   
-BREAKL. . . . . . . . .  D ADDR   0094H   A   
-BSHCTL. . . . . . . . .  D ADDR   00ABH   A   
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE    18
+?C0001 . . . . . . . .  C ADDR   0002H   R   SEG=?PR?_EE_WRITE?MOTORLIB
+?C0002 . . . . . . . .  C ADDR   0012H   R   SEG=?PR?_EE_WRITE?MOTORLIB
+?C0003 . . . . . . . .  C ADDR   0037H   R   SEG=?PR?_EE_WRITE?MOTORLIB
+?C0004 . . . . . . . .  C ADDR   0046H   R   SEG=?PR?_EE_WRITE?MOTORLIB
+?C0005 . . . . . . . .  C ADDR   004BH   R   SEG=?PR?_EE_WRITE?MOTORLIB
+?C0006 . . . . . . . .  C ADDR   0002H   R   SEG=?PR?_EE_READ?MOTORLIB
+?C0007 . . . . . . . .  C ADDR   0012H   R   SEG=?PR?_EE_READ?MOTORLIB
+?C0008 . . . . . . . .  C ADDR   0029H   R   SEG=?PR?_EE_READ?MOTORLIB
+?C0009 . . . . . . . .  C ADDR   0037H   R   SEG=?PR?_EE_READ?MOTORLIB
+?C0010 . . . . . . . .  C ADDR   004AH   R   SEG=?PR?_EE_READ?MOTORLIB
+?C?LSTXDATA. . . . . .  C ADDR   -----       EXT
+?DT?_EE_READ?MOTORLIB.  D SEG    0001H       REL=UNIT
+?DT?_EE_WRITE?MOTORLIB  D SEG    0005H       REL=UNIT
+?PR?_EE_READ?MOTORLIB.  C SEG    004BH       REL=UNIT
+?PR?_EE_WRITE?MOTORLIB  C SEG    004CH       REL=UNIT
+?_EE_READ?BYTE . . . .  D ADDR   0000H   R   SEG=?DT?_EE_READ?MOTORLIB
+?_EE_WRITE?BYTE. . . .  D ADDR   0000H   R   SEG=?DT?_EE_WRITE?MOTORLIB
+ACC. . . . . . . . . .  D ADDR   00E0H   A   
+ARCON. . . . . . . . .  D ADDR   00EFH   A   
+B. . . . . . . . . . .  D ADDR   00F0H   A   
+BPCTRL . . . . . . . .  D ADDR   0093H   A   
+BREAKH . . . . . . . .  D ADDR   0095H   A   
+BREAKL . . . . . . . .  D ADDR   0094H   A   
+BSHCTL . . . . . . . .  D ADDR   00ABH   A   
+BSHI_0 . . . . . . . .  D ADDR   00ACH   A   
+BSHI_1 . . . . . . . .  D ADDR   00ADH   A   
+BSHI_2 . . . . . . . .  D ADDR   00AEH   A   
+BSHI_3 . . . . . . . .  D ADDR   00AFH   A   
+BSHO_0 . . . . . . . .  D ADDR   00BCH   A   
+BSHO_1 . . . . . . . .  D ADDR   00BDH   A   
+BSHO_2 . . . . . . . .  D ADDR   00BEH   A   
+BSHO_3 . . . . . . . .  D ADDR   00BFH   A   
+CKCON. . . . . . . . .  D ADDR   008EH   A   
+CLK_DIV. . . . . . . .  D ADDR   0091H   A   
+CLK_PD_CON . . . . . .  D ADDR   008FH   A   
+DPH. . . . . . . . . .  D ADDR   0083H   A   
+DPH1 . . . . . . . . .  D ADDR   0085H   A   
+DPL. . . . . . . . . .  D ADDR   0082H   A   
+DPL1 . . . . . . . . .  D ADDR   0084H   A   
+DPS. . . . . . . . . .  D ADDR   0092H   A   
+EADC . . . . . . . . .  B ADDR   00B8H.0 A   
+EAL. . . . . . . . . .  B ADDR   00A8H.7 A   
+EE_ADDR?040. . . . . .  D ADDR   0000H   R   SEG=?DT?_EE_WRITE?MOTORLIB
+EE_ADDR?142. . . . . .  D ADDR   0000H   R   SEG=?DT?_EE_READ?MOTORLIB
+EE_DATA?041. . . . . .  D ADDR   0001H   R   SEG=?DT?_EE_WRITE?MOTORLIB
+ES . . . . . . . . . .  B ADDR   00A8H.4 A   
+ES0. . . . . . . . . .  B ADDR   00A8H.4 A   
+ET0. . . . . . . . . .  B ADDR   00A8H.1 A   
+ET1. . . . . . . . . .  B ADDR   00A8H.3 A   
+EX0. . . . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . . . .  B ADDR   00A8H.2 A   
+EX2. . . . . . . . . .  B ADDR   00B8H.1 A   
+EX3. . . . . . . . . .  B ADDR   00B8H.2 A   
+EX4. . . . . . . . . .  B ADDR   00B8H.3 A   
+EX5. . . . . . . . . .  B ADDR   00B8H.4 A   
+EX6. . . . . . . . . .  B ADDR   00B8H.5 A   
+I2FR . . . . . . . . .  B ADDR   00C8H.5 A   
+I3FR . . . . . . . . .  B ADDR   00C8H.6 A   
+IADC . . . . . . . . .  B ADDR   00C0H.0 A   
+IE . . . . . . . . . .  D ADDR   00A8H   A   
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/23/2018 17:01:52 PAGE    10
 
-BSHI_0. . . . . . . . .  D ADDR   00ACH   A   
-BSHI_1. . . . . . . . .  D ADDR   00ADH   A   
-BSHI_2. . . . . . . . .  D ADDR   00AEH   A   
-BSHI_3. . . . . . . . .  D ADDR   00AFH   A   
-BSHO_0. . . . . . . . .  D ADDR   00BCH   A   
-BSHO_1. . . . . . . . .  D ADDR   00BDH   A   
-BSHO_2. . . . . . . . .  D ADDR   00BEH   A   
-BSHO_3. . . . . . . . .  D ADDR   00BFH   A   
-CKCON . . . . . . . . .  D ADDR   008EH   A   
-CLK_DIV . . . . . . . .  D ADDR   0091H   A   
-CLK_PD_CON. . . . . . .  D ADDR   008FH   A   
-COS_OUT?349 . . . . . .  D ADDR   0008H   R   SEG=?DT?__IQ15COS?MOTORLIB
-DAT?243 . . . . . . . .  D ADDR   0000H   R   SEG=?DT?__IQ15SIN?MOTORLIB
-DAT?347 . . . . . . . .  D ADDR   0000H   R   SEG=?DT?__IQ15COS?MOTORLIB
-DATA?451. . . . . . . .  D ADDR   0000H   R   SEG=?DT?_NORMALIZE?MOTORLIB
-DPH . . . . . . . . . .  D ADDR   0083H   A   
-DPH1. . . . . . . . . .  D ADDR   0085H   A   
-DPL . . . . . . . . . .  D ADDR   0082H   A   
-DPL1. . . . . . . . . .  D ADDR   0084H   A   
-DPS . . . . . . . . . .  D ADDR   0092H   A   
-EADC. . . . . . . . . .  B ADDR   00B8H.0 A   
-EAL . . . . . . . . . .  B ADDR   00A8H.7 A   
-EE_ADDR?040 . . . . . .  D ADDR   0000H   R   SEG=?DT?_EE_WRITE?MOTORLIB
-EE_ADDR?142 . . . . . .  D ADDR   0000H   R   SEG=?DT?_EE_READ?MOTORLIB
-EE_DATA?041 . . . . . .  D ADDR   0001H   R   SEG=?DT?_EE_WRITE?MOTORLIB
-ES. . . . . . . . . . .  B ADDR   00A8H.4 A   
-ES0 . . . . . . . . . .  B ADDR   00A8H.4 A   
-ET0 . . . . . . . . . .  B ADDR   00A8H.1 A   
-ET1 . . . . . . . . . .  B ADDR   00A8H.3 A   
-EX0 . . . . . . . . . .  B ADDR   00A8H.0 A   
-EX1 . . . . . . . . . .  B ADDR   00A8H.2 A   
-EX2 . . . . . . . . . .  B ADDR   00B8H.1 A   
-EX3 . . . . . . . . . .  B ADDR   00B8H.2 A   
-EX4 . . . . . . . . . .  B ADDR   00B8H.3 A   
-EX5 . . . . . . . . . .  B ADDR   00B8H.4 A   
-EX6 . . . . . . . . . .  B ADDR   00B8H.5 A   
-I2FR. . . . . . . . . .  B ADDR   00C8H.5 A   
-I3FR. . . . . . . . . .  B ADDR   00C8H.6 A   
-IADC. . . . . . . . . .  B ADDR   00C0H.0 A   
-IE. . . . . . . . . . .  D ADDR   00A8H   A   
-IE0 . . . . . . . . . .  B ADDR   0088H.1 A   
-IE1 . . . . . . . . . .  B ADDR   0088H.3 A   
-IEN0. . . . . . . . . .  D ADDR   00A8H   A   
-IEN1. . . . . . . . . .  D ADDR   00B8H   A   
-IEN2. . . . . . . . . .  D ADDR   009AH   A   
-IEX2. . . . . . . . . .  B ADDR   00C0H.1 A   
-IEX3. . . . . . . . . .  B ADDR   00C0H.2 A   
-IEX4. . . . . . . . . .  B ADDR   00C0H.3 A   
-IEX5. . . . . . . . . .  B ADDR   00C0H.4 A   
-IEX6. . . . . . . . . .  B ADDR   00C0H.5 A   
-INT_REG1. . . . . . . .  D ADDR   00F9H   A   
-INT_REG2. . . . . . . .  D ADDR   00FAH   A   
-INT_REG3. . . . . . . .  D ADDR   00FDH   A   
-INT_REG4. . . . . . . .  D ADDR   00FEH   A   
-IP0 . . . . . . . . . .  D ADDR   00A9H   A   
-IP1 . . . . . . . . . .  D ADDR   00B9H   A   
-IRCON . . . . . . . . .  D ADDR   00C0H   A   
-IT0 . . . . . . . . . .  B ADDR   0088H.0 A   
-IT1 . . . . . . . . . .  B ADDR   0088H.2 A   
-LD?452. . . . . . . . .  D ADDR   0004H   R   SEG=?DT?_NORMALIZE?MOTORLIB
-MD0 . . . . . . . . . .  D ADDR   00E9H   A   
-MD1 . . . . . . . . . .  D ADDR   00EAH   A   
-MD2 . . . . . . . . . .  D ADDR   00EBH   A   
-MD3 . . . . . . . . . .  D ADDR   00ECH   A   
-MD4 . . . . . . . . . .  D ADDR   00EDH   A   
-MD5 . . . . . . . . . .  D ADDR   00EEH   A   
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE    19
+IE0. . . . . . . . . .  B ADDR   0088H.1 A   
+IE1. . . . . . . . . .  B ADDR   0088H.3 A   
+IEN0 . . . . . . . . .  D ADDR   00A8H   A   
+IEN1 . . . . . . . . .  D ADDR   00B8H   A   
+IEN2 . . . . . . . . .  D ADDR   009AH   A   
+IEX2 . . . . . . . . .  B ADDR   00C0H.1 A   
+IEX3 . . . . . . . . .  B ADDR   00C0H.2 A   
+IEX4 . . . . . . . . .  B ADDR   00C0H.3 A   
+IEX5 . . . . . . . . .  B ADDR   00C0H.4 A   
+IEX6 . . . . . . . . .  B ADDR   00C0H.5 A   
+INT_REG1 . . . . . . .  D ADDR   00F9H   A   
+INT_REG2 . . . . . . .  D ADDR   00FAH   A   
+INT_REG3 . . . . . . .  D ADDR   00FDH   A   
+INT_REG4 . . . . . . .  D ADDR   00FEH   A   
+IP0. . . . . . . . . .  D ADDR   00A9H   A   
+IP1. . . . . . . . . .  D ADDR   00B9H   A   
+IRCON. . . . . . . . .  D ADDR   00C0H   A   
+IT0. . . . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . . . .  B ADDR   0088H.2 A   
+MD0. . . . . . . . . .  D ADDR   00E9H   A   
+MD1. . . . . . . . . .  D ADDR   00EAH   A   
+MD2. . . . . . . . . .  D ADDR   00EBH   A   
+MD3. . . . . . . . . .  D ADDR   00ECH   A   
+MD4. . . . . . . . . .  D ADDR   00EDH   A   
+MD5. . . . . . . . . .  D ADDR   00EEH   A   
+MEM_CONFIG . . . . . .  D ADDR   00E8H   A   
+MOTORLIB . . . . . . .  N NUMB   -----       
+P0 . . . . . . . . . .  D ADDR   0080H   A   
+P00. . . . . . . . . .  B ADDR   0080H.0 A   
+P01. . . . . . . . . .  B ADDR   0080H.1 A   
+P02. . . . . . . . . .  B ADDR   0080H.2 A   
+P03. . . . . . . . . .  B ADDR   0080H.3 A   
+P04. . . . . . . . . .  B ADDR   0080H.4 A   
+P05. . . . . . . . . .  B ADDR   0080H.5 A   
+P06. . . . . . . . . .  B ADDR   0080H.6 A   
+P07. . . . . . . . . .  B ADDR   0080H.7 A   
+P1 . . . . . . . . . .  D ADDR   0090H   A   
+P10. . . . . . . . . .  B ADDR   0090H.0 A   
+P11. . . . . . . . . .  B ADDR   0090H.1 A   
+P12. . . . . . . . . .  B ADDR   0090H.2 A   
+P13. . . . . . . . . .  B ADDR   0090H.3 A   
+P14. . . . . . . . . .  B ADDR   0090H.4 A   
+P15. . . . . . . . . .  B ADDR   0090H.5 A   
+P16. . . . . . . . . .  B ADDR   0090H.6 A   
+P17. . . . . . . . . .  B ADDR   0090H.7 A   
+P1AQCSFRC. . . . . . .  D ADDR   00B1H   A   
+P1AQSFRC . . . . . . .  D ADDR   00A7H   A   
+P1CMPA . . . . . . . .  D ADDR   00A3H   A   
+P1CMPA_H . . . . . . .  D ADDR   00A4H   A   
+P1CMPA_L . . . . . . .  D ADDR   00A3H   A   
+P1CMPB . . . . . . . .  D ADDR   00A5H   A   
+P1CMPB_H . . . . . . .  D ADDR   00A6H   A   
+P1CMPB_L . . . . . . .  D ADDR   00A5H   A   
+P1ETCLR. . . . . . . .  D ADDR   00B6H   A   
+P1ETFLG. . . . . . . .  D ADDR   00B5H   A   
+P1ETFRC. . . . . . . .  D ADDR   00B7H   A   
+P1TBPRD. . . . . . . .  D ADDR   00A1H   A   
+P1TBPRD_H. . . . . . .  D ADDR   00A2H   A   
+P1TBPRD_L. . . . . . .  D ADDR   00A1H   A   
+P1TZCLR. . . . . . . .  D ADDR   00B3H   A   
+P1TZFLG. . . . . . . .  D ADDR   00B2H   A   
+P1TZFRC. . . . . . . .  D ADDR   00B4H   A   
+P2 . . . . . . . . . .  D ADDR   00A0H   A   
+P20. . . . . . . . . .  B ADDR   00A0H.0 A   
+P21. . . . . . . . . .  B ADDR   00A0H.1 A   
+P22. . . . . . . . . .  B ADDR   00A0H.2 A   
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/23/2018 17:01:52 PAGE    11
 
-MEM_CONFIG. . . . . . .  D ADDR   00E8H   A   
-MOTORLIB. . . . . . . .  N NUMB   -----       
-P0. . . . . . . . . . .  D ADDR   0080H   A   
-P00 . . . . . . . . . .  B ADDR   0080H.0 A   
-P01 . . . . . . . . . .  B ADDR   0080H.1 A   
-P02 . . . . . . . . . .  B ADDR   0080H.2 A   
-P03 . . . . . . . . . .  B ADDR   0080H.3 A   
-P04 . . . . . . . . . .  B ADDR   0080H.4 A   
-P05 . . . . . . . . . .  B ADDR   0080H.5 A   
-P06 . . . . . . . . . .  B ADDR   0080H.6 A   
-P07 . . . . . . . . . .  B ADDR   0080H.7 A   
-P1. . . . . . . . . . .  D ADDR   0090H   A   
-P10 . . . . . . . . . .  B ADDR   0090H.0 A   
-P11 . . . . . . . . . .  B ADDR   0090H.1 A   
-P12 . . . . . . . . . .  B ADDR   0090H.2 A   
-P13 . . . . . . . . . .  B ADDR   0090H.3 A   
-P14 . . . . . . . . . .  B ADDR   0090H.4 A   
-P15 . . . . . . . . . .  B ADDR   0090H.5 A   
-P16 . . . . . . . . . .  B ADDR   0090H.6 A   
-P17 . . . . . . . . . .  B ADDR   0090H.7 A   
-P1AQCSFRC . . . . . . .  D ADDR   00B1H   A   
-P1AQSFRC. . . . . . . .  D ADDR   00A7H   A   
-P1CMPA. . . . . . . . .  D ADDR   00A3H   A   
-P1CMPA_H. . . . . . . .  D ADDR   00A4H   A   
-P1CMPA_L. . . . . . . .  D ADDR   00A3H   A   
-P1CMPB. . . . . . . . .  D ADDR   00A5H   A   
-P1CMPB_H. . . . . . . .  D ADDR   00A6H   A   
-P1CMPB_L. . . . . . . .  D ADDR   00A5H   A   
-P1ETCLR . . . . . . . .  D ADDR   00B6H   A   
-P1ETFLG . . . . . . . .  D ADDR   00B5H   A   
-P1ETFRC . . . . . . . .  D ADDR   00B7H   A   
-P1TBPRD . . . . . . . .  D ADDR   00A1H   A   
-P1TBPRD_H . . . . . . .  D ADDR   00A2H   A   
-P1TBPRD_L . . . . . . .  D ADDR   00A1H   A   
-P1TZCLR . . . . . . . .  D ADDR   00B3H   A   
-P1TZFLG . . . . . . . .  D ADDR   00B2H   A   
-P1TZFRC . . . . . . . .  D ADDR   00B4H   A   
-P2. . . . . . . . . . .  D ADDR   00A0H   A   
-P20 . . . . . . . . . .  B ADDR   00A0H.0 A   
-P21 . . . . . . . . . .  B ADDR   00A0H.1 A   
-P22 . . . . . . . . . .  B ADDR   00A0H.2 A   
-P23 . . . . . . . . . .  B ADDR   00A0H.3 A   
-P24 . . . . . . . . . .  B ADDR   00A0H.4 A   
-P25 . . . . . . . . . .  B ADDR   00A0H.5 A   
-P26 . . . . . . . . . .  B ADDR   00A0H.6 A   
-P27 . . . . . . . . . .  B ADDR   00A0H.7 A   
-P2AQCSFRC . . . . . . .  D ADDR   00C9H   A   
-P2AQSFRC. . . . . . . .  D ADDR   00C7H   A   
-P2CMPA. . . . . . . . .  D ADDR   00C3H   A   
-P2CMPA_H. . . . . . . .  D ADDR   00C4H   A   
-P2CMPA_L. . . . . . . .  D ADDR   00C3H   A   
-P2CMPB. . . . . . . . .  D ADDR   00C5H   A   
-P2CMPB_H. . . . . . . .  D ADDR   00C6H   A   
-P2CMPB_L. . . . . . . .  D ADDR   00C5H   A   
-P2ETCLR . . . . . . . .  D ADDR   00CEH   A   
-P2ETFLG . . . . . . . .  D ADDR   00CDH   A   
-P2ETFRC . . . . . . . .  D ADDR   00CFH   A   
-P2TBPRD . . . . . . . .  D ADDR   00C1H   A   
-P2TBPRD_H . . . . . . .  D ADDR   00C2H   A   
-P2TBPRD_L . . . . . . .  D ADDR   00C1H   A   
-P2TZCLR . . . . . . . .  D ADDR   00CBH   A   
-P2TZFLG . . . . . . . .  D ADDR   00CAH   A   
-P2TZFRC . . . . . . . .  D ADDR   00CCH   A   
-P3. . . . . . . . . . .  D ADDR   00B0H   A   
-P30 . . . . . . . . . .  B ADDR   00B0H.0 A   
-P31 . . . . . . . . . .  B ADDR   00B0H.1 A   
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE    20
+P23. . . . . . . . . .  B ADDR   00A0H.3 A   
+P24. . . . . . . . . .  B ADDR   00A0H.4 A   
+P25. . . . . . . . . .  B ADDR   00A0H.5 A   
+P26. . . . . . . . . .  B ADDR   00A0H.6 A   
+P27. . . . . . . . . .  B ADDR   00A0H.7 A   
+P2AQCSFRC. . . . . . .  D ADDR   00C9H   A   
+P2AQSFRC . . . . . . .  D ADDR   00C7H   A   
+P2CMPA . . . . . . . .  D ADDR   00C3H   A   
+P2CMPA_H . . . . . . .  D ADDR   00C4H   A   
+P2CMPA_L . . . . . . .  D ADDR   00C3H   A   
+P2CMPB . . . . . . . .  D ADDR   00C5H   A   
+P2CMPB_H . . . . . . .  D ADDR   00C6H   A   
+P2CMPB_L . . . . . . .  D ADDR   00C5H   A   
+P2ETCLR. . . . . . . .  D ADDR   00CEH   A   
+P2ETFLG. . . . . . . .  D ADDR   00CDH   A   
+P2ETFRC. . . . . . . .  D ADDR   00CFH   A   
+P2TBPRD. . . . . . . .  D ADDR   00C1H   A   
+P2TBPRD_H. . . . . . .  D ADDR   00C2H   A   
+P2TBPRD_L. . . . . . .  D ADDR   00C1H   A   
+P2TZCLR. . . . . . . .  D ADDR   00CBH   A   
+P2TZFLG. . . . . . . .  D ADDR   00CAH   A   
+P2TZFRC. . . . . . . .  D ADDR   00CCH   A   
+P3 . . . . . . . . . .  D ADDR   00B0H   A   
+P30. . . . . . . . . .  B ADDR   00B0H.0 A   
+P31. . . . . . . . . .  B ADDR   00B0H.1 A   
+P32. . . . . . . . . .  B ADDR   00B0H.2 A   
+P33. . . . . . . . . .  B ADDR   00B0H.3 A   
+P34. . . . . . . . . .  B ADDR   00B0H.4 A   
+P35. . . . . . . . . .  B ADDR   00B0H.5 A   
+P36. . . . . . . . . .  B ADDR   00B0H.6 A   
+P37. . . . . . . . . .  B ADDR   00B0H.7 A   
+P3AQCSFRC. . . . . . .  D ADDR   00D9H   A   
+P3AQSFRC . . . . . . .  D ADDR   00D7H   A   
+P3CMPA . . . . . . . .  D ADDR   00D3H   A   
+P3CMPA_H . . . . . . .  D ADDR   00D4H   A   
+P3CMPA_L . . . . . . .  D ADDR   00D3H   A   
+P3CMPB . . . . . . . .  D ADDR   00D5H   A   
+P3CMPB_H . . . . . . .  D ADDR   00D6H   A   
+P3CMPB_L . . . . . . .  D ADDR   00D5H   A   
+P3ETCLR. . . . . . . .  D ADDR   00DEH   A   
+P3ETFLG. . . . . . . .  D ADDR   00DDH   A   
+P3ETFRC. . . . . . . .  D ADDR   00DFH   A   
+P3TBPRD. . . . . . . .  D ADDR   00D1H   A   
+P3TBPRD_H. . . . . . .  D ADDR   00D2H   A   
+P3TBPRD_L. . . . . . .  D ADDR   00D1H   A   
+P3TZCLR. . . . . . . .  D ADDR   00DBH   A   
+P3TZFLG. . . . . . . .  D ADDR   00DAH   A   
+P3TZFRC. . . . . . . .  D ADDR   00DCH   A   
+P4AQCSFRC. . . . . . .  D ADDR   00F1H   A   
+P4AQSFRC . . . . . . .  D ADDR   00E7H   A   
+P4CMPA . . . . . . . .  D ADDR   00E3H   A   
+P4CMPA_H . . . . . . .  D ADDR   00E4H   A   
+P4CMPA_L . . . . . . .  D ADDR   00E3H   A   
+P4CMPB . . . . . . . .  D ADDR   00E5H   A   
+P4CMPB_H . . . . . . .  D ADDR   00E6H   A   
+P4CMPB_L . . . . . . .  D ADDR   00E5H   A   
+P4ETCLR. . . . . . . .  D ADDR   00F6H   A   
+P4ETFLG. . . . . . . .  D ADDR   00F5H   A   
+P4ETFRC. . . . . . . .  D ADDR   00F7H   A   
+P4TBPRD. . . . . . . .  D ADDR   00E1H   A   
+P4TBPRD_H. . . . . . .  D ADDR   00E2H   A   
+P4TBPRD_L. . . . . . .  D ADDR   00E1H   A   
+P4TZCLR. . . . . . . .  D ADDR   00F3H   A   
+P4TZFLG. . . . . . . .  D ADDR   00F2H   A   
+P4TZFRC. . . . . . . .  D ADDR   00F4H   A   
+PCON . . . . . . . . .  D ADDR   0087H   A   
+A51 MACRO ASSEMBLER  MOTORLIB                                                             11/23/2018 17:01:52 PAGE    12
 
-P32 . . . . . . . . . .  B ADDR   00B0H.2 A   
-P33 . . . . . . . . . .  B ADDR   00B0H.3 A   
-P34 . . . . . . . . . .  B ADDR   00B0H.4 A   
-P35 . . . . . . . . . .  B ADDR   00B0H.5 A   
-P36 . . . . . . . . . .  B ADDR   00B0H.6 A   
-P37 . . . . . . . . . .  B ADDR   00B0H.7 A   
-P3AQCSFRC . . . . . . .  D ADDR   00D9H   A   
-P3AQSFRC. . . . . . . .  D ADDR   00D7H   A   
-P3CMPA. . . . . . . . .  D ADDR   00D3H   A   
-P3CMPA_H. . . . . . . .  D ADDR   00D4H   A   
-P3CMPA_L. . . . . . . .  D ADDR   00D3H   A   
-P3CMPB. . . . . . . . .  D ADDR   00D5H   A   
-P3CMPB_H. . . . . . . .  D ADDR   00D6H   A   
-P3CMPB_L. . . . . . . .  D ADDR   00D5H   A   
-P3ETCLR . . . . . . . .  D ADDR   00DEH   A   
-P3ETFLG . . . . . . . .  D ADDR   00DDH   A   
-P3ETFRC . . . . . . . .  D ADDR   00DFH   A   
-P3TBPRD . . . . . . . .  D ADDR   00D1H   A   
-P3TBPRD_H . . . . . . .  D ADDR   00D2H   A   
-P3TBPRD_L . . . . . . .  D ADDR   00D1H   A   
-P3TZCLR . . . . . . . .  D ADDR   00DBH   A   
-P3TZFLG . . . . . . . .  D ADDR   00DAH   A   
-P3TZFRC . . . . . . . .  D ADDR   00DCH   A   
-P4AQCSFRC . . . . . . .  D ADDR   00F1H   A   
-P4AQSFRC. . . . . . . .  D ADDR   00E7H   A   
-P4CMPA. . . . . . . . .  D ADDR   00E3H   A   
-P4CMPA_H. . . . . . . .  D ADDR   00E4H   A   
-P4CMPA_L. . . . . . . .  D ADDR   00E3H   A   
-P4CMPB. . . . . . . . .  D ADDR   00E5H   A   
-P4CMPB_H. . . . . . . .  D ADDR   00E6H   A   
-P4CMPB_L. . . . . . . .  D ADDR   00E5H   A   
-P4ETCLR . . . . . . . .  D ADDR   00F6H   A   
-P4ETFLG . . . . . . . .  D ADDR   00F5H   A   
-P4ETFRC . . . . . . . .  D ADDR   00F7H   A   
-P4TBPRD . . . . . . . .  D ADDR   00E1H   A   
-P4TBPRD_H . . . . . . .  D ADDR   00E2H   A   
-P4TBPRD_L . . . . . . .  D ADDR   00E1H   A   
-P4TZCLR . . . . . . . .  D ADDR   00F3H   A   
-P4TZFLG . . . . . . . .  D ADDR   00F2H   A   
-P4TZFRC . . . . . . . .  D ADDR   00F4H   A   
-PCON. . . . . . . . . .  D ADDR   0087H   A   
-POWER_CON . . . . . . .  D ADDR   0097H   A   
-PSW . . . . . . . . . .  D ADDR   00D0H   A   
-RB80. . . . . . . . . .  B ADDR   0098H.2 A   
-REN0. . . . . . . . . .  B ADDR   0098H.4 A   
-RI. . . . . . . . . . .  B ADDR   0098H.0 A   
-RI0 . . . . . . . . . .  B ADDR   0098H.0 A   
-S0BUF . . . . . . . . .  D ADDR   0099H   A   
-S0CON . . . . . . . . .  D ADDR   0098H   A   
-S0RELH. . . . . . . . .  D ADDR   00BAH   A   
-S0RELL. . . . . . . . .  D ADDR   00AAH   A   
-S1BUF . . . . . . . . .  D ADDR   009CH   A   
-S1CON . . . . . . . . .  D ADDR   009BH   A   
-S1RELH. . . . . . . . .  D ADDR   00BBH   A   
-S1RELL. . . . . . . . .  D ADDR   009DH   A   
-SBUF. . . . . . . . . .  D ADDR   0099H   A   
-SIN_OUT?245 . . . . . .  D ADDR   0008H   R   SEG=?DT?__IQ15SIN?MOTORLIB
-SM0 . . . . . . . . . .  B ADDR   0098H.7 A   
-SM1 . . . . . . . . . .  B ADDR   0098H.6 A   
-SM20. . . . . . . . . .  B ADDR   0098H.5 A   
-SP. . . . . . . . . . .  D ADDR   0081H   A   
-SRAM_CON. . . . . . . .  D ADDR   00F8H   A   
-SWDT. . . . . . . . . .  B ADDR   00B8H.6 A   
-T2CON . . . . . . . . .  D ADDR   00C8H   A   
-TABLE_ANGLE?246 . . . .  D ADDR   000CH   R   SEG=?DT?__IQ15SIN?MOTORLIB
-TABLE_ANGLE?350 . . . .  D ADDR   000CH   R   SEG=?DT?__IQ15COS?MOTORLIB
-A51 MACRO ASSEMBLER  MOTORLIB                                                             11/17/2018 17:39:31 PAGE    21
-
-TB80. . . . . . . . . .  B ADDR   0098H.3 A   
-TCON. . . . . . . . . .  D ADDR   0088H   A   
-TDEBUGTABLE . . . . . .  D ADDR   0000H   R   SEG=?DT?MOTORLIB
-TF0 . . . . . . . . . .  B ADDR   0088H.5 A   
-TF1 . . . . . . . . . .  B ADDR   0088H.7 A   
-TH0 . . . . . . . . . .  D ADDR   008CH   A   
-TH1 . . . . . . . . . .  D ADDR   008DH   A   
-TI0 . . . . . . . . . .  B ADDR   0098H.1 A   
-TL0 . . . . . . . . . .  D ADDR   008AH   A   
-TL1 . . . . . . . . . .  D ADDR   008BH   A   
-TMOD. . . . . . . . . .  D ADDR   0089H   A   
-TR0 . . . . . . . . . .  B ADDR   0088H.4 A   
-TR1 . . . . . . . . . .  B ADDR   0088H.6 A   
-WDCON . . . . . . . . .  D ADDR   00D8H   A   
-WDCON_7 . . . . . . . .  B ADDR   00D8H.7 A   
-WDT . . . . . . . . . .  B ADDR   00A8H.6 A   
-WDTREL. . . . . . . . .  D ADDR   0086H   A   
-_DIV_DENOMINATOR. . . .  X ADDR   0000H   R   SEG=?XD?MOTORLIB
-_DIV_REMAINDER. . . . .  X ADDR   0003H   R   SEG=?XD?MOTORLIB
-_EE_READ. . . . . . . .  C ADDR   0000H   R   SEG=?PR?_EE_READ?MOTORLIB
-_EE_WRITE . . . . . . .  C ADDR   0000H   R   SEG=?PR?_EE_WRITE?MOTORLIB
-_MD_ERROR . . . . . . .  X ADDR   0002H   R   SEG=?XD?MOTORLIB
-_NORMALIZE. . . . . . .  C ADDR   0000H   R   SEG=?PR?_NORMALIZE?MOTORLIB
-__IQ15COS . . . . . . .  C ADDR   0000H   R   SEG=?PR?__IQ15COS?MOTORLIB
-__IQ15SIN . . . . . . .  C ADDR   0000H   R   SEG=?PR?__IQ15SIN?MOTORLIB
+POWER_CON. . . . . . .  D ADDR   0097H   A   
+PSW. . . . . . . . . .  D ADDR   00D0H   A   
+RB80 . . . . . . . . .  B ADDR   0098H.2 A   
+REN0 . . . . . . . . .  B ADDR   0098H.4 A   
+RI . . . . . . . . . .  B ADDR   0098H.0 A   
+RI0. . . . . . . . . .  B ADDR   0098H.0 A   
+S0BUF. . . . . . . . .  D ADDR   0099H   A   
+S0CON. . . . . . . . .  D ADDR   0098H   A   
+S0RELH . . . . . . . .  D ADDR   00BAH   A   
+S0RELL . . . . . . . .  D ADDR   00AAH   A   
+S1BUF. . . . . . . . .  D ADDR   009CH   A   
+S1CON. . . . . . . . .  D ADDR   009BH   A   
+S1RELH . . . . . . . .  D ADDR   00BBH   A   
+S1RELL . . . . . . . .  D ADDR   009DH   A   
+SBUF . . . . . . . . .  D ADDR   0099H   A   
+SM0. . . . . . . . . .  B ADDR   0098H.7 A   
+SM1. . . . . . . . . .  B ADDR   0098H.6 A   
+SM20 . . . . . . . . .  B ADDR   0098H.5 A   
+SP . . . . . . . . . .  D ADDR   0081H   A   
+SRAM_CON . . . . . . .  D ADDR   00F8H   A   
+SWDT . . . . . . . . .  B ADDR   00B8H.6 A   
+T2CON. . . . . . . . .  D ADDR   00C8H   A   
+TB80 . . . . . . . . .  B ADDR   0098H.3 A   
+TCON . . . . . . . . .  D ADDR   0088H   A   
+TF0. . . . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . . . .  B ADDR   0088H.7 A   
+TH0. . . . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . . . .  D ADDR   008DH   A   
+TI0. . . . . . . . . .  B ADDR   0098H.1 A   
+TL0. . . . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . . . .  B ADDR   0088H.6 A   
+WDCON. . . . . . . . .  D ADDR   00D8H   A   
+WDCON_7. . . . . . . .  B ADDR   00D8H.7 A   
+WDT. . . . . . . . . .  B ADDR   00A8H.6 A   
+WDTREL . . . . . . . .  D ADDR   0086H   A   
+_EE_READ . . . . . . .  C ADDR   0000H   R   SEG=?PR?_EE_READ?MOTORLIB
+_EE_WRITE. . . . . . .  C ADDR   0000H   R   SEG=?PR?_EE_WRITE?MOTORLIB
 
 
 REGISTER BANK(S) USED: 0 
