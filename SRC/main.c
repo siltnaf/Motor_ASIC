@@ -57,11 +57,11 @@ void main(void)
 //			input =  _IQ10((0.25*PI));           //test IQmathlib
 			
 	
-			theta=_IQ(145.25);    
+			theta=_IQ(0.9);    
 
 
 			
-			tbl_out=_IQsqrt(theta);
+ 			tbl_out=_IQsqrt(theta);
 	
 			
 			

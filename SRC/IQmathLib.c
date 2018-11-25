@@ -150,21 +150,24 @@ _iq _IQinv(_iq dat)
 {
 volatile _iq inverse_in, inverse_out;
 	volatile U32 table_input;
-volatile U8  index;
+volatile S8  index;
 	
 	inverse_in=_IQabs(dat);
+	
+
 	inverse_in=Normalize(inverse_in);   //convert to Q30 format
-	index=(30-GLOBAL_Q-ARCON);
-	inverse_in &=0x7fffffff;
-	table_input=inverse_in>>22;
-	inverse_out=XWORD[table_input+inverse_table];	
+	index=(30-GLOBAL_Q-ARCON);          //find the power index of normalized value
+	inverse_in &=0x7fffffff;            
+	table_input=inverse_in>>22;         //take the 9 bit value for table search
+	inverse_out=XWORD[table_input+inverse_table];	 //read from the ROM table
 	inverse_out=inverse_out<<16;
 	inverse_out=(inverse_out) >> (31 - GLOBAL_Q);     	//convert Q31 to global Q format
 	
-	if (index>=0)
-	inverse_out=(inverse_out)>>index;
-	else inverse_out=inverse_out<<index;
-	
+	if (index>=0)   
+		inverse_out=(inverse_out)>>index;
+		else 
+		inverse_out=inverse_out<<(-index);
+                                               //multiply the index and return the output value
 	if (dat<0) inverse_out=- inverse_out;
 	
 	
@@ -177,7 +180,7 @@ _iq _IQsqrt(_iq dat)
 {
 volatile _iq sqrt_in, sqrt_out;
 	volatile U32 table_input;
-volatile U8  power;
+volatile S8  power;
 	
 	sqrt_in=_IQabs(dat);
 	sqrt_in=Normalize(sqrt_in);   //convert to Q30 format
@@ -205,7 +208,7 @@ volatile U8  power;
 	
 	if (power>=0)
 	sqrt_out=(sqrt_out)<<(power>>1);
-	else sqrt_out=sqrt_out>>(power>>1);
+	else sqrt_out=sqrt_out>>((-power)>>1);
 	
 
 	

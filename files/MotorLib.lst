@@ -1,10 +1,10 @@
-C51 COMPILER V9.54   MOTORLIB                                                              11/23/2018 17:01:52 PAGE 1   
+C51 COMPILER V9.53.0.0   MOTORLIB                                                          11/25/2018 09:03:47 PAGE 1   
 
 
-C51 COMPILER V9.54, COMPILATION OF MODULE MOTORLIB
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE MOTORLIB
 NO OBJECT MODULE REQUESTED
-COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE SRC\MotorLib.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC) BROWSE INTV
-                    -ECTOR(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\MotorLib.lst) TABS(2) SRC(.\OUTPUT\MotorLib.SRC)
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE SRC\MotorLib.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC) BROWSE INTVECT
+                    -OR(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\MotorLib.lst) TABS(2) SRC(.\OUTPUT\MotorLib.SRC)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
   52   1        
   53   1            while (MTP_BUSY==1);
   54   1            MTPCON2=0x53;         //init MTP write mode
-C51 COMPILER V9.54   MOTORLIB                                                              11/23/2018 17:01:52 PAGE 2   
+C51 COMPILER V9.53.0.0   MOTORLIB                                                          11/25/2018 09:03:47 PAGE 2   
 
   55   1            MTPSADD1=EE_addr;       // EEPROM address
   56   1            MTPSADD2=0x00;
