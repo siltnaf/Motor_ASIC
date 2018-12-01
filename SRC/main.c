@@ -22,7 +22,7 @@
 _iq xdata  result,theta,beta  ;     //gobal_q =24
  
 U32 xdata EE_data;
-
+ 
 
 
 
@@ -46,6 +46,7 @@ void main(void)
 	//InitComparator();
 	//Initepwm();
 	
+	
 		EAL=1;
     while(1)
     {
@@ -57,14 +58,11 @@ void main(void)
 //			input =  _IQ10((0.25*PI));           //test IQmathlib
 			
 	
-			theta=_IQ(15.0);  
+			theta=_IQ(2.0);  
 			beta=_IQ(-30.0);
 
 
-
-			
-			result=_IQatan2(theta,beta);
-	
+     result=_IQatan(theta);
 			
 			
 //			tbl_out=_IQsin(theta);

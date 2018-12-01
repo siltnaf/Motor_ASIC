@@ -35,18 +35,38 @@
  S8  data index;
 
 
+_iq Normalize(_iq dat)              //normalize only work for positive value. it return error if the MD3_7=1 
+{
+ Long_Data LD;
+ LD.Ldata =dat;
+ MD0 = LD.ss1.Byte0;
+ MD1 = LD.ss1.Byte1;
+ MD2 = LD.ss1.Byte2;
+ MD3 = LD.ss1.Byte3;
+	
+
+	
+ ARCON = 0x00 ; // Start Normalizing
+ while(MD3_7==0 ); //check MDU finish flag
+	LD.ss1.Byte0=MD0;
+	LD.ss1.Byte1=MD1;
+	LD.ss1.Byte2=MD2;
+	LD.ss1.Byte3=MD3;
+ 
+	 return LD.Ldata ;
+}
 
 
 /*
- * @fn		sin16
+ * @fn		sin32
  *
- * @brief	sin16
+ * @brief	sin32
  * 
- * @param	none
- * sin(x) , where x is 
+* @param	none
+ * _IQsin(X) ,  =sin(X), X is in degree
 
  *
- * @return 	none
+ * @return 	value in IQ
  */
 
 
@@ -78,6 +98,17 @@ return Z ;
 }
 
 
+/*
+ * @fn		cos32
+ *
+ * @brief	cos32
+ * 
+* @param	none
+ * _IQcos(X) ,  =cos(X), X is in degree
+
+ *
+ * @return 	value in IQ
+ */
 
 
 
@@ -115,27 +146,19 @@ return Z ;
 
 
 
-_iq Normalize(_iq dat)              //normalize only work for positive value. it return error if the MD3_7=1 
-{
- Long_Data LD;
- LD.Ldata =dat;
- MD0 = LD.ss1.Byte0;
- MD1 = LD.ss1.Byte1;
- MD2 = LD.ss1.Byte2;
- MD3 = LD.ss1.Byte3;
-	
 
-	
- ARCON = 0x00 ; // Start Normalizing
- while(MD3_7==0 ); //check MDU finish flag
-	LD.ss1.Byte0=MD0;
-	LD.ss1.Byte1=MD1;
-	LD.ss1.Byte2=MD2;
-	LD.ss1.Byte3=MD3;
- 
-	 return LD.Ldata ;
-}
 
+/*
+ * @fn		inv32
+ *
+ * @brief	inv32
+ * 
+ * @param	none
+ * _IQinv(X) ,  =1/X
+
+ *
+ * @return 	value in IQ
+ */
 
 _iq _IQinv(_iq A)
 
@@ -161,13 +184,24 @@ _iq _IQinv(_iq A)
 return Z;
 }
 
+/*
+ * @fn		mpy32
+ *
+ * @brief	mpy32
+ * 
+ * @param	none
+ * _IQmpy(Y,X) ,  =X*Y
+
+ *
+ * @return 	value in IQ
+ */
 
 
 _iq _IQmpy(_iq A, _iq B)
 {
 
-	X=A>>half_Q;
-	Y=B>>half_Q;
+	Y=A>>half_Q;
+	X=B>>half_Q;
 	
 	Z = X* Y;
 	
@@ -180,19 +214,46 @@ _iq _IQmpy(_iq A, _iq B)
 
 
 
+/*
+ * @fn		div32
+ *
+ * @brief	div32
+ * 
+ * @param	none
+ * _IQdiv(Y,X) ,  =Y/X
+
+ *
+ * @return 	value in IQ
+ */
 
 
 
 _iq _IQdiv(_iq A,_iq B)
 {
 
-	X=A<<half_Q;
+	Y=A<<half_Q;
  
-	Y= B>>(GLOBAL_Q-half_Q);
-	Z=X/Y;
+	X= B>>(GLOBAL_Q-half_Q);
+	Z=Y/X;
 	return Z;
 
 }
+
+
+
+
+/*
+ * @fn		sqrt32
+ *
+ * @brief	sqrt32
+ * 
+ * @param	none
+ * _IQsqrt(X) ,  sqrt(X)
+
+ *
+ * @return 	sqrt value in IQ
+ */
+
 
 
 
@@ -232,10 +293,25 @@ _iq _IQsqrt(_iq A)
 return  Z;
 }
 
+
+/*
+ * @fn		atan32
+ *
+ * @brief	atan32
+ * 
+ * @param	none
+ * _IQatan2(Y,X) ,  atan2(Y/X)
+ * _IQatan(Y)    , =atan2(Y/1)
+ *
+
+
+ * @return 	angle in degree
+ */
+
 _iq _IQatan2(_iq A, _iq B)
 {
-	X=_IQabs(A);
-	Y=_IQabs(B);
+	Y=_IQabs(A);
+	X=_IQabs(B);
 	if (X>Y)
 		{
 			Y=Y<<5;
