@@ -3,7 +3,7 @@
 
 #define ENABLE_ISD   1
 #define DISABLE_ISD  0
-#define ISDDebug  ENABLE_ISD
+#define ISDDebug   ENABLE_ISD
 
 
 // math parameter

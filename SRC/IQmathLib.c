@@ -31,7 +31,7 @@
 
 
 
- _iq  data X,Y,Z;
+ _iq data X,Y,Z;
  S8  data index;
 
 
@@ -152,13 +152,20 @@ return Z ;
  * @fn		inv32
  *
  * @brief	inv32
+ *
  * 
  * @param	none
  * _IQinv(X) ,  =1/X
 
  *
  * @return 	value in IQ
+ *
+ *   suggest use _IQdiv(_IQ(1.0),A) to replace as this is faster 
+ *
+ * 
  */
+
+
 
 _iq _IQinv(_iq A)
 
@@ -346,5 +353,15 @@ _iq _IQatan2(_iq A, _iq B)
 
 return Z;	
 }
+
+
+_iq _IQmag(_iq A, _iq B) 
+{
+	X=_IQmpy(A,A)+_IQmpy(B,B);
+	Z=_IQsqrt(X);
+	return Z;
+	
+}
+
 
 

@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 12:55:47 PAGE     1
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.02c
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
   0098                54     RI      BIT     098H.0
   00C3                55     IEX4    BIT     0C0H.3
   00C4                56     IEX5    BIT     0C0H.4
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 12:55:47 PAGE     2
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     2
 
   00C5                57     IEX6    BIT     0C0H.5
   0091                58     CLK_DIV DATA    091H
@@ -133,7 +133,7 @@ LOC  OBJ            LINE     SOURCE
   00B7               120     P37     BIT     0B0H.7
   00AF               121     BSHI_3  DATA    0AFH
   00BC               122     BSHO_0  DATA    0BCH
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 12:55:47 PAGE     3
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     3
 
   00BD               123     BSHO_1  DATA    0BDH
   0089               124     IE0     BIT     088H.1
@@ -201,7 +201,7 @@ LOC  OBJ            LINE     SOURCE
   008C               186     TR0     BIT     088H.4
   008E               187     TR1     BIT     088H.6
   00F9               188     INT_REG1        DATA    0F9H
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 12:55:47 PAGE     4
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     4
 
   0083               189     DPH     DATA    083H
   00FA               190     INT_REG2        DATA    0FAH
@@ -269,7 +269,7 @@ LOC  OBJ            LINE     SOURCE
                      252     ;  *                            Park transform and Clark transform
                      253     ;  *
                      254     ;  *
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 12:55:47 PAGE     5
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     5
 
                      255     ;  */
                      256     ;  
@@ -337,7 +337,7 @@ LOC  OBJ            LINE     SOURCE
 001B E500     F      318             MOV     A,EE_addr?040
 001D F0              319             MOVX    @DPTR,A
                      320     ;                       MTPSADD2=0x00;
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 12:55:47 PAGE     6
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     6
 
                      321                             ; SOURCE LINE # 56
 001E 90E092          322             MOV     DPTR,#0E092H
@@ -405,7 +405,7 @@ LOC  OBJ            LINE     SOURCE
                      384                             ; SOURCE LINE # 78
 0000 8F00     F      385             MOV     EE_addr?142,R7
                      386     ; {
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 12:55:47 PAGE     7
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     7
 
                      387                             ; SOURCE LINE # 79
 0002                 388     ?C0006:
@@ -473,7 +473,7 @@ LOC  OBJ            LINE     SOURCE
 0044 A3              450             INC     DPTR
 0045 E0              451             MOVX    A,@DPTR
 0046 FE              452             MOV     R6,A
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 12:55:47 PAGE     8
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     8
 
 0047 A3              453             INC     DPTR
 0048 E0              454             MOVX    A,@DPTR
@@ -486,7 +486,7 @@ LOC  OBJ            LINE     SOURCE
                      461     ; END OF _EE_read
                      462     
                      463             END
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 12:55:47 PAGE     9
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     9
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -554,7 +554,7 @@ I2FR . . . . . . . . .  B ADDR   00C8H.5 A
 I3FR . . . . . . . . .  B ADDR   00C8H.6 A   
 IADC . . . . . . . . .  B ADDR   00C0H.0 A   
 IE . . . . . . . . . .  D ADDR   00A8H   A   
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 12:55:47 PAGE    10
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE    10
 
 IE0. . . . . . . . . .  B ADDR   0088H.1 A   
 IE1. . . . . . . . . .  B ADDR   0088H.3 A   
@@ -622,7 +622,7 @@ P2 . . . . . . . . . .  D ADDR   00A0H   A
 P20. . . . . . . . . .  B ADDR   00A0H.0 A   
 P21. . . . . . . . . .  B ADDR   00A0H.1 A   
 P22. . . . . . . . . .  B ADDR   00A0H.2 A   
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 12:55:47 PAGE    11
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE    11
 
 P23. . . . . . . . . .  B ADDR   00A0H.3 A   
 P24. . . . . . . . . .  B ADDR   00A0H.4 A   
@@ -690,7 +690,7 @@ P4TZCLR. . . . . . . .  D ADDR   00F3H   A
 P4TZFLG. . . . . . . .  D ADDR   00F2H   A   
 P4TZFRC. . . . . . . .  D ADDR   00F4H   A   
 PCON . . . . . . . . .  D ADDR   0087H   A   
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 12:55:47 PAGE    12
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE    12
 
 POWER_CON. . . . . . .  D ADDR   0097H   A   
 PSW. . . . . . . . . .  D ADDR   00D0H   A   

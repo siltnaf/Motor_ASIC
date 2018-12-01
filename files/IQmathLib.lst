@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 1   
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE IQMATHLIB
@@ -41,7 +41,7 @@ line level    source
   31          
   32          
   33          
-  34           _iq  data X,Y,Z;
+  34           _iq data X,Y,Z;
   35           S8  data index;
   36          
   37          
@@ -62,7 +62,7 @@ line level    source
   51   1        LD.ss1.Byte0=MD0;
   52   1        LD.ss1.Byte1=MD1;
   53   1        LD.ss1.Byte2=MD2;
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 2   
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 2   
 
   54   1        LD.ss1.Byte3=MD3;
   55   1       
@@ -126,7 +126,7 @@ line level    source
  112          
  113          
  114          
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 3   
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 3   
 
  115          _iq _IQcos(_iq A)
  116          {
@@ -169,209 +169,228 @@ line level    source
  152           * @fn    inv32
  153           *
  154           * @brief inv32
- 155           * 
- 156           * @param none
- 157           * _IQinv(X) ,  =1/X
- 158          
- 159           *
- 160           * @return  value in IQ
- 161           */
- 162          
- 163          _iq _IQinv(_iq A)
- 164          
- 165          {
- 166   1      
- 167   1        X=_IQabs(A);
- 168   1        X=Normalize(X);   //convert to Q30 format
- 169   1        index=(30-GLOBAL_Q-ARCON);          //find the power index of normalized value
- 170   1        X &=0x7fffffff;            
- 171   1        X=X>>22;         //take the 9 bit value for table search
- 172   1        Z=XWORD[X+inverse_table];  //read from the ROM table
- 173   1        Z=Z<<16;
- 174   1        Z=(Z) >> (31 - GLOBAL_Q);       //convert Q31 to global Q format
- 175   1        
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 4   
+ 155           *
+ 156           * 
+ 157           * @param none
+ 158           * _IQinv(X) ,  =1/X
+ 159          
+ 160           *
+ 161           * @return  value in IQ
+ 162           *
+ 163           *   suggest use _IQdiv(_IQ(1.0),A) to replace as this is faster 
+ 164           *
+ 165           * 
+ 166           */
+ 167          
+ 168          
+ 169          
+ 170          _iq _IQinv(_iq A)
+ 171          
+ 172          {
+ 173   1      
+ 174   1        X=_IQabs(A);
+ 175   1        X=Normalize(X);   //convert to Q30 format
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 4   
 
- 176   1        if (index>=0)   
- 177   1          Z=(Z)>>index;
- 178   1          else 
- 179   1          Z=Z<<(-index);
- 180   1                                                     //multiply the index and return the output value
- 181   1        if (A<0) Z=- Z;
+ 176   1        index=(30-GLOBAL_Q-ARCON);          //find the power index of normalized value
+ 177   1        X &=0x7fffffff;            
+ 178   1        X=X>>22;         //take the 9 bit value for table search
+ 179   1        Z=XWORD[X+inverse_table];  //read from the ROM table
+ 180   1        Z=Z<<16;
+ 181   1        Z=(Z) >> (31 - GLOBAL_Q);       //convert Q31 to global Q format
  182   1        
- 183   1        
- 184   1      return Z;
- 185   1      }
- 186          
- 187          /*
- 188           * @fn    mpy32
- 189           *
- 190           * @brief mpy32
- 191           * 
- 192           * @param none
- 193           * _IQmpy(Y,X) ,  =X*Y
- 194          
- 195           *
- 196           * @return  value in IQ
- 197           */
- 198          
- 199          
- 200          _iq _IQmpy(_iq A, _iq B)
- 201          {
- 202   1      
- 203   1        Y=A>>half_Q;
- 204   1        X=B>>half_Q;
- 205   1        
- 206   1        Z = X* Y;
- 207   1        
- 208   1        
- 209   1        if (GLOBAL_Q %2==1) Z =Z >>1; 
- 210   1        return Z;
- 211   1        
- 212   1      }
- 213          
- 214          
- 215          
- 216          
- 217          /*
- 218           * @fn    div32
- 219           *
- 220           * @brief div32
- 221           * 
- 222           * @param none
- 223           * _IQdiv(Y,X) ,  =Y/X
- 224          
- 225           *
- 226           * @return  value in IQ
- 227           */
- 228          
- 229          
- 230          
- 231          _iq _IQdiv(_iq A,_iq B)
- 232          {
- 233   1      
- 234   1        Y=A<<half_Q;
- 235   1       
- 236   1        X= B>>(GLOBAL_Q-half_Q);
- 237   1        Z=Y/X;
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 5   
+ 183   1        if (index>=0)   
+ 184   1          Z=(Z)>>index;
+ 185   1          else 
+ 186   1          Z=Z<<(-index);
+ 187   1                                                     //multiply the index and return the output value
+ 188   1        if (A<0) Z=- Z;
+ 189   1        
+ 190   1        
+ 191   1      return Z;
+ 192   1      }
+ 193          
+ 194          /*
+ 195           * @fn    mpy32
+ 196           *
+ 197           * @brief mpy32
+ 198           * 
+ 199           * @param none
+ 200           * _IQmpy(Y,X) ,  =X*Y
+ 201          
+ 202           *
+ 203           * @return  value in IQ
+ 204           */
+ 205          
+ 206          
+ 207          _iq _IQmpy(_iq A, _iq B)
+ 208          {
+ 209   1      
+ 210   1        Y=A>>half_Q;
+ 211   1        X=B>>half_Q;
+ 212   1        
+ 213   1        Z = X* Y;
+ 214   1        
+ 215   1        
+ 216   1        if (GLOBAL_Q %2==1) Z =Z >>1; 
+ 217   1        return Z;
+ 218   1        
+ 219   1      }
+ 220          
+ 221          
+ 222          
+ 223          
+ 224          /*
+ 225           * @fn    div32
+ 226           *
+ 227           * @brief div32
+ 228           * 
+ 229           * @param none
+ 230           * _IQdiv(Y,X) ,  =Y/X
+ 231          
+ 232           *
+ 233           * @return  value in IQ
+ 234           */
+ 235          
+ 236          
+ 237          
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 5   
 
- 238   1        return Z;
- 239   1      
- 240   1      }
- 241          
- 242          
- 243          
- 244          
- 245          /*
- 246           * @fn    sqrt32
- 247           *
- 248           * @brief sqrt32
- 249           * 
- 250           * @param none
- 251           * _IQsqrt(X) ,  sqrt(X)
- 252          
- 253           *
- 254           * @return  sqrt value in IQ
- 255           */
- 256          
- 257          
- 258          
+ 238          _iq _IQdiv(_iq A,_iq B)
+ 239          {
+ 240   1      
+ 241   1        Y=A<<half_Q;
+ 242   1       
+ 243   1        X= B>>(GLOBAL_Q-half_Q);
+ 244   1        Z=Y/X;
+ 245   1        return Z;
+ 246   1      
+ 247   1      }
+ 248          
+ 249          
+ 250          
+ 251          
+ 252          /*
+ 253           * @fn    sqrt32
+ 254           *
+ 255           * @brief sqrt32
+ 256           * 
+ 257           * @param none
+ 258           * _IQsqrt(X) ,  sqrt(X)
  259          
- 260          
- 261          
- 262          _iq _IQsqrt(_iq A)
+ 260           *
+ 261           * @return  sqrt value in IQ
+ 262           */
  263          
- 264          {
- 265   1      
- 266   1        X=_IQabs(A);
- 267   1      
- 268   1        X=Normalize(X);   //convert to Q30 format
- 269   1        index=(31-GLOBAL_Q-ARCON);
- 270   1        
- 271   1        if (index %2==0)                //check if the power is even or  odd value  
- 272   1        {
- 273   2        X &=0x7fffffff;
- 274   2        X=(X>>23)+128;  
- 275   2          
- 276   2          Z=XWORD[X+sqrt_table];
- 277   2        }
- 278   1        else
+ 264          
+ 265          
+ 266          
+ 267          
+ 268          
+ 269          _iq _IQsqrt(_iq A)
+ 270          
+ 271          {
+ 272   1      
+ 273   1        X=_IQabs(A);
+ 274   1      
+ 275   1        X=Normalize(X);   //convert to Q30 format
+ 276   1        index=(31-GLOBAL_Q-ARCON);
+ 277   1        
+ 278   1        if (index %2==0)                //check if the power is even or  odd value  
  279   1        {
- 280   2          index++;                             //if the power is odd value , divide t by 2
- 281   2        
- 282   2          X =X>>24;             //square root in value is divided by 2 
- 283   2          X &=0x0000007f;
- 284   2          Z=XWORD[X+sqrt_table];
- 285   2        }
- 286   1        Z=Z<<16;
- 287   1        Z=(Z) >> (30 - GLOBAL_Q);       //convert Q31 to global Q format
- 288   1        
- 289   1        if (index>=0)
- 290   1        Z=(Z)<<(index>>1);
- 291   1        else Z=Z>>((-index)>>1);
- 292   1        
- 293   1      return  Z;
- 294   1      }
- 295          
- 296          
- 297          /*
- 298           * @fn    atan32
- 299           *
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 6   
+ 280   2        X &=0x7fffffff;
+ 281   2        X=(X>>23)+128;  
+ 282   2          
+ 283   2          Z=XWORD[X+sqrt_table];
+ 284   2        }
+ 285   1        else
+ 286   1        {
+ 287   2          index++;                             //if the power is odd value , divide t by 2
+ 288   2        
+ 289   2          X =X>>24;             //square root in value is divided by 2 
+ 290   2          X &=0x0000007f;
+ 291   2          Z=XWORD[X+sqrt_table];
+ 292   2        }
+ 293   1        Z=Z<<16;
+ 294   1        Z=(Z) >> (30 - GLOBAL_Q);       //convert Q31 to global Q format
+ 295   1        
+ 296   1        if (index>=0)
+ 297   1        Z=(Z)<<(index>>1);
+ 298   1        else Z=Z>>((-index)>>1);
+ 299   1        
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 6   
 
- 300           * @brief atan32
- 301           * 
- 302           * @param none
- 303           * _IQatan2(Y,X) ,  atan2(Y/X)
- 304           * _IQatan(Y)    , =atan2(Y/1)
- 305           *
- 306          
- 307          
- 308           * @return  angle in degree
- 309           */
- 310          
- 311          _iq _IQatan2(_iq A, _iq B)
- 312          {
- 313   1        Y=_IQabs(A);
- 314   1        X=_IQabs(B);
- 315   1        if (X>Y)
- 316   1          {
- 317   2            Y=Y<<5;
- 318   2            X=X>>4;
- 319   2            X=Y/X;
- 320   2            Z=XWORD[X+atan_table];
- 321   2        
- 322   2            Z=Z*45;                 //Z=(Z/4096)*45 degree
- 323   2            Z=Z<<12;
- 324   2            Z=Z>>(24-GLOBAL_Q);     //convert to IQ format
- 325   2            
- 326   2          }
- 327   1          else
- 328   1          {
- 329   2            X=X<<5;
- 330   2            Y=Y>>4;
- 331   2            X=X/Y;
- 332   2            Z=XWORD[X+atan_table];
- 333   2            Z=Z*45;                 //Z=(Z/4096)*45 degree
- 334   2            Z=Z<<12;
- 335   2            Z=Z>>(24-GLOBAL_Q);     //convert to IQ format
- 336   2            Z=_IQ(90.0)-Z;
- 337   2          }
- 338   1        if ((A<0)&&(B>0))
- 339   1          Z=_IQ(180.0)-Z;
- 340   1          else if ((A<0)&&(B<0))
- 341   1            Z=_IQ(180.0)+Z;
- 342   1          else if ((A>0)&&(B<0))
- 343   1            Z=_IQ(360.0)-Z;
- 344   1        
- 345   1        
- 346   1      
- 347   1      return Z; 
- 348   1      }
- 349          
- 350          
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 7   
+ 300   1      return  Z;
+ 301   1      }
+ 302          
+ 303          
+ 304          /*
+ 305           * @fn    atan32
+ 306           *
+ 307           * @brief atan32
+ 308           * 
+ 309           * @param none
+ 310           * _IQatan2(Y,X) ,  atan2(Y/X)
+ 311           * _IQatan(Y)    , =atan2(Y/1)
+ 312           *
+ 313          
+ 314          
+ 315           * @return  angle in degree
+ 316           */
+ 317          
+ 318          _iq _IQatan2(_iq A, _iq B)
+ 319          {
+ 320   1        Y=_IQabs(A);
+ 321   1        X=_IQabs(B);
+ 322   1        if (X>Y)
+ 323   1          {
+ 324   2            Y=Y<<5;
+ 325   2            X=X>>4;
+ 326   2            X=Y/X;
+ 327   2            Z=XWORD[X+atan_table];
+ 328   2        
+ 329   2            Z=Z*45;                 //Z=(Z/4096)*45 degree
+ 330   2            Z=Z<<12;
+ 331   2            Z=Z>>(24-GLOBAL_Q);     //convert to IQ format
+ 332   2            
+ 333   2          }
+ 334   1          else
+ 335   1          {
+ 336   2            X=X<<5;
+ 337   2            Y=Y>>4;
+ 338   2            X=X/Y;
+ 339   2            Z=XWORD[X+atan_table];
+ 340   2            Z=Z*45;                 //Z=(Z/4096)*45 degree
+ 341   2            Z=Z<<12;
+ 342   2            Z=Z>>(24-GLOBAL_Q);     //convert to IQ format
+ 343   2            Z=_IQ(90.0)-Z;
+ 344   2          }
+ 345   1        if ((A<0)&&(B>0))
+ 346   1          Z=_IQ(180.0)-Z;
+ 347   1          else if ((A<0)&&(B<0))
+ 348   1            Z=_IQ(180.0)+Z;
+ 349   1          else if ((A>0)&&(B<0))
+ 350   1            Z=_IQ(360.0)-Z;
+ 351   1        
+ 352   1        
+ 353   1      
+ 354   1      return Z; 
+ 355   1      }
+ 356          
+ 357          
+ 358          _iq _IQmag(_iq A, _iq B) 
+ 359          {
+ 360   1        X=_IQmpy(A,A)+_IQmpy(B,B);
+ 361   1        Z=_IQsqrt(X);
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 7   
+
+ 362   1        return Z;
+ 363   1        
+ 364   1      }
+ 365          
+ 366          
+ 367          
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 8   
 
 ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
@@ -435,7 +454,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
              ; FUNCTION __IQ15sin (BEGIN)
                                            ; SOURCE LINE # 73
 0000 8F00        R     MOV     A+03H,R7
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 8   
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 9   
 
 0002 8E00        R     MOV     A+02H,R6
 0004 8D00        R     MOV     A+01H,R5
@@ -499,7 +518,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0067 7806              MOV     R0,#06H
 0069 120000      E     LCALL   ?C?LSHL
 006C 780F              MOV     R0,#0FH
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 9   
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 10  
 
 006E 120000      E     LCALL   ?C?SLSHR
 0071 8F00        R     MOV     X+03H,R7
@@ -563,7 +582,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 00D8 780F              MOV     R0,#0FH
 00DA 120000      E     LCALL   ?C?SLSHR
 00DD 8F00        R     MOV     Z+03H,R7
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 10  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 11  
 
 00DF 8E00        R     MOV     Z+02H,R6
 00E1 8D00        R     MOV     Z+01H,R5
@@ -627,7 +646,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0029 8008              SJMP    ?C0013
 002B         ?C0012:
 002B AF00        R     MOV     R7,A+03H
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 11  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 12  
 
 002D AE00        R     MOV     R6,A+02H
 002F AD00        R     MOV     R5,A+01H
@@ -691,7 +710,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0092 7900              MOV     R1,#00H
 0094 7800              MOV     R0,#00H
 0096 120000      E     LCALL   ?C?SLDIV
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 12  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 13  
 
 0099 8F00        R     MOV     X+03H,R7
 009B 8E00        R     MOV     X+02H,R6
@@ -755,18 +774,18 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
                                            ; SOURCE LINE # 141
 00FF         ?C0016:
 00FF 22                RET     
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 13  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 14  
 
              ; FUNCTION __IQ15cos (END)
 
              ; FUNCTION __IQ15inv (BEGIN)
-                                           ; SOURCE LINE # 163
+                                           ; SOURCE LINE # 170
 0000 8F00        R     MOV     A+03H,R7
 0002 8E00        R     MOV     A+02H,R6
 0004 8D00        R     MOV     A+01H,R5
 0006 8C00        R     MOV     A,R4
-                                           ; SOURCE LINE # 165
-                                           ; SOURCE LINE # 167
+                                           ; SOURCE LINE # 172
+                                           ; SOURCE LINE # 174
 0008 7F00              MOV     R7,#00H
 000A 7E00              MOV     R6,#00H
 000C 7D00              MOV     R5,#00H
@@ -794,7 +813,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0035 8E00        R     MOV     X+02H,R6
 0037 8D00        R     MOV     X+01H,R5
 0039 8C00        R     MOV     X,R4
-                                           ; SOURCE LINE # 168
+                                           ; SOURCE LINE # 175
 003B AF00        R     MOV     R7,X+03H
 003D AE00        R     MOV     R6,X+02H
 003F AD00        R     MOV     R5,X+01H
@@ -804,12 +823,12 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0048 8E00        R     MOV     X+02H,R6
 004A 8D00        R     MOV     X+01H,R5
 004C 8C00        R     MOV     X,R4
-                                           ; SOURCE LINE # 169
+                                           ; SOURCE LINE # 176
 004E C3                CLR     C
 004F 740F              MOV     A,#0FH
 0051 95EF              SUBB    A,ARCON
 0053 F500        R     MOV     index,A
-                                           ; SOURCE LINE # 170
+                                           ; SOURCE LINE # 177
 0055 E500        R     MOV     A,X+03H
 0057 54FF              ANL     A,#0FFH
 0059 F500        R     MOV     X+03H,A
@@ -819,12 +838,12 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0061 E500        R     MOV     A,X+01H
 0063 54FF              ANL     A,#0FFH
 0065 F500        R     MOV     X+01H,A
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 14  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 15  
 
 0067 E500        R     MOV     A,X
 0069 547F              ANL     A,#07FH
 006B F500        R     MOV     X,A
-                                           ; SOURCE LINE # 171
+                                           ; SOURCE LINE # 178
 006D AF00        R     MOV     R7,X+03H
 006F AE00        R     MOV     R6,X+02H
 0071 AD00        R     MOV     R5,X+01H
@@ -835,7 +854,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 007C 8E00        R     MOV     X+02H,R6
 007E 8D00        R     MOV     X+01H,R5
 0080 8C00        R     MOV     X,R4
-                                           ; SOURCE LINE # 172
+                                           ; SOURCE LINE # 179
 0082 7F02              MOV     R7,#02H
 0084 7E00              MOV     R6,#00H
 0086 7D00              MOV     R5,#00H
@@ -863,7 +882,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 00A8 8E00        R     MOV     Z+02H,R6
 00AA 8D00        R     MOV     Z+01H,R5
 00AC 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 173
+                                           ; SOURCE LINE # 180
 00AE AF00        R     MOV     R7,Z+03H
 00B0 AE00        R     MOV     R6,Z+02H
 00B2 AD00        R     MOV     R5,Z+01H
@@ -874,7 +893,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 00BD 8E00        R     MOV     Z+02H,R6
 00BF 8D00        R     MOV     Z+01H,R5
 00C1 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 174
+                                           ; SOURCE LINE # 181
 00C3 AF00        R     MOV     R7,Z+03H
 00C5 AE00        R     MOV     R6,Z+02H
 00C7 AD00        R     MOV     R5,Z+01H
@@ -883,17 +902,17 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 00CD 120000      E     LCALL   ?C?SLSHR
 00D0 8F00        R     MOV     Z+03H,R7
 00D2 8E00        R     MOV     Z+02H,R6
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 15  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 16  
 
 00D4 8D00        R     MOV     Z+01H,R5
 00D6 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 176
+                                           ; SOURCE LINE # 183
 00D8 C3                CLR     C
 00D9 E500        R     MOV     A,index
 00DB 6480              XRL     A,#080H
 00DD 9480              SUBB    A,#080H
 00DF 4019              JC      ?C0019
-                                           ; SOURCE LINE # 177
+                                           ; SOURCE LINE # 184
 00E1 AF00        R     MOV     R7,Z+03H
 00E3 AE00        R     MOV     R6,Z+02H
 00E5 AD00        R     MOV     R5,Z+01H
@@ -907,7 +926,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 00F6 8C00        R     MOV     Z,R4
 00F8 801A              SJMP    ?C0020
 00FA         ?C0019:
-                                           ; SOURCE LINE # 179
+                                           ; SOURCE LINE # 186
 00FA AF00        R     MOV     R7,Z+03H
 00FC AE00        R     MOV     R6,Z+02H
 00FE AD00        R     MOV     R5,Z+01H
@@ -923,7 +942,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0110 8D00        R     MOV     Z+01H,R5
 0112 8C00        R     MOV     Z,R4
 0114         ?C0020:
-                                           ; SOURCE LINE # 181
+                                           ; SOURCE LINE # 188
 0114 7F00              MOV     R7,#00H
 0116 7E00              MOV     R6,#00H
 0118 7D00              MOV     R5,#00H
@@ -945,26 +964,26 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0139 8D00        R     MOV     Z+01H,R5
 013B 8C00        R     MOV     Z,R4
 013D         ?C0021:
-                                           ; SOURCE LINE # 184
+                                           ; SOURCE LINE # 191
 013D AF00        R     MOV     R7,Z+03H
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 16  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 17  
 
 013F AE00        R     MOV     R6,Z+02H
 0141 AD00        R     MOV     R5,Z+01H
 0143 AC00        R     MOV     R4,Z
-                                           ; SOURCE LINE # 185
+                                           ; SOURCE LINE # 192
 0145         ?C0022:
 0145 22                RET     
              ; FUNCTION __IQ15inv (END)
 
              ; FUNCTION __IQ15mpy (BEGIN)
-                                           ; SOURCE LINE # 200
+                                           ; SOURCE LINE # 207
 0000 8F00        R     MOV     A+03H,R7
 0002 8E00        R     MOV     A+02H,R6
 0004 8D00        R     MOV     A+01H,R5
 0006 8C00        R     MOV     A,R4
-                                           ; SOURCE LINE # 201
-                                           ; SOURCE LINE # 203
+                                           ; SOURCE LINE # 208
+                                           ; SOURCE LINE # 210
 0008 AF00        R     MOV     R7,A+03H
 000A AE00        R     MOV     R6,A+02H
 000C AD00        R     MOV     R5,A+01H
@@ -975,7 +994,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0017 8E00        R     MOV     Y+02H,R6
 0019 8D00        R     MOV     Y+01H,R5
 001B 8C00        R     MOV     Y,R4
-                                           ; SOURCE LINE # 204
+                                           ; SOURCE LINE # 211
 001D AF00        R     MOV     R7,B+03H
 001F AE00        R     MOV     R6,B+02H
 0021 AD00        R     MOV     R5,B+01H
@@ -986,7 +1005,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 002C 8E00        R     MOV     X+02H,R6
 002E 8D00        R     MOV     X+01H,R5
 0030 8C00        R     MOV     X,R4
-                                           ; SOURCE LINE # 206
+                                           ; SOURCE LINE # 213
 0032 AF00        R     MOV     R7,Y+03H
 0034 AE00        R     MOV     R6,Y+02H
 0036 AD00        R     MOV     R5,Y+01H
@@ -1000,7 +1019,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0047 8E00        R     MOV     Z+02H,R6
 0049 8D00        R     MOV     Z+01H,R5
 004B 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 209
+                                           ; SOURCE LINE # 216
 004D AF00        R     MOV     R7,Z+03H
 004F AE00        R     MOV     R6,Z+02H
 0051 AD00        R     MOV     R5,Z+01H
@@ -1011,27 +1030,27 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 005C 8E00        R     MOV     Z+02H,R6
 005E 8D00        R     MOV     Z+01H,R5
 0060 8C00        R     MOV     Z,R4
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 17  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 18  
 
 0062         ?C0023:
-                                           ; SOURCE LINE # 210
+                                           ; SOURCE LINE # 217
 0062 AF00        R     MOV     R7,Z+03H
 0064 AE00        R     MOV     R6,Z+02H
 0066 AD00        R     MOV     R5,Z+01H
 0068 AC00        R     MOV     R4,Z
-                                           ; SOURCE LINE # 212
+                                           ; SOURCE LINE # 219
 006A         ?C0024:
 006A 22                RET     
              ; FUNCTION __IQ15mpy (END)
 
              ; FUNCTION __IQ15div (BEGIN)
-                                           ; SOURCE LINE # 231
+                                           ; SOURCE LINE # 238
 0000 8F00        R     MOV     A+03H,R7
 0002 8E00        R     MOV     A+02H,R6
 0004 8D00        R     MOV     A+01H,R5
 0006 8C00        R     MOV     A,R4
-                                           ; SOURCE LINE # 232
-                                           ; SOURCE LINE # 234
+                                           ; SOURCE LINE # 239
+                                           ; SOURCE LINE # 241
 0008 AF00        R     MOV     R7,A+03H
 000A AE00        R     MOV     R6,A+02H
 000C AD00        R     MOV     R5,A+01H
@@ -1042,7 +1061,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0017 8E00        R     MOV     Y+02H,R6
 0019 8D00        R     MOV     Y+01H,R5
 001B 8C00        R     MOV     Y,R4
-                                           ; SOURCE LINE # 236
+                                           ; SOURCE LINE # 243
 001D AF00        R     MOV     R7,B+03H
 001F AE00        R     MOV     R6,B+02H
 0021 AD00        R     MOV     R5,B+01H
@@ -1053,7 +1072,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 002C 8E00        R     MOV     X+02H,R6
 002E 8D00        R     MOV     X+01H,R5
 0030 8C00        R     MOV     X,R4
-                                           ; SOURCE LINE # 237
+                                           ; SOURCE LINE # 244
 0032 AB00        R     MOV     R3,X+03H
 0034 AA00        R     MOV     R2,X+02H
 0036 A900        R     MOV     R1,X+01H
@@ -1067,26 +1086,26 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0047 8E00        R     MOV     Z+02H,R6
 0049 8D00        R     MOV     Z+01H,R5
 004B 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 238
+                                           ; SOURCE LINE # 245
 004D AF00        R     MOV     R7,Z+03H
 004F AE00        R     MOV     R6,Z+02H
 0051 AD00        R     MOV     R5,Z+01H
 0053 AC00        R     MOV     R4,Z
-                                           ; SOURCE LINE # 240
+                                           ; SOURCE LINE # 247
 0055         ?C0025:
 0055 22                RET     
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 18  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 19  
 
              ; FUNCTION __IQ15div (END)
 
              ; FUNCTION __IQ15sqrt (BEGIN)
-                                           ; SOURCE LINE # 262
+                                           ; SOURCE LINE # 269
 0000 8F00        R     MOV     A+03H,R7
 0002 8E00        R     MOV     A+02H,R6
 0004 8D00        R     MOV     A+01H,R5
 0006 8C00        R     MOV     A,R4
-                                           ; SOURCE LINE # 264
-                                           ; SOURCE LINE # 266
+                                           ; SOURCE LINE # 271
+                                           ; SOURCE LINE # 273
 0008 7F00              MOV     R7,#00H
 000A 7E00              MOV     R6,#00H
 000C 7D00              MOV     R5,#00H
@@ -1114,7 +1133,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0035 8E00        R     MOV     X+02H,R6
 0037 8D00        R     MOV     X+01H,R5
 0039 8C00        R     MOV     X,R4
-                                           ; SOURCE LINE # 268
+                                           ; SOURCE LINE # 275
 003B AF00        R     MOV     R7,X+03H
 003D AE00        R     MOV     R6,X+02H
 003F AD00        R     MOV     R5,X+01H
@@ -1124,22 +1143,22 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0048 8E00        R     MOV     X+02H,R6
 004A 8D00        R     MOV     X+01H,R5
 004C 8C00        R     MOV     X,R4
-                                           ; SOURCE LINE # 269
+                                           ; SOURCE LINE # 276
 004E C3                CLR     C
 004F 7410              MOV     A,#010H
 0051 95EF              SUBB    A,ARCON
 0053 F500        R     MOV     index,A
-                                           ; SOURCE LINE # 271
+                                           ; SOURCE LINE # 278
 0055 E500        R     MOV     A,index
 0057 75F002            MOV     B,#02H
 005A 120000      E     LCALL   ?C?SCDIV
 005D AFF0              MOV     R7,B
 005F EF                MOV     A,R7
 0060 7067              JNZ     ?C0028
-                                           ; SOURCE LINE # 272
-                                           ; SOURCE LINE # 273
+                                           ; SOURCE LINE # 279
+                                           ; SOURCE LINE # 280
 0062 E500        R     MOV     A,X+03H
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 19  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 20  
 
 0064 54FF              ANL     A,#0FFH
 0066 F500        R     MOV     X+03H,A
@@ -1152,7 +1171,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0074 E500        R     MOV     A,X
 0076 547F              ANL     A,#07FH
 0078 F500        R     MOV     X,A
-                                           ; SOURCE LINE # 274
+                                           ; SOURCE LINE # 281
 007A AF00        R     MOV     R7,X+03H
 007C AE00        R     MOV     R6,X+02H
 007E AD00        R     MOV     R5,X+01H
@@ -1171,7 +1190,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0096 EC                MOV     A,R4
 0097 3400              ADDC    A,#00H
 0099 F500        R     MOV     X,A
-                                           ; SOURCE LINE # 276
+                                           ; SOURCE LINE # 283
 009B 7F02              MOV     R7,#02H
 009D 7E00              MOV     R6,#00H
 009F 7D00              MOV     R5,#00H
@@ -1199,15 +1218,15 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 00C1 8E00        R     MOV     Z+02H,R6
 00C3 8D00        R     MOV     Z+01H,R5
 00C5 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 277
+                                           ; SOURCE LINE # 284
 00C7 805B              SJMP    ?C0029
 00C9         ?C0028:
-                                           ; SOURCE LINE # 279
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 20  
+                                           ; SOURCE LINE # 286
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 21  
 
-                                           ; SOURCE LINE # 280
+                                           ; SOURCE LINE # 287
 00C9 0500        R     INC     index
-                                           ; SOURCE LINE # 282
+                                           ; SOURCE LINE # 289
 00CB AF00        R     MOV     R7,X+03H
 00CD AE00        R     MOV     R6,X+02H
 00CF AD00        R     MOV     R5,X+01H
@@ -1218,7 +1237,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 00DA 8E00        R     MOV     X+02H,R6
 00DC 8D00        R     MOV     X+01H,R5
 00DE 8C00        R     MOV     X,R4
-                                           ; SOURCE LINE # 283
+                                           ; SOURCE LINE # 290
 00E0 E500        R     MOV     A,X+03H
 00E2 547F              ANL     A,#07FH
 00E4 F500        R     MOV     X+03H,A
@@ -1231,7 +1250,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 00F2 E500        R     MOV     A,X
 00F4 5400              ANL     A,#00H
 00F6 F500        R     MOV     X,A
-                                           ; SOURCE LINE # 284
+                                           ; SOURCE LINE # 291
 00F8 7F02              MOV     R7,#02H
 00FA 7E00              MOV     R6,#00H
 00FC 7D00              MOV     R5,#00H
@@ -1259,22 +1278,22 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 011E 8E00        R     MOV     Z+02H,R6
 0120 8D00        R     MOV     Z+01H,R5
 0122 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 285
+                                           ; SOURCE LINE # 292
 0124         ?C0029:
-                                           ; SOURCE LINE # 286
+                                           ; SOURCE LINE # 293
 0124 AF00        R     MOV     R7,Z+03H
 0126 AE00        R     MOV     R6,Z+02H
 0128 AD00        R     MOV     R5,Z+01H
 012A AC00        R     MOV     R4,Z
 012C 7810              MOV     R0,#010H
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 21  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 22  
 
 012E 120000      E     LCALL   ?C?LSHL
 0131 8F00        R     MOV     Z+03H,R7
 0133 8E00        R     MOV     Z+02H,R6
 0135 8D00        R     MOV     Z+01H,R5
 0137 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 287
+                                           ; SOURCE LINE # 294
 0139 AF00        R     MOV     R7,Z+03H
 013B AE00        R     MOV     R6,Z+02H
 013D AD00        R     MOV     R5,Z+01H
@@ -1285,13 +1304,13 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0148 8E00        R     MOV     Z+02H,R6
 014A 8D00        R     MOV     Z+01H,R5
 014C 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 289
+                                           ; SOURCE LINE # 296
 014E C3                CLR     C
 014F E500        R     MOV     A,index
 0151 6480              XRL     A,#080H
 0153 9480              SUBB    A,#080H
 0155 401D              JC      ?C0030
-                                           ; SOURCE LINE # 290
+                                           ; SOURCE LINE # 297
 0157 AF00        R     MOV     R7,Z+03H
 0159 AE00        R     MOV     R6,Z+02H
 015B AD00        R     MOV     R5,Z+01H
@@ -1308,7 +1327,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0170 8C00        R     MOV     Z,R4
 0172 801F              SJMP    ?C0031
 0174         ?C0030:
-                                           ; SOURCE LINE # 291
+                                           ; SOURCE LINE # 298
 0174 AF00        R     MOV     R7,Z+03H
 0176 AE00        R     MOV     R6,Z+02H
 0178 AD00        R     MOV     R5,Z+01H
@@ -1328,26 +1347,26 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 018F 8D00        R     MOV     Z+01H,R5
 0191 8C00        R     MOV     Z,R4
 0193         ?C0031:
-                                           ; SOURCE LINE # 293
+                                           ; SOURCE LINE # 300
 0193 AF00        R     MOV     R7,Z+03H
 0195 AE00        R     MOV     R6,Z+02H
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 22  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 23  
 
 0197 AD00        R     MOV     R5,Z+01H
 0199 AC00        R     MOV     R4,Z
-                                           ; SOURCE LINE # 294
+                                           ; SOURCE LINE # 301
 019B         ?C0032:
 019B 22                RET     
              ; FUNCTION __IQ15sqrt (END)
 
              ; FUNCTION __IQ15atan2 (BEGIN)
-                                           ; SOURCE LINE # 311
+                                           ; SOURCE LINE # 318
 0000 8F00        R     MOV     A+03H,R7
 0002 8E00        R     MOV     A+02H,R6
 0004 8D00        R     MOV     A+01H,R5
 0006 8C00        R     MOV     A,R4
-                                           ; SOURCE LINE # 312
-                                           ; SOURCE LINE # 313
+                                           ; SOURCE LINE # 319
+                                           ; SOURCE LINE # 320
 0008 7F00              MOV     R7,#00H
 000A 7E00              MOV     R6,#00H
 000C 7D00              MOV     R5,#00H
@@ -1375,7 +1394,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0035 8E00        R     MOV     Y+02H,R6
 0037 8D00        R     MOV     Y+01H,R5
 0039 8C00        R     MOV     Y,R4
-                                           ; SOURCE LINE # 314
+                                           ; SOURCE LINE # 321
 003B 7F00              MOV     R7,#00H
 003D 7E00              MOV     R6,#00H
 003F 7D00              MOV     R5,#00H
@@ -1395,7 +1414,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 005C 8008              SJMP    ?C0036
 005E         ?C0035:
 005E AF00        R     MOV     R7,B+03H
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 23  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 24  
 
 0060 AE00        R     MOV     R6,B+02H
 0062 AD00        R     MOV     R5,B+01H
@@ -1405,7 +1424,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0068 8E00        R     MOV     X+02H,R6
 006A 8D00        R     MOV     X+01H,R5
 006C 8C00        R     MOV     X,R4
-                                           ; SOURCE LINE # 315
+                                           ; SOURCE LINE # 322
 006E AF00        R     MOV     R7,Y+03H
 0070 AE00        R     MOV     R6,Y+02H
 0072 AD00        R     MOV     R5,Y+01H
@@ -1418,8 +1437,8 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 007F 120000      E     LCALL   ?C?SLCMP
 0082 5003              JNC     $ + 5H
 0084 020000      R     LJMP    ?C0037
-                                           ; SOURCE LINE # 316
-                                           ; SOURCE LINE # 317
+                                           ; SOURCE LINE # 323
+                                           ; SOURCE LINE # 324
 0087 AF00        R     MOV     R7,Y+03H
 0089 AE00        R     MOV     R6,Y+02H
 008B AD00        R     MOV     R5,Y+01H
@@ -1430,7 +1449,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0096 8E00        R     MOV     Y+02H,R6
 0098 8D00        R     MOV     Y+01H,R5
 009A 8C00        R     MOV     Y,R4
-                                           ; SOURCE LINE # 318
+                                           ; SOURCE LINE # 325
 009C AF00        R     MOV     R7,X+03H
 009E AE00        R     MOV     R6,X+02H
 00A0 AD00        R     MOV     R5,X+01H
@@ -1441,7 +1460,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 00AB 8E00        R     MOV     X+02H,R6
 00AD 8D00        R     MOV     X+01H,R5
 00AF 8C00        R     MOV     X,R4
-                                           ; SOURCE LINE # 319
+                                           ; SOURCE LINE # 326
 00B1 AB00        R     MOV     R3,X+03H
 00B3 AA00        R     MOV     R2,X+02H
 00B5 A900        R     MOV     R1,X+01H
@@ -1455,11 +1474,11 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 00C6 8E00        R     MOV     X+02H,R6
 00C8 8D00        R     MOV     X+01H,R5
 00CA 8C00        R     MOV     X,R4
-                                           ; SOURCE LINE # 320
+                                           ; SOURCE LINE # 327
 00CC 7F02              MOV     R7,#02H
 00CE 7E00              MOV     R6,#00H
 00D0 7D00              MOV     R5,#00H
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 24  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 25  
 
 00D2 7C00              MOV     R4,#00H
 00D4 AB00        R     MOV     R3,X+03H
@@ -1485,7 +1504,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 00F2 8E00        R     MOV     Z+02H,R6
 00F4 8D00        R     MOV     Z+01H,R5
 00F6 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 322
+                                           ; SOURCE LINE # 329
 00F8 AF00        R     MOV     R7,Z+03H
 00FA AE00        R     MOV     R6,Z+02H
 00FC AD00        R     MOV     R5,Z+01H
@@ -1499,7 +1518,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 010D 8E00        R     MOV     Z+02H,R6
 010F 8D00        R     MOV     Z+01H,R5
 0111 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 323
+                                           ; SOURCE LINE # 330
 0113 AF00        R     MOV     R7,Z+03H
 0115 AE00        R     MOV     R6,Z+02H
 0117 AD00        R     MOV     R5,Z+01H
@@ -1510,7 +1529,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0122 8E00        R     MOV     Z+02H,R6
 0124 8D00        R     MOV     Z+01H,R5
 0126 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 324
+                                           ; SOURCE LINE # 331
 0128 AF00        R     MOV     R7,Z+03H
 012A AE00        R     MOV     R6,Z+02H
 012C AD00        R     MOV     R5,Z+01H
@@ -1521,13 +1540,13 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0137 8E00        R     MOV     Z+02H,R6
 0139 8D00        R     MOV     Z+01H,R5
 013B 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 326
+                                           ; SOURCE LINE # 333
 013D 020000      R     LJMP    ?C0038
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 25  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 26  
 
 0140         ?C0037:
-                                           ; SOURCE LINE # 328
-                                           ; SOURCE LINE # 329
+                                           ; SOURCE LINE # 335
+                                           ; SOURCE LINE # 336
 0140 AF00        R     MOV     R7,X+03H
 0142 AE00        R     MOV     R6,X+02H
 0144 AD00        R     MOV     R5,X+01H
@@ -1538,7 +1557,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 014F 8E00        R     MOV     X+02H,R6
 0151 8D00        R     MOV     X+01H,R5
 0153 8C00        R     MOV     X,R4
-                                           ; SOURCE LINE # 330
+                                           ; SOURCE LINE # 337
 0155 AF00        R     MOV     R7,Y+03H
 0157 AE00        R     MOV     R6,Y+02H
 0159 AD00        R     MOV     R5,Y+01H
@@ -1549,7 +1568,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0164 8E00        R     MOV     Y+02H,R6
 0166 8D00        R     MOV     Y+01H,R5
 0168 8C00        R     MOV     Y,R4
-                                           ; SOURCE LINE # 331
+                                           ; SOURCE LINE # 338
 016A AF00        R     MOV     R7,X+03H
 016C AE00        R     MOV     R6,X+02H
 016E AD00        R     MOV     R5,X+01H
@@ -1563,7 +1582,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 017F 8E00        R     MOV     X+02H,R6
 0181 8D00        R     MOV     X+01H,R5
 0183 8C00        R     MOV     X,R4
-                                           ; SOURCE LINE # 332
+                                           ; SOURCE LINE # 339
 0185 7F02              MOV     R7,#02H
 0187 7E00              MOV     R6,#00H
 0189 7D00              MOV     R5,#00H
@@ -1587,13 +1606,13 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 01A6 E4                CLR     A
 01A7 FC                MOV     R4,A
 01A8 FD                MOV     R5,A
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 26  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 27  
 
 01A9 8F00        R     MOV     Z+03H,R7
 01AB 8E00        R     MOV     Z+02H,R6
 01AD 8D00        R     MOV     Z+01H,R5
 01AF 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 333
+                                           ; SOURCE LINE # 340
 01B1 AF00        R     MOV     R7,Z+03H
 01B3 AE00        R     MOV     R6,Z+02H
 01B5 AD00        R     MOV     R5,Z+01H
@@ -1607,7 +1626,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 01C6 8E00        R     MOV     Z+02H,R6
 01C8 8D00        R     MOV     Z+01H,R5
 01CA 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 334
+                                           ; SOURCE LINE # 341
 01CC AF00        R     MOV     R7,Z+03H
 01CE AE00        R     MOV     R6,Z+02H
 01D0 AD00        R     MOV     R5,Z+01H
@@ -1618,7 +1637,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 01DB 8E00        R     MOV     Z+02H,R6
 01DD 8D00        R     MOV     Z+01H,R5
 01DF 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 335
+                                           ; SOURCE LINE # 342
 01E1 AF00        R     MOV     R7,Z+03H
 01E3 AE00        R     MOV     R6,Z+02H
 01E5 AD00        R     MOV     R5,Z+01H
@@ -1629,7 +1648,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 01F0 8E00        R     MOV     Z+02H,R6
 01F2 8D00        R     MOV     Z+01H,R5
 01F4 8C00        R     MOV     Z,R4
-                                           ; SOURCE LINE # 336
+                                           ; SOURCE LINE # 343
 01F6 C3                CLR     C
 01F7 E4                CLR     A
 01F8 9500        R     SUBB    A,Z+03H
@@ -1643,15 +1662,15 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0207 E4                CLR     A
 0208 9500        R     SUBB    A,Z
 020A F500        R     MOV     Z,A
-                                           ; SOURCE LINE # 337
+                                           ; SOURCE LINE # 344
 020C         ?C0038:
-                                           ; SOURCE LINE # 338
+                                           ; SOURCE LINE # 345
 020C 7F00              MOV     R7,#00H
 020E 7E00              MOV     R6,#00H
 0210 7D00              MOV     R5,#00H
 0212 7C00              MOV     R4,#00H
 0214 AB00        R     MOV     R3,A+03H
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 27  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 28  
 
 0216 AA00        R     MOV     R2,A+02H
 0218 A900        R     MOV     R1,A+01H
@@ -1670,7 +1689,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0232 D3                SETB    C
 0233 120000      E     LCALL   ?C?SLCMP
 0236 4019              JC      ?C0039
-                                           ; SOURCE LINE # 339
+                                           ; SOURCE LINE # 346
 0238 C3                CLR     C
 0239 E4                CLR     A
 023A 9500        R     SUBB    A,Z+03H
@@ -1686,7 +1705,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 024C F500        R     MOV     Z,A
 024E 020000      R     LJMP    ?C0040
 0251         ?C0039:
-                                           ; SOURCE LINE # 340
+                                           ; SOURCE LINE # 347
 0251 7F00              MOV     R7,#00H
 0253 7E00              MOV     R6,#00H
 0255 7D00              MOV     R5,#00H
@@ -1709,13 +1728,13 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0277 C3                CLR     C
 0278 120000      E     LCALL   ?C?SLCMP
 027B 501A              JNC     ?C0041
-                                           ; SOURCE LINE # 341
+                                           ; SOURCE LINE # 348
 027D E500        R     MOV     A,Z+03H
 027F 2400              ADD     A,#00H
 0281 F500        R     MOV     Z+03H,A
 0283 E500        R     MOV     A,Z+02H
 0285 3400              ADDC    A,#00H
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 28  
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 29  
 
 0287 F500        R     MOV     Z+02H,A
 0289 E500        R     MOV     A,Z+01H
@@ -1726,7 +1745,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0293 F500        R     MOV     Z,A
 0295 8042              SJMP    ?C0040
 0297         ?C0041:
-                                           ; SOURCE LINE # 342
+                                           ; SOURCE LINE # 349
 0297 7F00              MOV     R7,#00H
 0299 7E00              MOV     R6,#00H
 029B 7D00              MOV     R5,#00H
@@ -1749,7 +1768,7 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 02BD C3                CLR     C
 02BE 120000      E     LCALL   ?C?SLCMP
 02C1 5016              JNC     ?C0040
-                                           ; SOURCE LINE # 343
+                                           ; SOURCE LINE # 350
 02C3 C3                CLR     C
 02C4 E4                CLR     A
 02C5 9500        R     SUBB    A,Z+03H
@@ -1766,26 +1785,122 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 02D9         ?C0043:
 02D9         ?C0042:
 02D9         ?C0040:
-                                           ; SOURCE LINE # 347
+                                           ; SOURCE LINE # 354
 02D9 AF00        R     MOV     R7,Z+03H
 02DB AE00        R     MOV     R6,Z+02H
 02DD AD00        R     MOV     R5,Z+01H
 02DF AC00        R     MOV     R4,Z
-                                           ; SOURCE LINE # 348
+                                           ; SOURCE LINE # 355
 02E1         ?C0044:
 02E1 22                RET     
              ; FUNCTION __IQ15atan2 (END)
 
+             ; FUNCTION __IQ15mag (BEGIN)
+                                           ; SOURCE LINE # 358
+0000 8F00        R     MOV     A+03H,R7
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 30  
+
+0002 8E00        R     MOV     A+02H,R6
+0004 8D00        R     MOV     A+01H,R5
+0006 8C00        R     MOV     A,R4
+                                           ; SOURCE LINE # 359
+                                           ; SOURCE LINE # 360
+0008 AF00        R     MOV     R7,B+03H
+000A AE00        R     MOV     R6,B+02H
+000C AD00        R     MOV     R5,B+01H
+000E AC00        R     MOV     R4,B
+0010 C004              PUSH    AR4
+0012 C005              PUSH    AR5
+0014 C006              PUSH    AR6
+0016 C007              PUSH    AR7
+0018 AF00        R     MOV     R7,B+03H
+001A AE00        R     MOV     R6,B+02H
+001C AD00        R     MOV     R5,B+01H
+001E AC00        R     MOV     R4,B
+0020 8F00        R     MOV     ?__IQ15mpy?BYTE+07H,R7
+0022 8E00        R     MOV     ?__IQ15mpy?BYTE+06H,R6
+0024 8D00        R     MOV     ?__IQ15mpy?BYTE+05H,R5
+0026 8C00        R     MOV     ?__IQ15mpy?BYTE+04H,R4
+0028 D007              POP     AR7
+002A D006              POP     AR6
+002C D005              POP     AR5
+002E D004              POP     AR4
+0030 120000      R     LCALL   __IQ15mpy
+0033 C004              PUSH    AR4
+0035 C005              PUSH    AR5
+0037 C006              PUSH    AR6
+0039 C007              PUSH    AR7
+003B AF00        R     MOV     R7,A+03H
+003D AE00        R     MOV     R6,A+02H
+003F AD00        R     MOV     R5,A+01H
+0041 AC00        R     MOV     R4,A
+0043 C004              PUSH    AR4
+0045 C005              PUSH    AR5
+0047 C006              PUSH    AR6
+0049 C007              PUSH    AR7
+004B AF00        R     MOV     R7,A+03H
+004D AE00        R     MOV     R6,A+02H
+004F AD00        R     MOV     R5,A+01H
+0051 AC00        R     MOV     R4,A
+0053 8F00        R     MOV     ?__IQ15mpy?BYTE+07H,R7
+0055 8E00        R     MOV     ?__IQ15mpy?BYTE+06H,R6
+0057 8D00        R     MOV     ?__IQ15mpy?BYTE+05H,R5
+0059 8C00        R     MOV     ?__IQ15mpy?BYTE+04H,R4
+005B D007              POP     AR7
+005D D006              POP     AR6
+005F D005              POP     AR5
+0061 D004              POP     AR4
+0063 120000      R     LCALL   __IQ15mpy
+0066 A804              MOV     R0,AR4
+0068 A905              MOV     R1,AR5
+006A AA06              MOV     R2,AR6
+006C AB07              MOV     R3,AR7
+006E D007              POP     AR7
+0070 D006              POP     AR6
+0072 D005              POP     AR5
+0074 D004              POP     AR4
+0076 EB                MOV     A,R3
+0077 2F                ADD     A,R7
+0078 F500        R     MOV     X+03H,A
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 16:43:53 PAGE 31  
+
+007A EA                MOV     A,R2
+007B 3E                ADDC    A,R6
+007C F500        R     MOV     X+02H,A
+007E E9                MOV     A,R1
+007F 3D                ADDC    A,R5
+0080 F500        R     MOV     X+01H,A
+0082 E8                MOV     A,R0
+0083 3C                ADDC    A,R4
+0084 F500        R     MOV     X,A
+                                           ; SOURCE LINE # 361
+0086 AF00        R     MOV     R7,X+03H
+0088 AE00        R     MOV     R6,X+02H
+008A AD00        R     MOV     R5,X+01H
+008C AC00        R     MOV     R4,X
+008E 120000      R     LCALL   __IQ15sqrt
+0091 8F00        R     MOV     Z+03H,R7
+0093 8E00        R     MOV     Z+02H,R6
+0095 8D00        R     MOV     Z+01H,R5
+0097 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 362
+0099 AF00        R     MOV     R7,Z+03H
+009B AE00        R     MOV     R6,Z+02H
+009D AD00        R     MOV     R5,Z+01H
+009F AC00        R     MOV     R4,Z
+                                           ; SOURCE LINE # 364
+00A1         ?C0045:
+00A1 22                RET     
+             ; FUNCTION __IQ15mag (END)
+
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 12:55:47 PAGE 29  
-
-   CODE SIZE        =   2278    ----
+   CODE SIZE        =   2440    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     61    ----
+   DATA SIZE        =     69    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

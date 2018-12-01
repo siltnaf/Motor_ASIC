@@ -636,7 +636,9 @@ void InitTimer6(void)
 }
 void SystemClock(void)
 {
+	  
     RC80M_RES = 0x2e;
+	  RC80M_C2=0x3f;
 	  #pragma asm
 		nop
 		nop
@@ -673,7 +675,7 @@ void SystemClock(void)
 		nop
 		#pragma endasm
 	
-	  CLK_DIV_L = 0x02;
+	  CLK_DIV_L = 0x00;
 	  CLK_DIV_H = 0x00;
 		
 		#pragma asm

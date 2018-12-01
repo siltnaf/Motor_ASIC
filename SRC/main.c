@@ -46,7 +46,7 @@ void main(void)
 	//InitComparator();
 	//Initepwm();
 	
-	
+		P26=1;
 		EAL=1;
     while(1)
     {
@@ -61,8 +61,11 @@ void main(void)
 			theta=_IQ(2.0);  
 			beta=_IQ(-30.0);
 
-
-     result=_IQatan(theta);
+	  P26=0;
+     result= _IQsin(theta);
+			
+			P26=1;
+		//	result=
 			
 			
 //			tbl_out=_IQsin(theta);
