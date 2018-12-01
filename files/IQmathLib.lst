@@ -1,10 +1,10 @@
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 1   
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 1   
 
 
-C51 COMPILER V9.53.0.0, COMPILATION OF MODULE IQMATHLIB
+C51 COMPILER V9.54, COMPILATION OF MODULE IQMATHLIB
 OBJECT MODULE PLACED IN .\OUTPUT\IQmathLib.obj
-COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE SRC\IQmathLib.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC) BROWSE INTVEC
-                    -TOR(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\IQmathLib.lst) TABS(2) OBJECT(.\OUTPUT\IQmathLib.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE SRC\IQmathLib.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC) BROWSE INT
+                    -VECTOR(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\IQmathLib.lst) TABS(2) OBJECT(.\OUTPUT\IQmathLib.obj)
 
 line level    source
 
@@ -41,8 +41,8 @@ line level    source
   31          
   32          
   33          
-  34          
-  35          
+  34           _iq  data X,Y,Z;
+  35           S8  data index;
   36          
   37          
   38          
@@ -60,466 +60,516 @@ line level    source
   50           */
   51          
   52          
-  53          _iq _IQsin(_iq dat)
+  53          _iq _IQsin(_iq A)
   54          {
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 2   
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 2   
 
-  55   1      volatile _iq angle_in,sin_out;
-  56   1      volatile U32 table_input;
-  57   1         
-  58   1        angle_in=_IQabs(dat);
-  59   1            
-  60   1        //limit the search anlge to <360)
-  61   1        
-  62   1        while (angle_in>=_IQ(360.0))
-  63   1            {
-  64   2              angle_in-=_IQ(360.0);
-  65   2            }
-  66   1        
-  67   1        // convert angle to data in sin table, angle =angle/360 * 512  or  =angle *64/45
-  68   1            
-  69   1        table_input=_IQint(angle_in<<6); 
-  70   1        table_input/=45;  
-  71   1       
-  72   1        sin_out=XWORD[table_input+sin_table];
-  73   1            sin_out=(sin_out<<16);                      //sin table is in Q15 format, it need to convert to Q31 first by shi
-             -fting 16 bit to left
-  74   1            sin_out=(sin_out) >> (31 - GLOBAL_Q);       //convert Q31 to global Q format
-  75   1        
-  76   1        if (dat<0) sin_out=-(sin_out);
-  77   1       
-  78   1      
-  79   1        
-  80   1      return sin_out ;
-  81   1        
-  82   1      }
+  55   1      
+  56   1        X=_IQabs(A);
+  57   1          
+  58   1        //limtit the search anlge to <360)
+  59   1        
+  60   1        while (X>=_IQ(360.0))
+  61   1            {
+  62   2              X=_IQ(360.0);
+  63   2            }
+  64   1        
+  65   1        // convert angle to data in sin table, angle =angle/360 * 512  or  =angle *64/45
+  66   1            
+  67   1        X=_IQint(X<<6); 
+  68   1        X/=45;  
+  69   1       
+  70   1        Z=XWORD[X+sin_table];
+  71   1            Z=(Z<<16);                      //sin table is in Q15 format, it need to convert to Q31 first by shifting 16 bit
+             - to left
+  72   1            Z=(Z) >> (30 - GLOBAL_Q);       //convert Q31 to global Q format
+  73   1        
+  74   1        if (A<0) Z=-(Z);
+  75   1      
+  76   1      return Z ;
+  77   1        
+  78   1      }
+  79          
+  80          
+  81          
+  82          
   83          
-  84          
-  85          
-  86          
-  87          
-  88          _iq _IQcos(_iq dat)
-  89          {
+  84          _iq _IQcos(_iq A)
+  85          {
+  86   1        
+  87   1        X=_IQabs(A);
+  88   1          
+  89   1        //limit the search anlge to <360)
   90   1        
-  91   1      volatile _iq angle_in,cos_out;
-  92   1      volatile U32 table_input;
-  93   1         
-  94   1      
-  95   1        angle_in=_IQabs(dat);
-  96   1            
-  97   1        //limit the search anlge to <360)
-  98   1        
-  99   1        while (angle_in>=_IQ(360.0))
- 100   1            {
- 101   2              angle_in-=_IQ(360.0);
- 102   2            }
- 103   1        
- 104   1        // convert angle to data in cos table, cos(angle) =sin(angle+90)
- 105   1            
- 106   1        table_input=_IQint(angle_in<<6); 
- 107   1        table_input/=45;
- 108   1      
- 109   1       
- 110   1        cos_out=XWORD[table_input+sin_table+128];            //cos is  lead sin by 90
- 111   1       
- 112   1        
- 113   1        cos_out=(cos_out<<16);                      //sin table is in Q15 format, it need to convert to Q31 first by shift
-             -ing 16 bit to left
- 114   1        cos_out=(cos_out) >> (31 - GLOBAL_Q);       //convert Q31 to global Q format
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 3   
+  91   1        while (X>=_IQ(360.0))
+  92   1            {
+  93   2              X-=_IQ(360.0);
+  94   2            }
+  95   1        
+  96   1        // convert angle to data in cos table, cos(angle) =sin(angle+90)
+  97   1            
+  98   1        X=_IQint(X<<6); 
+  99   1        X/=45;
+ 100   1      
+ 101   1       
+ 102   1        Z=XWORD[X+sin_table+128];            //cos is  lead sin by 90
+ 103   1       
+ 104   1        
+ 105   1        Z=(Z<<16);                      //sin table is in Q15 format, it need to convert to Q31 first by shifting 16 bit t
+             -o left
+ 106   1        Z=(Z) >> (30 - GLOBAL_Q);       //convert Q31 to global Q format
+ 107   1            
+ 108   1      return Z ;
+ 109   1        
+ 110   1      }
+ 111          
+ 112          
+ 113          
+ 114          
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 3   
 
- 115   1            
- 116   1      return cos_out ;
- 117   1        
- 118   1      }
- 119          
- 120          
- 121          
- 122          
- 123          
- 124          
- 125          
- 126          _iq Normalize(_iq dat)              //normalize only work for positive value. it return error if the MD3_7
+ 115          
+ 116          
+ 117          
+ 118          _iq Normalize(_iq dat)              //normalize only work for positive value. it return error if the MD3_7
              -=1 
- 127          {
- 128   1       Long_Data LD;
- 129   1       LD.Ldata =dat;
- 130   1       MD0 = LD.ss1.Byte0;
- 131   1       MD1 = LD.ss1.Byte1;
- 132   1       MD2 = LD.ss1.Byte2;
- 133   1       MD3 = LD.ss1.Byte3;
- 134   1        
- 135   1      
- 136   1        
- 137   1       ARCON = 0x00 ; // Start Normalizing
- 138   1       while(MD3_7==0 ); //check MDU finish flag
- 139   1        LD.ss1.Byte0=MD0;
- 140   1        LD.ss1.Byte1=MD1;
- 141   1        LD.ss1.Byte2=MD2;
- 142   1        LD.ss1.Byte3=MD3;
- 143   1       
- 144   1         return LD.Ldata ;
- 145   1      }
- 146          
- 147          
- 148          _iq _IQinv(_iq dat)
- 149          
- 150          {
- 151   1      volatile _iq inverse_in, inverse_out;
- 152   1        volatile U32 table_input;
- 153   1      volatile S8  index;
- 154   1        
- 155   1        inverse_in=_IQabs(dat);
- 156   1        
- 157   1      
- 158   1        inverse_in=Normalize(inverse_in);   //convert to Q30 format
- 159   1        index=(30-GLOBAL_Q-ARCON);          //find the power index of normalized value
- 160   1        inverse_in &=0x7fffffff;            
- 161   1        table_input=inverse_in>>22;         //take the 9 bit value for table search
- 162   1        inverse_out=XWORD[table_input+inverse_table];  //read from the ROM table
- 163   1        inverse_out=inverse_out<<16;
- 164   1        inverse_out=(inverse_out) >> (31 - GLOBAL_Q);       //convert Q31 to global Q format
- 165   1        
- 166   1        if (index>=0)   
- 167   1          inverse_out=(inverse_out)>>index;
- 168   1          else 
- 169   1          inverse_out=inverse_out<<(-index);
- 170   1                                                     //multiply the index and return the output value
- 171   1        if (dat<0) inverse_out=- inverse_out;
- 172   1        
+ 119          {
+ 120   1       Long_Data LD;
+ 121   1       LD.Ldata =dat;
+ 122   1       MD0 = LD.ss1.Byte0;
+ 123   1       MD1 = LD.ss1.Byte1;
+ 124   1       MD2 = LD.ss1.Byte2;
+ 125   1       MD3 = LD.ss1.Byte3;
+ 126   1        
+ 127   1      
+ 128   1        
+ 129   1       ARCON = 0x00 ; // Start Normalizing
+ 130   1       while(MD3_7==0 ); //check MDU finish flag
+ 131   1        LD.ss1.Byte0=MD0;
+ 132   1        LD.ss1.Byte1=MD1;
+ 133   1        LD.ss1.Byte2=MD2;
+ 134   1        LD.ss1.Byte3=MD3;
+ 135   1       
+ 136   1         return LD.Ldata ;
+ 137   1      }
+ 138          
+ 139          
+ 140          _iq _IQinv(_iq A)
+ 141          
+ 142          {
+ 143   1      
+ 144   1        X=_IQabs(A);
+ 145   1        X=Normalize(X);   //convert to Q30 format
+ 146   1        index=(30-GLOBAL_Q-ARCON);          //find the power index of normalized value
+ 147   1        X &=0x7fffffff;            
+ 148   1        X=X>>22;         //take the 9 bit value for table search
+ 149   1        Z=XWORD[X+inverse_table];  //read from the ROM table
+ 150   1        Z=Z<<16;
+ 151   1        Z=(Z) >> (31 - GLOBAL_Q);       //convert Q31 to global Q format
+ 152   1        
+ 153   1        if (index>=0)   
+ 154   1          Z=(Z)>>index;
+ 155   1          else 
+ 156   1          Z=Z<<(-index);
+ 157   1                                                     //multiply the index and return the output value
+ 158   1        if (A<0) Z=- Z;
+ 159   1        
+ 160   1        
+ 161   1      return Z;
+ 162   1      }
+ 163          
+ 164          
+ 165          
+ 166          _iq _IQmpy(_iq A, _iq B)
+ 167          {
+ 168   1      
+ 169   1        X=A>>half_Q;
+ 170   1        Y=B>>half_Q;
+ 171   1        
+ 172   1        Z = X* Y;
  173   1        
- 174   1      return inverse_out;
- 175   1      }
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 4   
+ 174   1        
+ 175   1        if (GLOBAL_Q %2==1) Z =Z >>1; 
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 4   
 
- 176          
- 177          
- 178          _iq _IQsqrt(_iq dat)
+ 176   1        return Z;
+ 177   1        
+ 178   1      }
  179          
- 180          {
- 181   1      volatile _iq sqrt_in, sqrt_out;
- 182   1        volatile U32 table_input;
- 183   1      volatile S8  power;
- 184   1        
- 185   1        sqrt_in=_IQabs(dat);
- 186   1        sqrt_in=Normalize(sqrt_in);   //convert to Q30 format
- 187   1        power=(31-GLOBAL_Q-ARCON);
- 188   1        
- 189   1      
- 190   1        if (power %2==0)                //check if the power is even or  odd value
- 191   1          
- 192   1        {
- 193   2        sqrt_in &=0x7fffffff;
- 194   2        table_input=(sqrt_in>>23)+128;  
- 195   2          
- 196   2          sqrt_out=XWORD[table_input+sqrt_table];
- 197   2        }
- 198   1        else
- 199   1        {
- 200   2          power=power+1;                             //if the power is odd value , divide t by 2
- 201   2        
- 202   2          table_input =sqrt_in>>24;             //square root in value is divided by 2 
- 203   2          table_input &=0x0000007f;
- 204   2          sqrt_out=XWORD[table_input+sqrt_table];
- 205   2        }
- 206   1        sqrt_out=sqrt_out<<16;
- 207   1        sqrt_out=(sqrt_out) >> (30 - GLOBAL_Q);       //convert Q31 to global Q format
- 208   1        
- 209   1        if (power>=0)
- 210   1        sqrt_out=(sqrt_out)<<(power>>1);
- 211   1        else sqrt_out=sqrt_out>>((-power)>>1);
- 212   1        
- 213   1      
- 214   1        
- 215   1        
- 216   1      return  sqrt_out;
- 217   1      }
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 5   
+ 180          
+ 181          
+ 182          
+ 183          
+ 184          
+ 185          
+ 186          _iq _IQdiv(_iq A,_iq B)
+ 187          {
+ 188   1      
+ 189   1        X=A<<half_Q;
+ 190   1       
+ 191   1        Y= B>>(GLOBAL_Q-half_Q);
+ 192   1        Z=X/Y;
+ 193   1        return Z;
+ 194   1      
+ 195   1      }
+ 196          
+ 197          
+ 198          
+ 199          
+ 200          
+ 201          _iq _IQsqrt(_iq A)
+ 202          
+ 203          {
+ 204   1      
+ 205   1        X=_IQabs(A);
+ 206   1      
+ 207   1        X=Normalize(X);   //convert to Q30 format
+ 208   1        index=(31-GLOBAL_Q-ARCON);
+ 209   1        
+ 210   1        if (index %2==0)                //check if the power is even or  odd value  
+ 211   1        {
+ 212   2        X &=0x7fffffff;
+ 213   2        X=(X>>23)+128;  
+ 214   2          
+ 215   2          Z=XWORD[X+sqrt_table];
+ 216   2        }
+ 217   1        else
+ 218   1        {
+ 219   2          index++;                             //if the power is odd value , divide t by 2
+ 220   2        
+ 221   2          X =X>>24;             //square root in value is divided by 2 
+ 222   2          X &=0x0000007f;
+ 223   2          Z=XWORD[X+sqrt_table];
+ 224   2        }
+ 225   1        Z=Z<<16;
+ 226   1        Z=(Z) >> (30 - GLOBAL_Q);       //convert Q31 to global Q format
+ 227   1        
+ 228   1        if (index>=0)
+ 229   1        Z=(Z)<<(index>>1);
+ 230   1        else Z=Z>>((-index)>>1);
+ 231   1        
+ 232   1      return  Z;
+ 233   1      }
+ 234          
+ 235          _iq _IQatan2(_iq A, _iq B)
+ 236          {
+ 237   1        X=_IQabs(A);
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 5   
+
+ 238   1        Y=_IQabs(B);
+ 239   1        if (X>Y)
+ 240   1          {
+ 241   2            Y=Y<<5;
+ 242   2            X=X>>4;
+ 243   2            X=Y/X;
+ 244   2            Z=XWORD[X+atan_table];
+ 245   2        
+ 246   2            Z=Z*45;                 //Z=(Z/4096)*45 degree
+ 247   2            Z=Z<<12;
+ 248   2            Z=Z>>(24-GLOBAL_Q);     //convert to IQ format
+ 249   2            
+ 250   2          }
+ 251   1          else
+ 252   1          {
+ 253   2            X=X<<5;
+ 254   2            Y=Y>>4;
+ 255   2            X=X/Y;
+ 256   2            Z=XWORD[X+atan_table];
+ 257   2            Z=Z*45;                 //Z=(Z/4096)*45 degree
+ 258   2            Z=Z<<12;
+ 259   2            Z=Z>>(24-GLOBAL_Q);     //convert to IQ format
+ 260   2            Z=_IQ(90.0)-Z;
+ 261   2          }
+ 262   1        if ((A<0)&&(B>0))
+ 263   1          Z=_IQ(180.0)-Z;
+ 264   1          else if ((A<0)&&(B<0))
+ 265   1            Z=_IQ(180.0)+Z;
+ 266   1          else if ((A>0)&&(B<0))
+ 267   1            Z=_IQ(360.0)-Z;
+ 268   1        
+ 269   1        
+ 270   1      
+ 271   1      return Z; 
+ 272   1      }
+ 273          
+ 274          
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 6   
 
 ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
 
-             ; FUNCTION __IQ16sin (BEGIN)
+             ; FUNCTION __IQ15sin (BEGIN)
                                            ; SOURCE LINE # 53
-0000 8F00        R     MOV     dat+03H,R7
-0002 8E00        R     MOV     dat+02H,R6
-0004 8D00        R     MOV     dat+01H,R5
-0006 8C00        R     MOV     dat,R4
+0000 8F00        R     MOV     A+03H,R7
+0002 8E00        R     MOV     A+02H,R6
+0004 8D00        R     MOV     A+01H,R5
+0006 8C00        R     MOV     A,R4
                                            ; SOURCE LINE # 54
-                                           ; SOURCE LINE # 58
+                                           ; SOURCE LINE # 56
 0008 7F00              MOV     R7,#00H
 000A 7E00              MOV     R6,#00H
 000C 7D00              MOV     R5,#00H
 000E 7C00              MOV     R4,#00H
-0010 AB00        R     MOV     R3,dat+03H
-0012 AA00        R     MOV     R2,dat+02H
-0014 A900        R     MOV     R1,dat+01H
-0016 A800        R     MOV     R0,dat
+0010 AB00        R     MOV     R3,A+03H
+0012 AA00        R     MOV     R2,A+02H
+0014 A900        R     MOV     R1,A+01H
+0016 A800        R     MOV     R0,A
 0018 C3                CLR     C
 0019 120000      E     LCALL   ?C?SLCMP
 001C 500D              JNC     ?C0001
-001E AF00        R     MOV     R7,dat+03H
-0020 AE00        R     MOV     R6,dat+02H
-0022 AD00        R     MOV     R5,dat+01H
-0024 AC00        R     MOV     R4,dat
+001E AF00        R     MOV     R7,A+03H
+0020 AE00        R     MOV     R6,A+02H
+0022 AD00        R     MOV     R5,A+01H
+0024 AC00        R     MOV     R4,A
 0026 120000      E     LCALL   ?C?LNEG
 0029 8008              SJMP    ?C0002
 002B         ?C0001:
-002B AF00        R     MOV     R7,dat+03H
-002D AE00        R     MOV     R6,dat+02H
-002F AD00        R     MOV     R5,dat+01H
-0031 AC00        R     MOV     R4,dat
+002B AF00        R     MOV     R7,A+03H
+002D AE00        R     MOV     R6,A+02H
+002F AD00        R     MOV     R5,A+01H
+0031 AC00        R     MOV     R4,A
 0033         ?C0002:
-0033 8F00        R     MOV     angle_in+03H,R7
-0035 8E00        R     MOV     angle_in+02H,R6
-0037 8D00        R     MOV     angle_in+01H,R5
-0039 8C00        R     MOV     angle_in,R4
+0033 8F00        R     MOV     X+03H,R7
+0035 8E00        R     MOV     X+02H,R6
+0037 8D00        R     MOV     X+01H,R5
+0039 8C00        R     MOV     X,R4
 003B         ?C0003:
-                                           ; SOURCE LINE # 62
+                                           ; SOURCE LINE # 60
 003B 7F00              MOV     R7,#00H
 003D 7E00              MOV     R6,#00H
-003F 7D68              MOV     R5,#068H
-0041 7C01              MOV     R4,#01H
-0043 AB00        R     MOV     R3,angle_in+03H
-0045 AA00        R     MOV     R2,angle_in+02H
-0047 A900        R     MOV     R1,angle_in+01H
-0049 A800        R     MOV     R0,angle_in
+003F 7DB4              MOV     R5,#0B4H
+0041 7C00              MOV     R4,#00H
+0043 AB00        R     MOV     R3,X+03H
+0045 AA00        R     MOV     R2,X+02H
+0047 A900        R     MOV     R1,X+01H
+0049 A800        R     MOV     R0,X
 004B C3                CLR     C
 004C 120000      E     LCALL   ?C?SLCMP
-004F 401B              JC      ?C0004
+004F 400E              JC      ?C0004
+                                           ; SOURCE LINE # 61
+                                           ; SOURCE LINE # 62
+0051 750000      R     MOV     X+03H,#00H
+0054 750000      R     MOV     X+02H,#00H
+0057 7500B4      R     MOV     X+01H,#0B4H
+005A 750000      R     MOV     X,#00H
                                            ; SOURCE LINE # 63
-                                           ; SOURCE LINE # 64
-0051 C3                CLR     C
-0052 E500        R     MOV     A,angle_in+03H
-0054 9400              SUBB    A,#00H
-0056 F500        R     MOV     angle_in+03H,A
-0058 E500        R     MOV     A,angle_in+02H
-005A 9400              SUBB    A,#00H
-005C F500        R     MOV     angle_in+02H,A
-005E E500        R     MOV     A,angle_in+01H
-0060 9468              SUBB    A,#068H
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 6   
+005D 80DC              SJMP    ?C0003
+005F         ?C0004:
+                                           ; SOURCE LINE # 67
+005F AF00        R     MOV     R7,X+03H
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 7   
 
-0062 F500        R     MOV     angle_in+01H,A
-0064 E500        R     MOV     A,angle_in
-0066 9401              SUBB    A,#01H
-0068 F500        R     MOV     angle_in,A
-                                           ; SOURCE LINE # 65
-006A 80CF              SJMP    ?C0003
-006C         ?C0004:
-                                           ; SOURCE LINE # 69
-006C AF00        R     MOV     R7,angle_in+03H
-006E AE00        R     MOV     R6,angle_in+02H
-0070 AD00        R     MOV     R5,angle_in+01H
-0072 AC00        R     MOV     R4,angle_in
-0074 7806              MOV     R0,#06H
-0076 120000      E     LCALL   ?C?LSHL
-0079 7810              MOV     R0,#010H
-007B 120000      E     LCALL   ?C?SLSHR
-007E 8F00        R     MOV     table_input+03H,R7
-0080 8E00        R     MOV     table_input+02H,R6
-0082 8D00        R     MOV     table_input+01H,R5
-0084 8C00        R     MOV     table_input,R4
+0061 AE00        R     MOV     R6,X+02H
+0063 AD00        R     MOV     R5,X+01H
+0065 AC00        R     MOV     R4,X
+0067 7806              MOV     R0,#06H
+0069 120000      E     LCALL   ?C?LSHL
+006C 780F              MOV     R0,#0FH
+006E 120000      E     LCALL   ?C?SLSHR
+0071 8F00        R     MOV     X+03H,R7
+0073 8E00        R     MOV     X+02H,R6
+0075 8D00        R     MOV     X+01H,R5
+0077 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 68
+0079 AF00        R     MOV     R7,X+03H
+007B AE00        R     MOV     R6,X+02H
+007D AD00        R     MOV     R5,X+01H
+007F AC00        R     MOV     R4,X
+0081 7B2D              MOV     R3,#02DH
+0083 7A00              MOV     R2,#00H
+0085 7900              MOV     R1,#00H
+0087 7800              MOV     R0,#00H
+0089 120000      E     LCALL   ?C?SLDIV
+008C 8F00        R     MOV     X+03H,R7
+008E 8E00        R     MOV     X+02H,R6
+0090 8D00        R     MOV     X+01H,R5
+0092 8C00        R     MOV     X,R4
                                            ; SOURCE LINE # 70
-0086 AF00        R     MOV     R7,table_input+03H
-0088 AE00        R     MOV     R6,table_input+02H
-008A AD00        R     MOV     R5,table_input+01H
-008C AC00        R     MOV     R4,table_input
-008E 7B2D              MOV     R3,#02DH
-0090 7A00              MOV     R2,#00H
-0092 7900              MOV     R1,#00H
-0094 7800              MOV     R0,#00H
-0096 120000      E     LCALL   ?C?ULDIV
-0099 8F00        R     MOV     table_input+03H,R7
-009B 8E00        R     MOV     table_input+02H,R6
-009D 8D00        R     MOV     table_input+01H,R5
-009F 8C00        R     MOV     table_input,R4
+0094 7F02              MOV     R7,#02H
+0096 7E00              MOV     R6,#00H
+0098 7D00              MOV     R5,#00H
+009A 7C00              MOV     R4,#00H
+009C AB00        R     MOV     R3,X+03H
+009E AA00        R     MOV     R2,X+02H
+00A0 A900        R     MOV     R1,X+01H
+00A2 A800        R     MOV     R0,X
+00A4 120000      E     LCALL   ?C?LMUL
+00A7 8F82              MOV     DPL,R7
+00A9 8E83              MOV     DPH,R6
+00AB E0                MOVX    A,@DPTR
+00AC FE                MOV     R6,A
+00AD A3                INC     DPTR
+00AE E0                MOVX    A,@DPTR
+00AF FF                MOV     R7,A
+00B0 E4                CLR     A
+00B1 FC                MOV     R4,A
+00B2 FD                MOV     R5,A
+00B3 8F00        R     MOV     Z+03H,R7
+00B5 8E00        R     MOV     Z+02H,R6
+00B7 8D00        R     MOV     Z+01H,R5
+00B9 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 71
+00BB AF00        R     MOV     R7,Z+03H
+00BD AE00        R     MOV     R6,Z+02H
+00BF AD00        R     MOV     R5,Z+01H
+00C1 AC00        R     MOV     R4,Z
+00C3 7810              MOV     R0,#010H
+00C5 120000      E     LCALL   ?C?LSHL
+00C8 8F00        R     MOV     Z+03H,R7
+00CA 8E00        R     MOV     Z+02H,R6
+00CC 8D00        R     MOV     Z+01H,R5
+00CE 8C00        R     MOV     Z,R4
                                            ; SOURCE LINE # 72
-00A1 7F02              MOV     R7,#02H
-00A3 7E00              MOV     R6,#00H
-00A5 7D00              MOV     R5,#00H
-00A7 7C00              MOV     R4,#00H
-00A9 AB00        R     MOV     R3,table_input+03H
-00AB AA00        R     MOV     R2,table_input+02H
-00AD A900        R     MOV     R1,table_input+01H
-00AF A800        R     MOV     R0,table_input
-00B1 120000      E     LCALL   ?C?LMUL
-00B4 8F82              MOV     DPL,R7
-00B6 8E83              MOV     DPH,R6
-00B8 E0                MOVX    A,@DPTR
-00B9 FE                MOV     R6,A
-00BA A3                INC     DPTR
-00BB E0                MOVX    A,@DPTR
-00BC FF                MOV     R7,A
-00BD E4                CLR     A
-00BE FC                MOV     R4,A
-00BF FD                MOV     R5,A
-00C0 8F00        R     MOV     sin_out+03H,R7
-00C2 8E00        R     MOV     sin_out+02H,R6
-00C4 8D00        R     MOV     sin_out+01H,R5
-00C6 8C00        R     MOV     sin_out,R4
-                                           ; SOURCE LINE # 73
-00C8 AF00        R     MOV     R7,sin_out+03H
-00CA AE00        R     MOV     R6,sin_out+02H
-00CC AD00        R     MOV     R5,sin_out+01H
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 7   
+00D0 AF00        R     MOV     R7,Z+03H
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 8   
 
-00CE AC00        R     MOV     R4,sin_out
-00D0 7810              MOV     R0,#010H
-00D2 120000      E     LCALL   ?C?LSHL
-00D5 8F00        R     MOV     sin_out+03H,R7
-00D7 8E00        R     MOV     sin_out+02H,R6
-00D9 8D00        R     MOV     sin_out+01H,R5
-00DB 8C00        R     MOV     sin_out,R4
+00D2 AE00        R     MOV     R6,Z+02H
+00D4 AD00        R     MOV     R5,Z+01H
+00D6 AC00        R     MOV     R4,Z
+00D8 780F              MOV     R0,#0FH
+00DA 120000      E     LCALL   ?C?SLSHR
+00DD 8F00        R     MOV     Z+03H,R7
+00DF 8E00        R     MOV     Z+02H,R6
+00E1 8D00        R     MOV     Z+01H,R5
+00E3 8C00        R     MOV     Z,R4
                                            ; SOURCE LINE # 74
-00DD AF00        R     MOV     R7,sin_out+03H
-00DF AE00        R     MOV     R6,sin_out+02H
-00E1 AD00        R     MOV     R5,sin_out+01H
-00E3 AC00        R     MOV     R4,sin_out
-00E5 780F              MOV     R0,#0FH
-00E7 120000      E     LCALL   ?C?SLSHR
-00EA 8F00        R     MOV     sin_out+03H,R7
-00EC 8E00        R     MOV     sin_out+02H,R6
-00EE 8D00        R     MOV     sin_out+01H,R5
-00F0 8C00        R     MOV     sin_out,R4
+00E5 7F00              MOV     R7,#00H
+00E7 7E00              MOV     R6,#00H
+00E9 7D00              MOV     R5,#00H
+00EB 7C00              MOV     R4,#00H
+00ED AB00        R     MOV     R3,A+03H
+00EF AA00        R     MOV     R2,A+02H
+00F1 A900        R     MOV     R1,A+01H
+00F3 A800        R     MOV     R0,A
+00F5 C3                CLR     C
+00F6 120000      E     LCALL   ?C?SLCMP
+00F9 5013              JNC     ?C0005
+00FB AF00        R     MOV     R7,Z+03H
+00FD AE00        R     MOV     R6,Z+02H
+00FF AD00        R     MOV     R5,Z+01H
+0101 AC00        R     MOV     R4,Z
+0103 120000      E     LCALL   ?C?LNEG
+0106 8F00        R     MOV     Z+03H,R7
+0108 8E00        R     MOV     Z+02H,R6
+010A 8D00        R     MOV     Z+01H,R5
+010C 8C00        R     MOV     Z,R4
+010E         ?C0005:
                                            ; SOURCE LINE # 76
-00F2 7F00              MOV     R7,#00H
-00F4 7E00              MOV     R6,#00H
-00F6 7D00              MOV     R5,#00H
-00F8 7C00              MOV     R4,#00H
-00FA AB00        R     MOV     R3,dat+03H
-00FC AA00        R     MOV     R2,dat+02H
-00FE A900        R     MOV     R1,dat+01H
-0100 A800        R     MOV     R0,dat
-0102 C3                CLR     C
-0103 120000      E     LCALL   ?C?SLCMP
-0106 5013              JNC     ?C0005
-0108 AF00        R     MOV     R7,sin_out+03H
-010A AE00        R     MOV     R6,sin_out+02H
-010C AD00        R     MOV     R5,sin_out+01H
-010E AC00        R     MOV     R4,sin_out
-0110 120000      E     LCALL   ?C?LNEG
-0113 8F00        R     MOV     sin_out+03H,R7
-0115 8E00        R     MOV     sin_out+02H,R6
-0117 8D00        R     MOV     sin_out+01H,R5
-0119 8C00        R     MOV     sin_out,R4
-011B         ?C0005:
-                                           ; SOURCE LINE # 80
-011B AF00        R     MOV     R7,sin_out+03H
-011D AE00        R     MOV     R6,sin_out+02H
-011F AD00        R     MOV     R5,sin_out+01H
-0121 AC00        R     MOV     R4,sin_out
-                                           ; SOURCE LINE # 82
-0123         ?C0006:
-0123 22                RET     
-             ; FUNCTION __IQ16sin (END)
+010E AF00        R     MOV     R7,Z+03H
+0110 AE00        R     MOV     R6,Z+02H
+0112 AD00        R     MOV     R5,Z+01H
+0114 AC00        R     MOV     R4,Z
+                                           ; SOURCE LINE # 78
+0116         ?C0006:
+0116 22                RET     
+             ; FUNCTION __IQ15sin (END)
 
-             ; FUNCTION __IQ16cos (BEGIN)
-                                           ; SOURCE LINE # 88
-0000 8F00        R     MOV     dat+03H,R7
-0002 8E00        R     MOV     dat+02H,R6
-0004 8D00        R     MOV     dat+01H,R5
-0006 8C00        R     MOV     dat,R4
-                                           ; SOURCE LINE # 89
-                                           ; SOURCE LINE # 95
+             ; FUNCTION __IQ15cos (BEGIN)
+                                           ; SOURCE LINE # 84
+0000 8F00        R     MOV     A+03H,R7
+0002 8E00        R     MOV     A+02H,R6
+0004 8D00        R     MOV     A+01H,R5
+0006 8C00        R     MOV     A,R4
+                                           ; SOURCE LINE # 85
+                                           ; SOURCE LINE # 87
 0008 7F00              MOV     R7,#00H
 000A 7E00              MOV     R6,#00H
 000C 7D00              MOV     R5,#00H
 000E 7C00              MOV     R4,#00H
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 8   
-
-0010 AB00        R     MOV     R3,dat+03H
-0012 AA00        R     MOV     R2,dat+02H
-0014 A900        R     MOV     R1,dat+01H
-0016 A800        R     MOV     R0,dat
+0010 AB00        R     MOV     R3,A+03H
+0012 AA00        R     MOV     R2,A+02H
+0014 A900        R     MOV     R1,A+01H
+0016 A800        R     MOV     R0,A
 0018 C3                CLR     C
 0019 120000      E     LCALL   ?C?SLCMP
 001C 500D              JNC     ?C0007
-001E AF00        R     MOV     R7,dat+03H
-0020 AE00        R     MOV     R6,dat+02H
-0022 AD00        R     MOV     R5,dat+01H
-0024 AC00        R     MOV     R4,dat
+001E AF00        R     MOV     R7,A+03H
+0020 AE00        R     MOV     R6,A+02H
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 9   
+
+0022 AD00        R     MOV     R5,A+01H
+0024 AC00        R     MOV     R4,A
 0026 120000      E     LCALL   ?C?LNEG
 0029 8008              SJMP    ?C0008
 002B         ?C0007:
-002B AF00        R     MOV     R7,dat+03H
-002D AE00        R     MOV     R6,dat+02H
-002F AD00        R     MOV     R5,dat+01H
-0031 AC00        R     MOV     R4,dat
+002B AF00        R     MOV     R7,A+03H
+002D AE00        R     MOV     R6,A+02H
+002F AD00        R     MOV     R5,A+01H
+0031 AC00        R     MOV     R4,A
 0033         ?C0008:
-0033 8F00        R     MOV     angle_in+03H,R7
-0035 8E00        R     MOV     angle_in+02H,R6
-0037 8D00        R     MOV     angle_in+01H,R5
-0039 8C00        R     MOV     angle_in,R4
+0033 8F00        R     MOV     X+03H,R7
+0035 8E00        R     MOV     X+02H,R6
+0037 8D00        R     MOV     X+01H,R5
+0039 8C00        R     MOV     X,R4
 003B         ?C0009:
-                                           ; SOURCE LINE # 99
+                                           ; SOURCE LINE # 91
 003B 7F00              MOV     R7,#00H
 003D 7E00              MOV     R6,#00H
-003F 7D68              MOV     R5,#068H
-0041 7C01              MOV     R4,#01H
-0043 AB00        R     MOV     R3,angle_in+03H
-0045 AA00        R     MOV     R2,angle_in+02H
-0047 A900        R     MOV     R1,angle_in+01H
-0049 A800        R     MOV     R0,angle_in
+003F 7DB4              MOV     R5,#0B4H
+0041 7C00              MOV     R4,#00H
+0043 AB00        R     MOV     R3,X+03H
+0045 AA00        R     MOV     R2,X+02H
+0047 A900        R     MOV     R1,X+01H
+0049 A800        R     MOV     R0,X
 004B C3                CLR     C
 004C 120000      E     LCALL   ?C?SLCMP
 004F 401B              JC      ?C0010
-                                           ; SOURCE LINE # 100
-                                           ; SOURCE LINE # 101
+                                           ; SOURCE LINE # 92
+                                           ; SOURCE LINE # 93
 0051 C3                CLR     C
-0052 E500        R     MOV     A,angle_in+03H
+0052 E500        R     MOV     A,X+03H
 0054 9400              SUBB    A,#00H
-0056 F500        R     MOV     angle_in+03H,A
-0058 E500        R     MOV     A,angle_in+02H
+0056 F500        R     MOV     X+03H,A
+0058 E500        R     MOV     A,X+02H
 005A 9400              SUBB    A,#00H
-005C F500        R     MOV     angle_in+02H,A
-005E E500        R     MOV     A,angle_in+01H
-0060 9468              SUBB    A,#068H
-0062 F500        R     MOV     angle_in+01H,A
-0064 E500        R     MOV     A,angle_in
-0066 9401              SUBB    A,#01H
-0068 F500        R     MOV     angle_in,A
-                                           ; SOURCE LINE # 102
+005C F500        R     MOV     X+02H,A
+005E E500        R     MOV     A,X+01H
+0060 94B4              SUBB    A,#0B4H
+0062 F500        R     MOV     X+01H,A
+0064 E500        R     MOV     A,X
+0066 9400              SUBB    A,#00H
+0068 F500        R     MOV     X,A
+                                           ; SOURCE LINE # 94
 006A 80CF              SJMP    ?C0009
 006C         ?C0010:
-                                           ; SOURCE LINE # 106
-006C AF00        R     MOV     R7,angle_in+03H
-006E AE00        R     MOV     R6,angle_in+02H
-0070 AD00        R     MOV     R5,angle_in+01H
-0072 AC00        R     MOV     R4,angle_in
+                                           ; SOURCE LINE # 98
+006C AF00        R     MOV     R7,X+03H
+006E AE00        R     MOV     R6,X+02H
+0070 AD00        R     MOV     R5,X+01H
+0072 AC00        R     MOV     R4,X
 0074 7806              MOV     R0,#06H
 0076 120000      E     LCALL   ?C?LSHL
-0079 7810              MOV     R0,#010H
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 9   
-
+0079 780F              MOV     R0,#0FH
 007B 120000      E     LCALL   ?C?SLSHR
-007E 8F00        R     MOV     table_input+03H,R7
-0080 8E00        R     MOV     table_input+02H,R6
-0082 8D00        R     MOV     table_input+01H,R5
-0084 8C00        R     MOV     table_input,R4
-                                           ; SOURCE LINE # 107
-0086 AF00        R     MOV     R7,table_input+03H
-0088 AE00        R     MOV     R6,table_input+02H
-008A AD00        R     MOV     R5,table_input+01H
-008C AC00        R     MOV     R4,table_input
+007E 8F00        R     MOV     X+03H,R7
+0080 8E00        R     MOV     X+02H,R6
+0082 8D00        R     MOV     X+01H,R5
+0084 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 99
+0086 AF00        R     MOV     R7,X+03H
+0088 AE00        R     MOV     R6,X+02H
+008A AD00        R     MOV     R5,X+01H
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 10  
+
+008C AC00        R     MOV     R4,X
 008E 7B2D              MOV     R3,#02DH
 0090 7A00              MOV     R2,#00H
 0092 7900              MOV     R1,#00H
 0094 7800              MOV     R0,#00H
-0096 120000      E     LCALL   ?C?ULDIV
-0099 8F00        R     MOV     table_input+03H,R7
-009B 8E00        R     MOV     table_input+02H,R6
-009D 8D00        R     MOV     table_input+01H,R5
-009F 8C00        R     MOV     table_input,R4
-                                           ; SOURCE LINE # 110
+0096 120000      E     LCALL   ?C?SLDIV
+0099 8F00        R     MOV     X+03H,R7
+009B 8E00        R     MOV     X+02H,R6
+009D 8D00        R     MOV     X+01H,R5
+009F 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 102
 00A1 7F02              MOV     R7,#02H
 00A3 7E00              MOV     R6,#00H
 00A5 7D00              MOV     R5,#00H
 00A7 7C00              MOV     R4,#00H
-00A9 AB00        R     MOV     R3,table_input+03H
-00AB AA00        R     MOV     R2,table_input+02H
-00AD A900        R     MOV     R1,table_input+01H
-00AF A800        R     MOV     R0,table_input
+00A9 AB00        R     MOV     R3,X+03H
+00AB AA00        R     MOV     R2,X+02H
+00AD A900        R     MOV     R1,X+01H
+00AF A800        R     MOV     R0,X
 00B1 120000      E     LCALL   ?C?LMUL
 00B4 E4                CLR     A
 00B5 2F                ADD     A,R7
@@ -535,52 +585,52 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 00C2 E4                CLR     A
 00C3 FC                MOV     R4,A
 00C4 FD                MOV     R5,A
-00C5 8F00        R     MOV     cos_out+03H,R7
-00C7 8E00        R     MOV     cos_out+02H,R6
-00C9 8D00        R     MOV     cos_out+01H,R5
-00CB 8C00        R     MOV     cos_out,R4
-                                           ; SOURCE LINE # 113
-00CD AF00        R     MOV     R7,cos_out+03H
-00CF AE00        R     MOV     R6,cos_out+02H
-00D1 AD00        R     MOV     R5,cos_out+01H
-00D3 AC00        R     MOV     R4,cos_out
+00C5 8F00        R     MOV     Z+03H,R7
+00C7 8E00        R     MOV     Z+02H,R6
+00C9 8D00        R     MOV     Z+01H,R5
+00CB 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 105
+00CD AF00        R     MOV     R7,Z+03H
+00CF AE00        R     MOV     R6,Z+02H
+00D1 AD00        R     MOV     R5,Z+01H
+00D3 AC00        R     MOV     R4,Z
 00D5 7810              MOV     R0,#010H
 00D7 120000      E     LCALL   ?C?LSHL
-00DA 8F00        R     MOV     cos_out+03H,R7
-00DC 8E00        R     MOV     cos_out+02H,R6
-00DE 8D00        R     MOV     cos_out+01H,R5
-00E0 8C00        R     MOV     cos_out,R4
-                                           ; SOURCE LINE # 114
-00E2 AF00        R     MOV     R7,cos_out+03H
-00E4 AE00        R     MOV     R6,cos_out+02H
-00E6 AD00        R     MOV     R5,cos_out+01H
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 10  
-
-00E8 AC00        R     MOV     R4,cos_out
+00DA 8F00        R     MOV     Z+03H,R7
+00DC 8E00        R     MOV     Z+02H,R6
+00DE 8D00        R     MOV     Z+01H,R5
+00E0 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 106
+00E2 AF00        R     MOV     R7,Z+03H
+00E4 AE00        R     MOV     R6,Z+02H
+00E6 AD00        R     MOV     R5,Z+01H
+00E8 AC00        R     MOV     R4,Z
 00EA 780F              MOV     R0,#0FH
 00EC 120000      E     LCALL   ?C?SLSHR
-00EF 8F00        R     MOV     cos_out+03H,R7
-00F1 8E00        R     MOV     cos_out+02H,R6
-00F3 8D00        R     MOV     cos_out+01H,R5
-00F5 8C00        R     MOV     cos_out,R4
-                                           ; SOURCE LINE # 116
-00F7 AF00        R     MOV     R7,cos_out+03H
-00F9 AE00        R     MOV     R6,cos_out+02H
-00FB AD00        R     MOV     R5,cos_out+01H
-00FD AC00        R     MOV     R4,cos_out
-                                           ; SOURCE LINE # 118
+00EF 8F00        R     MOV     Z+03H,R7
+00F1 8E00        R     MOV     Z+02H,R6
+00F3 8D00        R     MOV     Z+01H,R5
+00F5 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 108
+00F7 AF00        R     MOV     R7,Z+03H
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 11  
+
+00F9 AE00        R     MOV     R6,Z+02H
+00FB AD00        R     MOV     R5,Z+01H
+00FD AC00        R     MOV     R4,Z
+                                           ; SOURCE LINE # 110
 00FF         ?C0011:
 00FF 22                RET     
-             ; FUNCTION __IQ16cos (END)
+             ; FUNCTION __IQ15cos (END)
 
              ; FUNCTION _Normalize (BEGIN)
-                                           ; SOURCE LINE # 126
+                                           ; SOURCE LINE # 118
 0000 8F00        R     MOV     dat+03H,R7
 0002 8E00        R     MOV     dat+02H,R6
 0004 8D00        R     MOV     dat+01H,R5
 0006 8C00        R     MOV     dat,R4
-                                           ; SOURCE LINE # 127
-                                           ; SOURCE LINE # 129
+                                           ; SOURCE LINE # 119
+                                           ; SOURCE LINE # 121
 0008 AF00        R     MOV     R7,dat+03H
 000A AE00        R     MOV     R6,dat+02H
 000C AD00        R     MOV     R5,dat+01H
@@ -589,18 +639,18 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0012 8E00        R     MOV     LD+02H,R6
 0014 8D00        R     MOV     LD+01H,R5
 0016 8C00        R     MOV     LD,R4
-                                           ; SOURCE LINE # 130
+                                           ; SOURCE LINE # 122
 0018 8500E9      R     MOV     MD0,LD+03H
-                                           ; SOURCE LINE # 131
+                                           ; SOURCE LINE # 123
 001B 8500EA      R     MOV     MD1,LD+02H
-                                           ; SOURCE LINE # 132
+                                           ; SOURCE LINE # 124
 001E 8500EB      R     MOV     MD2,LD+01H
-                                           ; SOURCE LINE # 133
+                                           ; SOURCE LINE # 125
 0021 8500EC      R     MOV     MD3,LD
-                                           ; SOURCE LINE # 137
+                                           ; SOURCE LINE # 129
 0024 75EF00            MOV     ARCON,#00H
 0027         ?C0012:
-                                           ; SOURCE LINE # 138
+                                           ; SOURCE LINE # 130
 0027 E5EC              MOV     A,MD3
 0029 30E704            JNB     ACC.7,?C0014
 002C 7F01              MOV     R7,#01H
@@ -611,111 +661,111 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0032 EF                MOV     A,R7
 0033 60F2              JZ      ?C0012
 0035         ?C0013:
-                                           ; SOURCE LINE # 139
+                                           ; SOURCE LINE # 131
 0035 85E900      R     MOV     LD+03H,MD0
-                                           ; SOURCE LINE # 140
+                                           ; SOURCE LINE # 132
 0038 85EA00      R     MOV     LD+02H,MD1
-                                           ; SOURCE LINE # 141
+                                           ; SOURCE LINE # 133
 003B 85EB00      R     MOV     LD+01H,MD2
-                                           ; SOURCE LINE # 142
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 11  
-
+                                           ; SOURCE LINE # 134
 003E 85EC00      R     MOV     LD,MD3
-                                           ; SOURCE LINE # 144
+                                           ; SOURCE LINE # 136
 0041 AF00        R     MOV     R7,LD+03H
 0043 AE00        R     MOV     R6,LD+02H
 0045 AD00        R     MOV     R5,LD+01H
 0047 AC00        R     MOV     R4,LD
-                                           ; SOURCE LINE # 145
+                                           ; SOURCE LINE # 137
 0049         ?C0016:
 0049 22                RET     
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 12  
+
              ; FUNCTION _Normalize (END)
 
-             ; FUNCTION __IQ16inv (BEGIN)
-                                           ; SOURCE LINE # 148
-0000 8F00        R     MOV     dat+03H,R7
-0002 8E00        R     MOV     dat+02H,R6
-0004 8D00        R     MOV     dat+01H,R5
-0006 8C00        R     MOV     dat,R4
-                                           ; SOURCE LINE # 150
-                                           ; SOURCE LINE # 155
+             ; FUNCTION __IQ15inv (BEGIN)
+                                           ; SOURCE LINE # 140
+0000 8F00        R     MOV     A+03H,R7
+0002 8E00        R     MOV     A+02H,R6
+0004 8D00        R     MOV     A+01H,R5
+0006 8C00        R     MOV     A,R4
+                                           ; SOURCE LINE # 142
+                                           ; SOURCE LINE # 144
 0008 7F00              MOV     R7,#00H
 000A 7E00              MOV     R6,#00H
 000C 7D00              MOV     R5,#00H
 000E 7C00              MOV     R4,#00H
-0010 AB00        R     MOV     R3,dat+03H
-0012 AA00        R     MOV     R2,dat+02H
-0014 A900        R     MOV     R1,dat+01H
-0016 A800        R     MOV     R0,dat
+0010 AB00        R     MOV     R3,A+03H
+0012 AA00        R     MOV     R2,A+02H
+0014 A900        R     MOV     R1,A+01H
+0016 A800        R     MOV     R0,A
 0018 C3                CLR     C
 0019 120000      E     LCALL   ?C?SLCMP
 001C 500D              JNC     ?C0017
-001E AF00        R     MOV     R7,dat+03H
-0020 AE00        R     MOV     R6,dat+02H
-0022 AD00        R     MOV     R5,dat+01H
-0024 AC00        R     MOV     R4,dat
+001E AF00        R     MOV     R7,A+03H
+0020 AE00        R     MOV     R6,A+02H
+0022 AD00        R     MOV     R5,A+01H
+0024 AC00        R     MOV     R4,A
 0026 120000      E     LCALL   ?C?LNEG
 0029 8008              SJMP    ?C0018
 002B         ?C0017:
-002B AF00        R     MOV     R7,dat+03H
-002D AE00        R     MOV     R6,dat+02H
-002F AD00        R     MOV     R5,dat+01H
-0031 AC00        R     MOV     R4,dat
+002B AF00        R     MOV     R7,A+03H
+002D AE00        R     MOV     R6,A+02H
+002F AD00        R     MOV     R5,A+01H
+0031 AC00        R     MOV     R4,A
 0033         ?C0018:
-0033 8F00        R     MOV     inverse_in+03H,R7
-0035 8E00        R     MOV     inverse_in+02H,R6
-0037 8D00        R     MOV     inverse_in+01H,R5
-0039 8C00        R     MOV     inverse_in,R4
-                                           ; SOURCE LINE # 158
-003B AF00        R     MOV     R7,inverse_in+03H
-003D AE00        R     MOV     R6,inverse_in+02H
-003F AD00        R     MOV     R5,inverse_in+01H
-0041 AC00        R     MOV     R4,inverse_in
+0033 8F00        R     MOV     X+03H,R7
+0035 8E00        R     MOV     X+02H,R6
+0037 8D00        R     MOV     X+01H,R5
+0039 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 145
+003B AF00        R     MOV     R7,X+03H
+003D AE00        R     MOV     R6,X+02H
+003F AD00        R     MOV     R5,X+01H
+0041 AC00        R     MOV     R4,X
 0043 120000      R     LCALL   _Normalize
-0046 8F00        R     MOV     inverse_in+03H,R7
-0048 8E00        R     MOV     inverse_in+02H,R6
-004A 8D00        R     MOV     inverse_in+01H,R5
-004C 8C00        R     MOV     inverse_in,R4
-                                           ; SOURCE LINE # 159
+0046 8F00        R     MOV     X+03H,R7
+0048 8E00        R     MOV     X+02H,R6
+004A 8D00        R     MOV     X+01H,R5
+004C 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 146
 004E C3                CLR     C
-004F 740E              MOV     A,#0EH
+004F 740F              MOV     A,#0FH
 0051 95EF              SUBB    A,ARCON
 0053 F500        R     MOV     index,A
-                                           ; SOURCE LINE # 160
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 12  
-
-0055 E500        R     MOV     A,inverse_in+03H
+                                           ; SOURCE LINE # 147
+0055 E500        R     MOV     A,X+03H
 0057 54FF              ANL     A,#0FFH
-0059 F500        R     MOV     inverse_in+03H,A
-005B E500        R     MOV     A,inverse_in+02H
+0059 F500        R     MOV     X+03H,A
+005B E500        R     MOV     A,X+02H
 005D 54FF              ANL     A,#0FFH
-005F F500        R     MOV     inverse_in+02H,A
-0061 E500        R     MOV     A,inverse_in+01H
+005F F500        R     MOV     X+02H,A
+0061 E500        R     MOV     A,X+01H
 0063 54FF              ANL     A,#0FFH
-0065 F500        R     MOV     inverse_in+01H,A
-0067 E500        R     MOV     A,inverse_in
+0065 F500        R     MOV     X+01H,A
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 13  
+
+0067 E500        R     MOV     A,X
 0069 547F              ANL     A,#07FH
-006B F500        R     MOV     inverse_in,A
-                                           ; SOURCE LINE # 161
-006D AF00        R     MOV     R7,inverse_in+03H
-006F AE00        R     MOV     R6,inverse_in+02H
-0071 AD00        R     MOV     R5,inverse_in+01H
-0073 AC00        R     MOV     R4,inverse_in
+006B F500        R     MOV     X,A
+                                           ; SOURCE LINE # 148
+006D AF00        R     MOV     R7,X+03H
+006F AE00        R     MOV     R6,X+02H
+0071 AD00        R     MOV     R5,X+01H
+0073 AC00        R     MOV     R4,X
 0075 7816              MOV     R0,#016H
 0077 120000      E     LCALL   ?C?SLSHR
-007A 8F00        R     MOV     table_input+03H,R7
-007C 8E00        R     MOV     table_input+02H,R6
-007E 8D00        R     MOV     table_input+01H,R5
-0080 8C00        R     MOV     table_input,R4
-                                           ; SOURCE LINE # 162
+007A 8F00        R     MOV     X+03H,R7
+007C 8E00        R     MOV     X+02H,R6
+007E 8D00        R     MOV     X+01H,R5
+0080 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 149
 0082 7F02              MOV     R7,#02H
 0084 7E00              MOV     R6,#00H
 0086 7D00              MOV     R5,#00H
 0088 7C00              MOV     R4,#00H
-008A AB00        R     MOV     R3,table_input+03H
-008C AA00        R     MOV     R2,table_input+02H
-008E A900        R     MOV     R1,table_input+01H
-0090 A800        R     MOV     R0,table_input
+008A AB00        R     MOV     R3,X+03H
+008C AA00        R     MOV     R2,X+02H
+008E A900        R     MOV     R1,X+01H
+0090 A800        R     MOV     R0,X
 0092 120000      E     LCALL   ?C?LMUL
 0095 E4                CLR     A
 0096 2F                ADD     A,R7
@@ -731,377 +781,933 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 00A3 E4                CLR     A
 00A4 FC                MOV     R4,A
 00A5 FD                MOV     R5,A
-00A6 8F00        R     MOV     inverse_out+03H,R7
-00A8 8E00        R     MOV     inverse_out+02H,R6
-00AA 8D00        R     MOV     inverse_out+01H,R5
-00AC 8C00        R     MOV     inverse_out,R4
-                                           ; SOURCE LINE # 163
-00AE AF00        R     MOV     R7,inverse_out+03H
-00B0 AE00        R     MOV     R6,inverse_out+02H
-00B2 AD00        R     MOV     R5,inverse_out+01H
-00B4 AC00        R     MOV     R4,inverse_out
+00A6 8F00        R     MOV     Z+03H,R7
+00A8 8E00        R     MOV     Z+02H,R6
+00AA 8D00        R     MOV     Z+01H,R5
+00AC 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 150
+00AE AF00        R     MOV     R7,Z+03H
+00B0 AE00        R     MOV     R6,Z+02H
+00B2 AD00        R     MOV     R5,Z+01H
+00B4 AC00        R     MOV     R4,Z
 00B6 7810              MOV     R0,#010H
 00B8 120000      E     LCALL   ?C?LSHL
-00BB 8F00        R     MOV     inverse_out+03H,R7
-00BD 8E00        R     MOV     inverse_out+02H,R6
-00BF 8D00        R     MOV     inverse_out+01H,R5
-00C1 8C00        R     MOV     inverse_out,R4
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 13  
-
-                                           ; SOURCE LINE # 164
-00C3 AF00        R     MOV     R7,inverse_out+03H
-00C5 AE00        R     MOV     R6,inverse_out+02H
-00C7 AD00        R     MOV     R5,inverse_out+01H
-00C9 AC00        R     MOV     R4,inverse_out
-00CB 780F              MOV     R0,#0FH
+00BB 8F00        R     MOV     Z+03H,R7
+00BD 8E00        R     MOV     Z+02H,R6
+00BF 8D00        R     MOV     Z+01H,R5
+00C1 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 151
+00C3 AF00        R     MOV     R7,Z+03H
+00C5 AE00        R     MOV     R6,Z+02H
+00C7 AD00        R     MOV     R5,Z+01H
+00C9 AC00        R     MOV     R4,Z
+00CB 7810              MOV     R0,#010H
 00CD 120000      E     LCALL   ?C?SLSHR
-00D0 8F00        R     MOV     inverse_out+03H,R7
-00D2 8E00        R     MOV     inverse_out+02H,R6
-00D4 8D00        R     MOV     inverse_out+01H,R5
-00D6 8C00        R     MOV     inverse_out,R4
-                                           ; SOURCE LINE # 166
+00D0 8F00        R     MOV     Z+03H,R7
+00D2 8E00        R     MOV     Z+02H,R6
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 14  
+
+00D4 8D00        R     MOV     Z+01H,R5
+00D6 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 153
 00D8 C3                CLR     C
 00D9 E500        R     MOV     A,index
 00DB 6480              XRL     A,#080H
 00DD 9480              SUBB    A,#080H
 00DF 4019              JC      ?C0019
-                                           ; SOURCE LINE # 167
-00E1 AF00        R     MOV     R7,inverse_out+03H
-00E3 AE00        R     MOV     R6,inverse_out+02H
-00E5 AD00        R     MOV     R5,inverse_out+01H
-00E7 AC00        R     MOV     R4,inverse_out
+                                           ; SOURCE LINE # 154
+00E1 AF00        R     MOV     R7,Z+03H
+00E3 AE00        R     MOV     R6,Z+02H
+00E5 AD00        R     MOV     R5,Z+01H
+00E7 AC00        R     MOV     R4,Z
 00E9 A900        R     MOV     R1,index
 00EB A801              MOV     R0,AR1
 00ED 120000      E     LCALL   ?C?SLSHR
-00F0 8F00        R     MOV     inverse_out+03H,R7
-00F2 8E00        R     MOV     inverse_out+02H,R6
-00F4 8D00        R     MOV     inverse_out+01H,R5
-00F6 8C00        R     MOV     inverse_out,R4
+00F0 8F00        R     MOV     Z+03H,R7
+00F2 8E00        R     MOV     Z+02H,R6
+00F4 8D00        R     MOV     Z+01H,R5
+00F6 8C00        R     MOV     Z,R4
 00F8 801A              SJMP    ?C0020
 00FA         ?C0019:
-                                           ; SOURCE LINE # 169
-00FA AF00        R     MOV     R7,inverse_out+03H
-00FC AE00        R     MOV     R6,inverse_out+02H
-00FE AD00        R     MOV     R5,inverse_out+01H
-0100 AC00        R     MOV     R4,inverse_out
+                                           ; SOURCE LINE # 156
+00FA AF00        R     MOV     R7,Z+03H
+00FC AE00        R     MOV     R6,Z+02H
+00FE AD00        R     MOV     R5,Z+01H
+0100 AC00        R     MOV     R4,Z
 0102 E500        R     MOV     A,index
 0104 F4                CPL     A
 0105 04                INC     A
 0106 F9                MOV     R1,A
 0107 A801              MOV     R0,AR1
 0109 120000      E     LCALL   ?C?LSHL
-010C 8F00        R     MOV     inverse_out+03H,R7
-010E 8E00        R     MOV     inverse_out+02H,R6
-0110 8D00        R     MOV     inverse_out+01H,R5
-0112 8C00        R     MOV     inverse_out,R4
+010C 8F00        R     MOV     Z+03H,R7
+010E 8E00        R     MOV     Z+02H,R6
+0110 8D00        R     MOV     Z+01H,R5
+0112 8C00        R     MOV     Z,R4
 0114         ?C0020:
-                                           ; SOURCE LINE # 171
+                                           ; SOURCE LINE # 158
 0114 7F00              MOV     R7,#00H
 0116 7E00              MOV     R6,#00H
 0118 7D00              MOV     R5,#00H
 011A 7C00              MOV     R4,#00H
-011C AB00        R     MOV     R3,dat+03H
-011E AA00        R     MOV     R2,dat+02H
-0120 A900        R     MOV     R1,dat+01H
-0122 A800        R     MOV     R0,dat
+011C AB00        R     MOV     R3,A+03H
+011E AA00        R     MOV     R2,A+02H
+0120 A900        R     MOV     R1,A+01H
+0122 A800        R     MOV     R0,A
 0124 C3                CLR     C
 0125 120000      E     LCALL   ?C?SLCMP
 0128 5013              JNC     ?C0021
-012A AF00        R     MOV     R7,inverse_out+03H
-012C AE00        R     MOV     R6,inverse_out+02H
-012E AD00        R     MOV     R5,inverse_out+01H
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 14  
-
-0130 AC00        R     MOV     R4,inverse_out
+012A AF00        R     MOV     R7,Z+03H
+012C AE00        R     MOV     R6,Z+02H
+012E AD00        R     MOV     R5,Z+01H
+0130 AC00        R     MOV     R4,Z
 0132 120000      E     LCALL   ?C?LNEG
-0135 8F00        R     MOV     inverse_out+03H,R7
-0137 8E00        R     MOV     inverse_out+02H,R6
-0139 8D00        R     MOV     inverse_out+01H,R5
-013B 8C00        R     MOV     inverse_out,R4
+0135 8F00        R     MOV     Z+03H,R7
+0137 8E00        R     MOV     Z+02H,R6
+0139 8D00        R     MOV     Z+01H,R5
+013B 8C00        R     MOV     Z,R4
 013D         ?C0021:
-                                           ; SOURCE LINE # 174
-013D AF00        R     MOV     R7,inverse_out+03H
-013F AE00        R     MOV     R6,inverse_out+02H
-0141 AD00        R     MOV     R5,inverse_out+01H
-0143 AC00        R     MOV     R4,inverse_out
-                                           ; SOURCE LINE # 175
+                                           ; SOURCE LINE # 161
+013D AF00        R     MOV     R7,Z+03H
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 15  
+
+013F AE00        R     MOV     R6,Z+02H
+0141 AD00        R     MOV     R5,Z+01H
+0143 AC00        R     MOV     R4,Z
+                                           ; SOURCE LINE # 162
 0145         ?C0022:
 0145 22                RET     
-             ; FUNCTION __IQ16inv (END)
+             ; FUNCTION __IQ15inv (END)
 
-             ; FUNCTION __IQ16sqrt (BEGIN)
+             ; FUNCTION __IQ15mpy (BEGIN)
+                                           ; SOURCE LINE # 166
+0000 8F00        R     MOV     A+03H,R7
+0002 8E00        R     MOV     A+02H,R6
+0004 8D00        R     MOV     A+01H,R5
+0006 8C00        R     MOV     A,R4
+                                           ; SOURCE LINE # 167
+                                           ; SOURCE LINE # 169
+0008 AF00        R     MOV     R7,A+03H
+000A AE00        R     MOV     R6,A+02H
+000C AD00        R     MOV     R5,A+01H
+000E AC00        R     MOV     R4,A
+0010 7807              MOV     R0,#07H
+0012 120000      E     LCALL   ?C?SLSHR
+0015 8F00        R     MOV     X+03H,R7
+0017 8E00        R     MOV     X+02H,R6
+0019 8D00        R     MOV     X+01H,R5
+001B 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 170
+001D AF00        R     MOV     R7,B+03H
+001F AE00        R     MOV     R6,B+02H
+0021 AD00        R     MOV     R5,B+01H
+0023 AC00        R     MOV     R4,B
+0025 7807              MOV     R0,#07H
+0027 120000      E     LCALL   ?C?SLSHR
+002A 8F00        R     MOV     Y+03H,R7
+002C 8E00        R     MOV     Y+02H,R6
+002E 8D00        R     MOV     Y+01H,R5
+0030 8C00        R     MOV     Y,R4
+                                           ; SOURCE LINE # 172
+0032 AF00        R     MOV     R7,Y+03H
+0034 AE00        R     MOV     R6,Y+02H
+0036 AD00        R     MOV     R5,Y+01H
+0038 AC00        R     MOV     R4,Y
+003A AB00        R     MOV     R3,X+03H
+003C AA00        R     MOV     R2,X+02H
+003E A900        R     MOV     R1,X+01H
+0040 A800        R     MOV     R0,X
+0042 120000      E     LCALL   ?C?LMUL
+0045 8F00        R     MOV     Z+03H,R7
+0047 8E00        R     MOV     Z+02H,R6
+0049 8D00        R     MOV     Z+01H,R5
+004B 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 175
+004D AF00        R     MOV     R7,Z+03H
+004F AE00        R     MOV     R6,Z+02H
+0051 AD00        R     MOV     R5,Z+01H
+0053 AC00        R     MOV     R4,Z
+0055 7801              MOV     R0,#01H
+0057 120000      E     LCALL   ?C?SLSHR
+005A 8F00        R     MOV     Z+03H,R7
+005C 8E00        R     MOV     Z+02H,R6
+005E 8D00        R     MOV     Z+01H,R5
+0060 8C00        R     MOV     Z,R4
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 16  
+
+0062         ?C0023:
+                                           ; SOURCE LINE # 176
+0062 AF00        R     MOV     R7,Z+03H
+0064 AE00        R     MOV     R6,Z+02H
+0066 AD00        R     MOV     R5,Z+01H
+0068 AC00        R     MOV     R4,Z
                                            ; SOURCE LINE # 178
-0000 8F00        R     MOV     dat+03H,R7
-0002 8E00        R     MOV     dat+02H,R6
-0004 8D00        R     MOV     dat+01H,R5
-0006 8C00        R     MOV     dat,R4
-                                           ; SOURCE LINE # 180
-                                           ; SOURCE LINE # 185
+006A         ?C0024:
+006A 22                RET     
+             ; FUNCTION __IQ15mpy (END)
+
+             ; FUNCTION __IQ15div (BEGIN)
+                                           ; SOURCE LINE # 186
+0000 8F00        R     MOV     A+03H,R7
+0002 8E00        R     MOV     A+02H,R6
+0004 8D00        R     MOV     A+01H,R5
+0006 8C00        R     MOV     A,R4
+                                           ; SOURCE LINE # 187
+                                           ; SOURCE LINE # 189
+0008 AF00        R     MOV     R7,A+03H
+000A AE00        R     MOV     R6,A+02H
+000C AD00        R     MOV     R5,A+01H
+000E AC00        R     MOV     R4,A
+0010 7807              MOV     R0,#07H
+0012 120000      E     LCALL   ?C?LSHL
+0015 8F00        R     MOV     X+03H,R7
+0017 8E00        R     MOV     X+02H,R6
+0019 8D00        R     MOV     X+01H,R5
+001B 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 191
+001D AF00        R     MOV     R7,B+03H
+001F AE00        R     MOV     R6,B+02H
+0021 AD00        R     MOV     R5,B+01H
+0023 AC00        R     MOV     R4,B
+0025 7808              MOV     R0,#08H
+0027 120000      E     LCALL   ?C?SLSHR
+002A 8F00        R     MOV     Y+03H,R7
+002C 8E00        R     MOV     Y+02H,R6
+002E 8D00        R     MOV     Y+01H,R5
+0030 8C00        R     MOV     Y,R4
+                                           ; SOURCE LINE # 192
+0032 AB00        R     MOV     R3,Y+03H
+0034 AA00        R     MOV     R2,Y+02H
+0036 A900        R     MOV     R1,Y+01H
+0038 A800        R     MOV     R0,Y
+003A AF00        R     MOV     R7,X+03H
+003C AE00        R     MOV     R6,X+02H
+003E AD00        R     MOV     R5,X+01H
+0040 AC00        R     MOV     R4,X
+0042 120000      E     LCALL   ?C?SLDIV
+0045 8F00        R     MOV     Z+03H,R7
+0047 8E00        R     MOV     Z+02H,R6
+0049 8D00        R     MOV     Z+01H,R5
+004B 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 193
+004D AF00        R     MOV     R7,Z+03H
+004F AE00        R     MOV     R6,Z+02H
+0051 AD00        R     MOV     R5,Z+01H
+0053 AC00        R     MOV     R4,Z
+                                           ; SOURCE LINE # 195
+0055         ?C0025:
+0055 22                RET     
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 17  
+
+             ; FUNCTION __IQ15div (END)
+
+             ; FUNCTION __IQ15sqrt (BEGIN)
+                                           ; SOURCE LINE # 201
+0000 8F00        R     MOV     A+03H,R7
+0002 8E00        R     MOV     A+02H,R6
+0004 8D00        R     MOV     A+01H,R5
+0006 8C00        R     MOV     A,R4
+                                           ; SOURCE LINE # 203
+                                           ; SOURCE LINE # 205
 0008 7F00              MOV     R7,#00H
 000A 7E00              MOV     R6,#00H
 000C 7D00              MOV     R5,#00H
 000E 7C00              MOV     R4,#00H
-0010 AB00        R     MOV     R3,dat+03H
-0012 AA00        R     MOV     R2,dat+02H
-0014 A900        R     MOV     R1,dat+01H
-0016 A800        R     MOV     R0,dat
+0010 AB00        R     MOV     R3,A+03H
+0012 AA00        R     MOV     R2,A+02H
+0014 A900        R     MOV     R1,A+01H
+0016 A800        R     MOV     R0,A
 0018 C3                CLR     C
 0019 120000      E     LCALL   ?C?SLCMP
-001C 500D              JNC     ?C0023
-001E AF00        R     MOV     R7,dat+03H
-0020 AE00        R     MOV     R6,dat+02H
-0022 AD00        R     MOV     R5,dat+01H
-0024 AC00        R     MOV     R4,dat
+001C 500D              JNC     ?C0026
+001E AF00        R     MOV     R7,A+03H
+0020 AE00        R     MOV     R6,A+02H
+0022 AD00        R     MOV     R5,A+01H
+0024 AC00        R     MOV     R4,A
 0026 120000      E     LCALL   ?C?LNEG
-0029 8008              SJMP    ?C0024
-002B         ?C0023:
-002B AF00        R     MOV     R7,dat+03H
-002D AE00        R     MOV     R6,dat+02H
-002F AD00        R     MOV     R5,dat+01H
-0031 AC00        R     MOV     R4,dat
-0033         ?C0024:
-0033 8F00        R     MOV     sqrt_in+03H,R7
-0035 8E00        R     MOV     sqrt_in+02H,R6
-0037 8D00        R     MOV     sqrt_in+01H,R5
-0039 8C00        R     MOV     sqrt_in,R4
-                                           ; SOURCE LINE # 186
-003B AF00        R     MOV     R7,sqrt_in+03H
-003D AE00        R     MOV     R6,sqrt_in+02H
-003F AD00        R     MOV     R5,sqrt_in+01H
-0041 AC00        R     MOV     R4,sqrt_in
+0029 8008              SJMP    ?C0027
+002B         ?C0026:
+002B AF00        R     MOV     R7,A+03H
+002D AE00        R     MOV     R6,A+02H
+002F AD00        R     MOV     R5,A+01H
+0031 AC00        R     MOV     R4,A
+0033         ?C0027:
+0033 8F00        R     MOV     X+03H,R7
+0035 8E00        R     MOV     X+02H,R6
+0037 8D00        R     MOV     X+01H,R5
+0039 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 207
+003B AF00        R     MOV     R7,X+03H
+003D AE00        R     MOV     R6,X+02H
+003F AD00        R     MOV     R5,X+01H
+0041 AC00        R     MOV     R4,X
 0043 120000      R     LCALL   _Normalize
-0046 8F00        R     MOV     sqrt_in+03H,R7
-0048 8E00        R     MOV     sqrt_in+02H,R6
-004A 8D00        R     MOV     sqrt_in+01H,R5
-004C 8C00        R     MOV     sqrt_in,R4
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 15  
-
-                                           ; SOURCE LINE # 187
+0046 8F00        R     MOV     X+03H,R7
+0048 8E00        R     MOV     X+02H,R6
+004A 8D00        R     MOV     X+01H,R5
+004C 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 208
 004E C3                CLR     C
-004F 740F              MOV     A,#0FH
+004F 7410              MOV     A,#010H
 0051 95EF              SUBB    A,ARCON
-0053 F500        R     MOV     power,A
-                                           ; SOURCE LINE # 190
-0055 E500        R     MOV     A,power
+0053 F500        R     MOV     index,A
+                                           ; SOURCE LINE # 210
+0055 E500        R     MOV     A,index
 0057 75F002            MOV     B,#02H
 005A 120000      E     LCALL   ?C?SCDIV
 005D AFF0              MOV     R7,B
 005F EF                MOV     A,R7
-0060 706B              JNZ     ?C0025
-                                           ; SOURCE LINE # 192
-                                           ; SOURCE LINE # 193
-0062 E500        R     MOV     A,sqrt_in+03H
+0060 7067              JNZ     ?C0028
+                                           ; SOURCE LINE # 211
+                                           ; SOURCE LINE # 212
+0062 E500        R     MOV     A,X+03H
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 18  
+
 0064 54FF              ANL     A,#0FFH
-0066 F500        R     MOV     sqrt_in+03H,A
-0068 E500        R     MOV     A,sqrt_in+02H
+0066 F500        R     MOV     X+03H,A
+0068 E500        R     MOV     A,X+02H
 006A 54FF              ANL     A,#0FFH
-006C F500        R     MOV     sqrt_in+02H,A
-006E E500        R     MOV     A,sqrt_in+01H
+006C F500        R     MOV     X+02H,A
+006E E500        R     MOV     A,X+01H
 0070 54FF              ANL     A,#0FFH
-0072 F500        R     MOV     sqrt_in+01H,A
-0074 E500        R     MOV     A,sqrt_in
+0072 F500        R     MOV     X+01H,A
+0074 E500        R     MOV     A,X
 0076 547F              ANL     A,#07FH
-0078 F500        R     MOV     sqrt_in,A
-                                           ; SOURCE LINE # 194
-007A AF00        R     MOV     R7,sqrt_in+03H
-007C AE00        R     MOV     R6,sqrt_in+02H
-007E AD00        R     MOV     R5,sqrt_in+01H
-0080 AC00        R     MOV     R4,sqrt_in
+0078 F500        R     MOV     X,A
+                                           ; SOURCE LINE # 213
+007A AF00        R     MOV     R7,X+03H
+007C AE00        R     MOV     R6,X+02H
+007E AD00        R     MOV     R5,X+01H
+0080 AC00        R     MOV     R4,X
 0082 7817              MOV     R0,#017H
 0084 120000      E     LCALL   ?C?SLSHR
 0087 EF                MOV     A,R7
 0088 2480              ADD     A,#080H
-008A FF                MOV     R7,A
-008B EE                MOV     A,R6
-008C 3400              ADDC    A,#00H
-008E FE                MOV     R6,A
-008F ED                MOV     A,R5
-0090 3400              ADDC    A,#00H
-0092 FD                MOV     R5,A
-0093 EC                MOV     A,R4
-0094 3400              ADDC    A,#00H
-0096 FC                MOV     R4,A
-0097 8F00        R     MOV     table_input+03H,R7
-0099 8E00        R     MOV     table_input+02H,R6
-009B 8D00        R     MOV     table_input+01H,R5
-009D 8C00        R     MOV     table_input,R4
-                                           ; SOURCE LINE # 196
-009F 7F02              MOV     R7,#02H
-00A1 7E00              MOV     R6,#00H
-00A3 7D00              MOV     R5,#00H
-00A5 7C00              MOV     R4,#00H
-00A7 AB00        R     MOV     R3,table_input+03H
-00A9 AA00        R     MOV     R2,table_input+02H
-00AB A900        R     MOV     R1,table_input+01H
-00AD A800        R     MOV     R0,table_input
-00AF 120000      E     LCALL   ?C?LMUL
-00B2 E4                CLR     A
-00B3 2F                ADD     A,R7
-00B4 F582              MOV     DPL,A
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 16  
-
-00B6 7408              MOV     A,#08H
-00B8 3E                ADDC    A,R6
-00B9 F583              MOV     DPH,A
-00BB E0                MOVX    A,@DPTR
-00BC FE                MOV     R6,A
-00BD A3                INC     DPTR
-00BE E0                MOVX    A,@DPTR
-00BF FF                MOV     R7,A
-00C0 E4                CLR     A
-00C1 FC                MOV     R4,A
-00C2 FD                MOV     R5,A
-00C3 8F00        R     MOV     sqrt_out+03H,R7
-00C5 8E00        R     MOV     sqrt_out+02H,R6
-00C7 8D00        R     MOV     sqrt_out+01H,R5
-00C9 8C00        R     MOV     sqrt_out,R4
-                                           ; SOURCE LINE # 197
-00CB 805B              SJMP    ?C0026
-00CD         ?C0025:
-                                           ; SOURCE LINE # 199
-                                           ; SOURCE LINE # 200
-00CD 0500        R     INC     power
-                                           ; SOURCE LINE # 202
-00CF AF00        R     MOV     R7,sqrt_in+03H
-00D1 AE00        R     MOV     R6,sqrt_in+02H
-00D3 AD00        R     MOV     R5,sqrt_in+01H
-00D5 AC00        R     MOV     R4,sqrt_in
-00D7 7818              MOV     R0,#018H
-00D9 120000      E     LCALL   ?C?SLSHR
-00DC 8F00        R     MOV     table_input+03H,R7
-00DE 8E00        R     MOV     table_input+02H,R6
-00E0 8D00        R     MOV     table_input+01H,R5
-00E2 8C00        R     MOV     table_input,R4
-                                           ; SOURCE LINE # 203
-00E4 E500        R     MOV     A,table_input+03H
-00E6 547F              ANL     A,#07FH
-00E8 F500        R     MOV     table_input+03H,A
-00EA E500        R     MOV     A,table_input+02H
-00EC 5400              ANL     A,#00H
-00EE F500        R     MOV     table_input+02H,A
-00F0 E500        R     MOV     A,table_input+01H
-00F2 5400              ANL     A,#00H
-00F4 F500        R     MOV     table_input+01H,A
-00F6 E500        R     MOV     A,table_input
-00F8 5400              ANL     A,#00H
-00FA F500        R     MOV     table_input,A
-                                           ; SOURCE LINE # 204
-00FC 7F02              MOV     R7,#02H
-00FE 7E00              MOV     R6,#00H
-0100 7D00              MOV     R5,#00H
-0102 7C00              MOV     R4,#00H
-0104 AB00        R     MOV     R3,table_input+03H
-0106 AA00        R     MOV     R2,table_input+02H
-0108 A900        R     MOV     R1,table_input+01H
-010A A800        R     MOV     R0,table_input
-010C 120000      E     LCALL   ?C?LMUL
-010F E4                CLR     A
-0110 2F                ADD     A,R7
-0111 F582              MOV     DPL,A
-0113 7408              MOV     A,#08H
-0115 3E                ADDC    A,R6
-0116 F583              MOV     DPH,A
-0118 E0                MOVX    A,@DPTR
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 17  
-
-0119 FE                MOV     R6,A
-011A A3                INC     DPTR
-011B E0                MOVX    A,@DPTR
-011C FF                MOV     R7,A
-011D E4                CLR     A
-011E FC                MOV     R4,A
-011F FD                MOV     R5,A
-0120 8F00        R     MOV     sqrt_out+03H,R7
-0122 8E00        R     MOV     sqrt_out+02H,R6
-0124 8D00        R     MOV     sqrt_out+01H,R5
-0126 8C00        R     MOV     sqrt_out,R4
-                                           ; SOURCE LINE # 205
-0128         ?C0026:
-                                           ; SOURCE LINE # 206
-0128 AF00        R     MOV     R7,sqrt_out+03H
-012A AE00        R     MOV     R6,sqrt_out+02H
-012C AD00        R     MOV     R5,sqrt_out+01H
-012E AC00        R     MOV     R4,sqrt_out
-0130 7810              MOV     R0,#010H
-0132 120000      E     LCALL   ?C?LSHL
-0135 8F00        R     MOV     sqrt_out+03H,R7
-0137 8E00        R     MOV     sqrt_out+02H,R6
-0139 8D00        R     MOV     sqrt_out+01H,R5
-013B 8C00        R     MOV     sqrt_out,R4
-                                           ; SOURCE LINE # 207
-013D AF00        R     MOV     R7,sqrt_out+03H
-013F AE00        R     MOV     R6,sqrt_out+02H
-0141 AD00        R     MOV     R5,sqrt_out+01H
-0143 AC00        R     MOV     R4,sqrt_out
-0145 780E              MOV     R0,#0EH
-0147 120000      E     LCALL   ?C?SLSHR
-014A 8F00        R     MOV     sqrt_out+03H,R7
-014C 8E00        R     MOV     sqrt_out+02H,R6
-014E 8D00        R     MOV     sqrt_out+01H,R5
-0150 8C00        R     MOV     sqrt_out,R4
-                                           ; SOURCE LINE # 209
-0152 C3                CLR     C
-0153 E500        R     MOV     A,power
-0155 6480              XRL     A,#080H
-0157 9480              SUBB    A,#080H
-0159 401D              JC      ?C0027
-                                           ; SOURCE LINE # 210
-015B AF00        R     MOV     R7,sqrt_out+03H
-015D AE00        R     MOV     R6,sqrt_out+02H
-015F AD00        R     MOV     R5,sqrt_out+01H
-0161 AC00        R     MOV     R4,sqrt_out
-0163 E500        R     MOV     A,power
-0165 A2E7              MOV     C,ACC.7
-0167 13                RRC     A
-0168 F9                MOV     R1,A
-0169 A801              MOV     R0,AR1
-016B 120000      E     LCALL   ?C?LSHL
-016E 8F00        R     MOV     sqrt_out+03H,R7
-0170 8E00        R     MOV     sqrt_out+02H,R6
-0172 8D00        R     MOV     sqrt_out+01H,R5
-0174 8C00        R     MOV     sqrt_out,R4
-0176 801F              SJMP    ?C0028
-0178         ?C0027:
-                                           ; SOURCE LINE # 211
-0178 AF00        R     MOV     R7,sqrt_out+03H
-017A AE00        R     MOV     R6,sqrt_out+02H
-017C AD00        R     MOV     R5,sqrt_out+01H
-C51 COMPILER V9.53.0.0   IQMATHLIB                                                         11/25/2018 09:03:46 PAGE 18  
-
-017E AC00        R     MOV     R4,sqrt_out
-0180 E500        R     MOV     A,power
-0182 F4                CPL     A
-0183 04                INC     A
-0184 FB                MOV     R3,A
-0185 EB                MOV     A,R3
-0186 A2E7              MOV     C,ACC.7
-0188 13                RRC     A
-0189 F9                MOV     R1,A
-018A A801              MOV     R0,AR1
-018C 120000      E     LCALL   ?C?SLSHR
-018F 8F00        R     MOV     sqrt_out+03H,R7
-0191 8E00        R     MOV     sqrt_out+02H,R6
-0193 8D00        R     MOV     sqrt_out+01H,R5
-0195 8C00        R     MOV     sqrt_out,R4
-0197         ?C0028:
+008A F500        R     MOV     X+03H,A
+008C EE                MOV     A,R6
+008D 3400              ADDC    A,#00H
+008F F500        R     MOV     X+02H,A
+0091 ED                MOV     A,R5
+0092 3400              ADDC    A,#00H
+0094 F500        R     MOV     X+01H,A
+0096 EC                MOV     A,R4
+0097 3400              ADDC    A,#00H
+0099 F500        R     MOV     X,A
+                                           ; SOURCE LINE # 215
+009B 7F02              MOV     R7,#02H
+009D 7E00              MOV     R6,#00H
+009F 7D00              MOV     R5,#00H
+00A1 7C00              MOV     R4,#00H
+00A3 AB00        R     MOV     R3,X+03H
+00A5 AA00        R     MOV     R2,X+02H
+00A7 A900        R     MOV     R1,X+01H
+00A9 A800        R     MOV     R0,X
+00AB 120000      E     LCALL   ?C?LMUL
+00AE E4                CLR     A
+00AF 2F                ADD     A,R7
+00B0 F582              MOV     DPL,A
+00B2 7408              MOV     A,#08H
+00B4 3E                ADDC    A,R6
+00B5 F583              MOV     DPH,A
+00B7 E0                MOVX    A,@DPTR
+00B8 FE                MOV     R6,A
+00B9 A3                INC     DPTR
+00BA E0                MOVX    A,@DPTR
+00BB FF                MOV     R7,A
+00BC E4                CLR     A
+00BD FC                MOV     R4,A
+00BE FD                MOV     R5,A
+00BF 8F00        R     MOV     Z+03H,R7
+00C1 8E00        R     MOV     Z+02H,R6
+00C3 8D00        R     MOV     Z+01H,R5
+00C5 8C00        R     MOV     Z,R4
                                            ; SOURCE LINE # 216
-0197 AF00        R     MOV     R7,sqrt_out+03H
-0199 AE00        R     MOV     R6,sqrt_out+02H
-019B AD00        R     MOV     R5,sqrt_out+01H
-019D AC00        R     MOV     R4,sqrt_out
-                                           ; SOURCE LINE # 217
-019F         ?C0029:
-019F 22                RET     
-             ; FUNCTION __IQ16sqrt (END)
+00C7 805B              SJMP    ?C0029
+00C9         ?C0028:
+                                           ; SOURCE LINE # 218
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 19  
+
+                                           ; SOURCE LINE # 219
+00C9 0500        R     INC     index
+                                           ; SOURCE LINE # 221
+00CB AF00        R     MOV     R7,X+03H
+00CD AE00        R     MOV     R6,X+02H
+00CF AD00        R     MOV     R5,X+01H
+00D1 AC00        R     MOV     R4,X
+00D3 7818              MOV     R0,#018H
+00D5 120000      E     LCALL   ?C?SLSHR
+00D8 8F00        R     MOV     X+03H,R7
+00DA 8E00        R     MOV     X+02H,R6
+00DC 8D00        R     MOV     X+01H,R5
+00DE 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 222
+00E0 E500        R     MOV     A,X+03H
+00E2 547F              ANL     A,#07FH
+00E4 F500        R     MOV     X+03H,A
+00E6 E500        R     MOV     A,X+02H
+00E8 5400              ANL     A,#00H
+00EA F500        R     MOV     X+02H,A
+00EC E500        R     MOV     A,X+01H
+00EE 5400              ANL     A,#00H
+00F0 F500        R     MOV     X+01H,A
+00F2 E500        R     MOV     A,X
+00F4 5400              ANL     A,#00H
+00F6 F500        R     MOV     X,A
+                                           ; SOURCE LINE # 223
+00F8 7F02              MOV     R7,#02H
+00FA 7E00              MOV     R6,#00H
+00FC 7D00              MOV     R5,#00H
+00FE 7C00              MOV     R4,#00H
+0100 AB00        R     MOV     R3,X+03H
+0102 AA00        R     MOV     R2,X+02H
+0104 A900        R     MOV     R1,X+01H
+0106 A800        R     MOV     R0,X
+0108 120000      E     LCALL   ?C?LMUL
+010B E4                CLR     A
+010C 2F                ADD     A,R7
+010D F582              MOV     DPL,A
+010F 7408              MOV     A,#08H
+0111 3E                ADDC    A,R6
+0112 F583              MOV     DPH,A
+0114 E0                MOVX    A,@DPTR
+0115 FE                MOV     R6,A
+0116 A3                INC     DPTR
+0117 E0                MOVX    A,@DPTR
+0118 FF                MOV     R7,A
+0119 E4                CLR     A
+011A FC                MOV     R4,A
+011B FD                MOV     R5,A
+011C 8F00        R     MOV     Z+03H,R7
+011E 8E00        R     MOV     Z+02H,R6
+0120 8D00        R     MOV     Z+01H,R5
+0122 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 224
+0124         ?C0029:
+                                           ; SOURCE LINE # 225
+0124 AF00        R     MOV     R7,Z+03H
+0126 AE00        R     MOV     R6,Z+02H
+0128 AD00        R     MOV     R5,Z+01H
+012A AC00        R     MOV     R4,Z
+012C 7810              MOV     R0,#010H
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 20  
+
+012E 120000      E     LCALL   ?C?LSHL
+0131 8F00        R     MOV     Z+03H,R7
+0133 8E00        R     MOV     Z+02H,R6
+0135 8D00        R     MOV     Z+01H,R5
+0137 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 226
+0139 AF00        R     MOV     R7,Z+03H
+013B AE00        R     MOV     R6,Z+02H
+013D AD00        R     MOV     R5,Z+01H
+013F AC00        R     MOV     R4,Z
+0141 780F              MOV     R0,#0FH
+0143 120000      E     LCALL   ?C?SLSHR
+0146 8F00        R     MOV     Z+03H,R7
+0148 8E00        R     MOV     Z+02H,R6
+014A 8D00        R     MOV     Z+01H,R5
+014C 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 228
+014E C3                CLR     C
+014F E500        R     MOV     A,index
+0151 6480              XRL     A,#080H
+0153 9480              SUBB    A,#080H
+0155 401D              JC      ?C0030
+                                           ; SOURCE LINE # 229
+0157 AF00        R     MOV     R7,Z+03H
+0159 AE00        R     MOV     R6,Z+02H
+015B AD00        R     MOV     R5,Z+01H
+015D AC00        R     MOV     R4,Z
+015F E500        R     MOV     A,index
+0161 A2E7              MOV     C,ACC.7
+0163 13                RRC     A
+0164 F9                MOV     R1,A
+0165 A801              MOV     R0,AR1
+0167 120000      E     LCALL   ?C?LSHL
+016A 8F00        R     MOV     Z+03H,R7
+016C 8E00        R     MOV     Z+02H,R6
+016E 8D00        R     MOV     Z+01H,R5
+0170 8C00        R     MOV     Z,R4
+0172 801F              SJMP    ?C0031
+0174         ?C0030:
+                                           ; SOURCE LINE # 230
+0174 AF00        R     MOV     R7,Z+03H
+0176 AE00        R     MOV     R6,Z+02H
+0178 AD00        R     MOV     R5,Z+01H
+017A AC00        R     MOV     R4,Z
+017C E500        R     MOV     A,index
+017E F4                CPL     A
+017F 04                INC     A
+0180 FB                MOV     R3,A
+0181 EB                MOV     A,R3
+0182 A2E7              MOV     C,ACC.7
+0184 13                RRC     A
+0185 F9                MOV     R1,A
+0186 A801              MOV     R0,AR1
+0188 120000      E     LCALL   ?C?SLSHR
+018B 8F00        R     MOV     Z+03H,R7
+018D 8E00        R     MOV     Z+02H,R6
+018F 8D00        R     MOV     Z+01H,R5
+0191 8C00        R     MOV     Z,R4
+0193         ?C0031:
+                                           ; SOURCE LINE # 232
+0193 AF00        R     MOV     R7,Z+03H
+0195 AE00        R     MOV     R6,Z+02H
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 21  
+
+0197 AD00        R     MOV     R5,Z+01H
+0199 AC00        R     MOV     R4,Z
+                                           ; SOURCE LINE # 233
+019B         ?C0032:
+019B 22                RET     
+             ; FUNCTION __IQ15sqrt (END)
+
+             ; FUNCTION __IQ15atan2 (BEGIN)
+                                           ; SOURCE LINE # 235
+0000 8F00        R     MOV     A+03H,R7
+0002 8E00        R     MOV     A+02H,R6
+0004 8D00        R     MOV     A+01H,R5
+0006 8C00        R     MOV     A,R4
+                                           ; SOURCE LINE # 236
+                                           ; SOURCE LINE # 237
+0008 7F00              MOV     R7,#00H
+000A 7E00              MOV     R6,#00H
+000C 7D00              MOV     R5,#00H
+000E 7C00              MOV     R4,#00H
+0010 AB00        R     MOV     R3,A+03H
+0012 AA00        R     MOV     R2,A+02H
+0014 A900        R     MOV     R1,A+01H
+0016 A800        R     MOV     R0,A
+0018 C3                CLR     C
+0019 120000      E     LCALL   ?C?SLCMP
+001C 500D              JNC     ?C0033
+001E AF00        R     MOV     R7,A+03H
+0020 AE00        R     MOV     R6,A+02H
+0022 AD00        R     MOV     R5,A+01H
+0024 AC00        R     MOV     R4,A
+0026 120000      E     LCALL   ?C?LNEG
+0029 8008              SJMP    ?C0034
+002B         ?C0033:
+002B AF00        R     MOV     R7,A+03H
+002D AE00        R     MOV     R6,A+02H
+002F AD00        R     MOV     R5,A+01H
+0031 AC00        R     MOV     R4,A
+0033         ?C0034:
+0033 8F00        R     MOV     X+03H,R7
+0035 8E00        R     MOV     X+02H,R6
+0037 8D00        R     MOV     X+01H,R5
+0039 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 238
+003B 7F00              MOV     R7,#00H
+003D 7E00              MOV     R6,#00H
+003F 7D00              MOV     R5,#00H
+0041 7C00              MOV     R4,#00H
+0043 AB00        R     MOV     R3,B+03H
+0045 AA00        R     MOV     R2,B+02H
+0047 A900        R     MOV     R1,B+01H
+0049 A800        R     MOV     R0,B
+004B C3                CLR     C
+004C 120000      E     LCALL   ?C?SLCMP
+004F 500D              JNC     ?C0035
+0051 AF00        R     MOV     R7,B+03H
+0053 AE00        R     MOV     R6,B+02H
+0055 AD00        R     MOV     R5,B+01H
+0057 AC00        R     MOV     R4,B
+0059 120000      E     LCALL   ?C?LNEG
+005C 8008              SJMP    ?C0036
+005E         ?C0035:
+005E AF00        R     MOV     R7,B+03H
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 22  
+
+0060 AE00        R     MOV     R6,B+02H
+0062 AD00        R     MOV     R5,B+01H
+0064 AC00        R     MOV     R4,B
+0066         ?C0036:
+0066 8F00        R     MOV     Y+03H,R7
+0068 8E00        R     MOV     Y+02H,R6
+006A 8D00        R     MOV     Y+01H,R5
+006C 8C00        R     MOV     Y,R4
+                                           ; SOURCE LINE # 239
+006E AF00        R     MOV     R7,Y+03H
+0070 AE00        R     MOV     R6,Y+02H
+0072 AD00        R     MOV     R5,Y+01H
+0074 AC00        R     MOV     R4,Y
+0076 AB00        R     MOV     R3,X+03H
+0078 AA00        R     MOV     R2,X+02H
+007A A900        R     MOV     R1,X+01H
+007C A800        R     MOV     R0,X
+007E D3                SETB    C
+007F 120000      E     LCALL   ?C?SLCMP
+0082 5003              JNC     $ + 5H
+0084 020000      R     LJMP    ?C0037
+                                           ; SOURCE LINE # 240
+                                           ; SOURCE LINE # 241
+0087 AF00        R     MOV     R7,Y+03H
+0089 AE00        R     MOV     R6,Y+02H
+008B AD00        R     MOV     R5,Y+01H
+008D AC00        R     MOV     R4,Y
+008F 7805              MOV     R0,#05H
+0091 120000      E     LCALL   ?C?LSHL
+0094 8F00        R     MOV     Y+03H,R7
+0096 8E00        R     MOV     Y+02H,R6
+0098 8D00        R     MOV     Y+01H,R5
+009A 8C00        R     MOV     Y,R4
+                                           ; SOURCE LINE # 242
+009C AF00        R     MOV     R7,X+03H
+009E AE00        R     MOV     R6,X+02H
+00A0 AD00        R     MOV     R5,X+01H
+00A2 AC00        R     MOV     R4,X
+00A4 7804              MOV     R0,#04H
+00A6 120000      E     LCALL   ?C?SLSHR
+00A9 8F00        R     MOV     X+03H,R7
+00AB 8E00        R     MOV     X+02H,R6
+00AD 8D00        R     MOV     X+01H,R5
+00AF 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 243
+00B1 AB00        R     MOV     R3,X+03H
+00B3 AA00        R     MOV     R2,X+02H
+00B5 A900        R     MOV     R1,X+01H
+00B7 A800        R     MOV     R0,X
+00B9 AF00        R     MOV     R7,Y+03H
+00BB AE00        R     MOV     R6,Y+02H
+00BD AD00        R     MOV     R5,Y+01H
+00BF AC00        R     MOV     R4,Y
+00C1 120000      E     LCALL   ?C?SLDIV
+00C4 8F00        R     MOV     X+03H,R7
+00C6 8E00        R     MOV     X+02H,R6
+00C8 8D00        R     MOV     X+01H,R5
+00CA 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 244
+00CC 7F02              MOV     R7,#02H
+00CE 7E00              MOV     R6,#00H
+00D0 7D00              MOV     R5,#00H
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 23  
+
+00D2 7C00              MOV     R4,#00H
+00D4 AB00        R     MOV     R3,X+03H
+00D6 AA00        R     MOV     R2,X+02H
+00D8 A900        R     MOV     R1,X+01H
+00DA A800        R     MOV     R0,X
+00DC 120000      E     LCALL   ?C?LMUL
+00DF E4                CLR     A
+00E0 2F                ADD     A,R7
+00E1 F582              MOV     DPL,A
+00E3 740C              MOV     A,#0CH
+00E5 3E                ADDC    A,R6
+00E6 F583              MOV     DPH,A
+00E8 E0                MOVX    A,@DPTR
+00E9 FE                MOV     R6,A
+00EA A3                INC     DPTR
+00EB E0                MOVX    A,@DPTR
+00EC FF                MOV     R7,A
+00ED E4                CLR     A
+00EE FC                MOV     R4,A
+00EF FD                MOV     R5,A
+00F0 8F00        R     MOV     Z+03H,R7
+00F2 8E00        R     MOV     Z+02H,R6
+00F4 8D00        R     MOV     Z+01H,R5
+00F6 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 246
+00F8 AF00        R     MOV     R7,Z+03H
+00FA AE00        R     MOV     R6,Z+02H
+00FC AD00        R     MOV     R5,Z+01H
+00FE AC00        R     MOV     R4,Z
+0100 7B2D              MOV     R3,#02DH
+0102 7A00              MOV     R2,#00H
+0104 7900              MOV     R1,#00H
+0106 7800              MOV     R0,#00H
+0108 120000      E     LCALL   ?C?LMUL
+010B 8F00        R     MOV     Z+03H,R7
+010D 8E00        R     MOV     Z+02H,R6
+010F 8D00        R     MOV     Z+01H,R5
+0111 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 247
+0113 AF00        R     MOV     R7,Z+03H
+0115 AE00        R     MOV     R6,Z+02H
+0117 AD00        R     MOV     R5,Z+01H
+0119 AC00        R     MOV     R4,Z
+011B 780C              MOV     R0,#0CH
+011D 120000      E     LCALL   ?C?LSHL
+0120 8F00        R     MOV     Z+03H,R7
+0122 8E00        R     MOV     Z+02H,R6
+0124 8D00        R     MOV     Z+01H,R5
+0126 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 248
+0128 AF00        R     MOV     R7,Z+03H
+012A AE00        R     MOV     R6,Z+02H
+012C AD00        R     MOV     R5,Z+01H
+012E AC00        R     MOV     R4,Z
+0130 7809              MOV     R0,#09H
+0132 120000      E     LCALL   ?C?SLSHR
+0135 8F00        R     MOV     Z+03H,R7
+0137 8E00        R     MOV     Z+02H,R6
+0139 8D00        R     MOV     Z+01H,R5
+013B 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 250
+013D 020000      R     LJMP    ?C0038
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 24  
+
+0140         ?C0037:
+                                           ; SOURCE LINE # 252
+                                           ; SOURCE LINE # 253
+0140 AF00        R     MOV     R7,X+03H
+0142 AE00        R     MOV     R6,X+02H
+0144 AD00        R     MOV     R5,X+01H
+0146 AC00        R     MOV     R4,X
+0148 7805              MOV     R0,#05H
+014A 120000      E     LCALL   ?C?LSHL
+014D 8F00        R     MOV     X+03H,R7
+014F 8E00        R     MOV     X+02H,R6
+0151 8D00        R     MOV     X+01H,R5
+0153 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 254
+0155 AF00        R     MOV     R7,Y+03H
+0157 AE00        R     MOV     R6,Y+02H
+0159 AD00        R     MOV     R5,Y+01H
+015B AC00        R     MOV     R4,Y
+015D 7804              MOV     R0,#04H
+015F 120000      E     LCALL   ?C?SLSHR
+0162 8F00        R     MOV     Y+03H,R7
+0164 8E00        R     MOV     Y+02H,R6
+0166 8D00        R     MOV     Y+01H,R5
+0168 8C00        R     MOV     Y,R4
+                                           ; SOURCE LINE # 255
+016A AF00        R     MOV     R7,X+03H
+016C AE00        R     MOV     R6,X+02H
+016E AD00        R     MOV     R5,X+01H
+0170 AC00        R     MOV     R4,X
+0172 AB00        R     MOV     R3,Y+03H
+0174 AA00        R     MOV     R2,Y+02H
+0176 A900        R     MOV     R1,Y+01H
+0178 A800        R     MOV     R0,Y
+017A 120000      E     LCALL   ?C?SLDIV
+017D 8F00        R     MOV     X+03H,R7
+017F 8E00        R     MOV     X+02H,R6
+0181 8D00        R     MOV     X+01H,R5
+0183 8C00        R     MOV     X,R4
+                                           ; SOURCE LINE # 256
+0185 7F02              MOV     R7,#02H
+0187 7E00              MOV     R6,#00H
+0189 7D00              MOV     R5,#00H
+018B 7C00              MOV     R4,#00H
+018D AB00        R     MOV     R3,X+03H
+018F AA00        R     MOV     R2,X+02H
+0191 A900        R     MOV     R1,X+01H
+0193 A800        R     MOV     R0,X
+0195 120000      E     LCALL   ?C?LMUL
+0198 E4                CLR     A
+0199 2F                ADD     A,R7
+019A F582              MOV     DPL,A
+019C 740C              MOV     A,#0CH
+019E 3E                ADDC    A,R6
+019F F583              MOV     DPH,A
+01A1 E0                MOVX    A,@DPTR
+01A2 FE                MOV     R6,A
+01A3 A3                INC     DPTR
+01A4 E0                MOVX    A,@DPTR
+01A5 FF                MOV     R7,A
+01A6 E4                CLR     A
+01A7 FC                MOV     R4,A
+01A8 FD                MOV     R5,A
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 25  
+
+01A9 8F00        R     MOV     Z+03H,R7
+01AB 8E00        R     MOV     Z+02H,R6
+01AD 8D00        R     MOV     Z+01H,R5
+01AF 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 257
+01B1 AF00        R     MOV     R7,Z+03H
+01B3 AE00        R     MOV     R6,Z+02H
+01B5 AD00        R     MOV     R5,Z+01H
+01B7 AC00        R     MOV     R4,Z
+01B9 7B2D              MOV     R3,#02DH
+01BB 7A00              MOV     R2,#00H
+01BD 7900              MOV     R1,#00H
+01BF 7800              MOV     R0,#00H
+01C1 120000      E     LCALL   ?C?LMUL
+01C4 8F00        R     MOV     Z+03H,R7
+01C6 8E00        R     MOV     Z+02H,R6
+01C8 8D00        R     MOV     Z+01H,R5
+01CA 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 258
+01CC AF00        R     MOV     R7,Z+03H
+01CE AE00        R     MOV     R6,Z+02H
+01D0 AD00        R     MOV     R5,Z+01H
+01D2 AC00        R     MOV     R4,Z
+01D4 780C              MOV     R0,#0CH
+01D6 120000      E     LCALL   ?C?LSHL
+01D9 8F00        R     MOV     Z+03H,R7
+01DB 8E00        R     MOV     Z+02H,R6
+01DD 8D00        R     MOV     Z+01H,R5
+01DF 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 259
+01E1 AF00        R     MOV     R7,Z+03H
+01E3 AE00        R     MOV     R6,Z+02H
+01E5 AD00        R     MOV     R5,Z+01H
+01E7 AC00        R     MOV     R4,Z
+01E9 7809              MOV     R0,#09H
+01EB 120000      E     LCALL   ?C?SLSHR
+01EE 8F00        R     MOV     Z+03H,R7
+01F0 8E00        R     MOV     Z+02H,R6
+01F2 8D00        R     MOV     Z+01H,R5
+01F4 8C00        R     MOV     Z,R4
+                                           ; SOURCE LINE # 260
+01F6 C3                CLR     C
+01F7 E4                CLR     A
+01F8 9500        R     SUBB    A,Z+03H
+01FA F500        R     MOV     Z+03H,A
+01FC E4                CLR     A
+01FD 9500        R     SUBB    A,Z+02H
+01FF F500        R     MOV     Z+02H,A
+0201 742D              MOV     A,#02DH
+0203 9500        R     SUBB    A,Z+01H
+0205 F500        R     MOV     Z+01H,A
+0207 E4                CLR     A
+0208 9500        R     SUBB    A,Z
+020A F500        R     MOV     Z,A
+                                           ; SOURCE LINE # 261
+020C         ?C0038:
+                                           ; SOURCE LINE # 262
+020C 7F00              MOV     R7,#00H
+020E 7E00              MOV     R6,#00H
+0210 7D00              MOV     R5,#00H
+0212 7C00              MOV     R4,#00H
+0214 AB00        R     MOV     R3,A+03H
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 26  
+
+0216 AA00        R     MOV     R2,A+02H
+0218 A900        R     MOV     R1,A+01H
+021A A800        R     MOV     R0,A
+021C C3                CLR     C
+021D 120000      E     LCALL   ?C?SLCMP
+0220 502F              JNC     ?C0039
+0222 7F00              MOV     R7,#00H
+0224 7E00              MOV     R6,#00H
+0226 7D00              MOV     R5,#00H
+0228 7C00              MOV     R4,#00H
+022A AB00        R     MOV     R3,B+03H
+022C AA00        R     MOV     R2,B+02H
+022E A900        R     MOV     R1,B+01H
+0230 A800        R     MOV     R0,B
+0232 D3                SETB    C
+0233 120000      E     LCALL   ?C?SLCMP
+0236 4019              JC      ?C0039
+                                           ; SOURCE LINE # 263
+0238 C3                CLR     C
+0239 E4                CLR     A
+023A 9500        R     SUBB    A,Z+03H
+023C F500        R     MOV     Z+03H,A
+023E E4                CLR     A
+023F 9500        R     SUBB    A,Z+02H
+0241 F500        R     MOV     Z+02H,A
+0243 745A              MOV     A,#05AH
+0245 9500        R     SUBB    A,Z+01H
+0247 F500        R     MOV     Z+01H,A
+0249 E4                CLR     A
+024A 9500        R     SUBB    A,Z
+024C F500        R     MOV     Z,A
+024E 020000      R     LJMP    ?C0040
+0251         ?C0039:
+                                           ; SOURCE LINE # 264
+0251 7F00              MOV     R7,#00H
+0253 7E00              MOV     R6,#00H
+0255 7D00              MOV     R5,#00H
+0257 7C00              MOV     R4,#00H
+0259 AB00        R     MOV     R3,A+03H
+025B AA00        R     MOV     R2,A+02H
+025D A900        R     MOV     R1,A+01H
+025F A800        R     MOV     R0,A
+0261 C3                CLR     C
+0262 120000      E     LCALL   ?C?SLCMP
+0265 5030              JNC     ?C0041
+0267 7F00              MOV     R7,#00H
+0269 7E00              MOV     R6,#00H
+026B 7D00              MOV     R5,#00H
+026D 7C00              MOV     R4,#00H
+026F AB00        R     MOV     R3,B+03H
+0271 AA00        R     MOV     R2,B+02H
+0273 A900        R     MOV     R1,B+01H
+0275 A800        R     MOV     R0,B
+0277 C3                CLR     C
+0278 120000      E     LCALL   ?C?SLCMP
+027B 501A              JNC     ?C0041
+                                           ; SOURCE LINE # 265
+027D E500        R     MOV     A,Z+03H
+027F 2400              ADD     A,#00H
+0281 F500        R     MOV     Z+03H,A
+0283 E500        R     MOV     A,Z+02H
+0285 3400              ADDC    A,#00H
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 27  
+
+0287 F500        R     MOV     Z+02H,A
+0289 E500        R     MOV     A,Z+01H
+028B 345A              ADDC    A,#05AH
+028D F500        R     MOV     Z+01H,A
+028F E500        R     MOV     A,Z
+0291 3400              ADDC    A,#00H
+0293 F500        R     MOV     Z,A
+0295 8042              SJMP    ?C0040
+0297         ?C0041:
+                                           ; SOURCE LINE # 266
+0297 7F00              MOV     R7,#00H
+0299 7E00              MOV     R6,#00H
+029B 7D00              MOV     R5,#00H
+029D 7C00              MOV     R4,#00H
+029F AB00        R     MOV     R3,A+03H
+02A1 AA00        R     MOV     R2,A+02H
+02A3 A900        R     MOV     R1,A+01H
+02A5 A800        R     MOV     R0,A
+02A7 D3                SETB    C
+02A8 120000      E     LCALL   ?C?SLCMP
+02AB 402C              JC      ?C0040
+02AD 7F00              MOV     R7,#00H
+02AF 7E00              MOV     R6,#00H
+02B1 7D00              MOV     R5,#00H
+02B3 7C00              MOV     R4,#00H
+02B5 AB00        R     MOV     R3,B+03H
+02B7 AA00        R     MOV     R2,B+02H
+02B9 A900        R     MOV     R1,B+01H
+02BB A800        R     MOV     R0,B
+02BD C3                CLR     C
+02BE 120000      E     LCALL   ?C?SLCMP
+02C1 5016              JNC     ?C0040
+                                           ; SOURCE LINE # 267
+02C3 C3                CLR     C
+02C4 E4                CLR     A
+02C5 9500        R     SUBB    A,Z+03H
+02C7 F500        R     MOV     Z+03H,A
+02C9 E4                CLR     A
+02CA 9500        R     SUBB    A,Z+02H
+02CC F500        R     MOV     Z+02H,A
+02CE 74B4              MOV     A,#0B4H
+02D0 9500        R     SUBB    A,Z+01H
+02D2 F500        R     MOV     Z+01H,A
+02D4 E4                CLR     A
+02D5 9500        R     SUBB    A,Z
+02D7 F500        R     MOV     Z,A
+02D9         ?C0043:
+02D9         ?C0042:
+02D9         ?C0040:
+                                           ; SOURCE LINE # 271
+02D9 AF00        R     MOV     R7,Z+03H
+02DB AE00        R     MOV     R6,Z+02H
+02DD AD00        R     MOV     R5,Z+01H
+02DF AC00        R     MOV     R4,Z
+                                           ; SOURCE LINE # 272
+02E1         ?C0044:
+02E1 22                RET     
+             ; FUNCTION __IQ15atan2 (END)
 
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1364    ----
+C51 COMPILER V9.54   IQMATHLIB                                                             12/01/2018 11:50:14 PAGE 28  
+
+   CODE SIZE        =   2278    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     74    ----
+   DATA SIZE        =     61    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

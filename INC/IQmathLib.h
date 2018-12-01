@@ -56,7 +56,8 @@ extern "C"
 //
 //*****************************************************************************
 #ifndef GLOBAL_Q
-#define GLOBAL_Q                16
+#define GLOBAL_Q                15
+#define half_Q        					 GLOBAL_Q/2
 #endif
 
 //*****************************************************************************
@@ -78,7 +79,7 @@ extern "C"
 #define sin_table 		0x0000
 #define inverse_table 0x0200		  
 #define sqrt_table 		0x0400	
-#define artan_table 	0x0c00	
+#define atan_table  	0x0600	
 
 
 
@@ -216,6 +217,9 @@ typedef long _iq;
 
 
 
+extern _iq data X,Y,Z;
+ 
+extern S8  data index;
 //********************************************************************
 //  Normalized
 //**************************************************
@@ -1450,7 +1454,7 @@ extern _iq1 _IQ1div(_iq1 A, _iq1 B);
 #define _IQdiv(A, B)            _IQ16div(A, B)
 #endif
 #if GLOBAL_Q == 15
-#define _IQdiv(A, B)           (A, B)
+#define _IQdiv(A, B)           _IQ15div(A, B)
 #endif
 #if GLOBAL_Q == 14
 #define _IQdiv(A, B)            _IQ14div(A, B)
@@ -1529,6 +1533,10 @@ extern _iq4 _IQ4sin(_iq4 A);
 extern _iq3 _IQ3sin(_iq3 A);
 extern _iq2 _IQ2sin(_iq2 A);
 extern _iq1 _IQ1sin(_iq1 A);
+
+
+
+
 
 #if GLOBAL_Q == 29
 #define _IQsin(A)               _IQ29sin(A)
@@ -3482,7 +3490,7 @@ extern long __IQxmpy(long A, long B, long S);
 #define _IQ11mpyI32(A, B)       ((A) * (B))
 #define _IQ10mpyI32(A, B)       ((A) * (B))
 #define _IQ9mpyI32(A, B)        ((A) * (B))
-#define _IQ8mpyI32(A, B)        ((A) * (B))
+#define _IQ8mpyI32(A, B)        ((A) * (B))		
 #define _IQ7mpyI32(A, B)        ((A) * (B))
 #define _IQ6mpyI32(A, B)        ((A) * (B))
 #define _IQ5mpyI32(A, B)        ((A) * (B))
@@ -4382,42 +4390,42 @@ typedef float _iq;
 #define _IQ1rsmpy(A, B)         ((A) * (B))
 #define _IQrsmpy(A, B)          ((A) * (B))
 
-//*****************************************************************************
-//
-// Divides two IQ numbers.
-//
-//*****************************************************************************
-#define _IQ30div(A, B)          ((A) / (B))
-#define _IQ29div(A, B)          ((A) / (B))
-#define _IQ28div(A, B)          ((A) / (B))
-#define _IQ27div(A, B)          ((A) / (B))
-#define _IQ26div(A, B)          ((A) / (B))
-#define _IQ25div(A, B)          ((A) / (B))
-#define _IQ24div(A, B)          ((A) / (B))
-#define _IQ23div(A, B)          ((A) / (B))
-#define _IQ22div(A, B)          ((A) / (B))
-#define _IQ21div(A, B)          ((A) / (B))
-#define _IQ20div(A, B)          ((A) / (B))
-#define _IQ19div(A, B)          ((A) / (B))
-#define _IQ18div(A, B)          ((A) / (B))
-#define _IQ17div(A, B)          ((A) / (B))
-#define _IQ16div(A, B)          ((A) / (B))
-#define _IQ15div(A, B)          ((A) / (B))
-#define _IQ14div(A, B)          ((A) / (B))
-#define _IQ13div(A, B)          ((A) / (B))
-#define _IQ12div(A, B)          ((A) / (B))
-#define _IQ11div(A, B)          ((A) / (B))
-#define _IQ10div(A, B)          ((A) / (B))
-#define _IQ9div(A, B)           ((A) / (B))
-#define _IQ8div(A, B)           ((A) / (B))
-#define _IQ7div(A, B)           ((A) / (B))
-#define _IQ6div(A, B)           ((A) / (B))
-#define _IQ5div(A, B)           ((A) / (B))
-#define _IQ4div(A, B)           ((A) / (B))
-#define _IQ3div(A, B)           ((A) / (B))
-#define _IQ2div(A, B)           ((A) / (B))
-#define _IQ1div(A, B)           ((A) / (B))
-#define _IQdiv(A, B)            ((A) / (B))
+////*****************************************************************************
+////
+//// Divides two IQ numbers.
+////
+////*****************************************************************************
+//#define _IQ30div(A, B)          (A / B)
+//#define _IQ29div(A, B)          (A / B)
+//#define _IQ28div(A, B)          (A / B)
+//#define _IQ27div(A, B)          (A / B)
+//#define _IQ26div(A, B)          (A / B)
+//#define _IQ25div(A, B)          (A / B)
+//#define _IQ24div(A, B)          (A / B)
+//#define _IQ23div(A, B)          (A / B)
+//#define _IQ22div(A, B)          (A / B)
+//#define _IQ21div(A, B)          (A / B)
+//#define _IQ20div(A, B)          (A / B)
+//#define _IQ19div(A, B)          (A / B)
+//#define _IQ18div(A, B)          (A / B)
+//#define _IQ17div(A, B)          (A / B)
+//#define _IQ16div(A, B)          (A / B)
+//#define _IQ15div(A, B)          div(A,B)
+//#define _IQ14div(A, B)          (A / B)
+//#define _IQ13div(A, B)          (A / B)
+//#define _IQ12div(A, B)          (A / B)
+//#define _IQ11div(A, B)          (A / B)
+//#define _IQ10div(A, B)          (A / B)
+//#define _IQ9div(A, B)           (A / B)
+//#define _IQ8div(A, B)           (A / B)
+//#define _IQ7div(A, B)           (A / B)
+//#define _IQ6div(A, B)           (A / B)
+//#define _IQ5div(A, B)           (A / B)
+//#define _IQ4div(A, B)           (A / B)
+//#define _IQ3div(A, B)           (A / B)
+//#define _IQ2div(A, B)           (A / B)
+//#define _IQ1div(A, B)           (A / B)
+//#define _IQdiv(A, B)            div(A,B)
 
 //*****************************************************************************
 //

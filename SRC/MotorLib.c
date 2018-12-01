@@ -47,7 +47,7 @@
 
 
 
- void EE_write(U8 EE_addr, U32 EE_data)
+ void EE_write(U8  EE_addr, U32  EE_data)
 {
 	
 			while (MTP_BUSY==1);

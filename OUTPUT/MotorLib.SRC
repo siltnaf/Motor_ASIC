@@ -1,6 +1,6 @@
 ; .\OUTPUT\MotorLib.SRC generated from: SRC\MotorLib.c
 ; COMPILER INVOKED BY:
-;        C:\Keil\C51\BIN\C51.EXE SRC\MotorLib.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC) BROWSE INTVECTOR(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\MotorLib.lst) TABS(2) SRC(.\OUTPUT\MotorLib.SRC)
+;        C:\Keil_v5\C51\BIN\C51.EXE SRC\MotorLib.c OPTIMIZE(0,SPEED) REGFILE(.\OUTPUT\motor.ORC) BROWSE INTVECTOR(0X2000) INCDIR(.\INC) DEBUG OBJECTEXTEND CODE PRINT(.\files\MotorLib.lst) TABS(2) SRC(.\OUTPUT\MotorLib.SRC)
 
 $NOMOD51
 
@@ -282,7 +282,7 @@ P1ETCLR	DATA	0B6H
 ; 
 ; 
 ; 
-;  void EE_write(U8 EE_addr, U32 EE_data)
+;  void EE_write(U8  EE_addr, U32  EE_data)
 
 	RSEG  ?PR?_EE_write?MOTORLIB
 _EE_write:

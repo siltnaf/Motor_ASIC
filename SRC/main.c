@@ -19,7 +19,7 @@
   
 
  
-_iq   tbl_out,theta  ;     //gobal_q =24
+_iq xdata  result,theta,beta  ;     //gobal_q =24
  
 U32 xdata EE_data;
 
@@ -57,11 +57,13 @@ void main(void)
 //			input =  _IQ10((0.25*PI));           //test IQmathlib
 			
 	
-			theta=_IQ(0.9);    
+			theta=_IQ(15.0);  
+			beta=_IQ(-30.0);
+
 
 
 			
- 			tbl_out=_IQsqrt(theta);
+			result=_IQatan2(theta,beta);
 	
 			
 			
