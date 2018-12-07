@@ -4,7 +4,8 @@
 ".\OUTPUT\interrupt.obj",
 ".\OUTPUT\MotorLib.obj",
 ".\OUTPUT\ISD51.obj",
-".\OUTPUT\IQmathLib.obj" 
+".\OUTPUT\IQmathLib.obj",
+".\OUTPUT\IQmathasm.obj" 
 TO ".\OUTPUT\motor" REGFILE (.\OUTPUT\motor.ORC) 
 PRINT(".\files\motor.m51") DISABLEWARNING (16) 
 CODE( 0x2000-0x9FFF )

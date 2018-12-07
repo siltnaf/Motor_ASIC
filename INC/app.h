@@ -3,8 +3,7 @@
 
 #define ENABLE_ISD   1
 #define DISABLE_ISD  0
-#define ISDDebug   ENABLE_ISD
-
+#define ISDDebug    DISABLE_ISD
 
 // math parameter
 #define PI 3.14159

@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   MAIN                                                                  12/01/2018 16:43:52 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  12/07/2018 11:17:56 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
@@ -39,8 +39,8 @@ line level    source
   29          void main(void)
   30          {
   31   1          #if ISDDebug == DISABLE_ISD
-                  SystemClock();
-                  #endif
+  32   1          SystemClock();
+  33   1          #endif
   34   1          InitISDDebug(); 
   35   1      
   36   1        
@@ -62,7 +62,7 @@ line level    source
   52   1          {
   53   2            
   54   2           
-C51 COMPILER V9.54   MAIN                                                                  12/01/2018 16:43:52 PAGE 2   
+C51 COMPILER V9.54   MAIN                                                                  12/07/2018 11:17:56 PAGE 2   
 
   55   2      
   56   2             
@@ -70,47 +70,48 @@ line level    source
   58   2      //      input =  _IQ10((0.25*PI));           //test IQmathlib
   59   2            
   60   2        
-  61   2            theta=_IQ(2.0);  
-  62   2            beta=_IQ(-30.0);
+  61   2            theta=_IQ(200.0);  
+  62   2            beta=_IQ(-145.0);
   63   2      
   64   2          P26=0;
-  65   2           result= _IQsin(theta);
-  66   2            
-  67   2            P26=1;
-  68   2          //  result=
-  69   2            
+  65   2           result=_IQatan2(theta,beta);                // 00001111
+  66   2      
+  67   2              
+  68   2            P26=1;
+  69   2          //  result=
   70   2            
-  71   2      //      tbl_out=_IQsin(theta);
-  72   2      //        tbl_out=_IQcos(theta);
-  73   2      //      
-  74   2            
-  75   2        
-  76   2      //      dac_value=(unsigned char)(pwm_capture>>11);             //check DAC
-  77   2      //      DAC1_DAT=dac_value;
-  78   2      //      DAC2_DAT=0xff;
-  79   2            
+  71   2            
+  72   2      //      tbl_out=_IQsin(theta);
+  73   2      //        tbl_out=_IQcos(theta);
+  74   2      //      
+  75   2            
+  76   2        
+  77   2      //      dac_value=(unsigned char)(pwm_capture>>11);             //check DAC
+  78   2      //      DAC1_DAT=dac_value;
+  79   2      //      DAC2_DAT=0xff;
   80   2            
   81   2            
-  82   2      //      EE_write(0x0a, 0xabcdef12);                        //check EPROM
-  83   2      //      EE_data=EE_read(0x0a);
-  84   2           
-  85   2          
-  86   2        
-  87   2      //    while (BUSY==1);                                     //check ADC
-  88   2      //        data_value= ADresult;
-  89   2            
+  82   2            
+  83   2      //      EE_write(0x0a, 0xabcdef12);                        //check EPROM
+  84   2      //      EE_data=EE_read(0x0a);
+  85   2           
+  86   2          
+  87   2        
+  88   2      //    while (BUSY==1);                                     //check ADC
+  89   2      //        data_value= ADresult;
   90   2            
-  91   2              #if ISDDebug == ENABLE_ISD
-  92   2              ISDcheck();      // Polling for ISD command for software breakpoint
-  93   2              #endif
-  94   2              
-  95   2          }
-  96   1      }
-  97          
+  91   2            
+  92   2              #if ISDDebug == ENABLE_ISD
+                      ISDcheck();      // Polling for ISD command for software breakpoint
+                      #endif
+  95   2              
+  96   2          }
+  97   1      }
   98          
   99          
  100          
-C51 COMPILER V9.54   MAIN                                                                  12/01/2018 16:43:52 PAGE 3   
+ 101          
+C51 COMPILER V9.54   MAIN                                                                  12/07/2018 11:17:56 PAGE 3   
 
 ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
@@ -118,78 +119,91 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
              ; FUNCTION main (BEGIN)
                                            ; SOURCE LINE # 29
                                            ; SOURCE LINE # 30
+                                           ; SOURCE LINE # 32
+0000 120000      E     LCALL   SystemClock
                                            ; SOURCE LINE # 34
-0000 120000      E     LCALL   InitISDDebug
+0003 120000      E     LCALL   InitISDDebug
                                            ; SOURCE LINE # 44
-0003 120000      E     LCALL   InitGPIO
+0006 120000      E     LCALL   InitGPIO
                                            ; SOURCE LINE # 49
-0006 D2A6              SETB    P26
+0009 D2A6              SETB    P26
                                            ; SOURCE LINE # 50
-0008 D2AF              SETB    EAL
-000A         ?C0001:
+000B D2AF              SETB    EAL
+000D         ?C0001:
                                            ; SOURCE LINE # 51
                                            ; SOURCE LINE # 52
                                            ; SOURCE LINE # 61
-000A 900000      R     MOV     DPTR,#theta
-000D 120000      E     LCALL   ?C?LSTKXDATA
-0010 00                DB      00H
-0011 01                DB      01H
-0012 00                DB      00H
+000D 900000      R     MOV     DPTR,#theta
+0010 120000      E     LCALL   ?C?LSTKXDATA
 0013 00                DB      00H
+0014 64                DB      064H
+0015 00                DB      00H
+0016 00                DB      00H
                                            ; SOURCE LINE # 62
-0014 900000      R     MOV     DPTR,#beta
-0017 120000      E     LCALL   ?C?LSTKXDATA
-001A FF                DB      0FFH
-001B F1                DB      0F1H
-001C 00                DB      00H
-001D 00                DB      00H
+0017 900000      R     MOV     DPTR,#beta
+001A 120000      E     LCALL   ?C?LSTKXDATA
+001D FF                DB      0FFH
+001E B7                DB      0B7H
+001F 80                DB      080H
+0020 00                DB      00H
                                            ; SOURCE LINE # 64
-001E C2A6              CLR     P26
+0021 C2A6              CLR     P26
                                            ; SOURCE LINE # 65
-0020 900000      R     MOV     DPTR,#theta
-0023 E0                MOVX    A,@DPTR
-0024 FC                MOV     R4,A
-0025 A3                INC     DPTR
+0023 900000      R     MOV     DPTR,#theta
 0026 E0                MOVX    A,@DPTR
-0027 FD                MOV     R5,A
+0027 FC                MOV     R4,A
 0028 A3                INC     DPTR
 0029 E0                MOVX    A,@DPTR
-002A FE                MOV     R6,A
+002A FD                MOV     R5,A
 002B A3                INC     DPTR
 002C E0                MOVX    A,@DPTR
-002D FF                MOV     R7,A
-002E 120000      E     LCALL   __IQ15sin
-0031 900000      R     MOV     DPTR,#result
-0034 120000      E     LCALL   ?C?LSTXDATA
-                                           ; SOURCE LINE # 67
-0037 D2A6              SETB    P26
-                                           ; SOURCE LINE # 92
-0039 20ACCE            JB      ES,?C0001
-003C 3098CB            JNB     RI,?C0001
-003F E599              MOV     A,SBUF
-0041 64A5              XRL     A,#0A5H
-0043 6004              JZ      ?C0005
-0045 C298              CLR     RI
-0047 80C1              SJMP    ?C0001
-0049         ?C0005:
-0049 120000      E     LCALL   __isd_init
-004C         ?C0006:
-C51 COMPILER V9.54   MAIN                                                                  12/01/2018 16:43:52 PAGE 4   
+002D FE                MOV     R6,A
+002E A3                INC     DPTR
+002F E0                MOVX    A,@DPTR
+0030 FF                MOV     R7,A
+0031 C004              PUSH    AR4
+0033 C005              PUSH    AR5
+0035 C006              PUSH    AR6
+0037 C007              PUSH    AR7
+0039 900000      R     MOV     DPTR,#beta
+003C E0                MOVX    A,@DPTR
+003D FC                MOV     R4,A
+003E A3                INC     DPTR
+003F E0                MOVX    A,@DPTR
+0040 FD                MOV     R5,A
+0041 A3                INC     DPTR
+0042 E0                MOVX    A,@DPTR
+0043 FE                MOV     R6,A
+0044 A3                INC     DPTR
+C51 COMPILER V9.54   MAIN                                                                  12/07/2018 11:17:56 PAGE 4   
 
-004C         ?C0004:
-004C         ?C0003:
-                                           ; SOURCE LINE # 95
-004C 80BC              SJMP    ?C0001
-004E         ?C0002:
+0045 E0                MOVX    A,@DPTR
+0046 FF                MOV     R7,A
+0047 8F00        E     MOV     ?__IQ15atan2?BYTE+07H,R7
+0049 8E00        E     MOV     ?__IQ15atan2?BYTE+06H,R6
+004B 8D00        E     MOV     ?__IQ15atan2?BYTE+05H,R5
+004D 8C00        E     MOV     ?__IQ15atan2?BYTE+04H,R4
+004F D007              POP     AR7
+0051 D006              POP     AR6
+0053 D005              POP     AR5
+0055 D004              POP     AR4
+0057 120000      E     LCALL   __IQ15atan2
+005A 900000      R     MOV     DPTR,#result
+005D 120000      E     LCALL   ?C?LSTXDATA
+                                           ; SOURCE LINE # 68
+0060 D2A6              SETB    P26
                                            ; SOURCE LINE # 96
-004E         ?C0007:
-004E 22                RET     
+0062 80A9              SJMP    ?C0001
+0064         ?C0002:
+                                           ; SOURCE LINE # 97
+0064         ?C0003:
+0064 22                RET     
              ; FUNCTION main (END)
 
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     79    ----
+   CODE SIZE        =    101    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =     32    ----
    PDATA SIZE       =   ----    ----

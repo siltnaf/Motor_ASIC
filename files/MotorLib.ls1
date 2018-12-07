@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     1
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/07/2018 11:17:57 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.02c
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
   0098                54     RI      BIT     098H.0
   00C3                55     IEX4    BIT     0C0H.3
   00C4                56     IEX5    BIT     0C0H.4
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     2
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/07/2018 11:17:57 PAGE     2
 
   00C5                57     IEX6    BIT     0C0H.5
   0091                58     CLK_DIV DATA    091H
@@ -77,416 +77,418 @@ LOC  OBJ            LINE     SOURCE
   00C5                64     P2CMPB  DATA    0C5H
   00E3                65     P4CMPA  DATA    0E3H
   00D5                66     P3CMPB  DATA    0D5H
-  00E5                67     P4CMPB  DATA    0E5H
-  00A2                68     P1TBPRD_H       DATA    0A2H
-  00C2                69     P2TBPRD_H       DATA    0C2H
-  00D2                70     P3TBPRD_H       DATA    0D2H
-  00E2                71     P4TBPRD_H       DATA    0E2H
-  00A1                72     P1TBPRD_L       DATA    0A1H
-  00C1                73     P2TBPRD_L       DATA    0C1H
-  00D1                74     P3TBPRD_L       DATA    0D1H
-  00E1                75     P4TBPRD_L       DATA    0E1H
-  0095                76     BREAKH  DATA    095H
-  00BA                77     S0RELH  DATA    0BAH
-  0080                78     P00     BIT     080H.0
-  0099                79     SBUF    DATA    099H
-  00BB                80     S1RELH  DATA    0BBH
-  0090                81     P10     BIT     090H.0
-  0087                82     PCON    DATA    087H
-  0081                83     P01     BIT     080H.1
-  00A0                84     P20     BIT     0A0H.0
-  0091                85     P11     BIT     090H.1
-  0082                86     P02     BIT     080H.2
-  00B0                87     P30     BIT     0B0H.0
-  00A1                88     P21     BIT     0A0H.1
-  0092                89     P12     BIT     090H.2
-  0083                90     P03     BIT     080H.3
-  0094                91     BREAKL  DATA    094H
-  00B1                92     P31     BIT     0B0H.1
-  00AA                93     S0RELL  DATA    0AAH
-  00A2                94     P22     BIT     0A0H.2
-  0093                95     P13     BIT     090H.3
-  0084                96     P04     BIT     080H.4
-  00B2                97     P32     BIT     0B0H.2
-  00A3                98     P23     BIT     0A0H.3
-  009D                99     S1RELL  DATA    09DH
-  0094               100     P14     BIT     090H.4
-  0089               101     TMOD    DATA    089H
-  0088               102     TCON    DATA    088H
-  0085               103     P05     BIT     080H.5
-  00B3               104     P33     BIT     0B0H.3
-  00A4               105     P24     BIT     0A0H.4
-  0095               106     P15     BIT     090H.5
-  0086               107     P06     BIT     080H.6
-  00B4               108     P34     BIT     0B0H.4
-  00AC               109     BSHI_0  DATA    0ACH
-  00A5               110     P25     BIT     0A0H.5
-  0096               111     P16     BIT     090H.6
-  0087               112     P07     BIT     080H.7
-  00B5               113     P35     BIT     0B0H.5
-  00AD               114     BSHI_1  DATA    0ADH
-  00A6               115     P26     BIT     0A0H.6
-  0097               116     P17     BIT     090H.7
-  00B6               117     P36     BIT     0B0H.6
-  00AE               118     BSHI_2  DATA    0AEH
-  00A7               119     P27     BIT     0A0H.7
-  00B7               120     P37     BIT     0B0H.7
-  00AF               121     BSHI_3  DATA    0AFH
-  00BC               122     BSHO_0  DATA    0BCH
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     3
+  00AC                67     BSHI    DATA    0ACH
+  00E5                68     P4CMPB  DATA    0E5H
+  00A2                69     P1TBPRD_H       DATA    0A2H
+  00C2                70     P2TBPRD_H       DATA    0C2H
+  00D2                71     P3TBPRD_H       DATA    0D2H
+  00E2                72     P4TBPRD_H       DATA    0E2H
+  00A1                73     P1TBPRD_L       DATA    0A1H
+  00C1                74     P2TBPRD_L       DATA    0C1H
+  00BC                75     BSHO    DATA    0BCH
+  00D1                76     P3TBPRD_L       DATA    0D1H
+  00E1                77     P4TBPRD_L       DATA    0E1H
+  0095                78     BREAKH  DATA    095H
+  00BA                79     S0RELH  DATA    0BAH
+  0080                80     P00     BIT     080H.0
+  0099                81     SBUF    DATA    099H
+  00BB                82     S1RELH  DATA    0BBH
+  0090                83     P10     BIT     090H.0
+  0087                84     PCON    DATA    087H
+  0081                85     P01     BIT     080H.1
+  00A0                86     P20     BIT     0A0H.0
+  0091                87     P11     BIT     090H.1
+  0082                88     P02     BIT     080H.2
+  00B0                89     P30     BIT     0B0H.0
+  00A1                90     P21     BIT     0A0H.1
+  0092                91     P12     BIT     090H.2
+  0083                92     P03     BIT     080H.3
+  0094                93     BREAKL  DATA    094H
+  00B1                94     P31     BIT     0B0H.1
+  00AA                95     S0RELL  DATA    0AAH
+  00A2                96     P22     BIT     0A0H.2
+  0093                97     P13     BIT     090H.3
+  0084                98     P04     BIT     080H.4
+  00B2                99     P32     BIT     0B0H.2
+  00A3               100     P23     BIT     0A0H.3
+  009D               101     S1RELL  DATA    09DH
+  0094               102     P14     BIT     090H.4
+  0089               103     TMOD    DATA    089H
+  0088               104     TCON    DATA    088H
+  0085               105     P05     BIT     080H.5
+  00B3               106     P33     BIT     0B0H.3
+  00A4               107     P24     BIT     0A0H.4
+  0095               108     P15     BIT     090H.5
+  0086               109     P06     BIT     080H.6
+  00B4               110     P34     BIT     0B0H.4
+  00AC               111     BSHI_0  DATA    0ACH
+  00A5               112     P25     BIT     0A0H.5
+  0096               113     P16     BIT     090H.6
+  0087               114     P07     BIT     080H.7
+  00B5               115     P35     BIT     0B0H.5
+  00AD               116     BSHI_1  DATA    0ADH
+  00A6               117     P26     BIT     0A0H.6
+  0097               118     P17     BIT     090H.7
+  00B6               119     P36     BIT     0B0H.6
+  00AE               120     BSHI_2  DATA    0AEH
+  00A7               121     P27     BIT     0A0H.7
+  00B7               122     P37     BIT     0B0H.7
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/07/2018 11:17:57 PAGE     3
 
-  00BD               123     BSHO_1  DATA    0BDH
-  0089               124     IE0     BIT     088H.1
-  00BE               125     BSHO_2  DATA    0BEH
-  008B               126     IE1     BIT     088H.3
-  00BF               127     BSHO_3  DATA    0BFH
-  00F0               128     B       DATA    0F0H
-  00E9               129     MD0     DATA    0E9H
-  00EA               130     MD1     DATA    0EAH
-  00AB               131     BSHCTL  DATA    0ABH
-  00EB               132     MD2     DATA    0EBH
-  00BE               133     SWDT    BIT     0B8H.6
-  00A7               134     P1AQSFRC        DATA    0A7H
-  00EC               135     MD3     DATA    0ECH
-  00C7               136     P2AQSFRC        DATA    0C7H
-  00ED               137     MD4     DATA    0EDH
-  00D7               138     P3AQSFRC        DATA    0D7H
-  00EE               139     MD5     DATA    0EEH
-  00E7               140     P4AQSFRC        DATA    0E7H
-  00E0               141     ACC     DATA    0E0H
-  00AC               142     ES0     BIT     0A8H.4
-  00A9               143     IP0     DATA    0A9H
-  00A9               144     ET0     BIT     0A8H.1
-  0093               145     BPCTRL  DATA    093H
-  00B9               146     IP1     DATA    0B9H
-  00AB               147     ET1     BIT     0A8H.3
-  008D               148     TF0     BIT     088H.5
-  0098               149     RI0     BIT     098H.0
-  008F               150     TF1     BIT     088H.7
-  00A4               151     P1CMPA_H        DATA    0A4H
-  008C               152     TH0     DATA    08CH
-  00C4               153     P2CMPA_H        DATA    0C4H
-  00A6               154     P1CMPB_H        DATA    0A6H
-  00A8               155     EX0     BIT     0A8H.0
-  0099               156     TI0     BIT     098H.1
-  008D               157     TH1     DATA    08DH
-  0088               158     IT0     BIT     088H.0
-  00D4               159     P3CMPA_H        DATA    0D4H
-  00C6               160     P2CMPB_H        DATA    0C6H
-  00AA               161     EX1     BIT     0A8H.2
-  008A               162     IT1     BIT     088H.2
-  00E4               163     P4CMPA_H        DATA    0E4H
-  00D6               164     P3CMPB_H        DATA    0D6H
-  00B9               165     EX2     BIT     0B8H.1
-  00E6               166     P4CMPB_H        DATA    0E6H
-  00A3               167     P1CMPA_L        DATA    0A3H
-  00BA               168     EX3     BIT     0B8H.2
-  009F               169     SM0     BIT     098H.7
-  0097               170     POWER_CON       DATA    097H
-  008A               171     TL0     DATA    08AH
-  00C3               172     P2CMPA_L        DATA    0C3H
-  00A5               173     P1CMPB_L        DATA    0A5H
-  00BB               174     EX4     BIT     0B8H.3
-  009E               175     SM1     BIT     098H.6
-  008B               176     TL1     DATA    08BH
-  00D3               177     P3CMPA_L        DATA    0D3H
-  00C5               178     P2CMPB_L        DATA    0C5H
-  00BC               179     EX5     BIT     0B8H.4
-  00AF               180     EAL     BIT     0A8H.7
-  00E3               181     P4CMPA_L        DATA    0E3H
-  00D5               182     P3CMPB_L        DATA    0D5H
-  00BD               183     EX6     BIT     0B8H.5
-  00E5               184     P4CMPB_L        DATA    0E5H
-  0086               185     WDTREL  DATA    086H
-  008C               186     TR0     BIT     088H.4
-  008E               187     TR1     BIT     088H.6
-  00F9               188     INT_REG1        DATA    0F9H
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     4
+  00AF               123     BSHI_3  DATA    0AFH
+  00BC               124     BSHO_0  DATA    0BCH
+  00BD               125     BSHO_1  DATA    0BDH
+  0089               126     IE0     BIT     088H.1
+  00BE               127     BSHO_2  DATA    0BEH
+  008B               128     IE1     BIT     088H.3
+  00BF               129     BSHO_3  DATA    0BFH
+  00F0               130     B       DATA    0F0H
+  00E9               131     MD0     DATA    0E9H
+  00EA               132     MD1     DATA    0EAH
+  00AB               133     BSHCTL  DATA    0ABH
+  00EB               134     MD2     DATA    0EBH
+  00BE               135     SWDT    BIT     0B8H.6
+  00A7               136     P1AQSFRC        DATA    0A7H
+  00EC               137     MD3     DATA    0ECH
+  00C7               138     P2AQSFRC        DATA    0C7H
+  00ED               139     MD4     DATA    0EDH
+  00D7               140     P3AQSFRC        DATA    0D7H
+  00EE               141     MD5     DATA    0EEH
+  00E7               142     P4AQSFRC        DATA    0E7H
+  00E0               143     ACC     DATA    0E0H
+  00AC               144     ES0     BIT     0A8H.4
+  00A9               145     IP0     DATA    0A9H
+  00A9               146     ET0     BIT     0A8H.1
+  0093               147     BPCTRL  DATA    093H
+  00B9               148     IP1     DATA    0B9H
+  00AB               149     ET1     BIT     0A8H.3
+  008D               150     TF0     BIT     088H.5
+  0098               151     RI0     BIT     098H.0
+  008F               152     TF1     BIT     088H.7
+  00A4               153     P1CMPA_H        DATA    0A4H
+  008C               154     TH0     DATA    08CH
+  00C4               155     P2CMPA_H        DATA    0C4H
+  00A6               156     P1CMPB_H        DATA    0A6H
+  00A8               157     EX0     BIT     0A8H.0
+  0099               158     TI0     BIT     098H.1
+  008D               159     TH1     DATA    08DH
+  0088               160     IT0     BIT     088H.0
+  00D4               161     P3CMPA_H        DATA    0D4H
+  00C6               162     P2CMPB_H        DATA    0C6H
+  00AA               163     EX1     BIT     0A8H.2
+  008A               164     IT1     BIT     088H.2
+  00E4               165     P4CMPA_H        DATA    0E4H
+  00D6               166     P3CMPB_H        DATA    0D6H
+  00B9               167     EX2     BIT     0B8H.1
+  00E6               168     P4CMPB_H        DATA    0E6H
+  00A3               169     P1CMPA_L        DATA    0A3H
+  00BA               170     EX3     BIT     0B8H.2
+  009F               171     SM0     BIT     098H.7
+  0097               172     POWER_CON       DATA    097H
+  008A               173     TL0     DATA    08AH
+  00C3               174     P2CMPA_L        DATA    0C3H
+  00A5               175     P1CMPB_L        DATA    0A5H
+  00BB               176     EX4     BIT     0B8H.3
+  009E               177     SM1     BIT     098H.6
+  008B               178     TL1     DATA    08BH
+  00D3               179     P3CMPA_L        DATA    0D3H
+  00C5               180     P2CMPB_L        DATA    0C5H
+  00BC               181     EX5     BIT     0B8H.4
+  00AF               182     EAL     BIT     0A8H.7
+  00E3               183     P4CMPA_L        DATA    0E3H
+  00D5               184     P3CMPB_L        DATA    0D5H
+  00BD               185     EX6     BIT     0B8H.5
+  00E5               186     P4CMPB_L        DATA    0E5H
+  0086               187     WDTREL  DATA    086H
+  008C               188     TR0     BIT     088H.4
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/07/2018 11:17:57 PAGE     4
 
-  0083               189     DPH     DATA    083H
-  00FA               190     INT_REG2        DATA    0FAH
-  00FD               191     INT_REG3        DATA    0FDH
-  00FE               192     INT_REG4        DATA    0FEH
-  0082               193     DPL     DATA    082H
-  0099               194     S0BUF   DATA    099H
-  009C               195     S1BUF   DATA    09CH
-  0098               196     S0CON   DATA    098H
-  009B               197     S1CON   DATA    09BH
-  00C8               198     T2CON   DATA    0C8H
-  0092               199     DPS     DATA    092H
-  00AE               200     WDT     BIT     0A8H.6
-  008E               201     CKCON   DATA    08EH
-  00EF               202     ARCON   DATA    0EFH
-  00B5               203     P1ETFLG DATA    0B5H
-  00F8               204     SRAM_CON        DATA    0F8H
-  00CD               205     P2ETFLG DATA    0CDH
-  00DD               206     P3ETFLG DATA    0DDH
-  00B7               207     P1ETFRC DATA    0B7H
-  00F5               208     P4ETFLG DATA    0F5H
-  00CF               209     P2ETFRC DATA    0CFH
-  00E8               210     MEM_CONFIG      DATA    0E8H
-  00DF               211     P3ETFRC DATA    0DFH
-  00F7               212     P4ETFRC DATA    0F7H
-  00D0               213     PSW     DATA    0D0H
-  00D8               214     WDCON   DATA    0D8H
-  00C0               215     IRCON   DATA    0C0H
-  009A               216     RB80    BIT     098H.2
-  00B6               217     P1ETCLR DATA    0B6H
-                     218     ?PR?_EE_write?MOTORLIB                   SEGMENT CODE 
-                     219     ?DT?_EE_write?MOTORLIB                   SEGMENT DATA 
-                     220     ?PR?_EE_read?MOTORLIB                    SEGMENT CODE 
-                     221     ?DT?_EE_read?MOTORLIB                    SEGMENT DATA 
-                     222             EXTRN   CODE (?C?LSTXDATA)
-                     223             PUBLIC  _EE_read
-                     224             PUBLIC  ?_EE_write?BYTE
-                     225             PUBLIC  _EE_write
-                     226     
-----                 227             RSEG  ?DT?_EE_read?MOTORLIB
-0000                 228     ?_EE_read?BYTE:
-0000                 229         EE_addr?142:   DS   1
-                     230     
-----                 231             RSEG  ?DT?_EE_write?MOTORLIB
-0000                 232     ?_EE_write?BYTE:
-0000                 233         EE_addr?040:   DS   1
-0001                 234             ORG  1
-0001                 235         EE_data?041:   DS   4
-                     236     ; /*
-                     237     ;  * lib.c
-                     238     ;  *    Copy Right (c) of JE
-                     239     ;  *  Created on: 
-                     240     ;  *      18 Sep 2018
-                     241     ;  *  Author: 
-                     242     ;  *      Ken
-                     243     ;  *  Last Modified: 
-                     244     ;  *     
-                     245     ;  *  Description: 
-                     246     ;  *      lib for JE8MCU
-                     247     ;  *  History:
-                     248     ;  *      ver 0.1 created by ken on 12 August 2016 
-                     249     ;  *
-                     250     ;  *            Use math table for fuctions of 
-                     251     ;  *                            sin, cos, inverse, sqrt, artan
-                     252     ;  *                            Park transform and Clark transform
-                     253     ;  *
-                     254     ;  *
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     5
+  008E               189     TR1     BIT     088H.6
+  00F9               190     INT_REG1        DATA    0F9H
+  0083               191     DPH     DATA    083H
+  00FA               192     INT_REG2        DATA    0FAH
+  00FD               193     INT_REG3        DATA    0FDH
+  00FE               194     INT_REG4        DATA    0FEH
+  0082               195     DPL     DATA    082H
+  0099               196     S0BUF   DATA    099H
+  009C               197     S1BUF   DATA    09CH
+  0098               198     S0CON   DATA    098H
+  009B               199     S1CON   DATA    09BH
+  00C8               200     T2CON   DATA    0C8H
+  0092               201     DPS     DATA    092H
+  00AE               202     WDT     BIT     0A8H.6
+  008E               203     CKCON   DATA    08EH
+  00EF               204     ARCON   DATA    0EFH
+  00B5               205     P1ETFLG DATA    0B5H
+  00F8               206     SRAM_CON        DATA    0F8H
+  00CD               207     P2ETFLG DATA    0CDH
+  00DD               208     P3ETFLG DATA    0DDH
+  00B7               209     P1ETFRC DATA    0B7H
+  00F5               210     P4ETFLG DATA    0F5H
+  00CF               211     P2ETFRC DATA    0CFH
+  00E8               212     MEM_CONFIG      DATA    0E8H
+  00DF               213     P3ETFRC DATA    0DFH
+  00F7               214     P4ETFRC DATA    0F7H
+  00D0               215     PSW     DATA    0D0H
+  00D8               216     WDCON   DATA    0D8H
+  00C0               217     IRCON   DATA    0C0H
+  009A               218     RB80    BIT     098H.2
+  00B6               219     P1ETCLR DATA    0B6H
+                     220     ?PR?_EE_write?MOTORLIB                   SEGMENT CODE 
+                     221     ?DT?_EE_write?MOTORLIB                   SEGMENT DATA 
+                     222     ?PR?_EE_read?MOTORLIB                    SEGMENT CODE 
+                     223     ?DT?_EE_read?MOTORLIB                    SEGMENT DATA 
+                     224             EXTRN   CODE (?C?LSTXDATA)
+                     225             PUBLIC  _EE_read
+                     226             PUBLIC  ?_EE_write?BYTE
+                     227             PUBLIC  _EE_write
+                     228     
+----                 229             RSEG  ?DT?_EE_read?MOTORLIB
+0000                 230     ?_EE_read?BYTE:
+0000                 231         EE_addr?142:   DS   1
+                     232     
+----                 233             RSEG  ?DT?_EE_write?MOTORLIB
+0000                 234     ?_EE_write?BYTE:
+0000                 235         EE_addr?040:   DS   1
+0001                 236             ORG  1
+0001                 237         EE_data?041:   DS   4
+                     238     ; /*
+                     239     ;  * lib.c
+                     240     ;  *    Copy Right (c) of JE
+                     241     ;  *  Created on: 
+                     242     ;  *      18 Sep 2018
+                     243     ;  *  Author: 
+                     244     ;  *      Ken
+                     245     ;  *  Last Modified: 
+                     246     ;  *     
+                     247     ;  *  Description: 
+                     248     ;  *      lib for JE8MCU
+                     249     ;  *  History:
+                     250     ;  *      ver 0.1 created by ken on 12 August 2016 
+                     251     ;  *
+                     252     ;  *            Use math table for fuctions of 
+                     253     ;  *                            sin, cos, inverse, sqrt, artan
+                     254     ;  *                            Park transform and Clark transform
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/07/2018 11:17:57 PAGE     5
 
-                     255     ;  */
-                     256     ;  
-                     257     ;  /***************************************************
-                     258     ;  * Includes
-                     259     ;  */
-                     260     ; #include <stdio.h>
-                     261     ; #include <intrins.h>   
-                     262     ; #include <absacc.h>
-                     263     ; #include "register.h"
-                     264     ; #include "motorLib.h"
-                     265     ; #include "IQmathLib.h"
-                     266     ; 
-                     267     ; 
+                     255     ;  *
+                     256     ;  *
+                     257     ;  */
+                     258     ;  
+                     259     ;  /***************************************************
+                     260     ;  * Includes
+                     261     ;  */
+                     262     ; #include <stdio.h>
+                     263     ; #include <intrins.h>   
+                     264     ; #include <absacc.h>
+                     265     ; #include "register.h"
+                     266     ; #include "motorLib.h"
+                     267     ; #include "IQmathLib.h"
                      268     ; 
                      269     ; 
                      270     ; 
-                     271     ; /*
-                     272     ;  * @fn                EE_write
-                     273     ;  *
-                     274     ;  * @brief write data to EEPROM , 64x32 bit
-                     275     ;  * 
-                     276     ;  * @param     none
-                     277     ;  * EE_write(eeprom address, eeprom data)
-                     278     ; 
-                     279     ;  *
-                     280     ;  * @return    none
-                     281     ;  */
-                     282     ; 
-                     283     ; 
+                     271     ; 
+                     272     ; 
+                     273     ; /*
+                     274     ;  * @fn                EE_write
+                     275     ;  *
+                     276     ;  * @brief write data to EEPROM , 64x32 bit
+                     277     ;  * 
+                     278     ;  * @param     none
+                     279     ;  * EE_write(eeprom address, eeprom data)
+                     280     ; 
+                     281     ;  *
+                     282     ;  * @return    none
+                     283     ;  */
                      284     ; 
-                     285     ;  void EE_write(U8  EE_addr, U32  EE_data)
-                     286     
-----                 287             RSEG  ?PR?_EE_write?MOTORLIB
-0000                 288     _EE_write:
-                     289             USING   0
-                     290                             ; SOURCE LINE # 50
-0000 8F00     F      291             MOV     EE_addr?040,R7
-                     292     ; {
-                     293                             ; SOURCE LINE # 51
-0002                 294     ?C0001:
-                     295     ;       
-                     296     ;                       while (MTP_BUSY==1);
-                     297                             ; SOURCE LINE # 53
-0002 90E08E          298             MOV     DPTR,#0E08EH
-0005 E0              299             MOVX    A,@DPTR
-0006 FF              300             MOV     R7,A
-0007 EF              301             MOV     A,R7
-0008 C4              302             SWAP    A
-0009 13              303             RRC     A
-000A 13              304             RRC     A
-000B 5403            305             ANL     A,#03H
-000D FF              306             MOV     R7,A
-000E EF              307             MOV     A,R7
-000F 20E0F0          308             JB      ACC.0,?C0001
-0012                 309     ?C0002:
-                     310     ;                       MTPCON2=0x53;         //init MTP write mode
-                     311                             ; SOURCE LINE # 54
-0012 90E08F          312             MOV     DPTR,#0E08FH
-0015 7453            313             MOV     A,#053H
-0017 F0              314             MOVX    @DPTR,A
-                     315     ;                       MTPSADD1=EE_addr;       // EEPROM address
-                     316                             ; SOURCE LINE # 55
-0018 90E091          317             MOV     DPTR,#0E091H
-001B E500     F      318             MOV     A,EE_addr?040
-001D F0              319             MOVX    @DPTR,A
-                     320     ;                       MTPSADD2=0x00;
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     6
+                     285     ; 
+                     286     ; 
+                     287     ;  void EE_write(U8  EE_addr, U32  EE_data)
+                     288     
+----                 289             RSEG  ?PR?_EE_write?MOTORLIB
+0000                 290     _EE_write:
+                     291             USING   0
+                     292                             ; SOURCE LINE # 50
+0000 8F00     F      293             MOV     EE_addr?040,R7
+                     294     ; {
+                     295                             ; SOURCE LINE # 51
+0002                 296     ?C0001:
+                     297     ;       
+                     298     ;                       while (MTP_BUSY==1);
+                     299                             ; SOURCE LINE # 53
+0002 90E08E          300             MOV     DPTR,#0E08EH
+0005 E0              301             MOVX    A,@DPTR
+0006 FF              302             MOV     R7,A
+0007 EF              303             MOV     A,R7
+0008 C4              304             SWAP    A
+0009 13              305             RRC     A
+000A 13              306             RRC     A
+000B 5403            307             ANL     A,#03H
+000D FF              308             MOV     R7,A
+000E EF              309             MOV     A,R7
+000F 20E0F0          310             JB      ACC.0,?C0001
+0012                 311     ?C0002:
+                     312     ;                       MTPCON2=0x53;         //init MTP write mode
+                     313                             ; SOURCE LINE # 54
+0012 90E08F          314             MOV     DPTR,#0E08FH
+0015 7453            315             MOV     A,#053H
+0017 F0              316             MOVX    @DPTR,A
+                     317     ;                       MTPSADD1=EE_addr;       // EEPROM address
+                     318                             ; SOURCE LINE # 55
+0018 90E091          319             MOV     DPTR,#0E091H
+001B E500     F      320             MOV     A,EE_addr?040
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/07/2018 11:17:57 PAGE     6
 
-                     321                             ; SOURCE LINE # 56
-001E 90E092          322             MOV     DPTR,#0E092H
-0021 E4              323             CLR     A
-0022 F0              324             MOVX    @DPTR,A
-                     325     ;                       MTPDATA=EE_data;
-                     326                             ; SOURCE LINE # 57
-0023 AF00     F      327             MOV     R7,EE_data?041+03H
-0025 AE00     F      328             MOV     R6,EE_data?041+02H
-0027 AD00     F      329             MOV     R5,EE_data?041+01H
-0029 AC00     F      330             MOV     R4,EE_data?041
-002B 90E093          331             MOV     DPTR,#0E093H
-002E 120000   F      332             LCALL   ?C?LSTXDATA
-                     333     ;                       
-                     334     ;                       MTPCON1=0x0b;                           //start 
-                     335                             ; SOURCE LINE # 59
-0031 90E08E          336             MOV     DPTR,#0E08EH
-0034 740B            337             MOV     A,#0BH
-0036 F0              338             MOVX    @DPTR,A
-0037                 339     ?C0003:
-                     340     ;                       
-                     341     ;                       while (MTP_WRITE==0);
-                     342                             ; SOURCE LINE # 61
-0037 90E08E          343             MOV     DPTR,#0E08EH
-003A E0              344             MOVX    A,@DPTR
-003B FF              345             MOV     R7,A
-003C EF              346             MOV     A,R7
-003D C4              347             SWAP    A
-003E 13              348             RRC     A
-003F 5407            349             ANL     A,#07H
-0041 FF              350             MOV     R7,A
-0042 EF              351             MOV     A,R7
-0043 30E0F1          352             JNB     ACC.0,?C0003
-0046                 353     ?C0004:
-                     354     ;                       MTPCON1=0x0;
-                     355                             ; SOURCE LINE # 62
-0046 90E08E          356             MOV     DPTR,#0E08EH
-0049 E4              357             CLR     A
-004A F0              358             MOVX    @DPTR,A
-                     359     ;       
-                     360     ; }
-                     361                             ; SOURCE LINE # 64
-004B                 362     ?C0005:
-004B 22              363             RET     
-                     364     ; END OF _EE_write
-                     365     
-                     366     ; 
-                     367     ; /*
-                     368     ;  * @fn                EE_read
-                     369     ;  *
-                     370     ;  * @brief read data from EEPROM , 64x32 bit
-                     371     ;  * 
-                     372     ;  * @param     none
-                     373     ;  * EE_read(eeprom address)
-                     374     ; 
-                     375     ;  *
-                     376     ;  * @return    eprom data
-                     377     ;  */
-                     378     ; 
-                     379     ; U32 EE_read(U8 EE_addr)
-                     380     
-----                 381             RSEG  ?PR?_EE_read?MOTORLIB
-0000                 382     _EE_read:
-                     383             USING   0
-                     384                             ; SOURCE LINE # 78
-0000 8F00     F      385             MOV     EE_addr?142,R7
-                     386     ; {
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     7
+001D F0              321             MOVX    @DPTR,A
+                     322     ;                       MTPSADD2=0x00;
+                     323                             ; SOURCE LINE # 56
+001E 90E092          324             MOV     DPTR,#0E092H
+0021 E4              325             CLR     A
+0022 F0              326             MOVX    @DPTR,A
+                     327     ;                       MTPDATA=EE_data;
+                     328                             ; SOURCE LINE # 57
+0023 AF00     F      329             MOV     R7,EE_data?041+03H
+0025 AE00     F      330             MOV     R6,EE_data?041+02H
+0027 AD00     F      331             MOV     R5,EE_data?041+01H
+0029 AC00     F      332             MOV     R4,EE_data?041
+002B 90E093          333             MOV     DPTR,#0E093H
+002E 120000   F      334             LCALL   ?C?LSTXDATA
+                     335     ;                       
+                     336     ;                       MTPCON1=0x0b;                           //start 
+                     337                             ; SOURCE LINE # 59
+0031 90E08E          338             MOV     DPTR,#0E08EH
+0034 740B            339             MOV     A,#0BH
+0036 F0              340             MOVX    @DPTR,A
+0037                 341     ?C0003:
+                     342     ;                       
+                     343     ;                       while (MTP_WRITE==0);
+                     344                             ; SOURCE LINE # 61
+0037 90E08E          345             MOV     DPTR,#0E08EH
+003A E0              346             MOVX    A,@DPTR
+003B FF              347             MOV     R7,A
+003C EF              348             MOV     A,R7
+003D C4              349             SWAP    A
+003E 13              350             RRC     A
+003F 5407            351             ANL     A,#07H
+0041 FF              352             MOV     R7,A
+0042 EF              353             MOV     A,R7
+0043 30E0F1          354             JNB     ACC.0,?C0003
+0046                 355     ?C0004:
+                     356     ;                       MTPCON1=0x0;
+                     357                             ; SOURCE LINE # 62
+0046 90E08E          358             MOV     DPTR,#0E08EH
+0049 E4              359             CLR     A
+004A F0              360             MOVX    @DPTR,A
+                     361     ;       
+                     362     ; }
+                     363                             ; SOURCE LINE # 64
+004B                 364     ?C0005:
+004B 22              365             RET     
+                     366     ; END OF _EE_write
+                     367     
+                     368     ; 
+                     369     ; /*
+                     370     ;  * @fn                EE_read
+                     371     ;  *
+                     372     ;  * @brief read data from EEPROM , 64x32 bit
+                     373     ;  * 
+                     374     ;  * @param     none
+                     375     ;  * EE_read(eeprom address)
+                     376     ; 
+                     377     ;  *
+                     378     ;  * @return    eprom data
+                     379     ;  */
+                     380     ; 
+                     381     ; U32 EE_read(U8 EE_addr)
+                     382     
+----                 383             RSEG  ?PR?_EE_read?MOTORLIB
+0000                 384     _EE_read:
+                     385             USING   0
+                     386                             ; SOURCE LINE # 78
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/07/2018 11:17:57 PAGE     7
 
-                     387                             ; SOURCE LINE # 79
-0002                 388     ?C0006:
-                     389     ;       
-                     390     ;                       while (MTP_BUSY==1);
-                     391                             ; SOURCE LINE # 81
-0002 90E08E          392             MOV     DPTR,#0E08EH
-0005 E0              393             MOVX    A,@DPTR
-0006 FF              394             MOV     R7,A
-0007 EF              395             MOV     A,R7
-0008 C4              396             SWAP    A
-0009 13              397             RRC     A
-000A 13              398             RRC     A
-000B 5403            399             ANL     A,#03H
-000D FF              400             MOV     R7,A
-000E EF              401             MOV     A,R7
-000F 20E0F0          402             JB      ACC.0,?C0006
-0012                 403     ?C0007:
-                     404     ;                       MTPCON2=0x55;         //init MTP read mode
-                     405                             ; SOURCE LINE # 82
-0012 90E08F          406             MOV     DPTR,#0E08FH
-0015 7455            407             MOV     A,#055H
-0017 F0              408             MOVX    @DPTR,A
-                     409     ;                       MTPSADD1=EE_addr;       //
-                     410                             ; SOURCE LINE # 83
-0018 90E091          411             MOV     DPTR,#0E091H
-001B E500     F      412             MOV     A,EE_addr?142
-001D F0              413             MOVX    @DPTR,A
-                     414     ;                       MTPSADD2=0x00;
-                     415                             ; SOURCE LINE # 84
-001E 90E092          416             MOV     DPTR,#0E092H
-0021 E4              417             CLR     A
-0022 F0              418             MOVX    @DPTR,A
-                     419     ;                       MTPCON1=0x07;                                   //start
-                     420                             ; SOURCE LINE # 85
-0023 90E08E          421             MOV     DPTR,#0E08EH
-0026 7407            422             MOV     A,#07H
-0028 F0              423             MOVX    @DPTR,A
-0029                 424     ?C0008:
-                     425     ;                       while (MTP_READ==0);
-                     426                             ; SOURCE LINE # 86
-0029 90E08E          427             MOV     DPTR,#0E08EH
-002C E0              428             MOVX    A,@DPTR
-002D FF              429             MOV     R7,A
-002E EF              430             MOV     A,R7
-002F C4              431             SWAP    A
-0030 540F            432             ANL     A,#0FH
-0032 FF              433             MOV     R7,A
-0033 EF              434             MOV     A,R7
-0034 30E0F2          435             JNB     ACC.0,?C0008
-0037                 436     ?C0009:
-                     437     ;                       MTPCON1=0x0;
-                     438                             ; SOURCE LINE # 87
-0037 90E08E          439             MOV     DPTR,#0E08EH
-003A E4              440             CLR     A
-003B F0              441             MOVX    @DPTR,A
-                     442     ;                       return MTPDATA;
-                     443                             ; SOURCE LINE # 88
-003C 90E093          444             MOV     DPTR,#0E093H
-003F E0              445             MOVX    A,@DPTR
-0040 FC              446             MOV     R4,A
-0041 A3              447             INC     DPTR
-0042 E0              448             MOVX    A,@DPTR
-0043 FD              449             MOV     R5,A
-0044 A3              450             INC     DPTR
-0045 E0              451             MOVX    A,@DPTR
-0046 FE              452             MOV     R6,A
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     8
+0000 8F00     F      387             MOV     EE_addr?142,R7
+                     388     ; {
+                     389                             ; SOURCE LINE # 79
+0002                 390     ?C0006:
+                     391     ;       
+                     392     ;                       while (MTP_BUSY==1);
+                     393                             ; SOURCE LINE # 81
+0002 90E08E          394             MOV     DPTR,#0E08EH
+0005 E0              395             MOVX    A,@DPTR
+0006 FF              396             MOV     R7,A
+0007 EF              397             MOV     A,R7
+0008 C4              398             SWAP    A
+0009 13              399             RRC     A
+000A 13              400             RRC     A
+000B 5403            401             ANL     A,#03H
+000D FF              402             MOV     R7,A
+000E EF              403             MOV     A,R7
+000F 20E0F0          404             JB      ACC.0,?C0006
+0012                 405     ?C0007:
+                     406     ;                       MTPCON2=0x55;         //init MTP read mode
+                     407                             ; SOURCE LINE # 82
+0012 90E08F          408             MOV     DPTR,#0E08FH
+0015 7455            409             MOV     A,#055H
+0017 F0              410             MOVX    @DPTR,A
+                     411     ;                       MTPSADD1=EE_addr;       //
+                     412                             ; SOURCE LINE # 83
+0018 90E091          413             MOV     DPTR,#0E091H
+001B E500     F      414             MOV     A,EE_addr?142
+001D F0              415             MOVX    @DPTR,A
+                     416     ;                       MTPSADD2=0x00;
+                     417                             ; SOURCE LINE # 84
+001E 90E092          418             MOV     DPTR,#0E092H
+0021 E4              419             CLR     A
+0022 F0              420             MOVX    @DPTR,A
+                     421     ;                       MTPCON1=0x07;                                   //start
+                     422                             ; SOURCE LINE # 85
+0023 90E08E          423             MOV     DPTR,#0E08EH
+0026 7407            424             MOV     A,#07H
+0028 F0              425             MOVX    @DPTR,A
+0029                 426     ?C0008:
+                     427     ;                       while (MTP_READ==0);
+                     428                             ; SOURCE LINE # 86
+0029 90E08E          429             MOV     DPTR,#0E08EH
+002C E0              430             MOVX    A,@DPTR
+002D FF              431             MOV     R7,A
+002E EF              432             MOV     A,R7
+002F C4              433             SWAP    A
+0030 540F            434             ANL     A,#0FH
+0032 FF              435             MOV     R7,A
+0033 EF              436             MOV     A,R7
+0034 30E0F2          437             JNB     ACC.0,?C0008
+0037                 438     ?C0009:
+                     439     ;                       MTPCON1=0x0;
+                     440                             ; SOURCE LINE # 87
+0037 90E08E          441             MOV     DPTR,#0E08EH
+003A E4              442             CLR     A
+003B F0              443             MOVX    @DPTR,A
+                     444     ;                       return MTPDATA;
+                     445                             ; SOURCE LINE # 88
+003C 90E093          446             MOV     DPTR,#0E093H
+003F E0              447             MOVX    A,@DPTR
+0040 FC              448             MOV     R4,A
+0041 A3              449             INC     DPTR
+0042 E0              450             MOVX    A,@DPTR
+0043 FD              451             MOV     R5,A
+0044 A3              452             INC     DPTR
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/07/2018 11:17:57 PAGE     8
 
-0047 A3              453             INC     DPTR
-0048 E0              454             MOVX    A,@DPTR
-0049 FF              455             MOV     R7,A
-                     456     ;       
-                     457     ; }
-                     458                             ; SOURCE LINE # 90
-004A                 459     ?C0010:
-004A 22              460             RET     
-                     461     ; END OF _EE_read
-                     462     
-                     463             END
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE     9
+0045 E0              453             MOVX    A,@DPTR
+0046 FE              454             MOV     R6,A
+0047 A3              455             INC     DPTR
+0048 E0              456             MOVX    A,@DPTR
+0049 FF              457             MOV     R7,A
+                     458     ;       
+                     459     ; }
+                     460                             ; SOURCE LINE # 90
+004A                 461     ?C0010:
+004A 22              462             RET     
+                     463     ; END OF _EE_read
+                     464     
+                     465             END
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/07/2018 11:17:57 PAGE     9
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -518,10 +520,12 @@ BPCTRL . . . . . . . .  D ADDR   0093H   A
 BREAKH . . . . . . . .  D ADDR   0095H   A   
 BREAKL . . . . . . . .  D ADDR   0094H   A   
 BSHCTL . . . . . . . .  D ADDR   00ABH   A   
+BSHI . . . . . . . . .  D ADDR   00ACH   A   
 BSHI_0 . . . . . . . .  D ADDR   00ACH   A   
 BSHI_1 . . . . . . . .  D ADDR   00ADH   A   
 BSHI_2 . . . . . . . .  D ADDR   00AEH   A   
 BSHI_3 . . . . . . . .  D ADDR   00AFH   A   
+BSHO . . . . . . . . .  D ADDR   00BCH   A   
 BSHO_0 . . . . . . . .  D ADDR   00BCH   A   
 BSHO_1 . . . . . . . .  D ADDR   00BDH   A   
 BSHO_2 . . . . . . . .  D ADDR   00BEH   A   
@@ -552,10 +556,10 @@ EX5. . . . . . . . . .  B ADDR   00B8H.4 A
 EX6. . . . . . . . . .  B ADDR   00B8H.5 A   
 I2FR . . . . . . . . .  B ADDR   00C8H.5 A   
 I3FR . . . . . . . . .  B ADDR   00C8H.6 A   
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/07/2018 11:17:57 PAGE    10
+
 IADC . . . . . . . . .  B ADDR   00C0H.0 A   
 IE . . . . . . . . . .  D ADDR   00A8H   A   
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE    10
-
 IE0. . . . . . . . . .  B ADDR   0088H.1 A   
 IE1. . . . . . . . . .  B ADDR   0088H.3 A   
 IEN0 . . . . . . . . .  D ADDR   00A8H   A   
@@ -620,10 +624,10 @@ P1TZFLG. . . . . . . .  D ADDR   00B2H   A
 P1TZFRC. . . . . . . .  D ADDR   00B4H   A   
 P2 . . . . . . . . . .  D ADDR   00A0H   A   
 P20. . . . . . . . . .  B ADDR   00A0H.0 A   
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/07/2018 11:17:57 PAGE    11
+
 P21. . . . . . . . . .  B ADDR   00A0H.1 A   
 P22. . . . . . . . . .  B ADDR   00A0H.2 A   
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE    11
-
 P23. . . . . . . . . .  B ADDR   00A0H.3 A   
 P24. . . . . . . . . .  B ADDR   00A0H.4 A   
 P25. . . . . . . . . .  B ADDR   00A0H.5 A   
@@ -688,10 +692,10 @@ P4TBPRD_H. . . . . . .  D ADDR   00E2H   A
 P4TBPRD_L. . . . . . .  D ADDR   00E1H   A   
 P4TZCLR. . . . . . . .  D ADDR   00F3H   A   
 P4TZFLG. . . . . . . .  D ADDR   00F2H   A   
+A51 MACRO ASSEMBLER  MOTORLIB                                                             12/07/2018 11:17:57 PAGE    12
+
 P4TZFRC. . . . . . . .  D ADDR   00F4H   A   
 PCON . . . . . . . . .  D ADDR   0087H   A   
-A51 MACRO ASSEMBLER  MOTORLIB                                                             12/01/2018 16:43:53 PAGE    12
-
 POWER_CON. . . . . . .  D ADDR   0097H   A   
 PSW. . . . . . . . . .  D ADDR   00D0H   A   
 RB80 . . . . . . . . .  B ADDR   0098H.2 A   

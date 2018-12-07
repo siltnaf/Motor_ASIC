@@ -64,6 +64,7 @@ P3CMPA	DATA	0D3H
 P2CMPB	DATA	0C5H
 P4CMPA	DATA	0E3H
 P3CMPB	DATA	0D5H
+BSHI	DATA	0ACH
 P4CMPB	DATA	0E5H
 P1TBPRD_H	DATA	0A2H
 P2TBPRD_H	DATA	0C2H
@@ -71,6 +72,7 @@ P3TBPRD_H	DATA	0D2H
 P4TBPRD_H	DATA	0E2H
 P1TBPRD_L	DATA	0A1H
 P2TBPRD_L	DATA	0C1H
+BSHO	DATA	0BCH
 P3TBPRD_L	DATA	0D1H
 P4TBPRD_L	DATA	0E1H
 BREAKH	DATA	095H
@@ -234,7 +236,6 @@ P1ETCLR	DATA	0B6H
 ?PR?sInitUART1?INITIAL                   SEGMENT CODE 
 ?PR?sInitUART2?INITIAL                   SEGMENT CODE 
 ?PR?InitDAC?INITIAL  SEGMENT CODE 
-	EXTRN	CODE (__isd_init)
 	PUBLIC	InitDAC
 	PUBLIC	sInitUART2
 	PUBLIC	sInitUART1
@@ -324,7 +325,6 @@ InitEXT:
 
 	RSEG  ?PR?InitISDDebug?INITIAL
 InitISDDebug:
-	USING	0
 			; SOURCE LINE # 32
 ; {
 			; SOURCE LINE # 33
@@ -335,98 +335,32 @@ InitISDDebug:
 ;     //ISD51++++++++++++++++++++++++++
 ;     #if ISDDebug == ENABLE_ISD
 ; 		InitBreakPoint();
-			; SOURCE LINE # 38
-	LCALL	InitBreakPoint
 ;     sInitUART1();
-			; SOURCE LINE # 39
-	LCALL	sInitUART1
 ;  
 ;     IP0 = 0x30;
-			; SOURCE LINE # 41
-	MOV  	IP0,#030H
 ;     IP1 = 0x20;
-			; SOURCE LINE # 42
-	MOV  	IP1,#020H
 ;     ET0 = 0;
-			; SOURCE LINE # 43
-	CLR  	ET0
 ;     EX6 = 0 ;
-			; SOURCE LINE # 44
-	CLR  	EX6
 ;     ES0 = 1;
-			; SOURCE LINE # 45
-	SETB 	ES0
 ;     EAL = 1;
-			; SOURCE LINE # 46
-	SETB 	EAL
 ;     _nop_();
-			; SOURCE LINE # 47
-	NOP  	
 ;     _nop_();
-			; SOURCE LINE # 48
-	NOP  	
 ;     _nop_();
-			; SOURCE LINE # 49
-	NOP  	
-?C0002:
 ;     while(1)
-			; SOURCE LINE # 50
 ;     {
-			; SOURCE LINE # 51
 ;         P10 = 0;
-			; SOURCE LINE # 52
-	CLR  	P10
 ;         P10 = 1;
-			; SOURCE LINE # 53
-	SETB 	P10
 ;         ISDcheck();      // initialize uVision2 Debugger and continue program run
-			; SOURCE LINE # 54
-	JB   	ES,?C0004
-	JNB  	RI,?C0004
-	MOV  	A,SBUF
-	XRL  	A,#0A5H
-	JZ   	?C0006
-	CLR  	RI
-	SJMP 	?C0004
-?C0006:
-	LCALL	__isd_init
-?C0007:
-?C0005:
-?C0004:
 ;         if((BPCTRL & 0x10) != 0) break;
-			; SOURCE LINE # 55
-	MOV  	A,BPCTRL
-	JNB  	ACC.4,?C0002
-	SJMP 	?C0003
-?C0008:
 ;     }
-			; SOURCE LINE # 56
-	SJMP 	?C0002
-?C0003:
 ;     _nop_();
-			; SOURCE LINE # 57
-	NOP  	
 ;     _nop_();
-			; SOURCE LINE # 58
-	NOP  	
 ;     _nop_();
-			; SOURCE LINE # 59
-	NOP  	
 ;     ET0 = 1;
-			; SOURCE LINE # 60
-	SETB 	ET0
 ;     EX6 = 1;
-			; SOURCE LINE # 61
-	SETB 	EX6
 ;     _nop_();
-			; SOURCE LINE # 62
-	NOP  	
 ;     _nop_();
-			; SOURCE LINE # 63
-	NOP  	
 ;     _nop_();
-			; SOURCE LINE # 64
-	NOP  	
 ;     #endif
 ;     //++++++++++++++++++++++++++++++
 ; 		EAL = 1;                                //enable all interrupts
@@ -434,7 +368,7 @@ InitISDDebug:
 	SETB 	EAL
 ; }
 			; SOURCE LINE # 68
-?C0009:
+?C0002:
 	RET  	
 ; END OF InitISDDebug
 
@@ -461,7 +395,7 @@ InitBreakPoint:
 	MOV  	BREAKH,#0FFH
 ; }
 			; SOURCE LINE # 79
-?C0010:
+?C0003:
 	RET  	
 ; END OF InitBreakPoint
 
@@ -487,7 +421,7 @@ epwmOutputDisable:
 	MOV  	P4AQCSFRC,#05H
 ; }
 			; SOURCE LINE # 87
-?C0011:
+?C0004:
 	RET  	
 ; END OF epwmOutputDisable
 
@@ -513,7 +447,7 @@ epwmOutputEnable:
 	MOV  	P4AQCSFRC,#0FH
 ; }
 			; SOURCE LINE # 95
-?C0012:
+?C0005:
 	RET  	
 ; END OF epwmOutputEnable
 
@@ -685,7 +619,7 @@ InitADC:
 ; 
 ; 	}
 			; SOURCE LINE # 129
-?C0013:
+?C0006:
 	RET  	
 ; END OF InitADC
 
@@ -2542,7 +2476,7 @@ Initepwm:
 ; 	//ex3 = 1;								// enable epwm4 interrupt
 ; }
 			; SOURCE LINE # 464
-?C0014:
+?C0007:
 	RET  	
 ; END OF Initepwm
 
@@ -2814,7 +2748,7 @@ InitComparator:
 	CLR  	IEX4
 ; }
 			; SOURCE LINE # 507
-?C0015:
+?C0008:
 	RET  	
 ; END OF InitComparator
 
@@ -2860,7 +2794,7 @@ InitWatchDog:
 	MOVX 	@DPTR,A
 ; }
 			; SOURCE LINE # 518
-?C0016:
+?C0009:
 	RET  	
 ; END OF InitWatchDog
 
@@ -3192,7 +3126,7 @@ InitGPIO:
 ; 	
 ; }
 			; SOURCE LINE # 561
-?C0017:
+?C0010:
 	RET  	
 ; END OF InitGPIO
 
@@ -3246,7 +3180,7 @@ InitTimer01:
 	SETB 	TR1
 ; }
 			; SOURCE LINE # 579
-?C0018:
+?C0011:
 	RET  	
 ; END OF InitTimer01
 
@@ -3368,7 +3302,7 @@ InitTimer3:
 	SETB 	EX1
 ; }
 			; SOURCE LINE # 596
-?C0019:
+?C0012:
 	RET  	
 ; END OF InitTimer3
 
@@ -3426,7 +3360,7 @@ InitTimer4:
 	CLR  	IEX6
 ; }
 			; SOURCE LINE # 608
-?C0020:
+?C0013:
 	RET  	
 ; END OF InitTimer4
 
@@ -3495,7 +3429,7 @@ InitTimer5:
 	CLR  	IEX3
 ; }
 			; SOURCE LINE # 622
-?C0021:
+?C0014:
 	RET  	
 ; END OF InitTimer5
 
@@ -3562,7 +3496,7 @@ InitTimer6:
 	CLR  	IEX5
 ; }
 			; SOURCE LINE # 636
-?C0022:
+?C0015:
 	RET  	
 ; END OF InitTimer6
 
@@ -3575,13 +3509,23 @@ SystemClock:
 ; {
 			; SOURCE LINE # 638
 ; 	  
-;     RC80M_RES = 0x2e;
+;     RC80M_RES = 0x60;
 			; SOURCE LINE # 640
 	MOV  	DPTR,#0E0B2H
-	MOV  	A,#02EH
+	MOV  	A,#060H
+	MOVX 	@DPTR,A
+; 	  RC80M_CAP=0x40;
+			; SOURCE LINE # 641
+	MOV  	DPTR,#0E0B1H
+	MOV  	A,#040H
+	MOVX 	@DPTR,A
+; 	  RC80M_C3=0x4f;
+			; SOURCE LINE # 642
+	MOV  	DPTR,#0E0B0H
+	MOV  	A,#04FH
 	MOVX 	@DPTR,A
 ; 	  RC80M_C2=0x3f;
-			; SOURCE LINE # 641
+			; SOURCE LINE # 643
 	MOV  	DPTR,#0E0AFH
 	MOV  	A,#03FH
 	MOVX 	@DPTR,A
@@ -3654,13 +3598,13 @@ SystemClock:
 	  nop
 ; 		#pragma endasm
 ; 	
-; 	  CLK_DIV_L = 0x00;
-			; SOURCE LINE # 678
+; 	  CLK_DIV_L = 0x0;
+			; SOURCE LINE # 680
 	MOV  	DPTR,#0E0E7H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 	  CLK_DIV_H = 0x00;
-			; SOURCE LINE # 679
+			; SOURCE LINE # 681
 	MOV  	DPTR,#0E0E6H
 	CLR  	A
 	MOVX 	@DPTR,A
@@ -3732,8 +3676,8 @@ SystemClock:
 	  nop
 ; 		#pragma endasm
 ; }
-			; SOURCE LINE # 715
-?C0023:
+			; SOURCE LINE # 717
+?C0016:
 	RET  	
 ; END OF SystemClock
 
@@ -3749,26 +3693,26 @@ SystemClock:
 
 	RSEG  ?PR?sInitUART1?INITIAL
 sInitUART1:
-			; SOURCE LINE # 724
-; {
-			; SOURCE LINE # 725
-; 	S0CON  = 0x50;		      // set as 8-bit UART,  enable serial 0 reception, enable serial 0 multiprocessor function
 			; SOURCE LINE # 726
+; {
+			; SOURCE LINE # 727
+; 	S0CON  = 0x50;		      // set as 8-bit UART,  enable serial 0 reception, enable serial 0 multiprocessor function
+			; SOURCE LINE # 728
 	MOV  	S0CON,#050H
 ;     WDCON = 0x80;            // 0x80: baud rate = (2^smod) * Fclk / (64 * (2^10 - s0rel));
-			; SOURCE LINE # 727
+			; SOURCE LINE # 729
 	MOV  	WDCON,#080H
 ;                               // 0x00: baud rate = (2^smod) * Fclk / (32 * 12 * (256 - th1));
 ;                               // smod = 0;	Fclk = system clock
 ;     S0RELL = 0xF3;             //Fclk = 8MHz, baud rate = 9600
-			; SOURCE LINE # 730
+			; SOURCE LINE # 732
 	MOV  	S0RELL,#0F3H
 ;     S0RELH = 0x03;	
-			; SOURCE LINE # 731
+			; SOURCE LINE # 733
 	MOV  	S0RELH,#03H
 ; }
-			; SOURCE LINE # 732
-?C0024:
+			; SOURCE LINE # 734
+?C0017:
 	RET  	
 ; END OF sInitUART1
 
@@ -3777,22 +3721,22 @@ sInitUART1:
 
 	RSEG  ?PR?sInitUART2?INITIAL
 sInitUART2:
-			; SOURCE LINE # 734
-; {
-			; SOURCE LINE # 735
-;     S1CON  = 0x90;		        //enable serial 1 reception, enable serial 0 multiprocessor function
 			; SOURCE LINE # 736
+; {
+			; SOURCE LINE # 737
+;     S1CON  = 0x90;		        //enable serial 1 reception, enable serial 0 multiprocessor function
+			; SOURCE LINE # 738
 	MOV  	S1CON,#090H
 ;                                 //s1con.7 = 1: 8-bit UART(mode B)    s1con.7 = 0: 9-bit UART(mode A)
 ;     S1RELL = 0xE6;            //baud rate = Fclk / (32 * (2^10 - s0rel));
-			; SOURCE LINE # 738
+			; SOURCE LINE # 740
 	MOV  	S1RELL,#0E6H
 ;     S1RELH = 0x03;	          //Fclk = 8MHz, baud rate = 9600
-			; SOURCE LINE # 739
+			; SOURCE LINE # 741
 	MOV  	S1RELH,#03H
 ; }
-			; SOURCE LINE # 740
-?C0025:
+			; SOURCE LINE # 742
+?C0018:
 	RET  	
 ; END OF sInitUART2
 
@@ -3803,11 +3747,11 @@ sInitUART2:
 	RSEG  ?PR?InitDAC?INITIAL
 InitDAC:
 	USING	0
-			; SOURCE LINE # 743
-; {
-			; SOURCE LINE # 744
-; 		DAC1_PD=0;		//power up DAC1
 			; SOURCE LINE # 745
+; {
+			; SOURCE LINE # 746
+; 		DAC1_PD=0;		//power up DAC1
+			; SOURCE LINE # 747
 	MOV  	DPTR,#0E07AH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -3817,7 +3761,7 @@ InitDAC:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 		DAC2_PD=0;		//power up DAC2
-			; SOURCE LINE # 746
+			; SOURCE LINE # 748
 	MOV  	DPTR,#0E07AH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -3827,7 +3771,7 @@ InitDAC:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	DAC1_VREF=0;		//use 3.3V as vref
-			; SOURCE LINE # 747
+			; SOURCE LINE # 749
 	MOV  	DPTR,#0E07AH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -3837,7 +3781,7 @@ InitDAC:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	DAC2_VREF=0;		//use 3.3V as vref
-			; SOURCE LINE # 748
+			; SOURCE LINE # 750
 	MOV  	DPTR,#0E07AH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -3847,7 +3791,7 @@ InitDAC:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	ADC_DAC_SEL1=0; //select DAC output
-			; SOURCE LINE # 749
+			; SOURCE LINE # 751
 	MOV  	DPTR,#0E089H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -3857,7 +3801,7 @@ InitDAC:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	ADC_DAC_SEL2=0; //select DAC output
-			; SOURCE LINE # 750
+			; SOURCE LINE # 752
 	MOV  	DPTR,#0E089H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -3867,8 +3811,8 @@ InitDAC:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; }
-			; SOURCE LINE # 751
-?C0026:
+			; SOURCE LINE # 753
+?C0019:
 	RET  	
 ; END OF InitDAC
 

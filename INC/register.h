@@ -113,6 +113,9 @@ sfr IEN0	    = 0xa8;
 sfr IP0	     = 0xa9;
 sfr S0RELL	 = 0xaa;
 sfr	BSHCTL 	 = 0xab;
+
+sfr16 BSHI=0xac;
+
 sfr BSHI_0   = 0xac;
 sfr BSHI_1   = 0xad;
 sfr BSHI_2   = 0xae;
@@ -139,6 +142,7 @@ sfr IEN1	   = 0xb8;
 sfr IP1	     = 0xb9;
 sfr S0RELH	 = 0xba;
 sfr S1RELH	 = 0xbb;
+sfr16 BSHO =0xbc;
 sfr BSHO_0   = 0xbc;
 sfr BSHO_1   = 0xbd;
 sfr BSHO_2   = 0xbe;
