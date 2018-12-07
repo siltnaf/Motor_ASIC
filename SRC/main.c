@@ -58,11 +58,11 @@ void main(void)
 //			input =  _IQ10((0.25*PI));           //test IQmathlib
 			
 	
-			theta=_IQ(200.0);  
+			theta=_IQ(200.678);  
 			beta=_IQ(-145.0);
 
 	  P26=0;
-     result=_IQatan2(theta,beta);                // 00001111
+     result=_IQfrac(theta);                // 00001111
 
 				
 			P26=1;

@@ -236,6 +236,7 @@ P1ETCLR	DATA	0B6H
 ?PR?sInitUART1?INITIAL                   SEGMENT CODE 
 ?PR?sInitUART2?INITIAL                   SEGMENT CODE 
 ?PR?InitDAC?INITIAL  SEGMENT CODE 
+	EXTRN	CODE (__isd_init)
 	PUBLIC	InitDAC
 	PUBLIC	sInitUART2
 	PUBLIC	sInitUART1
@@ -325,6 +326,7 @@ InitEXT:
 
 	RSEG  ?PR?InitISDDebug?INITIAL
 InitISDDebug:
+	USING	0
 			; SOURCE LINE # 32
 ; {
 			; SOURCE LINE # 33
@@ -335,32 +337,98 @@ InitISDDebug:
 ;     //ISD51++++++++++++++++++++++++++
 ;     #if ISDDebug == ENABLE_ISD
 ; 		InitBreakPoint();
+			; SOURCE LINE # 38
+	LCALL	InitBreakPoint
 ;     sInitUART1();
+			; SOURCE LINE # 39
+	LCALL	sInitUART1
 ;  
 ;     IP0 = 0x30;
+			; SOURCE LINE # 41
+	MOV  	IP0,#030H
 ;     IP1 = 0x20;
+			; SOURCE LINE # 42
+	MOV  	IP1,#020H
 ;     ET0 = 0;
+			; SOURCE LINE # 43
+	CLR  	ET0
 ;     EX6 = 0 ;
+			; SOURCE LINE # 44
+	CLR  	EX6
 ;     ES0 = 1;
+			; SOURCE LINE # 45
+	SETB 	ES0
 ;     EAL = 1;
+			; SOURCE LINE # 46
+	SETB 	EAL
 ;     _nop_();
+			; SOURCE LINE # 47
+	NOP  	
 ;     _nop_();
+			; SOURCE LINE # 48
+	NOP  	
 ;     _nop_();
+			; SOURCE LINE # 49
+	NOP  	
+?C0002:
 ;     while(1)
+			; SOURCE LINE # 50
 ;     {
+			; SOURCE LINE # 51
 ;         P10 = 0;
+			; SOURCE LINE # 52
+	CLR  	P10
 ;         P10 = 1;
+			; SOURCE LINE # 53
+	SETB 	P10
 ;         ISDcheck();      // initialize uVision2 Debugger and continue program run
+			; SOURCE LINE # 54
+	JB   	ES,?C0004
+	JNB  	RI,?C0004
+	MOV  	A,SBUF
+	XRL  	A,#0A5H
+	JZ   	?C0006
+	CLR  	RI
+	SJMP 	?C0004
+?C0006:
+	LCALL	__isd_init
+?C0007:
+?C0005:
+?C0004:
 ;         if((BPCTRL & 0x10) != 0) break;
+			; SOURCE LINE # 55
+	MOV  	A,BPCTRL
+	JNB  	ACC.4,?C0002
+	SJMP 	?C0003
+?C0008:
 ;     }
+			; SOURCE LINE # 56
+	SJMP 	?C0002
+?C0003:
 ;     _nop_();
+			; SOURCE LINE # 57
+	NOP  	
 ;     _nop_();
+			; SOURCE LINE # 58
+	NOP  	
 ;     _nop_();
+			; SOURCE LINE # 59
+	NOP  	
 ;     ET0 = 1;
+			; SOURCE LINE # 60
+	SETB 	ET0
 ;     EX6 = 1;
+			; SOURCE LINE # 61
+	SETB 	EX6
 ;     _nop_();
+			; SOURCE LINE # 62
+	NOP  	
 ;     _nop_();
+			; SOURCE LINE # 63
+	NOP  	
 ;     _nop_();
+			; SOURCE LINE # 64
+	NOP  	
 ;     #endif
 ;     //++++++++++++++++++++++++++++++
 ; 		EAL = 1;                                //enable all interrupts
@@ -368,7 +436,7 @@ InitISDDebug:
 	SETB 	EAL
 ; }
 			; SOURCE LINE # 68
-?C0002:
+?C0009:
 	RET  	
 ; END OF InitISDDebug
 
@@ -395,7 +463,7 @@ InitBreakPoint:
 	MOV  	BREAKH,#0FFH
 ; }
 			; SOURCE LINE # 79
-?C0003:
+?C0010:
 	RET  	
 ; END OF InitBreakPoint
 
@@ -421,7 +489,7 @@ epwmOutputDisable:
 	MOV  	P4AQCSFRC,#05H
 ; }
 			; SOURCE LINE # 87
-?C0004:
+?C0011:
 	RET  	
 ; END OF epwmOutputDisable
 
@@ -447,7 +515,7 @@ epwmOutputEnable:
 	MOV  	P4AQCSFRC,#0FH
 ; }
 			; SOURCE LINE # 95
-?C0005:
+?C0012:
 	RET  	
 ; END OF epwmOutputEnable
 
@@ -619,7 +687,7 @@ InitADC:
 ; 
 ; 	}
 			; SOURCE LINE # 129
-?C0006:
+?C0013:
 	RET  	
 ; END OF InitADC
 
@@ -2476,7 +2544,7 @@ Initepwm:
 ; 	//ex3 = 1;								// enable epwm4 interrupt
 ; }
 			; SOURCE LINE # 464
-?C0007:
+?C0014:
 	RET  	
 ; END OF Initepwm
 
@@ -2748,7 +2816,7 @@ InitComparator:
 	CLR  	IEX4
 ; }
 			; SOURCE LINE # 507
-?C0008:
+?C0015:
 	RET  	
 ; END OF InitComparator
 
@@ -2794,7 +2862,7 @@ InitWatchDog:
 	MOVX 	@DPTR,A
 ; }
 			; SOURCE LINE # 518
-?C0009:
+?C0016:
 	RET  	
 ; END OF InitWatchDog
 
@@ -3126,7 +3194,7 @@ InitGPIO:
 ; 	
 ; }
 			; SOURCE LINE # 561
-?C0010:
+?C0017:
 	RET  	
 ; END OF InitGPIO
 
@@ -3180,7 +3248,7 @@ InitTimer01:
 	SETB 	TR1
 ; }
 			; SOURCE LINE # 579
-?C0011:
+?C0018:
 	RET  	
 ; END OF InitTimer01
 
@@ -3302,7 +3370,7 @@ InitTimer3:
 	SETB 	EX1
 ; }
 			; SOURCE LINE # 596
-?C0012:
+?C0019:
 	RET  	
 ; END OF InitTimer3
 
@@ -3360,7 +3428,7 @@ InitTimer4:
 	CLR  	IEX6
 ; }
 			; SOURCE LINE # 608
-?C0013:
+?C0020:
 	RET  	
 ; END OF InitTimer4
 
@@ -3429,7 +3497,7 @@ InitTimer5:
 	CLR  	IEX3
 ; }
 			; SOURCE LINE # 622
-?C0014:
+?C0021:
 	RET  	
 ; END OF InitTimer5
 
@@ -3496,7 +3564,7 @@ InitTimer6:
 	CLR  	IEX5
 ; }
 			; SOURCE LINE # 636
-?C0015:
+?C0022:
 	RET  	
 ; END OF InitTimer6
 
@@ -3677,7 +3745,7 @@ SystemClock:
 ; 		#pragma endasm
 ; }
 			; SOURCE LINE # 717
-?C0016:
+?C0023:
 	RET  	
 ; END OF SystemClock
 
@@ -3712,7 +3780,7 @@ sInitUART1:
 	MOV  	S0RELH,#03H
 ; }
 			; SOURCE LINE # 734
-?C0017:
+?C0024:
 	RET  	
 ; END OF sInitUART1
 
@@ -3736,7 +3804,7 @@ sInitUART2:
 	MOV  	S1RELH,#03H
 ; }
 			; SOURCE LINE # 742
-?C0018:
+?C0025:
 	RET  	
 ; END OF sInitUART2
 
@@ -3812,7 +3880,7 @@ InitDAC:
 	MOVX 	@DPTR,A
 ; }
 			; SOURCE LINE # 753
-?C0019:
+?C0026:
 	RET  	
 ; END OF InitDAC
 

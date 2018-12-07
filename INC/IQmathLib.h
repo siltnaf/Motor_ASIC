@@ -2,23 +2,7 @@
 //
 // IQmathLib.h - IQmath library C language function definitions.
 //
-// Copyright (c) 2010-2012 Texas Instruments Incorporated.  All rights reserved.
-// Software License Agreement
-// 
-// Texas Instruments (TI) is supplying this software for use solely and
-// exclusively on TI's microcontroller products. The software is owned by
-// TI and/or its suppliers, and is protected under applicable copyright
-// laws. You may not combine this software with "viral" open-source
-// software in order to form a larger program.
-// 
-// THIS SOFTWARE IS PROVIDED "AS IS" AND WITH ALL FAULTS.
-// NO WARRANTIES, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT
-// NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE APPLY TO THIS SOFTWARE. TI SHALL NOT, UNDER ANY
-// CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR CONSEQUENTIAL
-// DAMAGES, FOR ANY REASON WHATSOEVER.
-// 
-// This is part of revision 9453 of the Stellaris IQmath Library.
+
 //******************************************************************************
 // math function in this library
 //
@@ -31,6 +15,8 @@
 //      _IQatan(A)   		--> compute artan (A) return value in degree
 //      _IQmag(A,B)     --> compute sqrt of A*A + B*B
 //			_IQsqrt(A)      --> compute  sqrt of A
+//      _IQabs(A)       --> positive A
+//      _IQint(A)       --> return integer part of A
 //
 //
 //
@@ -39,28 +25,6 @@
 #ifndef __IQMATHLIB_H__
 #define __IQMATHLIB_H__
 
-//*****************************************************************************
-//
-// If building with a C++ compiler, make all of the definitions in this header
-// have a C binding.
-//
-//*****************************************************************************
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-//*****************************************************************************
-//
-// By redefining MATH_TYPE, all IQmath functions will be replaced by their
-// floating point equivalents.
-//
-//*****************************************************************************
-#define FLOAT_MATH              1
-#define IQ_MATH                 0
-#ifndef MATH_TYPE
-#define MATH_TYPE               IQ_MATH
-#endif
 
 //*****************************************************************************
 //
@@ -69,21 +33,13 @@ extern "C"
 // inclusive.
 //
 //*****************************************************************************
+
+
 #ifndef GLOBAL_Q
 #define GLOBAL_Q                15
 #define half_Q        					 GLOBAL_Q/2
 #endif
 
-//*****************************************************************************
-//
-// Include some standard headers, as required based on the math type.
-//
-//*****************************************************************************
-#if MATH_TYPE == FLOAT_MATH
-#include <math.h>
-#endif
-#include <limits.h>
-#include <stdlib.h>
 
 
 
@@ -94,7 +50,7 @@ extern "C"
 // table address
 
 #define sin_table 		0x0000
-#define inverse_table 0x0200		  
+#define inverse_table 0x0200		     //inverse table is not used anymore 
 #define sqrt_table 		0x0400	
 #define atan_table  	0x0600	
 
@@ -192,12 +148,6 @@ unsigned long Ldata;
 
 
 
-//*****************************************************************************
-//
-// See if IQmath or floating point is being used.
-//
-//*****************************************************************************
-#if MATH_TYPE == IQ_MATH
 
 //*****************************************************************************
 //
@@ -409,14 +359,7 @@ extern _iq _IQabs(_iq A);
 #endif
 
 
-//*****************************************************************************
-//
-// Saturates an IQ number in a given range.
-//
-//*****************************************************************************
-#define _IQsat(A, Pos, Neg)     (((A) > (Pos)) ?                              \
-                                 (Pos) :                                      \
-                                 (((A) < (Neg)) ? (Neg) : (A)))
+
 
 //*****************************************************************************
 //
@@ -2205,15 +2148,6 @@ typedef float _iq;
 
 //*****************************************************************************
 //
-// Saturates an IQ number in a given range.
-//
-//*****************************************************************************
-#define _IQsat(A, Pos, Neg)     (((A) > (Pos)) ?                              \
-                                 (Pos) :                                      \
-                                 (((A) < (Neg)) ? (Neg) : (A)))
-
-//*****************************************************************************
-//
 // Converts an IQ number between the global IQ format and a specified IQ
 // format.
 //
@@ -2316,79 +2250,7 @@ typedef float _iq;
 #define _Q1toIQ(A)              (((float)(A)) * (1.0 / (1 << 1)))
 
 
-//*****************************************************************************
-//
-// Multiplies two IQ numbers, with rounding.
-//
-//*****************************************************************************
-#define _IQ30rmpy(A, B)         ((A) * (B))
-#define _IQ29rmpy(A, B)         ((A) * (B))
-#define _IQ28rmpy(A, B)         ((A) * (B))
-#define _IQ27rmpy(A, B)         ((A) * (B))
-#define _IQ26rmpy(A, B)         ((A) * (B))
-#define _IQ25rmpy(A, B)         ((A) * (B))
-#define _IQ24rmpy(A, B)         ((A) * (B))
-#define _IQ23rmpy(A, B)         ((A) * (B))
-#define _IQ22rmpy(A, B)         ((A) * (B))
-#define _IQ21rmpy(A, B)         ((A) * (B))
-#define _IQ20rmpy(A, B)         ((A) * (B))
-#define _IQ19rmpy(A, B)         ((A) * (B))
-#define _IQ18rmpy(A, B)         ((A) * (B))
-#define _IQ17rmpy(A, B)         ((A) * (B))
-#define _IQ16rmpy(A, B)         ((A) * (B))
-#define _IQ15rmpy(A, B)         ((A) * (B))
-#define _IQ14rmpy(A, B)         ((A) * (B))
-#define _IQ13rmpy(A, B)         ((A) * (B))
-#define _IQ12rmpy(A, B)         ((A) * (B))
-#define _IQ11rmpy(A, B)         ((A) * (B))
-#define _IQ10rmpy(A, B)         ((A) * (B))
-#define _IQ9rmpy(A, B)          ((A) * (B))
-#define _IQ8rmpy(A, B)          ((A) * (B))
-#define _IQ7rmpy(A, B)          ((A) * (B))
-#define _IQ6rmpy(A, B)          ((A) * (B))
-#define _IQ5rmpy(A, B)          ((A) * (B))
-#define _IQ4rmpy(A, B)          ((A) * (B))
-#define _IQ3rmpy(A, B)          ((A) * (B))
-#define _IQ2rmpy(A, B)          ((A) * (B))
-#define _IQ1rmpy(A, B)          ((A) * (B))
-#define _IQrmpy(A, B)           ((A) * (B))
 
-//*****************************************************************************
-//
-// Multiplies two IQ numbers, with rounding and saturation.
-//
-//*****************************************************************************
-#define _IQ30rsmpy(A, B)        ((A) * (B))
-#define _IQ29rsmpy(A, B)        ((A) * (B))
-#define _IQ28rsmpy(A, B)        ((A) * (B))
-#define _IQ27rsmpy(A, B)        ((A) * (B))
-#define _IQ26rsmpy(A, B)        ((A) * (B))
-#define _IQ25rsmpy(A, B)        ((A) * (B))
-#define _IQ24rsmpy(A, B)        ((A) * (B))
-#define _IQ23rsmpy(A, B)        ((A) * (B))
-#define _IQ22rsmpy(A, B)        ((A) * (B))
-#define _IQ21rsmpy(A, B)        ((A) * (B))
-#define _IQ20rsmpy(A, B)        ((A) * (B))
-#define _IQ19rsmpy(A, B)        ((A) * (B))
-#define _IQ18rsmpy(A, B)        ((A) * (B))
-#define _IQ17rsmpy(A, B)        ((A) * (B))
-#define _IQ16rsmpy(A, B)        ((A) * (B))
-#define _IQ15rsmpy(A, B)        ((A) * (B))
-#define _IQ14rsmpy(A, B)        ((A) * (B))
-#define _IQ13rsmpy(A, B)        ((A) * (B))
-#define _IQ12rsmpy(A, B)        ((A) * (B))
-#define _IQ11rsmpy(A, B)        ((A) * (B))
-#define _IQ10rsmpy(A, B)        ((A) * (B))
-#define _IQ9rsmpy(A, B)         ((A) * (B))
-#define _IQ8rsmpy(A, B)         ((A) * (B))
-#define _IQ7rsmpy(A, B)         ((A) * (B))
-#define _IQ6rsmpy(A, B)         ((A) * (B))
-#define _IQ5rsmpy(A, B)         ((A) * (B))
-#define _IQ4rsmpy(A, B)         ((A) * (B))
-#define _IQ3rsmpy(A, B)         ((A) * (B))
-#define _IQ2rsmpy(A, B)         ((A) * (B))
-#define _IQ1rsmpy(A, B)         ((A) * (B))
-#define _IQrsmpy(A, B)          ((A) * (B))
 
 
 
@@ -2576,42 +2438,7 @@ typedef float _iq;
 #define _IQ1sqrt(A)             sqrt(A)
 #define _IQsqrt(A)              sqrt(A)
 
-//*****************************************************************************
-//
-// Computes 1 over the square root of an IQ number.
-//
-//*****************************************************************************
-#define _IQ30isqrt(A)           (1.0 / sqrt(A))
-#define _IQ29isqrt(A)           (1.0 / sqrt(A))
-#define _IQ28isqrt(A)           (1.0 / sqrt(A))
-#define _IQ27isqrt(A)           (1.0 / sqrt(A))
-#define _IQ26isqrt(A)           (1.0 / sqrt(A))
-#define _IQ25isqrt(A)           (1.0 / sqrt(A))
-#define _IQ24isqrt(A)           (1.0 / sqrt(A))
-#define _IQ23isqrt(A)           (1.0 / sqrt(A))
-#define _IQ22isqrt(A)           (1.0 / sqrt(A))
-#define _IQ21isqrt(A)           (1.0 / sqrt(A))
-#define _IQ20isqrt(A)           (1.0 / sqrt(A))
-#define _IQ19isqrt(A)           (1.0 / sqrt(A))
-#define _IQ18isqrt(A)           (1.0 / sqrt(A))
-#define _IQ17isqrt(A)           (1.0 / sqrt(A))
-#define _IQ16isqrt(A)           (1.0 / sqrt(A))
-#define _IQ15isqrt(A)           (1.0 / sqrt(A))
-#define _IQ14isqrt(A)           (1.0 / sqrt(A))
-#define _IQ13isqrt(A)           (1.0 / sqrt(A))
-#define _IQ12isqrt(A)           (1.0 / sqrt(A))
-#define _IQ11isqrt(A)           (1.0 / sqrt(A))
-#define _IQ10isqrt(A)           (1.0 / sqrt(A))
-#define _IQ9isqrt(A)            (1.0 / sqrt(A))
-#define _IQ8isqrt(A)            (1.0 / sqrt(A))
-#define _IQ7isqrt(A)            (1.0 / sqrt(A))
-#define _IQ6isqrt(A)            (1.0 / sqrt(A))
-#define _IQ5isqrt(A)            (1.0 / sqrt(A))
-#define _IQ4isqrt(A)            (1.0 / sqrt(A))
-#define _IQ3isqrt(A)            (1.0 / sqrt(A))
-#define _IQ2isqrt(A)            (1.0 / sqrt(A))
-#define _IQ1isqrt(A)            (1.0 / sqrt(A))
-#define _IQisqrt(A)             (1.0 / sqrt(A))
+
 
 
 //*****************************************************************************
@@ -2688,43 +2515,7 @@ typedef float _iq;
 #define _IQ1frac(A)             ((A) - (float)((long)(A)))
 #define _IQfrac(A)              ((A) - (float)((long)(A)))
 
-//*****************************************************************************
-//
-// Multiplies two IQ numbers in the specified IQ formats, returning the result
-// in another IQ format.
-//
-//*****************************************************************************
-#define _IQ30mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ29mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ28mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ27mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ26mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ25mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ24mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ23mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ22mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ21mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ20mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ19mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ18mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ17mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ16mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ15mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ14mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ13mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ12mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ11mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ10mpyIQX(A, IQA, B, IQB) ((A) * (B))
-#define _IQ9mpyIQX(A, IQA, B, IQB)  ((A) * (B))
-#define _IQ8mpyIQX(A, IQA, B, IQB)  ((A) * (B))
-#define _IQ7mpyIQX(A, IQA, B, IQB)  ((A) * (B))
-#define _IQ6mpyIQX(A, IQA, B, IQB)  ((A) * (B))
-#define _IQ5mpyIQX(A, IQA, B, IQB)  ((A) * (B))
-#define _IQ4mpyIQX(A, IQA, B, IQB)  ((A) * (B))
-#define _IQ3mpyIQX(A, IQA, B, IQB)  ((A) * (B))
-#define _IQ2mpyIQX(A, IQA, B, IQB)  ((A) * (B))
-#define _IQ1mpyIQX(A, IQA, B, IQB)  ((A) * (B))
-#define _IQmpyIQX(A, IQA, B, IQB)   ((A) * (B))
+
 
 //*****************************************************************************
 //
@@ -2870,91 +2661,8 @@ typedef float _iq;
 
 
 
-//*****************************************************************************
-//
-// Converts a string into an IQ number.
-//
-//*****************************************************************************
-#define _atoIQ30(A)             atof(A)
-#define _atoIQ29(A)             atof(A)
-#define _atoIQ28(A)             atof(A)
-#define _atoIQ27(A)             atof(A)
-#define _atoIQ26(A)             atof(A)
-#define _atoIQ25(A)             atof(A)
-#define _atoIQ24(A)             atof(A)
-#define _atoIQ23(A)             atof(A)
-#define _atoIQ22(A)             atof(A)
-#define _atoIQ21(A)             atof(A)
-#define _atoIQ20(A)             atof(A)
-#define _atoIQ19(A)             atof(A)
-#define _atoIQ18(A)             atof(A)
-#define _atoIQ17(A)             atof(A)
-#define _atoIQ16(A)             atof(A)
-#define _atoIQ15(A)             atof(A)
-#define _atoIQ14(A)             atof(A)
-#define _atoIQ13(A)             atof(A)
-#define _atoIQ12(A)             atof(A)
-#define _atoIQ11(A)             atof(A)
-#define _atoIQ10(A)             atof(A)
-#define _atoIQ9(A)              atof(A)
-#define _atoIQ8(A)              atof(A)
-#define _atoIQ7(A)              atof(A)
-#define _atoIQ6(A)              atof(A)
-#define _atoIQ5(A)              atof(A)
-#define _atoIQ4(A)              atof(A)
-#define _atoIQ3(A)              atof(A)
-#define _atoIQ2(A)              atof(A)
-#define _atoIQ1(A)              atof(A)
-#define _atoIQ(A)               atof(A)
-
-//*****************************************************************************
-//
-// Converts an IQ number into a string.
-//
-//*****************************************************************************
-#define _IQ30toa(A, B, C)       sprintf(A, B, C)
-#define _IQ29toa(A, B, C)       sprintf(A, B, C)
-#define _IQ28toa(A, B, C)       sprintf(A, B, C)
-#define _IQ27toa(A, B, C)       sprintf(A, B, C)
-#define _IQ26toa(A, B, C)       sprintf(A, B, C)
-#define _IQ25toa(A, B, C)       sprintf(A, B, C)
-#define _IQ24toa(A, B, C)       sprintf(A, B, C)
-#define _IQ23toa(A, B, C)       sprintf(A, B, C)
-#define _IQ22toa(A, B, C)       sprintf(A, B, C)
-#define _IQ21toa(A, B, C)       sprintf(A, B, C)
-#define _IQ20toa(A, B, C)       sprintf(A, B, C)
-#define _IQ19toa(A, B, C)       sprintf(A, B, C)
-#define _IQ18toa(A, B, C)       sprintf(A, B, C)
-#define _IQ17toa(A, B, C)       sprintf(A, B, C)
-#define _IQ16toa(A, B, C)       sprintf(A, B, C)
-#define _IQ15toa(A, B, C)       sprintf(A, B, C)
-#define _IQ14toa(A, B, C)       sprintf(A, B, C)
-#define _IQ13toa(A, B, C)       sprintf(A, B, C)
-#define _IQ12toa(A, B, C)       sprintf(A, B, C)
-#define _IQ11toa(A, B, C)       sprintf(A, B, C)
-#define _IQ10toa(A, B, C)       sprintf(A, B, C)
-#define _IQ9toa(A, B, C)        sprintf(A, B, C)
-#define _IQ8toa(A, B, C)        sprintf(A, B, C)
-#define _IQ7toa(A, B, C)        sprintf(A, B, C)
-#define _IQ6toa(A, B, C)        sprintf(A, B, C)
-#define _IQ5toa(A, B, C)        sprintf(A, B, C)
-#define _IQ4toa(A, B, C)        sprintf(A, B, C)
-#define _IQ3toa(A, B, C)        sprintf(A, B, C)
-#define _IQ2toa(A, B, C)        sprintf(A, B, C)
-#define _IQ1toa(A, B, C)        sprintf(A, B, C)
-#define _IQtoa(A, B, C)         sprintf(A, B, C)
 
 
 
-#endif // MATH_TYPE == IQ_MATH
-
-//*****************************************************************************
-//
-// Mark the end of the C bindings section for C++ compilers.
-//
-//*****************************************************************************
-#ifdef __cplusplus
-}
-#endif
 
 #endif // __IQMATHLIB_H__

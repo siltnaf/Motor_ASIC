@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  IQMATHASM                                                            12/07/2018 11:17:57 PAGE     1
+A51 MACRO ASSEMBLER  IQMATHASM                                                            12/07/2018 13:54:35 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.02c
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
                       55     
                       56     ; //barrel shift
                       57     ; /***************************************************
-A51 MACRO ASSEMBLER  IQMATHASM                                                            12/07/2018 11:17:57 PAGE     2
+A51 MACRO ASSEMBLER  IQMATHASM                                                            12/07/2018 13:54:35 PAGE     2
 
                       58     ;  * Implements
                       59     ;  */
@@ -133,10 +133,10 @@ LOC  OBJ            LINE     SOURCE
                      121     
 0007                 122     ?C0007:         
 0007 22              123               RET
-A51 MACRO ASSEMBLER  IQMATHASM                                                            12/07/2018 11:17:57 PAGE     3
+A51 MACRO ASSEMBLER  IQMATHASM                                                            12/07/2018 13:54:35 PAGE     3
 
                      124     END
-A51 MACRO ASSEMBLER  IQMATHASM                                                            12/07/2018 11:17:57 PAGE     4
+A51 MACRO ASSEMBLER  IQMATHASM                                                            12/07/2018 13:54:35 PAGE     4
 
 SYMBOL TABLE LISTING
 ------ ----- -------
