@@ -34,7 +34,7 @@ void main(void)
 		InitISDDebug(); 
 
 	
-	//InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse width
+	InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse width
   //InitTimer4();                          //start timer1
 	//InitTimer01();
   //	InitADC();                           //ADC use timer0 to trigger AD start
@@ -58,15 +58,6 @@ void main(void)
 //			input =  _IQ10((0.25*PI));           //test IQmathlib
 			
 	
-			theta=_IQ(200.678);  
-			beta=_IQ(-145.0);
-
-	  P26=0;
-     result=_IQfrac(theta);                // 00001111
-
-				
-			P26=1;
-		//	result=
 			
 			
 //			tbl_out=_IQsin(theta);

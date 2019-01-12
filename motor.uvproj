@@ -480,6 +480,11 @@
               <FileType>1</FileType>
               <FilePath>.\SRC\IQmathLib.c</FilePath>
             </File>
+            <File>
+              <FileName>IQmathasm.A51</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\SRC\IQmathasm.A51</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

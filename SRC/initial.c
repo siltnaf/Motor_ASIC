@@ -580,19 +580,36 @@ void InitTimer01(void)
 
 void InitTimer3(void)
 {
-	T3PS = 0;								// no divider
-	T3RC= 0;               //reset T3 capture register
-	T3CTR=0;               //reset T3 counter
-	T3CT=0;                //capture clock from cpu
-	T3CPRL=1;             //capture mode select
-	T3EXEN=1;             //enable T3 external EX pin
-	T3EX_INV=0;           //T3 EX pin ,trigger on rising edge
-	T3TF_EINT	 =1;			  // timer3 overflow interrupt enable
-	T3TR = 1;				      // start timer3 
-	T3TF=0;               //clear T3 overflow flag
-	T3EXF=0;              //clear T3 EX trigger flag
-	IE1=0;                //clear  EX1 interrupt flag
-	 EX1=1;               //enable EX1 interrupt
+	
+	
+	//capture mode setting
+	
+//	T3PS = 0;								// no divider
+//	T3RC= 0;               //reset T3 capture register
+//	T3CTR=0;               //reset T3 counter
+//	T3CT=0;                //capture clock from cpu
+//	T3CPRL=1;             //capture mode select
+//	T3EXEN=1;             //enable T3 external EX pin
+//	T3EX_INV=0;           //T3 EX pin ,trigger on rising edge
+//	T3TF_EINT	 =1;			  // timer3 overflow interrupt enable
+//	T3TR = 1;				      // start timer3 
+//	T3TF=0;               //clear T3 overflow flag
+//	T3EXF=0;              //clear T3 EX trigger flag
+//	IE1=0;                //clear  EX1 interrupt flag
+//	 EX1=1;               //enable EX1 interrupt
+	
+	//timer mode setting
+	
+		T3PS = 0;								// no divider
+	T3RC = 0xE0C0;
+
+	T3TF_EINT	 =1;							// timer4 overflow interrupt enable
+	T3TR = 1;				// start timer4
+	CLR_T3_INT();
+	EX1 = 1;
+	IE1=0;
+	
+	
 }
 
 void InitTimer4(void)

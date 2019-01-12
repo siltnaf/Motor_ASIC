@@ -187,7 +187,8 @@ sfr INT_REG1 = 0xf9;
 		 #define C1_INT							CHECK_BIT(INT_REG1,5)
 		 #define T3_INT						  CHECK_BIT(INT_REG1,4)
 
-
+		#define CLR_T3_INT()				CLR_BIT(INT_REG1,4)
+		
 sfr INT_REG2 = 0xfa;
 
 #define EPWM_INT(n)   		CHECK_BIT(INT_REG2,##n-1)

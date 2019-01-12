@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   INITIAL                                                               12/07/2018 13:54:34 PAGE 1   
+C51 COMPILER V9.54   INITIAL                                                               01/12/2019 12:10:56 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE INITIAL
@@ -62,7 +62,7 @@ line level    source
   52   2              P10 = 0;
   53   2              P10 = 1;
   54   2              ISDcheck();      // initialize uVision2 Debugger and continue program run
-C51 COMPILER V9.54   INITIAL                                                               12/07/2018 13:54:34 PAGE 2   
+C51 COMPILER V9.54   INITIAL                                                               01/12/2019 12:10:56 PAGE 2   
 
   55   2              if((BPCTRL & 0x10) != 0) break;
   56   2          }
@@ -126,7 +126,7 @@ line level    source
  114   1          C3PDO3PD=CFG2;                //COMP3 power off and OP3 power on
  115   1        
  116   1        
-C51 COMPILER V9.54   INITIAL                                                               12/07/2018 13:54:34 PAGE 3   
+C51 COMPILER V9.54   INITIAL                                                               01/12/2019 12:10:56 PAGE 3   
 
  117   1          LDO25_PD=0;             //use internal 2.5V for AD VREF
  118   1          BP4=0;                  //CH4 normal and no bypass
@@ -190,7 +190,7 @@ line level    source
  176   1        
  177   1        P1PRDLD=TB_SHADOW;
  178   1        
-C51 COMPILER V9.54   INITIAL                                                               12/07/2018 13:54:34 PAGE 4   
+C51 COMPILER V9.54   INITIAL                                                               01/12/2019 12:10:56 PAGE 4   
 
  179   1        
  180   1        //time base free run or emulation 
@@ -254,7 +254,7 @@ line level    source
  237   1        
  238   1        
  239   1        P4CADA=AQ_CLEAR;                     
-C51 COMPILER V9.54   INITIAL                                                               12/07/2018 13:54:34 PAGE 5   
+C51 COMPILER V9.54   INITIAL                                                               01/12/2019 12:10:56 PAGE 5   
 
  240   1        P4CAUA=AQ_SET;
  241   1        P4CBDA=AQ_NO_ACTION;                
@@ -318,7 +318,7 @@ line level    source
              -mxA,
  292   1      
  293   1        P4OUT_MODE=DB_FULL_ENABLE;   // output is dead band full enable, rising edge delay on PWMxA and falling 
-C51 COMPILER V9.54   INITIAL                                                               12/07/2018 13:54:34 PAGE 6   
+C51 COMPILER V9.54   INITIAL                                                               01/12/2019 12:10:56 PAGE 6   
 
              -edge delay on PWMxB
  294   1        P4POLSEL=DB_ACTV_HIC;        //PWMxB is inverted or active high complement
@@ -382,7 +382,7 @@ line level    source
  351   1        
  352   1      // trip zone interrupt  ???  no description in datasheet
  353   1      
-C51 COMPILER V9.54   INITIAL                                                               12/07/2018 13:54:34 PAGE 7   
+C51 COMPILER V9.54   INITIAL                                                               01/12/2019 12:10:56 PAGE 7   
 
  354   1        
  355   1        
@@ -446,7 +446,7 @@ line level    source
  413   1       P3ET_INTCNT= ET_1ST;      // event counter period =1
  414   1       P3ET_SOCAPRD=ET_1ST;      //generate SOCA pulse on 1at event
  415   1       P3ET_SOCACNT=ET_1ST;      // SOCA event counter =1
-C51 COMPILER V9.54   INITIAL                                                               12/07/2018 13:54:34 PAGE 8   
+C51 COMPILER V9.54   INITIAL                                                               01/12/2019 12:10:56 PAGE 8   
 
  416   1       P3ET_SOCBPRD=ET_DISABLE;  //SOCB is not used
  417   1       P3ET_SOCBCNT=ET_DISABLE;
@@ -510,7 +510,7 @@ line level    source
  475   1        
  476   1        
  477   1          C1PDO1PD=CFG1;                //COMP1 power on and OP1 power off
-C51 COMPILER V9.54   INITIAL                                                               12/07/2018 13:54:34 PAGE 9   
+C51 COMPILER V9.54   INITIAL                                                               01/12/2019 12:10:56 PAGE 9   
 
  478   1          C2PDO2PD=CFG1;                //COMP2 power on and OP2 power off
  479   1          C3PDO3PD=CFG1;                //COMP3 power on and OP3 power off
@@ -574,7 +574,7 @@ line level    source
  536   1          P1_DD = 0x00;                   // P10 ~ P17 intput
  537   1          P1_PE = 0xFF;                   // output resistor enable 
  538   1          P1_DS = 0x00;                   //drive current =4mA
-C51 COMPILER V9.54   INITIAL                                                               12/07/2018 13:54:34 PAGE 10  
+C51 COMPILER V9.54   INITIAL                                                               01/12/2019 12:10:56 PAGE 10  
 
  539   1          P1_PS=  0x00;                   //pull down resistor 
  540   1        
@@ -620,89 +620,89 @@ line level    source
  580          
  581          void InitTimer3(void)
  582          {
- 583   1        T3PS = 0;               // no divider
- 584   1        T3RC= 0;               //reset T3 capture register
- 585   1        T3CTR=0;               //reset T3 counter
- 586   1        T3CT=0;                //capture clock from cpu
- 587   1        T3CPRL=1;             //capture mode select
- 588   1        T3EXEN=1;             //enable T3 external EX pin
- 589   1        T3EX_INV=0;           //T3 EX pin ,trigger on rising edge
- 590   1        T3TF_EINT  =1;        // timer3 overflow interrupt enable
- 591   1        T3TR = 1;             // start timer3 
- 592   1        T3TF=0;               //clear T3 overflow flag
- 593   1        T3EXF=0;              //clear T3 EX trigger flag
- 594   1        IE1=0;                //clear  EX1 interrupt flag
- 595   1         EX1=1;               //enable EX1 interrupt
- 596   1      }
- 597          
- 598          void InitTimer4(void)
- 599          {
- 600   1        T4PS = 0;               // no divider
-C51 COMPILER V9.54   INITIAL                                                               12/07/2018 13:54:34 PAGE 11  
+ 583   1        
+ 584   1        
+ 585   1        //capture mode setting
+ 586   1        
+ 587   1      //  T3PS = 0;               // no divider
+ 588   1      //  T3RC= 0;               //reset T3 capture register
+ 589   1      //  T3CTR=0;               //reset T3 counter
+ 590   1      //  T3CT=0;                //capture clock from cpu
+ 591   1      //  T3CPRL=1;             //capture mode select
+ 592   1      //  T3EXEN=1;             //enable T3 external EX pin
+ 593   1      //  T3EX_INV=0;           //T3 EX pin ,trigger on rising edge
+ 594   1      //  T3TF_EINT  =1;        // timer3 overflow interrupt enable
+ 595   1      //  T3TR = 1;             // start timer3 
+ 596   1      //  T3TF=0;               //clear T3 overflow flag
+ 597   1      //  T3EXF=0;              //clear T3 EX trigger flag
+ 598   1      //  IE1=0;                //clear  EX1 interrupt flag
+ 599   1      //   EX1=1;               //enable EX1 interrupt
+ 600   1        
+C51 COMPILER V9.54   INITIAL                                                               01/12/2019 12:10:56 PAGE 11  
 
- 601   1        T4RC = 0xE0C0;
- 602   1      
- 603   1        T4TF_EINT  =1;              // timer4 overflow interrupt enable
- 604   1        T4TR = 1;       // start timer4
- 605   1        CLR_T4_INT();
- 606   1        EX6 = 1;
- 607   1        IEX6=0;
- 608   1      }
- 609          void InitTimer5(void)
- 610          {
- 611   1        T5PS = 0;                     // no divider
- 612   1        T5RC = 0x10C0;
- 613   1        
- 614   1        T5TF_EINT  =1;                // timer4 overflow interrupt enable
- 615   1        T5TR = 1;                     // start timer4
- 616   1        T5TF=0;                       // clear interrupt flag
- 617   1      
- 618   1        
- 619   1        I3FR=1;
- 620   1        EX3 = 1;
- 621   1        IEX3=0;
- 622   1      }
- 623          void InitTimer6(void)
- 624          {
- 625   1        T6PS = 0;                     // no divider
- 626   1        T6RC = 0x10C0;
- 627   1        
- 628   1        T6TF_EINT  =1;              // timer4 overflow interrupt enable
- 629   1        T6TR = 1;                   // start timer4
- 630   1        T6TF=0;                     // clear interrupt flag
- 631   1      
- 632   1        
- 633   1      
- 634   1        EX5 = 1;
- 635   1        IEX5=0;
- 636   1      }
- 637          void SystemClock(void)
- 638          {
- 639   1          
- 640   1          RC80M_RES = 0x60;
- 641   1          RC80M_CAP=0x40;
- 642   1          RC80M_C3=0x4f;
- 643   1          RC80M_C2=0x3f;
- 644   1          #pragma asm
- 645   1          nop
- 646   1          nop
- 647   1          nop
- 648   1          nop
- 649   1          nop
- 650   1          nop
- 651   1          nop
- 652   1          nop
- 653   1          nop
- 654   1          nop
- 655   1          nop
- 656   1          nop
- 657   1          nop
- 658   1          nop
- 659   1          nop
- 660   1          nop
- 661   1          nop
+ 601   1        //timer mode setting
+ 602   1        
+ 603   1          T3PS = 0;               // no divider
+ 604   1        T3RC = 0xE0C0;
+ 605   1      
+ 606   1        T3TF_EINT  =1;              // timer4 overflow interrupt enable
+ 607   1        T3TR = 1;       // start timer4
+ 608   1        CLR_T3_INT();
+ 609   1        EX1 = 1;
+ 610   1        IE1=0;
+ 611   1        
+ 612   1        
+ 613   1      }
+ 614          
+ 615          void InitTimer4(void)
+ 616          {
+ 617   1        T4PS = 0;               // no divider
+ 618   1        T4RC = 0xE0C0;
+ 619   1      
+ 620   1        T4TF_EINT  =1;              // timer4 overflow interrupt enable
+ 621   1        T4TR = 1;       // start timer4
+ 622   1        CLR_T4_INT();
+ 623   1        EX6 = 1;
+ 624   1        IEX6=0;
+ 625   1      }
+ 626          void InitTimer5(void)
+ 627          {
+ 628   1        T5PS = 0;                     // no divider
+ 629   1        T5RC = 0x10C0;
+ 630   1        
+ 631   1        T5TF_EINT  =1;                // timer4 overflow interrupt enable
+ 632   1        T5TR = 1;                     // start timer4
+ 633   1        T5TF=0;                       // clear interrupt flag
+ 634   1      
+ 635   1        
+ 636   1        I3FR=1;
+ 637   1        EX3 = 1;
+ 638   1        IEX3=0;
+ 639   1      }
+ 640          void InitTimer6(void)
+ 641          {
+ 642   1        T6PS = 0;                     // no divider
+ 643   1        T6RC = 0x10C0;
+ 644   1        
+ 645   1        T6TF_EINT  =1;              // timer4 overflow interrupt enable
+ 646   1        T6TR = 1;                   // start timer4
+ 647   1        T6TF=0;                     // clear interrupt flag
+ 648   1      
+ 649   1        
+ 650   1      
+ 651   1        EX5 = 1;
+ 652   1        IEX5=0;
+ 653   1      }
+ 654          void SystemClock(void)
+ 655          {
+ 656   1          
+ 657   1          RC80M_RES = 0x60;
+ 658   1          RC80M_CAP=0x40;
+ 659   1          RC80M_C3=0x4f;
+ 660   1          RC80M_C2=0x3f;
+ 661   1          #pragma asm
  662   1          nop
-C51 COMPILER V9.54   INITIAL                                                               12/07/2018 13:54:34 PAGE 12  
+C51 COMPILER V9.54   INITIAL                                                               01/12/2019 12:10:56 PAGE 12  
 
  663   1          nop
  664   1          nop
@@ -719,12 +719,12 @@ line level    source
  675   1          nop
  676   1          nop
  677   1          nop
- 678   1          #pragma endasm
- 679   1        
- 680   1          CLK_DIV_L = 0x0;
- 681   1          CLK_DIV_H = 0x00;
- 682   1          
- 683   1          #pragma asm
+ 678   1          nop
+ 679   1          nop
+ 680   1          nop
+ 681   1          nop
+ 682   1          nop
+ 683   1          nop
  684   1          nop
  685   1          nop
  686   1          nop
@@ -736,12 +736,12 @@ line level    source
  692   1          nop
  693   1          nop
  694   1          nop
- 695   1          nop
- 696   1          nop
- 697   1          nop
- 698   1          nop
- 699   1          nop
- 700   1          nop
+ 695   1          #pragma endasm
+ 696   1        
+ 697   1          CLK_DIV_L = 0x0;
+ 698   1          CLK_DIV_H = 0x00;
+ 699   1          
+ 700   1          #pragma asm
  701   1          nop
  702   1          nop
  703   1          nop
@@ -757,51 +757,68 @@ line level    source
  713   1          nop
  714   1          nop
  715   1          nop
- 716   1          #pragma endasm
- 717   1      }
- 718          
- 719          
- 720          
- 721          
- 722          
- 723          
- 724          //initial UART1, there are 2 different ways to generate baudrate
-C51 COMPILER V9.54   INITIAL                                                               12/07/2018 13:54:34 PAGE 13  
+ 716   1          nop
+ 717   1          nop
+ 718   1          nop
+ 719   1          nop
+ 720   1          nop
+ 721   1          nop
+ 722   1          nop
+ 723   1          nop
+ 724   1          nop
+C51 COMPILER V9.54   INITIAL                                                               01/12/2019 12:10:56 PAGE 13  
 
- 725          //way 1
- 726          void sInitUART1(void)
- 727          {
- 728   1        S0CON  = 0x50;          // set as 8-bit UART,  enable serial 0 reception, enable serial 0 multiprocessor fu
-             -nction
- 729   1          WDCON = 0x80;            // 0x80: baud rate = (2^smod) * Fclk / (64 * (2^10 - s0rel));
- 730   1                                    // 0x00: baud rate = (2^smod) * Fclk / (32 * 12 * (256 - th1));
- 731   1                                    // smod = 0;  Fclk = system clock
- 732   1          S0RELL = 0xF3;             //Fclk = 8MHz, baud rate = 9600
- 733   1          S0RELH = 0x03;  
+ 725   1          nop
+ 726   1          nop
+ 727   1          nop
+ 728   1          nop
+ 729   1          nop
+ 730   1          nop
+ 731   1          nop
+ 732   1          nop
+ 733   1          #pragma endasm
  734   1      }
  735          
- 736          void sInitUART2(void)
- 737          {
- 738   1          S1CON  = 0x90;            //enable serial 1 reception, enable serial 0 multiprocessor function
- 739   1                                      //s1con.7 = 1: 8-bit UART(mode B)    s1con.7 = 0: 9-bit UART(mode A)
- 740   1          S1RELL = 0xE6;            //baud rate = Fclk / (32 * (2^10 - s0rel));
- 741   1          S1RELH = 0x03;            //Fclk = 8MHz, baud rate = 9600
- 742   1      }
- 743          
- 744          
- 745          void InitDAC(void)
- 746          {
- 747   1          DAC1_PD=0;    //power up DAC1
- 748   1          DAC2_PD=0;    //power up DAC2
- 749   1        DAC1_VREF=0;    //use 3.3V as vref
- 750   1        DAC2_VREF=0;    //use 3.3V as vref
- 751   1        ADC_DAC_SEL1=0; //select DAC output
- 752   1        ADC_DAC_SEL2=0; //select DAC output
- 753   1      }
+ 736          
+ 737          
+ 738          
+ 739          
+ 740          
+ 741          //initial UART1, there are 2 different ways to generate baudrate
+ 742          //way 1
+ 743          void sInitUART1(void)
+ 744          {
+ 745   1        S0CON  = 0x50;          // set as 8-bit UART,  enable serial 0 reception, enable serial 0 multiprocessor fu
+             -nction
+ 746   1          WDCON = 0x80;            // 0x80: baud rate = (2^smod) * Fclk / (64 * (2^10 - s0rel));
+ 747   1                                    // 0x00: baud rate = (2^smod) * Fclk / (32 * 12 * (256 - th1));
+ 748   1                                    // smod = 0;  Fclk = system clock
+ 749   1          S0RELL = 0xF3;             //Fclk = 8MHz, baud rate = 9600
+ 750   1          S0RELH = 0x03;  
+ 751   1      }
+ 752          
+ 753          void sInitUART2(void)
+ 754          {
+ 755   1          S1CON  = 0x90;            //enable serial 1 reception, enable serial 0 multiprocessor function
+ 756   1                                      //s1con.7 = 1: 8-bit UART(mode B)    s1con.7 = 0: 9-bit UART(mode A)
+ 757   1          S1RELL = 0xE6;            //baud rate = Fclk / (32 * (2^10 - s0rel));
+ 758   1          S1RELH = 0x03;            //Fclk = 8MHz, baud rate = 9600
+ 759   1      }
+ 760          
+ 761          
+ 762          void InitDAC(void)
+ 763          {
+ 764   1          DAC1_PD=0;    //power up DAC1
+ 765   1          DAC2_PD=0;    //power up DAC2
+ 766   1        DAC1_VREF=0;    //use 3.3V as vref
+ 767   1        DAC2_VREF=0;    //use 3.3V as vref
+ 768   1        ADC_DAC_SEL1=0; //select DAC output
+ 769   1        ADC_DAC_SEL2=0; //select DAC output
+ 770   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   3488    ----
+   CODE SIZE        =   3419    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
