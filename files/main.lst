@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   MAIN                                                                  01/12/2019 12:10:56 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  01/30/2019 11:23:11 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
@@ -38,9 +38,9 @@ line level    source
   28          
   29          void main(void)
   30          {
-  31   1          #if ISDDebug == DISABLE_ISD
-                  SystemClock();
-                  #endif
+  31   1        
+  32   1        
+  33   1           SystemClock();
   34   1          InitISDDebug(); 
   35   1      
   36   1        
@@ -62,7 +62,7 @@ line level    source
   52   1          {
   53   2            
   54   2           
-C51 COMPILER V9.54   MAIN                                                                  01/12/2019 12:10:56 PAGE 2   
+C51 COMPILER V9.54   MAIN                                                                  01/30/2019 11:23:11 PAGE 2   
 
   55   2      
   56   2             
@@ -102,7 +102,7 @@ line level    source
   90          
   91          
   92          
-C51 COMPILER V9.54   MAIN                                                                  01/12/2019 12:10:56 PAGE 3   
+C51 COMPILER V9.54   MAIN                                                                  01/30/2019 11:23:11 PAGE 3   
 
 ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
@@ -110,44 +110,46 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
              ; FUNCTION main (BEGIN)
                                            ; SOURCE LINE # 29
                                            ; SOURCE LINE # 30
+                                           ; SOURCE LINE # 33
+0000 120000      E     LCALL   SystemClock
                                            ; SOURCE LINE # 34
-0000 120000      E     LCALL   InitISDDebug
+0003 120000      E     LCALL   InitISDDebug
                                            ; SOURCE LINE # 37
-0003 120000      E     LCALL   InitTimer3
+0006 120000      E     LCALL   InitTimer3
                                            ; SOURCE LINE # 44
-0006 120000      E     LCALL   InitGPIO
+0009 120000      E     LCALL   InitGPIO
                                            ; SOURCE LINE # 49
-0009 D2A6              SETB    P26
+000C D2A6              SETB    P26
                                            ; SOURCE LINE # 50
-000B D2AF              SETB    EAL
-000D         ?C0001:
+000E D2AF              SETB    EAL
+0010         ?C0001:
                                            ; SOURCE LINE # 51
                                            ; SOURCE LINE # 52
                                            ; SOURCE LINE # 84
-000D 20ACFD            JB      ES,?C0001
-0010 3098FA            JNB     RI,?C0001
-0013 E599              MOV     A,SBUF
-0015 64A5              XRL     A,#0A5H
-0017 6004              JZ      ?C0005
-0019 C298              CLR     RI
-001B 80F0              SJMP    ?C0001
-001D         ?C0005:
-001D 120000      E     LCALL   __isd_init
-0020         ?C0006:
-0020         ?C0004:
-0020         ?C0003:
+0010 20ACFD            JB      ES,?C0001
+0013 3098FA            JNB     RI,?C0001
+0016 E599              MOV     A,SBUF
+0018 64A5              XRL     A,#0A5H
+001A 6004              JZ      ?C0005
+001C C298              CLR     RI
+001E 80F0              SJMP    ?C0001
+0020         ?C0005:
+0020 120000      E     LCALL   __isd_init
+0023         ?C0006:
+0023         ?C0004:
+0023         ?C0003:
                                            ; SOURCE LINE # 87
-0020 80EB              SJMP    ?C0001
-0022         ?C0002:
+0023 80EB              SJMP    ?C0001
+0025         ?C0002:
                                            ; SOURCE LINE # 88
-0022         ?C0007:
-0022 22                RET     
+0025         ?C0007:
+0025 22                RET     
              ; FUNCTION main (END)
 
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     35    ----
+   CODE SIZE        =     38    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =     32    ----
    PDATA SIZE       =   ----    ----

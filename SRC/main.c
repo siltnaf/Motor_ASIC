@@ -28,9 +28,9 @@ U32 xdata EE_data;
 
 void main(void)
 {
-   	#if ISDDebug == DISABLE_ISD
-    SystemClock();
-    #endif
+  
+	
+	   SystemClock();
 		InitISDDebug(); 
 
 	

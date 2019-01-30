@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE     1
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.02c
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
   0098                54     RI      BIT     098H.0
   00C3                55     IEX4    BIT     0C0H.3
   00C4                56     IEX5    BIT     0C0H.4
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE     2
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE     2
 
   00C5                57     IEX6    BIT     0C0H.5
   0091                58     CLK_DIV DATA    091H
@@ -133,7 +133,7 @@ LOC  OBJ            LINE     SOURCE
   00AE               120     BSHI_2  DATA    0AEH
   00A7               121     P27     BIT     0A0H.7
   00B7               122     P37     BIT     0B0H.7
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE     3
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE     3
 
   00AF               123     BSHI_3  DATA    0AFH
   00BC               124     BSHO_0  DATA    0BCH
@@ -201,7 +201,7 @@ LOC  OBJ            LINE     SOURCE
   00E5               186     P4CMPB_L        DATA    0E5H
   0086               187     WDTREL  DATA    086H
   008C               188     TR0     BIT     088H.4
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE     4
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE     4
 
   008E               189     TR1     BIT     088H.6
   00F9               190     INT_REG1        DATA    0F9H
@@ -269,7 +269,7 @@ LOC  OBJ            LINE     SOURCE
                      252             PUBLIC  Initepwm
                      253             PUBLIC  InitADC
                      254             PUBLIC  epwmOutputEnable
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE     5
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE     5
 
                      255             PUBLIC  epwmOutputDisable
                      256             PUBLIC  InitBreakPoint
@@ -337,7 +337,7 @@ LOC  OBJ            LINE     SOURCE
 0019 C289            313             CLR     IE0
                      314     ;               INT_REG1 &=0xf0;              
                      315                             ; SOURCE LINE # 28
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE     6
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE     6
 
 001B 53F9F0          316             ANL     INT_REG1,#0F0H
                      317     ;       
@@ -405,7 +405,7 @@ LOC  OBJ            LINE     SOURCE
                      379                             ; SOURCE LINE # 52
 0019 C290            380             CLR     P10
                      381     ;         P10 = 1;
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE     7
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE     7
 
                      382                             ; SOURCE LINE # 53
 001B D290            383             SETB    P10
@@ -473,7 +473,7 @@ LOC  OBJ            LINE     SOURCE
                      445     ; 
                      446     ; 
                      447     ; 
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE     8
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE     8
 
                      448     ; void InitBreakPoint  (void)
                      449     
@@ -541,7 +541,7 @@ LOC  OBJ            LINE     SOURCE
 0003 75C90F          509             MOV     P2AQCSFRC,#0FH
                      510     ;       P3AQCSFRC = 0x0F;
                      511                             ; SOURCE LINE # 93
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE     9
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE     9
 
 0006 75D90F          512             MOV     P3AQCSFRC,#0FH
                      513     ;       P4AQCSFRC = 0x0F;
@@ -609,7 +609,7 @@ LOC  OBJ            LINE     SOURCE
 002B F0              574             MOVX    @DPTR,A
                      575     ;               DAC2_PD = 1;
                      576                             ; SOURCE LINE # 108
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    10
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    10
 
 002C 90E07A          577             MOV     DPTR,#0E07AH
 002F E0              578             MOVX    A,@DPTR
@@ -677,7 +677,7 @@ LOC  OBJ            LINE     SOURCE
 006D EF              637             MOV     A,R7
 006E F0              638             MOVX    @DPTR,A
                      639     ;               BP4=0;                  //CH4 normal and no bypass
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    11
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    11
 
                      640                             ; SOURCE LINE # 118
 006F 90E05D          641             MOV     DPTR,#0E05DH
@@ -745,7 +745,7 @@ LOC  OBJ            LINE     SOURCE
                      703                             ; SOURCE LINE # 133
                      704     ;       
                      705     ;       
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    12
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    12
 
                      706     ;       // config IO for ePWM output
                      707     ; 
@@ -813,7 +813,7 @@ LOC  OBJ            LINE     SOURCE
 0044 FF              769             MOV     R7,A
 0045 EF              770             MOV     A,R7
 0046 4410            771             ORL     A,#010H
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    13
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    13
 
 0048 FF              772             MOV     R7,A
 0049 EF              773             MOV     A,R7
@@ -881,7 +881,7 @@ LOC  OBJ            LINE     SOURCE
 0085 FF              833             MOV     R7,A
 0086 EF              834             MOV     A,R7
 0087 F0              835             MOVX    @DPTR,A
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    14
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    14
 
                      836     ;       EPWM3_ENCLK =1;
                      837                             ; SOURCE LINE # 164
@@ -949,7 +949,7 @@ LOC  OBJ            LINE     SOURCE
 00C7 90E02F          898             MOV     DPTR,#0E02FH
 00CA E0              899             MOVX    A,@DPTR
 00CB FF              900             MOV     R7,A
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    15
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    15
 
 00CC EF              901             MOV     A,R7
 00CD 54FC            902             ANL     A,#0FCH
@@ -1017,7 +1017,7 @@ LOC  OBJ            LINE     SOURCE
 010D F0              963             MOVX    @DPTR,A
                      964     ;       P3FREE_SOFT=FREE_RUN;
                      965                             ; SOURCE LINE # 184
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    16
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    16
 
 010E 90E02E          966             MOV     DPTR,#0E02EH
 0111 E0              967             MOVX    A,@DPTR
@@ -1085,7 +1085,7 @@ LOC  OBJ            LINE     SOURCE
 0151 FF             1028             MOV     R7,A
 0152 EF             1029             MOV     A,R7
 0153 54F3           1030             ANL     A,#0F3H
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    17
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    17
 
 0155 FF             1031             MOV     R7,A
 0156 EF             1032             MOV     A,R7
@@ -1153,7 +1153,7 @@ LOC  OBJ            LINE     SOURCE
 0195 54DF           1092             ANL     A,#0DFH
 0197 FF             1093             MOV     R7,A
 0198 EF             1094             MOV     A,R7
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    18
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    18
 
 0199 F0             1095             MOVX    @DPTR,A
                     1096     ;       P3LOADA_MODE = CC_CTR_ZERO;
@@ -1221,7 +1221,7 @@ LOC  OBJ            LINE     SOURCE
                     1157     ;       
                     1158     ;       
                     1159     ;       
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    19
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    19
 
                     1160     ;       //PWMxA waveform counter condition
                     1161     ;       // when counter count up to cmpA value, PWMxA output is set high, when counter coun
@@ -1289,7 +1289,7 @@ LOC  OBJ            LINE     SOURCE
 021B 90E009         1222             MOV     DPTR,#0E009H
 021E E0             1223             MOVX    A,@DPTR
 021F FF             1224             MOV     R7,A
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    20
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    20
 
 0220 EF             1225             MOV     A,R7
 0221 54FC           1226             ANL     A,#0FCH
@@ -1357,7 +1357,7 @@ LOC  OBJ            LINE     SOURCE
                     1288                             ; SOURCE LINE # 228
 0265 90E01F         1289             MOV     DPTR,#0E01FH
 0268 E0             1290             MOVX    A,@DPTR
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    21
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    21
 
 0269 FF             1291             MOV     R7,A
 026A EF             1292             MOV     A,R7
@@ -1425,7 +1425,7 @@ LOC  OBJ            LINE     SOURCE
 02AE F0             1354             MOVX    @DPTR,A
                     1355     ;       P3ZROA=AQ_NO_ACTION;
                     1356                             ; SOURCE LINE # 236
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    22
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    22
 
 02AF 90E035         1357             MOV     DPTR,#0E035H
 02B2 E0             1358             MOVX    A,@DPTR
@@ -1493,7 +1493,7 @@ LOC  OBJ            LINE     SOURCE
 02F6 FF             1420             MOV     R7,A
 02F7 EF             1421             MOV     A,R7
 02F8 F0             1422             MOVX    @DPTR,A
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    23
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    23
 
                     1423     ;       P4ZROA=AQ_NO_ACTION;
                     1424                             ; SOURCE LINE # 244
@@ -1561,7 +1561,7 @@ LOC  OBJ            LINE     SOURCE
                     1480                             ; SOURCE LINE # 282
 030F 90E00C         1481             MOV     DPTR,#0E00CH
 0312 E0             1482             MOVX    A,@DPTR
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    24
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    24
 
 0313 FF             1483             MOV     R7,A
 0314 EF             1484             MOV     A,R7
@@ -1629,7 +1629,7 @@ LOC  OBJ            LINE     SOURCE
 0353 EF             1542             MOV     A,R7
 0354 4403           1543             ORL     A,#03H
 0356 FF             1544             MOV     R7,A
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    25
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    25
 
 0357 EF             1545             MOV     A,R7
 0358 F0             1546             MOVX    @DPTR,A
@@ -1697,7 +1697,7 @@ LOC  OBJ            LINE     SOURCE
                     1605     ; 
                     1606     ; 
                     1607     ; //    P1OUT_MODE=DB_FULL_ENABLE;                                                      // 
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    26
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    26
 
                              delay source is epwmxA,dead band full,epwmxA invert
                     1608     ; //    P1POLSEL=DB_ACTV_LOC;
@@ -1765,7 +1765,7 @@ LOC  OBJ            LINE     SOURCE
 03D4 7432           1669             MOV     A,#032H
 03D6 F0             1670             MOVX    @DPTR,A
                     1671     ;   P4DBFED = 0x0032;
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    27
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    27
 
                     1672                             ; SOURCE LINE # 314
 03D7 90E051         1673             MOV     DPTR,#0E051H
@@ -1833,7 +1833,7 @@ LOC  OBJ            LINE     SOURCE
 040C 90E03D         1734             MOV     DPTR,#0E03DH
 040F E0             1735             MOVX    A,@DPTR
 0410 FF             1736             MOV     R7,A
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    28
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    28
 
 0411 EF             1737             MOV     A,R7
 0412 4401           1738             ORL     A,#01H
@@ -1901,7 +1901,7 @@ LOC  OBJ            LINE     SOURCE
 0453 EF             1800             MOV     A,R7
 0454 54FC           1801             ANL     A,#0FCH
 0456 FF             1802             MOV     R7,A
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    29
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    29
 
 0457 EF             1803             MOV     A,R7
 0458 F0             1804             MOVX    @DPTR,A
@@ -1969,7 +1969,7 @@ LOC  OBJ            LINE     SOURCE
                              rrupt and OST interrupt disable
                     1866     ; //    P2TZEINT = 0x00;
                     1867     ; //    P3TZEINT = 0x00;
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    30
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    30
 
                     1868     ; //    P4TZEINT = 0x00;
                     1869     ; 
@@ -2037,7 +2037,7 @@ LOC  OBJ            LINE     SOURCE
                     1930     ;       P1ET_SOCBSEL=ET_CTR_ZERO;  // SOCB is CTR = ZERO                
                     1931                             ; SOURCE LINE # 371
 04CF 90E014         1932             MOV     DPTR,#0E014H
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    31
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    31
 
 04D2 E0             1933             MOVX    A,@DPTR
 04D3 FF             1934             MOV     R7,A
@@ -2105,7 +2105,7 @@ LOC  OBJ            LINE     SOURCE
 0517 EF             1995             MOV     A,R7
 0518 547F           1996             ANL     A,#07FH
 051A FF             1997             MOV     R7,A
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    32
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    32
 
 051B EF             1998             MOV     A,R7
 051C F0             1999             MOVX    @DPTR,A
@@ -2173,7 +2173,7 @@ LOC  OBJ            LINE     SOURCE
                     2060     ;       P3ET_SOCBEN=0 ;                                         //disable SOCB pulse
                     2061                             ; SOURCE LINE # 384
 0560 90E040         2062             MOV     DPTR,#0E040H
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    33
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    33
 
 0563 E0             2063             MOVX    A,@DPTR
 0564 FF             2064             MOV     R7,A
@@ -2241,7 +2241,7 @@ LOC  OBJ            LINE     SOURCE
 05A8 EF             2125             MOV     A,R7
 05A9 4401           2126             ORL     A,#01H
 05AB FF             2127             MOV     R7,A
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    34
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    34
 
 05AC EF             2128             MOV     A,R7
 05AD F0             2129             MOVX    @DPTR,A
@@ -2309,7 +2309,7 @@ LOC  OBJ            LINE     SOURCE
 05EE FF             2191             MOV     R7,A
 05EF EF             2192             MOV     A,R7
 05F0 4401           2193             ORL     A,#01H
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    35
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    35
 
 05F2 FF             2194             MOV     R7,A
 05F3 EF             2195             MOV     A,R7
@@ -2377,7 +2377,7 @@ LOC  OBJ            LINE     SOURCE
                     2257     ;  P2ET_SOCAPRD=ET_1ST;      //generate SOCA pulse on 1at event
                     2258                             ; SOURCE LINE # 407
 0638 90E02C         2259             MOV     DPTR,#0E02CH
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    36
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    36
 
 063B E0             2260             MOVX    A,@DPTR
 063C FF             2261             MOV     R7,A
@@ -2445,7 +2445,7 @@ LOC  OBJ            LINE     SOURCE
 0681 54F3           2323             ANL     A,#0F3H
 0683 FF             2324             MOV     R7,A
 0684 EF             2325             MOV     A,R7
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    37
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    37
 
 0685 4404           2326             ORL     A,#04H
 0687 FF             2327             MOV     R7,A
@@ -2513,7 +2513,7 @@ LOC  OBJ            LINE     SOURCE
 06CC F0             2389             MOVX    @DPTR,A
                     2390     ;  P4ET_INTCNT= ET_1ST;      // event counter period =1
                     2391                             ; SOURCE LINE # 420
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    38
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    38
 
 06CD 90E059         2392             MOV     DPTR,#0E059H
 06D0 E0             2393             MOVX    A,@DPTR
@@ -2581,7 +2581,7 @@ LOC  OBJ            LINE     SOURCE
                     2455     ; 
                     2456     ; 
                     2457     ; 
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    39
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    39
 
                     2458     ;       P1TBPRD = 0x07D0;                                               // pwm period is 0x
                              0190@8MHz 10KHz 0x7D0@40MHz; 0x031f?
@@ -2649,7 +2649,7 @@ LOC  OBJ            LINE     SOURCE
 075C FF             2517             MOV     R7,A
 075D EF             2518             MOV     A,R7
 075E 4401           2519             ORL     A,#01H
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    40
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    40
 
 0760 FF             2520             MOV     R7,A
 0761 EF             2521             MOV     A,R7
@@ -2717,7 +2717,7 @@ LOC  OBJ            LINE     SOURCE
 0014 EF             2580             MOV     A,R7
 0015 54FC           2581             ANL     A,#0FCH
 0017 FF             2582             MOV     R7,A
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    41
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    41
 
 0018 EF             2583             MOV     A,R7
 0019 4402           2584             ORL     A,#02H
@@ -2785,7 +2785,7 @@ LOC  OBJ            LINE     SOURCE
                              OMP3 power on and OP3 power off
                     2644                             ; SOURCE LINE # 479
 005A 90E0A4         2645             MOV     DPTR,#0E0A4H
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    42
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    42
 
 005D E0             2646             MOVX    A,@DPTR
 005E FF             2647             MOV     R7,A
@@ -2853,7 +2853,7 @@ LOC  OBJ            LINE     SOURCE
 009A EF             2704             MOV     A,R7
 009B 54F7           2705             ANL     A,#0F7H
 009D FF             2706             MOV     R7,A
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    43
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    43
 
 009E EF             2707             MOV     A,R7
 009F F0             2708             MOVX    @DPTR,A
@@ -2921,7 +2921,7 @@ LOC  OBJ            LINE     SOURCE
                     2764                             ; SOURCE LINE # 497
 00D7 90E0C7         2765             MOV     DPTR,#0E0C7H
 00DA E0             2766             MOVX    A,@DPTR
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    44
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    44
 
 00DB FF             2767             MOV     R7,A
 00DC EF             2768             MOV     A,R7
@@ -2989,7 +2989,7 @@ LOC  OBJ            LINE     SOURCE
 ----                2828             RSEG  ?PR?InitWatchDog?INITIAL
 0000                2829     InitWatchDog:
                     2830             USING   0
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    45
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    45
 
                     2831                             ; SOURCE LINE # 511
                     2832     ; {
@@ -3057,7 +3057,7 @@ LOC  OBJ            LINE     SOURCE
 0008 E4             2891             CLR     A
 0009 F0             2892             MOVX    @DPTR,A
                     2893     ;               P0_DD = 0x00;                                                              
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    46
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    46
 
                                           //      P00 ~  P07 intput
                     2894                             ; SOURCE LINE # 529
@@ -3125,7 +3125,7 @@ LOC  OBJ            LINE     SOURCE
                     2946                             ; SOURCE LINE # 541
 003E 90E0E1         2947             MOV     DPTR,#0E0E1H
 0041 E4             2948             CLR     A
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    47
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    47
 
 0042 F0             2949             MOVX    @DPTR,A
                     2950     ;               P2_FN_H = 0x00;                                                            
@@ -3193,7 +3193,7 @@ LOC  OBJ            LINE     SOURCE
 007D F0             3007             MOVX    @DPTR,A
                     3008     ;               P00_DS = I_4MA;
                     3009                             ; SOURCE LINE # 553
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    48
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    48
 
 007E 90E0D7         3010             MOV     DPTR,#0E0D7H
 0081 E0             3011             MOVX    A,@DPTR
@@ -3261,7 +3261,7 @@ LOC  OBJ            LINE     SOURCE
 00CA 54F3           3071             ANL     A,#0F3H
 00CC FF             3072             MOV     R7,A
 00CD EF             3073             MOV     A,R7
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    49
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    49
 
 00CE 4408           3074             ORL     A,#08H
 00D0 FF             3075             MOV     R7,A
@@ -3329,7 +3329,7 @@ LOC  OBJ            LINE     SOURCE
 0120 90E0D9         3136             MOV     DPTR,#0E0D9H
 0123 E0             3137             MOVX    A,@DPTR
 0124 FF             3138             MOV     R7,A
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    50
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    50
 
 0125 EF             3139             MOV     A,R7
 0126 54EF           3140             ANL     A,#0EFH
@@ -3397,7 +3397,7 @@ LOC  OBJ            LINE     SOURCE
                     3201     ; 
                     3202     ; void InitTimer01(void)
                     3203     
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    51
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    51
 
 ----                3204             RSEG  ?PR?InitTimer01?INITIAL
 0000                3205     InitTimer01:
@@ -3465,7 +3465,7 @@ LOC  OBJ            LINE     SOURCE
                     3266     ;       //capture mode setting
                     3267     ;       
                     3268     ; //    T3PS = 0;                                                               // no divid
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    52
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    52
 
                              er
                     3269     ; //    T3RC= 0;               //reset T3 capture register
@@ -3533,7 +3533,7 @@ LOC  OBJ            LINE     SOURCE
                     3329     ; }
                     3330                             ; SOURCE LINE # 613
 002C                3331     ?C0019:
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    53
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    53
 
 002C 22             3332             RET     
                     3333     ; END OF InitTimer3
@@ -3601,7 +3601,7 @@ LOC  OBJ            LINE     SOURCE
                     3393     ; void InitTimer5(void)
                     3394     
 ----                3395             RSEG  ?PR?InitTimer5?INITIAL
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    54
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    54
 
 0000                3396     InitTimer5:
                     3397             USING   0
@@ -3669,7 +3669,7 @@ LOC  OBJ            LINE     SOURCE
 0034 C2C2           3455             CLR     IEX3
                     3456     ; }
                     3457                             ; SOURCE LINE # 639
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    55
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    55
 
 0036                3458     ?C0021:
 0036 22             3459             RET     
@@ -3737,7 +3737,7 @@ LOC  OBJ            LINE     SOURCE
                     3517     ;       EX5 = 1;
                     3518                             ; SOURCE LINE # 651
 0030 D2BC           3519             SETB    EX5
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    56
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    56
 
                     3520     ;       IEX5=0;
                     3521                             ; SOURCE LINE # 652
@@ -3767,320 +3767,383 @@ LOC  OBJ            LINE     SOURCE
 0006 90E0B1         3545             MOV     DPTR,#0E0B1H
 0009 7440           3546             MOV     A,#040H
 000B F0             3547             MOVX    @DPTR,A
-                    3548     ;         RC80M_C3=0x4f;
-                    3549                             ; SOURCE LINE # 659
-000C 90E0B0         3550             MOV     DPTR,#0E0B0H
-000F 744F           3551             MOV     A,#04FH
-0011 F0             3552             MOVX    @DPTR,A
-                    3553     ;         RC80M_C2=0x3f;
-                    3554                             ; SOURCE LINE # 660
-0012 90E0AF         3555             MOV     DPTR,#0E0AFH
-0015 743F           3556             MOV     A,#03FH
-0017 F0             3557             MOVX    @DPTR,A
-                    3558     ;         #pragma asm
-                    3559     ;               nop
-0018 00             3560               nop
-                    3561     ;               nop
-0019 00             3562               nop
-                    3563     ;               nop
-001A 00             3564               nop
-                    3565     ;               nop
-001B 00             3566               nop
-                    3567     ;               nop
-001C 00             3568               nop
-                    3569     ;               nop
-001D 00             3570               nop
-                    3571     ;               nop
-001E 00             3572               nop
-                    3573     ;               nop
-001F 00             3574               nop
-                    3575     ;               nop
-0020 00             3576               nop
-                    3577     ;               nop
-0021 00             3578               nop
-                    3579     ;               nop
-0022 00             3580               nop
-                    3581     ;               nop
-0023 00             3582               nop
-                    3583     ;               nop
-0024 00             3584               nop
-                    3585     ;               nop
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    57
+                    3548     ; 
+                    3549     ;       
+                    3550     ;       RC80M_C3=0x4f;            //80MHz RC oscillator set=0x4f ;    40MHz RC oscillator s
+                             et = 0x59
+                    3551                             ; SOURCE LINE # 661
+000C 90E0B0         3552             MOV     DPTR,#0E0B0H
+000F 744F           3553             MOV     A,#04FH
+0011 F0             3554             MOVX    @DPTR,A
+                    3555     ;    RC80M_C2=0x3f;                                             //80MHz RC oscillator set=0
+                             x3f ;    40MHz RC oscillator set = 0x3a
+                    3556                             ; SOURCE LINE # 662
+0012 90E0AF         3557             MOV     DPTR,#0E0AFH
+0015 743F           3558             MOV     A,#03FH
+0017 F0             3559             MOVX    @DPTR,A
+                    3560     ;       
+                    3561     ;         #pragma asm
+                    3562     ;               nop
+0018 00             3563               nop
+                    3564     ;               nop
+0019 00             3565               nop
+                    3566     ;               nop
+001A 00             3567               nop
+                    3568     ;               nop
+001B 00             3569               nop
+                    3570     ;               nop
+001C 00             3571               nop
+                    3572     ;               nop
+001D 00             3573               nop
+                    3574     ;               nop
+001E 00             3575               nop
+                    3576     ;               nop
+001F 00             3577               nop
+                    3578     ;               nop
+0020 00             3579               nop
+                    3580     ;               nop
+0021 00             3581               nop
+                    3582     ;               nop
+0022 00             3583               nop
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    57
 
-0025 00             3586               nop
-                    3587     ;               nop
-0026 00             3588               nop
-                    3589     ;               nop
-0027 00             3590               nop
-                    3591     ;               nop
-0028 00             3592               nop
-                    3593     ;               nop
-0029 00             3594               nop
-                    3595     ;               nop
-002A 00             3596               nop
-                    3597     ;               nop
-002B 00             3598               nop
-                    3599     ;               nop
-002C 00             3600               nop
-                    3601     ;               nop
-002D 00             3602               nop
-                    3603     ;               nop
-002E 00             3604               nop
-                    3605     ;               nop
-002F 00             3606               nop
-                    3607     ;               nop
-0030 00             3608               nop
-                    3609     ;               nop
-0031 00             3610               nop
-                    3611     ;               nop
-0032 00             3612               nop
-                    3613     ;               nop
-0033 00             3614               nop
-                    3615     ;               nop
-0034 00             3616               nop
-                    3617     ;               nop
-0035 00             3618               nop
-                    3619     ;               nop
-0036 00             3620               nop
-                    3621     ;               nop
-0037 00             3622               nop
-                    3623     ;               nop
-0038 00             3624               nop
-                    3625     ;               #pragma endasm
-                    3626     ;       
-                    3627     ;         CLK_DIV_L = 0x0;
-                    3628                             ; SOURCE LINE # 697
-0039 90E0E7         3629             MOV     DPTR,#0E0E7H
-003C E4             3630             CLR     A
-003D F0             3631             MOVX    @DPTR,A
-                    3632     ;         CLK_DIV_H = 0x00;
-                    3633                             ; SOURCE LINE # 698
-003E 90E0E6         3634             MOV     DPTR,#0E0E6H
-0041 E4             3635             CLR     A
-0042 F0             3636             MOVX    @DPTR,A
+                    3584     ;               nop
+0023 00             3585               nop
+                    3586     ;               nop
+0024 00             3587               nop
+                    3588     ;               nop
+0025 00             3589               nop
+                    3590     ;               nop
+0026 00             3591               nop
+                    3592     ;               nop
+0027 00             3593               nop
+                    3594     ;               nop
+0028 00             3595               nop
+                    3596     ;               nop
+0029 00             3597               nop
+                    3598     ;               nop
+002A 00             3599               nop
+                    3600     ;               nop
+002B 00             3601               nop
+                    3602     ;               nop
+002C 00             3603               nop
+                    3604     ;               nop
+002D 00             3605               nop
+                    3606     ;               nop
+002E 00             3607               nop
+                    3608     ;               nop
+002F 00             3609               nop
+                    3610     ;               nop
+0030 00             3611               nop
+                    3612     ;               nop
+0031 00             3613               nop
+                    3614     ;               nop
+0032 00             3615               nop
+                    3616     ;               nop
+0033 00             3617               nop
+                    3618     ;               nop
+0034 00             3619               nop
+                    3620     ;               nop
+0035 00             3621               nop
+                    3622     ;               nop
+0036 00             3623               nop
+                    3624     ;               nop
+0037 00             3625               nop
+                    3626     ;               nop
+0038 00             3627               nop
+                    3628     ;               #pragma endasm
+                    3629     ;               
+                    3630     ;               #if sysclk == freq_4MHz
+                    3631     ;               CLK_DIV_L = 0x14;
+                    3632     ;     #endif
+                    3633     ;         
+                    3634     ;               #if sysclk == freq_8MHz
+                    3635     ;               CLK_DIV_L = 0x0a;
+                    3636     ;     #endif
                     3637     ;               
-                    3638     ;               #pragma asm
-                    3639     ;               nop
-0043 00             3640               nop
-                    3641     ;               nop
-0044 00             3642               nop
-                    3643     ;               nop
-0045 00             3644               nop
-                    3645     ;               nop
-0046 00             3646               nop
-                    3647     ;               nop
-0047 00             3648               nop
-                    3649     ;               nop
-0048 00             3650               nop
-                    3651     ;               nop
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    58
+                    3638     ;               #if sysclk == freq_10MHz
+                    3639     ;               CLK_DIV_L = 0x08;
+                    3640     ;     #endif
+                    3641     ;               
+                    3642     ;               #if sysclk == freq_16MHz
+                    3643     ;               CLK_DIV_L = 0x05;
+                    3644     ;     #endif
+                    3645     ;               
+                    3646     ;               #if sysclk == freq_20MHz
+                    3647     ;               CLK_DIV_L = 0x04;
+                    3648     ;     #endif
+                    3649     ;               
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    58
 
-0049 00             3652               nop
-                    3653     ;               nop
-004A 00             3654               nop
-                    3655     ;               nop
-004B 00             3656               nop
-                    3657     ;               nop
-004C 00             3658               nop
-                    3659     ;               nop
-004D 00             3660               nop
-                    3661     ;               nop
-004E 00             3662               nop
-                    3663     ;               nop
-004F 00             3664               nop
-                    3665     ;               nop
-0050 00             3666               nop
-                    3667     ;               nop
-0051 00             3668               nop
-                    3669     ;               nop
-0052 00             3670               nop
-                    3671     ;               nop
-0053 00             3672               nop
-                    3673     ;               nop
-0054 00             3674               nop
-                    3675     ;               nop
-0055 00             3676               nop
-                    3677     ;               nop
-0056 00             3678               nop
-                    3679     ;               nop
-0057 00             3680               nop
-                    3681     ;               nop
-0058 00             3682               nop
-                    3683     ;               nop
-0059 00             3684               nop
-                    3685     ;               nop
-005A 00             3686               nop
-                    3687     ;               nop
-005B 00             3688               nop
-                    3689     ;               nop
-005C 00             3690               nop
-                    3691     ;               nop
-005D 00             3692               nop
-                    3693     ;               nop
-005E 00             3694               nop
-                    3695     ;               nop
-005F 00             3696               nop
-                    3697     ;               nop
-0060 00             3698               nop
-                    3699     ;               nop
-0061 00             3700               nop
-                    3701     ;               nop
-0062 00             3702               nop
-                    3703     ;               #pragma endasm
-                    3704     ; }
-                    3705                             ; SOURCE LINE # 734
-0063                3706     ?C0023:
-0063 22             3707             RET     
-                    3708     ; END OF SystemClock
-                    3709     
-                    3710     ; 
-                    3711     ; 
-                    3712     ; 
-                    3713     ; 
-                    3714     ; 
-                    3715     ; 
-                    3716     ; //initial UART1, there are 2 different ways to generate baudrate
-                    3717     ; //way 1
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    59
+                    3650     ;                #if sysclk == freq_40MHz
+                    3651     ;               CLK_DIV_L = 0x02;
+                    3652     ;     #endif
+                    3653     ;               
+                    3654     ;               
+                    3655     ;               #if sysclk == freq_80MHz
+                    3656     ;               CLK_DIV_L = 0x01;
+                    3657                             ; SOURCE LINE # 726
+0039 90E0E7         3658             MOV     DPTR,#0E0E7H
+003C 7401           3659             MOV     A,#01H
+003E F0             3660             MOVX    @DPTR,A
+                    3661     ;     #endif
+                    3662     ;               
+                    3663     ;         CLK_DIV_H = 0x00;
+                    3664                             ; SOURCE LINE # 729
+003F 90E0E6         3665             MOV     DPTR,#0E0E6H
+0042 E4             3666             CLR     A
+0043 F0             3667             MOVX    @DPTR,A
+                    3668     ;               
+                    3669     ;               #pragma asm
+                    3670     ;               nop
+0044 00             3671               nop
+                    3672     ;               nop
+0045 00             3673               nop
+                    3674     ;               nop
+0046 00             3675               nop
+                    3676     ;               nop
+0047 00             3677               nop
+                    3678     ;               nop
+0048 00             3679               nop
+                    3680     ;               nop
+0049 00             3681               nop
+                    3682     ;               nop
+004A 00             3683               nop
+                    3684     ;               nop
+004B 00             3685               nop
+                    3686     ;               nop
+004C 00             3687               nop
+                    3688     ;               nop
+004D 00             3689               nop
+                    3690     ;               nop
+004E 00             3691               nop
+                    3692     ;               nop
+004F 00             3693               nop
+                    3694     ;               nop
+0050 00             3695               nop
+                    3696     ;               nop
+0051 00             3697               nop
+                    3698     ;               nop
+0052 00             3699               nop
+                    3700     ;               nop
+0053 00             3701               nop
+                    3702     ;               nop
+0054 00             3703               nop
+                    3704     ;               nop
+0055 00             3705               nop
+                    3706     ;               nop
+0056 00             3707               nop
+                    3708     ;               nop
+0057 00             3709               nop
+                    3710     ;               nop
+0058 00             3711               nop
+                    3712     ;               nop
+0059 00             3713               nop
+                    3714     ;               nop
+005A 00             3715               nop
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    59
 
-                    3718     ; void sInitUART1(void)
-                    3719     
-----                3720             RSEG  ?PR?sInitUART1?INITIAL
-0000                3721     sInitUART1:
-                    3722                             ; SOURCE LINE # 743
-                    3723     ; {
-                    3724                             ; SOURCE LINE # 744
-                    3725     ;       S0CON  = 0x50;                // set as 8-bit UART,  enable serial 0 reception, ena
-                             ble serial 0 multiprocessor function
-                    3726                             ; SOURCE LINE # 745
-0000 759850         3727             MOV     S0CON,#050H
-                    3728     ;     WDCON = 0x80;            // 0x80: baud rate = (2^smod) * Fclk / (64 * (2^10 - s0rel))
-                             ;
-                    3729                             ; SOURCE LINE # 746
-0003 75D880         3730             MOV     WDCON,#080H
-                    3731     ;                               // 0x00: baud rate = (2^smod) * Fclk / (32 * 12 * (256 - th
-                             1));
-                    3732     ;                               // smod = 0;    Fclk = system clock
-                    3733     ;     S0RELL = 0xF3;             //Fclk = 8MHz, baud rate = 9600
-                    3734                             ; SOURCE LINE # 749
-0006 75AAF3         3735             MOV     S0RELL,#0F3H
-                    3736     ;     S0RELH = 0x03;    
-                    3737                             ; SOURCE LINE # 750
-0009 75BA03         3738             MOV     S0RELH,#03H
-                    3739     ; }
-                    3740                             ; SOURCE LINE # 751
-000C                3741     ?C0024:
-000C 22             3742             RET     
-                    3743     ; END OF sInitUART1
-                    3744     
+                    3716     ;               nop
+005B 00             3717               nop
+                    3718     ;               nop
+005C 00             3719               nop
+                    3720     ;               nop
+005D 00             3721               nop
+                    3722     ;               nop
+005E 00             3723               nop
+                    3724     ;               nop
+005F 00             3725               nop
+                    3726     ;               nop
+0060 00             3727               nop
+                    3728     ;               nop
+0061 00             3729               nop
+                    3730     ;               nop
+0062 00             3731               nop
+                    3732     ;               nop
+0063 00             3733               nop
+                    3734     ;               #pragma endasm
+                    3735     ; }
+                    3736                             ; SOURCE LINE # 765
+0064                3737     ?C0023:
+0064 22             3738             RET     
+                    3739     ; END OF SystemClock
+                    3740     
+                    3741     ; 
+                    3742     ; 
+                    3743     ; 
+                    3744     ; 
                     3745     ; 
-                    3746     ; void sInitUART2(void)
-                    3747     
-----                3748             RSEG  ?PR?sInitUART2?INITIAL
-0000                3749     sInitUART2:
-                    3750                             ; SOURCE LINE # 753
-                    3751     ; {
-                    3752                             ; SOURCE LINE # 754
-                    3753     ;     S1CON  = 0x90;                    //enable serial 1 reception, enable serial 0 multip
+                    3746     ; 
+                    3747     ; //initial UART1, there are 2 different ways to generate baudrate
+                    3748     ; //way 1
+                    3749     ; void sInitUART1(void)
+                    3750     
+----                3751             RSEG  ?PR?sInitUART1?INITIAL
+0000                3752     sInitUART1:
+                    3753                             ; SOURCE LINE # 774
+                    3754     ; {
+                    3755                             ; SOURCE LINE # 775
+                    3756     ;       S0CON  = 0x50;                // set as 8-bit UART,  enable serial 0 reception, ena
+                             ble serial 0 multiprocessor function
+                    3757                             ; SOURCE LINE # 776
+0000 759850         3758             MOV     S0CON,#050H
+                    3759     ;     WDCON = 0x80;            // 0x80: baud rate = (2^smod) * Fclk / (64 * (2^10 - s0rel))
+                             ;
+                    3760                             ; SOURCE LINE # 777
+0003 75D880         3761             MOV     WDCON,#080H
+                    3762     ;                               // 0x00: baud rate = (2^smod) * Fclk / (32 * 12 * (256 - th
+                             1));
+                    3763     ;                               // smod = 0;    Fclk = system clock
+                    3764     ; //    S0RELL = 0xF3;             //Fclk = 8MHz, baud rate = 9600
+                    3765     ;       
+                    3766     ;               #if sysclk == freq_4MHz
+                    3767     ;               S0RELL = 0xF3;                                                   
+                    3768     ;     #endif
+                    3769     ;       
+                    3770     ;       #if sysclk == freq_8MHz
+                    3771     ;               S0RELL = 0xF3;                                                   
+                    3772     ;     #endif
+                    3773     ;       
+                    3774     ;               #if sysclk == freq_10MHz
+                    3775     ;               S0RELL = 0xF1;                                                   
+                    3776     ;     #endif
+                    3777     ;       
+                    3778     ;               #if sysclk == freq_16MHz
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    60
+
+                    3779     ;               S0RELL = 0xe6;                                                   
+                    3780     ;     #endif
+                    3781     ;       
+                    3782     ;               #if sysclk == freq_20MHz
+                    3783     ;               S0RELL = 0xe2;                                                   
+                    3784     ;     #endif
+                    3785     ;       
+                    3786     ;       #if sysclk == freq_40MHz
+                    3787     ;                        S0RELL = 0xbf;                                                  
+                    3788     ;     #endif
+                    3789     ;  
+                    3790     ;       
+                    3791     ;       #if sysclk == freq_80MHz
+                    3792     ;                        S0RELL = 0x7e;                                                  
+                    3793                             ; SOURCE LINE # 808
+0006 75AA7E         3794             MOV     S0RELL,#07EH
+                    3795     ;     #endif
+                    3796     ;       
+                    3797     ;     S0RELH = 0x03;    
+                    3798                             ; SOURCE LINE # 811
+0009 75BA03         3799             MOV     S0RELH,#03H
+                    3800     ; }
+                    3801                             ; SOURCE LINE # 812
+000C                3802     ?C0024:
+000C 22             3803             RET     
+                    3804     ; END OF sInitUART1
+                    3805     
+                    3806     ; 
+                    3807     ; void sInitUART2(void)
+                    3808     
+----                3809             RSEG  ?PR?sInitUART2?INITIAL
+0000                3810     sInitUART2:
+                    3811                             ; SOURCE LINE # 814
+                    3812     ; {
+                    3813                             ; SOURCE LINE # 815
+                    3814     ;     S1CON  = 0x90;                    //enable serial 1 reception, enable serial 0 multip
                              rocessor function
-                    3754                             ; SOURCE LINE # 755
-0000 759B90         3755             MOV     S1CON,#090H
-                    3756     ;                                 //s1con.7 = 1: 8-bit UART(mode B)    s1con.7 = 0: 9-bit U
+                    3815                             ; SOURCE LINE # 816
+0000 759B90         3816             MOV     S1CON,#090H
+                    3817     ;                                 //s1con.7 = 1: 8-bit UART(mode B)    s1con.7 = 0: 9-bit U
                              ART(mode A)
-                    3757     ;     S1RELL = 0xE6;            //baud rate = Fclk / (32 * (2^10 - s0rel));
-                    3758                             ; SOURCE LINE # 757
-0003 759DE6         3759             MOV     S1RELL,#0E6H
-                    3760     ;     S1RELH = 0x03;              //Fclk = 8MHz, baud rate = 9600
-                    3761                             ; SOURCE LINE # 758
-0006 75BB03         3762             MOV     S1RELH,#03H
-                    3763     ; }
-                    3764                             ; SOURCE LINE # 759
-0009                3765     ?C0025:
-0009 22             3766             RET     
-                    3767     ; END OF sInitUART2
-                    3768     
-                    3769     ; 
-                    3770     ; 
-                    3771     ; void InitDAC(void)
-                    3772     
-----                3773             RSEG  ?PR?InitDAC?INITIAL
-0000                3774     InitDAC:
-                    3775             USING   0
-                    3776                             ; SOURCE LINE # 762
-                    3777     ; {
-                    3778                             ; SOURCE LINE # 763
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    60
+                    3818     ;     S1RELL = 0xE6;            //baud rate = Fclk / (32 * (2^10 - s0rel));
+                    3819                             ; SOURCE LINE # 818
+0003 759DE6         3820             MOV     S1RELL,#0E6H
+                    3821     ;     S1RELH = 0x03;              //Fclk = 8MHz, baud rate = 9600
+                    3822                             ; SOURCE LINE # 819
+0006 75BB03         3823             MOV     S1RELH,#03H
+                    3824     ; }
+                    3825                             ; SOURCE LINE # 820
+0009                3826     ?C0025:
+0009 22             3827             RET     
+                    3828     ; END OF sInitUART2
+                    3829     
+                    3830     ; 
+                    3831     ; 
+                    3832     ; void InitDAC(void)
+                    3833     
+----                3834             RSEG  ?PR?InitDAC?INITIAL
+0000                3835     InitDAC:
+                    3836             USING   0
+                    3837                             ; SOURCE LINE # 823
+                    3838     ; {
+                    3839                             ; SOURCE LINE # 824
+                    3840     ;               DAC1_PD=0;              //power up DAC1
+                    3841                             ; SOURCE LINE # 825
+0000 90E07A         3842             MOV     DPTR,#0E07AH
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    61
 
-                    3779     ;               DAC1_PD=0;              //power up DAC1
-                    3780                             ; SOURCE LINE # 764
-0000 90E07A         3781             MOV     DPTR,#0E07AH
-0003 E0             3782             MOVX    A,@DPTR
-0004 FF             3783             MOV     R7,A
-0005 EF             3784             MOV     A,R7
-0006 54FB           3785             ANL     A,#0FBH
-0008 FF             3786             MOV     R7,A
-0009 EF             3787             MOV     A,R7
-000A F0             3788             MOVX    @DPTR,A
-                    3789     ;               DAC2_PD=0;              //power up DAC2
-                    3790                             ; SOURCE LINE # 765
-000B 90E07A         3791             MOV     DPTR,#0E07AH
-000E E0             3792             MOVX    A,@DPTR
-000F FF             3793             MOV     R7,A
-0010 EF             3794             MOV     A,R7
-0011 54FE           3795             ANL     A,#0FEH
-0013 FF             3796             MOV     R7,A
-0014 EF             3797             MOV     A,R7
-0015 F0             3798             MOVX    @DPTR,A
-                    3799     ;       DAC1_VREF=0;            //use 3.3V as vref
-                    3800                             ; SOURCE LINE # 766
-0016 90E07A         3801             MOV     DPTR,#0E07AH
-0019 E0             3802             MOVX    A,@DPTR
-001A FF             3803             MOV     R7,A
-001B EF             3804             MOV     A,R7
-001C 54F7           3805             ANL     A,#0F7H
-001E FF             3806             MOV     R7,A
-001F EF             3807             MOV     A,R7
-0020 F0             3808             MOVX    @DPTR,A
-                    3809     ;       DAC2_VREF=0;            //use 3.3V as vref
-                    3810                             ; SOURCE LINE # 767
-0021 90E07A         3811             MOV     DPTR,#0E07AH
-0024 E0             3812             MOVX    A,@DPTR
-0025 FF             3813             MOV     R7,A
-0026 EF             3814             MOV     A,R7
-0027 54FD           3815             ANL     A,#0FDH
-0029 FF             3816             MOV     R7,A
-002A EF             3817             MOV     A,R7
-002B F0             3818             MOVX    @DPTR,A
-                    3819     ;       ADC_DAC_SEL1=0; //select DAC output
-                    3820                             ; SOURCE LINE # 768
-002C 90E089         3821             MOV     DPTR,#0E089H
-002F E0             3822             MOVX    A,@DPTR
-0030 FF             3823             MOV     R7,A
-0031 EF             3824             MOV     A,R7
-0032 54FE           3825             ANL     A,#0FEH
-0034 FF             3826             MOV     R7,A
-0035 EF             3827             MOV     A,R7
-0036 F0             3828             MOVX    @DPTR,A
-                    3829     ;       ADC_DAC_SEL2=0; //select DAC output
-                    3830                             ; SOURCE LINE # 769
-0037 90E089         3831             MOV     DPTR,#0E089H
-003A E0             3832             MOVX    A,@DPTR
-003B FF             3833             MOV     R7,A
-003C EF             3834             MOV     A,R7
-003D 54FD           3835             ANL     A,#0FDH
-003F FF             3836             MOV     R7,A
-0040 EF             3837             MOV     A,R7
-0041 F0             3838             MOVX    @DPTR,A
-                    3839     ; }
-                    3840                             ; SOURCE LINE # 770
-0042                3841     ?C0026:
-0042 22             3842             RET     
-                    3843     ; END OF InitDAC
-                    3844     
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    61
-
-                    3845             END
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    62
+0003 E0             3843             MOVX    A,@DPTR
+0004 FF             3844             MOV     R7,A
+0005 EF             3845             MOV     A,R7
+0006 54FB           3846             ANL     A,#0FBH
+0008 FF             3847             MOV     R7,A
+0009 EF             3848             MOV     A,R7
+000A F0             3849             MOVX    @DPTR,A
+                    3850     ;               DAC2_PD=0;              //power up DAC2
+                    3851                             ; SOURCE LINE # 826
+000B 90E07A         3852             MOV     DPTR,#0E07AH
+000E E0             3853             MOVX    A,@DPTR
+000F FF             3854             MOV     R7,A
+0010 EF             3855             MOV     A,R7
+0011 54FE           3856             ANL     A,#0FEH
+0013 FF             3857             MOV     R7,A
+0014 EF             3858             MOV     A,R7
+0015 F0             3859             MOVX    @DPTR,A
+                    3860     ;       DAC1_VREF=0;            //use 3.3V as vref
+                    3861                             ; SOURCE LINE # 827
+0016 90E07A         3862             MOV     DPTR,#0E07AH
+0019 E0             3863             MOVX    A,@DPTR
+001A FF             3864             MOV     R7,A
+001B EF             3865             MOV     A,R7
+001C 54F7           3866             ANL     A,#0F7H
+001E FF             3867             MOV     R7,A
+001F EF             3868             MOV     A,R7
+0020 F0             3869             MOVX    @DPTR,A
+                    3870     ;       DAC2_VREF=0;            //use 3.3V as vref
+                    3871                             ; SOURCE LINE # 828
+0021 90E07A         3872             MOV     DPTR,#0E07AH
+0024 E0             3873             MOVX    A,@DPTR
+0025 FF             3874             MOV     R7,A
+0026 EF             3875             MOV     A,R7
+0027 54FD           3876             ANL     A,#0FDH
+0029 FF             3877             MOV     R7,A
+002A EF             3878             MOV     A,R7
+002B F0             3879             MOVX    @DPTR,A
+                    3880     ;       ADC_DAC_SEL1=0; //select DAC output
+                    3881                             ; SOURCE LINE # 829
+002C 90E089         3882             MOV     DPTR,#0E089H
+002F E0             3883             MOVX    A,@DPTR
+0030 FF             3884             MOV     R7,A
+0031 EF             3885             MOV     A,R7
+0032 54FE           3886             ANL     A,#0FEH
+0034 FF             3887             MOV     R7,A
+0035 EF             3888             MOV     A,R7
+0036 F0             3889             MOVX    @DPTR,A
+                    3890     ;       ADC_DAC_SEL2=0; //select DAC output
+                    3891                             ; SOURCE LINE # 830
+0037 90E089         3892             MOV     DPTR,#0E089H
+003A E0             3893             MOVX    A,@DPTR
+003B FF             3894             MOV     R7,A
+003C EF             3895             MOV     A,R7
+003D 54FD           3896             ANL     A,#0FDH
+003F FF             3897             MOV     R7,A
+0040 EF             3898             MOV     A,R7
+0041 F0             3899             MOVX    @DPTR,A
+                    3900     ; }
+                    3901                             ; SOURCE LINE # 831
+0042                3902     ?C0026:
+0042 22             3903             RET     
+                    3904     ; END OF InitDAC
+                    3905     
+                    3906             END
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    62
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -4110,7 +4173,7 @@ N A M E                        T Y P E  V A L U E   ATTRIBUTES
 ?C0020. . . . . . . . . . . .  C ADDR   002CH   R   SEG=?PR?INITTIMER4?INITIAL
 ?C0021. . . . . . . . . . . .  C ADDR   0036H   R   SEG=?PR?INITTIMER5?INITIAL
 ?C0022. . . . . . . . . . . .  C ADDR   0034H   R   SEG=?PR?INITTIMER6?INITIAL
-?C0023. . . . . . . . . . . .  C ADDR   0063H   R   SEG=?PR?SYSTEMCLOCK?INITIAL
+?C0023. . . . . . . . . . . .  C ADDR   0064H   R   SEG=?PR?SYSTEMCLOCK?INITIAL
 ?C0024. . . . . . . . . . . .  C ADDR   000CH   R   SEG=?PR?SINITUART1?INITIAL
 ?C0025. . . . . . . . . . . .  C ADDR   0009H   R   SEG=?PR?SINITUART2?INITIAL
 ?C0026. . . . . . . . . . . .  C ADDR   0042H   R   SEG=?PR?INITDAC?INITIAL
@@ -4132,7 +4195,7 @@ N A M E                        T Y P E  V A L U E   ATTRIBUTES
 ?PR?INITWATCHDOG?INITIAL. . .  C SEG    001EH       REL=UNIT
 ?PR?SINITUART1?INITIAL. . . .  C SEG    000DH       REL=UNIT
 ?PR?SINITUART2?INITIAL. . . .  C SEG    000AH       REL=UNIT
-?PR?SYSTEMCLOCK?INITIAL . . .  C SEG    0064H       REL=UNIT
+?PR?SYSTEMCLOCK?INITIAL . . .  C SEG    0065H       REL=UNIT
 ACC . . . . . . . . . . . . .  D ADDR   00E0H   A   
 ARCON . . . . . . . . . . . .  D ADDR   00EFH   A   
 B . . . . . . . . . . . . . .  D ADDR   00F0H   A   
@@ -4148,7 +4211,7 @@ BSHI_3. . . . . . . . . . . .  D ADDR   00AFH   A
 BSHO. . . . . . . . . . . . .  D ADDR   00BCH   A   
 BSHO_0. . . . . . . . . . . .  D ADDR   00BCH   A   
 BSHO_1. . . . . . . . . . . .  D ADDR   00BDH   A   
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    63
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    63
 
 BSHO_2. . . . . . . . . . . .  D ADDR   00BEH   A   
 BSHO_3. . . . . . . . . . . .  D ADDR   00BFH   A   
@@ -4216,7 +4279,7 @@ IT1 . . . . . . . . . . . . .  B ADDR   0088H.2 A
 MD0 . . . . . . . . . . . . .  D ADDR   00E9H   A   
 MD1 . . . . . . . . . . . . .  D ADDR   00EAH   A   
 MD2 . . . . . . . . . . . . .  D ADDR   00EBH   A   
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    64
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    64
 
 MD3 . . . . . . . . . . . . .  D ADDR   00ECH   A   
 MD4 . . . . . . . . . . . . .  D ADDR   00EDH   A   
@@ -4284,7 +4347,7 @@ P2TZCLR . . . . . . . . . . .  D ADDR   00CBH   A
 P2TZFLG . . . . . . . . . . .  D ADDR   00CAH   A   
 P2TZFRC . . . . . . . . . . .  D ADDR   00CCH   A   
 P3. . . . . . . . . . . . . .  D ADDR   00B0H   A   
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    65
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    65
 
 P30 . . . . . . . . . . . . .  B ADDR   00B0H.0 A   
 P31 . . . . . . . . . . . . .  B ADDR   00B0H.1 A   
@@ -4352,7 +4415,7 @@ SM20. . . . . . . . . . . . .  B ADDR   0098H.5 A
 SP. . . . . . . . . . . . . .  D ADDR   0081H   A   
 SRAM_CON. . . . . . . . . . .  D ADDR   00F8H   A   
 SWDT. . . . . . . . . . . . .  B ADDR   00B8H.6 A   
-A51 MACRO ASSEMBLER  INITIAL                                                              01/12/2019 12:10:56 PAGE    66
+A51 MACRO ASSEMBLER  INITIAL                                                              01/30/2019 11:23:11 PAGE    66
 
 SYSTEMCLOCK . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?SYSTEMCLOCK?INITIAL
 T2CON . . . . . . . . . . . .  D ADDR   00C8H   A   

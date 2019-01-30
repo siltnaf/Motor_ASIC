@@ -3545,16 +3545,19 @@ SystemClock:
 	MOV  	DPTR,#0E0B1H
 	MOV  	A,#040H
 	MOVX 	@DPTR,A
-; 	  RC80M_C3=0x4f;
-			; SOURCE LINE # 659
+; 
+; 	
+; 	RC80M_C3=0x4f;            //80MHz RC oscillator set=0x4f ;    40MHz RC oscillator set = 0x59
+			; SOURCE LINE # 661
 	MOV  	DPTR,#0E0B0H
 	MOV  	A,#04FH
 	MOVX 	@DPTR,A
-; 	  RC80M_C2=0x3f;
-			; SOURCE LINE # 660
+;    RC80M_C2=0x3f;						//80MHz RC oscillator set=0x3f ;    40MHz RC oscillator set = 0x3a
+			; SOURCE LINE # 662
 	MOV  	DPTR,#0E0AFH
 	MOV  	A,#03FH
 	MOVX 	@DPTR,A
+; 	
 ; 	  #pragma asm
 ; 		nop
 	  nop
@@ -3623,14 +3626,42 @@ SystemClock:
 ; 		nop
 	  nop
 ; 		#pragma endasm
-; 	
-; 	  CLK_DIV_L = 0x0;
-			; SOURCE LINE # 697
+; 		
+; 	 	#if sysclk == freq_4MHz
+; 		CLK_DIV_L = 0x14;
+;     #endif
+; 	  
+; 		#if sysclk == freq_8MHz
+; 		CLK_DIV_L = 0x0a;
+;     #endif
+; 		
+; 		#if sysclk == freq_10MHz
+; 		CLK_DIV_L = 0x08;
+;     #endif
+; 		
+; 		#if sysclk == freq_16MHz
+; 		CLK_DIV_L = 0x05;
+;     #endif
+; 		
+; 		#if sysclk == freq_20MHz
+; 		CLK_DIV_L = 0x04;
+;     #endif
+; 		
+; 		 #if sysclk == freq_40MHz
+; 		CLK_DIV_L = 0x02;
+;     #endif
+; 		
+; 		
+; 		#if sysclk == freq_80MHz
+; 		CLK_DIV_L = 0x01;
+			; SOURCE LINE # 726
 	MOV  	DPTR,#0E0E7H
-	CLR  	A
+	MOV  	A,#01H
 	MOVX 	@DPTR,A
+;     #endif
+; 		
 ; 	  CLK_DIV_H = 0x00;
-			; SOURCE LINE # 698
+			; SOURCE LINE # 729
 	MOV  	DPTR,#0E0E6H
 	CLR  	A
 	MOVX 	@DPTR,A
@@ -3702,7 +3733,7 @@ SystemClock:
 	  nop
 ; 		#pragma endasm
 ; }
-			; SOURCE LINE # 734
+			; SOURCE LINE # 765
 ?C0023:
 	RET  	
 ; END OF SystemClock
@@ -3719,25 +3750,55 @@ SystemClock:
 
 	RSEG  ?PR?sInitUART1?INITIAL
 sInitUART1:
-			; SOURCE LINE # 743
+			; SOURCE LINE # 774
 ; {
-			; SOURCE LINE # 744
+			; SOURCE LINE # 775
 ; 	S0CON  = 0x50;		      // set as 8-bit UART,  enable serial 0 reception, enable serial 0 multiprocessor function
-			; SOURCE LINE # 745
+			; SOURCE LINE # 776
 	MOV  	S0CON,#050H
 ;     WDCON = 0x80;            // 0x80: baud rate = (2^smod) * Fclk / (64 * (2^10 - s0rel));
-			; SOURCE LINE # 746
+			; SOURCE LINE # 777
 	MOV  	WDCON,#080H
 ;                               // 0x00: baud rate = (2^smod) * Fclk / (32 * 12 * (256 - th1));
 ;                               // smod = 0;	Fclk = system clock
-;     S0RELL = 0xF3;             //Fclk = 8MHz, baud rate = 9600
-			; SOURCE LINE # 749
-	MOV  	S0RELL,#0F3H
+; //    S0RELL = 0xF3;             //Fclk = 8MHz, baud rate = 9600
+; 	
+; 	 	#if sysclk == freq_4MHz
+; 		S0RELL = 0xF3;							 
+;     #endif
+; 	
+; 	#if sysclk == freq_8MHz
+; 		S0RELL = 0xF3;							 
+;     #endif
+; 	
+; 		#if sysclk == freq_10MHz
+; 		S0RELL = 0xF1;							 
+;     #endif
+; 	
+; 		#if sysclk == freq_16MHz
+; 		S0RELL = 0xe6;							 
+;     #endif
+; 	
+; 		#if sysclk == freq_20MHz
+; 		S0RELL = 0xe2;							 
+;     #endif
+; 	
+; 	#if sysclk == freq_40MHz
+; 			 S0RELL = 0xbf;							 
+;     #endif
+;  
+; 	
+; 	#if sysclk == freq_80MHz
+; 			 S0RELL = 0x7e;							 
+			; SOURCE LINE # 808
+	MOV  	S0RELL,#07EH
+;     #endif
+; 	
 ;     S0RELH = 0x03;	
-			; SOURCE LINE # 750
+			; SOURCE LINE # 811
 	MOV  	S0RELH,#03H
 ; }
-			; SOURCE LINE # 751
+			; SOURCE LINE # 812
 ?C0024:
 	RET  	
 ; END OF sInitUART1
@@ -3747,21 +3808,21 @@ sInitUART1:
 
 	RSEG  ?PR?sInitUART2?INITIAL
 sInitUART2:
-			; SOURCE LINE # 753
+			; SOURCE LINE # 814
 ; {
-			; SOURCE LINE # 754
+			; SOURCE LINE # 815
 ;     S1CON  = 0x90;		        //enable serial 1 reception, enable serial 0 multiprocessor function
-			; SOURCE LINE # 755
+			; SOURCE LINE # 816
 	MOV  	S1CON,#090H
 ;                                 //s1con.7 = 1: 8-bit UART(mode B)    s1con.7 = 0: 9-bit UART(mode A)
 ;     S1RELL = 0xE6;            //baud rate = Fclk / (32 * (2^10 - s0rel));
-			; SOURCE LINE # 757
+			; SOURCE LINE # 818
 	MOV  	S1RELL,#0E6H
 ;     S1RELH = 0x03;	          //Fclk = 8MHz, baud rate = 9600
-			; SOURCE LINE # 758
+			; SOURCE LINE # 819
 	MOV  	S1RELH,#03H
 ; }
-			; SOURCE LINE # 759
+			; SOURCE LINE # 820
 ?C0025:
 	RET  	
 ; END OF sInitUART2
@@ -3773,11 +3834,11 @@ sInitUART2:
 	RSEG  ?PR?InitDAC?INITIAL
 InitDAC:
 	USING	0
-			; SOURCE LINE # 762
+			; SOURCE LINE # 823
 ; {
-			; SOURCE LINE # 763
+			; SOURCE LINE # 824
 ; 		DAC1_PD=0;		//power up DAC1
-			; SOURCE LINE # 764
+			; SOURCE LINE # 825
 	MOV  	DPTR,#0E07AH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -3787,7 +3848,7 @@ InitDAC:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 		DAC2_PD=0;		//power up DAC2
-			; SOURCE LINE # 765
+			; SOURCE LINE # 826
 	MOV  	DPTR,#0E07AH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -3797,7 +3858,7 @@ InitDAC:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	DAC1_VREF=0;		//use 3.3V as vref
-			; SOURCE LINE # 766
+			; SOURCE LINE # 827
 	MOV  	DPTR,#0E07AH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -3807,7 +3868,7 @@ InitDAC:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	DAC2_VREF=0;		//use 3.3V as vref
-			; SOURCE LINE # 767
+			; SOURCE LINE # 828
 	MOV  	DPTR,#0E07AH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -3817,7 +3878,7 @@ InitDAC:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	ADC_DAC_SEL1=0; //select DAC output
-			; SOURCE LINE # 768
+			; SOURCE LINE # 829
 	MOV  	DPTR,#0E089H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -3827,7 +3888,7 @@ InitDAC:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; 	ADC_DAC_SEL2=0; //select DAC output
-			; SOURCE LINE # 769
+			; SOURCE LINE # 830
 	MOV  	DPTR,#0E089H
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -3837,7 +3898,7 @@ InitDAC:
 	MOV  	A,R7
 	MOVX 	@DPTR,A
 ; }
-			; SOURCE LINE # 770
+			; SOURCE LINE # 831
 ?C0026:
 	RET  	
 ; END OF InitDAC

@@ -134,7 +134,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>ISD51</Key>
-          <Name>-S7 -B4800 -O719</Name>
+          <Name>-S7 -B9600 -O719</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -241,7 +241,7 @@
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>0</SubType>
-          <ItemText>244</ItemText>
+          <ItemText>X:0xe0e6</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -259,7 +259,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
-        <aLwin>0</aLwin>
+        <aLwin>1</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>
