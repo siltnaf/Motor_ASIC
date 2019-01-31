@@ -86,6 +86,26 @@ _BarrelShift:
 	MOV 	R7,BSHO_0
 	RET  
 
+		
+
+; //barrel shift
+; /***************************************************
+;  * Implements
+;  */
+; /*
+;  * @fn		Normaloize
+;  *
+;  * @brief	Normalize
+;  * 
+;  * @param	none
+;  *
+;  * @return 	
+;  */ index=ARCON;
+
+	
+
+; S32 Normalize(S32 in)
+
 
 RSEG  ?PR?_Normalize?IQMATHASM
  _Normalize:

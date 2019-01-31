@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  IQMATHASM                                                            01/30/2019 11:23:11 PAGE     1
+A51 MACRO ASSEMBLER  IQMATHASM                                                            01/31/2019 17:01:08 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.02c
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
                       55     
                       56     ; //barrel shift
                       57     ; /***************************************************
-A51 MACRO ASSEMBLER  IQMATHASM                                                            01/30/2019 11:23:11 PAGE     2
+A51 MACRO ASSEMBLER  IQMATHASM                                                            01/31/2019 17:01:08 PAGE     2
 
                       58     ;  * Implements
                       59     ;  */
@@ -98,45 +98,65 @@ LOC  OBJ            LINE     SOURCE
 0011 AFBC             86             MOV     R7,BSHO_0
 0013 22               87             RET  
                       88     
-                      89     
-----                  90     RSEG  ?PR?_Normalize?IQMATHASM
-0000                  91      _Normalize:
-0000 8FE9             92             MOV     MD0,R7
-0002 8EEA             93             MOV     MD1,R6
-0004 8DEB             94             MOV             MD2,R5
-0006 8CEC             95             MOV             MD3,R4
-0008 75EF00           96             MOV     ARCON,#00H
-000B                  97     ?C0002:
-                      98      
-000B E5EC             99         MOV     A,MD3
-000D 30E704          100         JNB     ACC.7,?C0004
-0010 7F01            101         MOV     R7,#01H
-0012 8002            102         SJMP    ?C0005
-0014                 103     ?C0004:
-0014 7F00            104         MOV     R7,#00H
-0016                 105     ?C0005:
-0016 EF              106         MOV     A,R7
-0017 60F2            107         JZ      ?C0002
-0019                 108     ?C0003: 
-0019 AFE9            109             MOV     R7,MD0
-001B AEEA            110             MOV             R6,MD1
-001D ADEB            111             MOV             R5,MD2
-001F ACEC            112             MOV             R4,MD3
-0021 22              113             RET
-                     114             
-                     115     
-----                 116     RSEG  ?PR?__IQabs?IQMATHASM
-0000                 117      __IQabs:
-0000 EC              118               MOV     A,R4
-0001 30E703          119               JNB     ACC.7,?C0007
-0004 120000   F      120               LCALL   ?C?LNEG
-                     121     
-0007                 122     ?C0007:         
-0007 22              123               RET
-A51 MACRO ASSEMBLER  IQMATHASM                                                            01/30/2019 11:23:11 PAGE     3
+                      89                     
+                      90     
+                      91     ; //barrel shift
+                      92     ; /***************************************************
+                      93     ;  * Implements
+                      94     ;  */
+                      95     ; /*
+                      96     ;  * @fn                Normaloize
+                      97     ;  *
+                      98     ;  * @brief     Normalize
+                      99     ;  * 
+                     100     ;  * @param     none
+                     101     ;  *
+                     102     ;  * @return    
+                     103     ;  */ index=ARCON;
+                     104     
+                     105             
+                     106     
+                     107     ; S32 Normalize(S32 in)
+                     108     
+                     109     
+----                 110     RSEG  ?PR?_Normalize?IQMATHASM
+0000                 111      _Normalize:
+0000 8FE9            112             MOV     MD0,R7
+0002 8EEA            113             MOV     MD1,R6
+0004 8DEB            114             MOV             MD2,R5
+0006 8CEC            115             MOV             MD3,R4
+0008 75EF00          116             MOV     ARCON,#00H
+000B                 117     ?C0002:
+                     118      
+000B E5EC            119         MOV     A,MD3
+000D 30E704          120         JNB     ACC.7,?C0004
+0010 7F01            121         MOV     R7,#01H
+0012 8002            122         SJMP    ?C0005
+0014                 123     ?C0004:
+A51 MACRO ASSEMBLER  IQMATHASM                                                            01/31/2019 17:01:08 PAGE     3
 
-                     124     END
-A51 MACRO ASSEMBLER  IQMATHASM                                                            01/30/2019 11:23:11 PAGE     4
+0014 7F00            124         MOV     R7,#00H
+0016                 125     ?C0005:
+0016 EF              126         MOV     A,R7
+0017 60F2            127         JZ      ?C0002
+0019                 128     ?C0003: 
+0019 AFE9            129             MOV     R7,MD0
+001B AEEA            130             MOV             R6,MD1
+001D ADEB            131             MOV             R5,MD2
+001F ACEC            132             MOV             R4,MD3
+0021 22              133             RET
+                     134             
+                     135     
+----                 136     RSEG  ?PR?__IQabs?IQMATHASM
+0000                 137      __IQabs:
+0000 EC              138               MOV     A,R4
+0001 30E703          139               JNB     ACC.7,?C0007
+0004 120000   F      140               LCALL   ?C?LNEG
+                     141     
+0007                 142     ?C0007:         
+0007 22              143               RET
+                     144     END
+A51 MACRO ASSEMBLER  IQMATHASM                                                            01/31/2019 17:01:08 PAGE     4
 
 SYMBOL TABLE LISTING
 ------ ----- -------

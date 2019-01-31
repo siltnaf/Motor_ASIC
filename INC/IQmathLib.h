@@ -6,17 +6,18 @@
 //******************************************************************************
 // math function in this library
 //
-//      _IQ(A)  				--> convert a fix point value to  IQ format
-//      _IQmpy(A,B)  		--> multiply A and B
-//      _IQdiv(A,B) 		--> divide A by B
-//      _IQsin(A)       --> sin value of A (in degree)
-//		  _IQcos(A)      	--> cos value of A
-//      _IQinv(A)       --> compute 1/A
-//      _IQatan(A)   		--> compute artan (A) return value in degree
-//      _IQmag(A,B)     --> compute sqrt of A*A + B*B
-//			_IQsqrt(A)      --> compute  sqrt of A
-//      _IQabs(A)       --> positive A
-//      _IQint(A)       --> return integer part of A
+//      A=_IQ(a);B=_IQ(b) 	--> convert a fix point value to  IQ format
+//      _IQmul(A,B)  				--> multiply A and B     (13us)
+//      _IQdiv(A,B) 				--> divide A by B      (2.5us)
+//      _IQsin(A)       		--> sin value of A (in degree)    (10us)
+//		  _IQcos(A)      			--> cos value of A             (10us)
+//      _IQinv(A)       		--> compute 1/A      (2.5us)
+//      _IQatan(A)   				--> compute artan (A) return value in degree        (23us)
+//      _IQmag(A,B)     		--> compute sqrt of A*A + B*B       (16.5us)
+//			_IQsqrt(A)      		--> compute  sqrt of A            (8.5us)
+//      _IQabs(A)       		--> positive A
+//      _IQint(A)       		--> return integer part of A
+//      _IQfra(A)          --> return decimal part of A
 //
 //
 //
@@ -81,6 +82,19 @@ typedef  struct {
  } EE32;
  
 
+ typedef  struct {
+ unsigned char D7; //MSB
+ unsigned char D6;
+ unsigned char D5;
+ unsigned char D4; //LSB
+ unsigned char D3; //MSB
+ unsigned char D2;
+ unsigned char D1;
+ unsigned char D0; //LSB
+ } _iq64;
+ 
+ 
+ 
 
 typedef union {
  struct {
@@ -203,7 +217,7 @@ extern S8  data index;
 extern _iq Normalize(_iq A);
 extern _iq BarrelShift(_iq A, U8 cmd);
 extern _iq _IQabs(_iq A);
-
+extern _iq _IQmul(_iq A, _iq B);
 
 #define  RA_shift    32          //Right arthematic shift
 #define  LA_shift    160         //left arthematic shift
@@ -724,24 +738,14 @@ extern _iq _IQabs(_iq A);
 // Divides two IQ numbers.
 //
 //***************************************************************************
-#define _IQdiv(A, B)           BarrelShift((A), (LA_shift+ half_Q))/ BarrelShift((A), (RA_shift+GLOBAL_Q-half_Q))
-
-
-//*****************************************************************************
-//
-// Multiplies two IQ numbers.
-//
-//*****************************************************************************
+#define _IQdiv(A, B)           BarrelShift((A), (LA_shift+ half_Q))/ BarrelShift((B), (RA_shift+GLOBAL_Q-half_Q))
 
 
 
 
 
-#if (GLOBAL_Q %2)== 0
-#define _IQmpy(A , B)           BarrelShift((A), (RA_shift+ half_Q))* BarrelShift((B), (RA_shift+ half_Q))
-#else
-#define _IQmpy(A, B)            BarrelShift((A), (RA_shift+ half_Q))* BarrelShift((B), (RA_shift+ half_Q+1))
-#endif
+
+
 
 
 
@@ -872,6 +876,108 @@ extern _iq1 _IQ1sin(_iq1 A);
 #if GLOBAL_Q == 1
 #define _IQsin(A)               _IQ1sin(A)
 #endif
+
+
+
+
+//*****************************************************************************
+//
+// Computes the fraction of an IQ number.
+//
+//*****************************************************************************
+
+
+
+#if GLOBAL_Q == 29
+#define _IQfrac(A)                ((A) & 0x1fffffff)
+#endif
+#if GLOBAL_Q == 28
+#define _IQfrac(A)                ((A) & 0x0fffffff)
+#endif
+#if GLOBAL_Q == 27
+#define _IQfrac(A)                ((A) & 0x07ffffff)
+#endif
+#if GLOBAL_Q == 26
+#define _IQfrac(A)                ((A) & 0x03ffffff)
+#endif
+#if GLOBAL_Q == 25
+#define _IQfrac(A)                ((A) & 0x01ffffff)
+#endif 
+#if GLOBAL_Q == 24
+#define _IQfrac(A)                ((A) & 0x00ffffff)
+#endif
+#if GLOBAL_Q == 23
+#define _IQfrac(A)                ((A) & 0x007fffff)
+#endif
+#if GLOBAL_Q == 22
+#define _IQfrac(A)                ((A) & 0x003fffff)
+#endif
+#if GLOBAL_Q == 21
+#define _IQfrac(A)                ((A) & 0x001fffff)
+#endif
+#if GLOBAL_Q == 20
+#define _IQfrac(A) )              ((A) & 0x000fffff)
+#endif
+#if GLOBAL_Q == 19
+#define _IQfrac(A)                ((A) & 0x0007ffff)
+#endif
+#if GLOBAL_Q == 18
+#define _IQfrac(A)               ((A) & 0x0003ffff)
+#endif
+#if GLOBAL_Q == 17
+#define _IQfrac(A)                ((A) & 0x0001ffff)
+#endif
+#if GLOBAL_Q == 16
+#define _IQfrac(A)                ((A) & 0x0000ffff)
+#endif
+#if GLOBAL_Q == 15
+#define _IQfrac(A)                ((A) & 0x00007fff)
+#endif
+#if GLOBAL_Q == 14
+#define _IQfrac(A)                ((A) & 0x00003fff)
+#endif
+#if GLOBAL_Q == 13
+#define _IQfrac(A)                ((A) & 0x00001fff)
+#endif
+#if GLOBAL_Q == 12
+#define _IQfrac(A)                ((A) & 0x00000fff)
+#endif
+#if GLOBAL_Q == 11
+#define _IQfrac(A)                ((A) & 0x000007ff)
+#endif
+#if GLOBAL_Q == 10
+#define _IQfrac(A)                ((A) & 0x000003ff)
+#endif
+#if GLOBAL_Q == 9
+#define _IQfrac(A)                ((A) & 0x000001ff)
+#endif
+#if GLOBAL_Q == 8
+#define _IQfrac(A)                ((A) & 0x000000ff)
+#endif
+#if GLOBAL_Q == 7
+#define _IQfrac(A)                ((A) & 0x0000007f)
+#endif
+#if GLOBAL_Q == 6
+#define _IQfrac(A)                ((A) & 0x0000003f)
+#endif
+#if GLOBAL_Q == 5
+#define _IQfrac(A)                ((A) & 0x0000001f)
+#endif
+#if GLOBAL_Q == 4
+#define _IQfrac(A)                ((A) & 0x0000000f)
+#endif
+#if GLOBAL_Q == 3
+#define _IQfrac(A)                ((A) & 0x00000007)
+#endif
+#if GLOBAL_Q == 2
+#define _IQfrac(A)                ((A) & 0x00000003)
+#endif
+#if GLOBAL_Q == 1
+#define _IQfrac(A)                ((A) & 0x00000001)
+#endif
+
+
+
 
 
 
@@ -1305,132 +1411,8 @@ extern _iq1 _IQ1sqrt(_iq1 A);
 #define _IQ1int(A)              BarrelShift((A), (RA_shift+ 1))
 #define _IQint(A)               BarrelShift((A), (RA_shift+ GLOBAL_Q))
 
-//*****************************************************************************
-//
-// Computes the fractional portion of an IQ number.
-//
-//*****************************************************************************
-extern _iq30 _IQ30frac(_iq30 A);
-extern _iq29 _IQ29frac(_iq29 A);
-extern _iq28 _IQ28frac(_iq28 A);
-extern _iq27 _IQ27frac(_iq27 A);
-extern _iq26 _IQ26frac(_iq26 A);
-extern _iq25 _IQ25frac(_iq25 A);
-extern _iq24 _IQ24frac(_iq24 A);
-extern _iq23 _IQ23frac(_iq23 A);
-extern _iq22 _IQ22frac(_iq22 A);
-extern _iq21 _IQ21frac(_iq21 A);
-extern _iq20 _IQ20frac(_iq20 A);
-extern _iq19 _IQ19frac(_iq19 A);
-extern _iq18 _IQ18frac(_iq18 A);
-extern _iq17 _IQ17frac(_iq17 A);
-extern _iq16 _IQ16frac(_iq16 A);
-extern _iq15 _IQ15frac(_iq15 A);
-extern _iq14 _IQ14frac(_iq14 A);
-extern _iq13 _IQ13frac(_iq13 A);
-extern _iq12 _IQ12frac(_iq12 A);
-extern _iq11 _IQ11frac(_iq11 A);
-extern _iq10 _IQ10frac(_iq10 A);
-extern _iq9 _IQ9frac(_iq9 A);
-extern _iq8 _IQ8frac(_iq8 A);
-extern _iq7 _IQ7frac(_iq7 A);
-extern _iq6 _IQ6frac(_iq6 A);
-extern _iq5 _IQ5frac(_iq5 A);
-extern _iq4 _IQ4frac(_iq4 A);
-extern _iq3 _IQ3frac(_iq3 A);
-extern _iq2 _IQ2frac(_iq2 A);
-extern _iq1 _IQ1frac(_iq1 A);
 
-#if GLOBAL_Q == 30
-#define _IQfrac(A)              _IQ30frac(A)
-#endif
-#if GLOBAL_Q == 29
-#define _IQfrac(A)              _IQ29frac(A)
-#endif
-#if GLOBAL_Q == 28
-#define _IQfrac(A)              _IQ28frac(A)
-#endif
-#if GLOBAL_Q == 27
-#define _IQfrac(A)              _IQ27frac(A)
-#endif
-#if GLOBAL_Q == 26
-#define _IQfrac(A)              _IQ26frac(A)
-#endif
-#if GLOBAL_Q == 25
-#define _IQfrac(A)              _IQ25frac(A)
-#endif
-#if GLOBAL_Q == 24
-#define _IQfrac(A)              _IQ24frac(A)
-#endif
-#if GLOBAL_Q == 23
-#define _IQfrac(A)              _IQ23frac(A)
-#endif
-#if GLOBAL_Q == 22
-#define _IQfrac(A)              _IQ22frac(A)
-#endif
-#if GLOBAL_Q == 21
-#define _IQfrac(A)              _IQ21frac(A)
-#endif
-#if GLOBAL_Q == 20
-#define _IQfrac(A)              _IQ20frac(A)
-#endif
-#if GLOBAL_Q == 19
-#define _IQfrac(A)              _IQ19frac(A)
-#endif
-#if GLOBAL_Q == 18
-#define _IQfrac(A)              _IQ18frac(A)
-#endif
-#if GLOBAL_Q == 17
-#define _IQfrac(A)              _IQ17frac(A)
-#endif
-#if GLOBAL_Q == 16
-#define _IQfrac(A)              _IQ16frac(A)
-#endif
-#if GLOBAL_Q == 15
-#define _IQfrac(A)              _IQ15frac(A)
-#endif
-#if GLOBAL_Q == 14
-#define _IQfrac(A)              _IQ14frac(A)
-#endif
-#if GLOBAL_Q == 13
-#define _IQfrac(A)              _IQ13frac(A)
-#endif
-#if GLOBAL_Q == 12
-#define _IQfrac(A)              _IQ12frac(A)
-#endif
-#if GLOBAL_Q == 11
-#define _IQfrac(A)              _IQ11frac(A)
-#endif
-#if GLOBAL_Q == 10
-#define _IQfrac(A)              _IQ10frac(A)
-#endif
-#if GLOBAL_Q == 9
-#define _IQfrac(A)              _IQ9frac(A)
-#endif
-#if GLOBAL_Q == 8
-#define _IQfrac(A)              _IQ8frac(A)
-#endif
-#if GLOBAL_Q == 7
-#define _IQfrac(A)              _IQ7frac(A)
-#endif
-#if GLOBAL_Q == 6
-#define _IQfrac(A)              _IQ6frac(A)
-#endif
-#if GLOBAL_Q == 5
-#define _IQfrac(A)              _IQ5frac(A)
-#endif
-#if GLOBAL_Q == 4
-#define _IQfrac(A)              _IQ4frac(A)
-#endif
-#if GLOBAL_Q == 3
-#define _IQfrac(A)              _IQ3frac(A)
-#endif
-#if GLOBAL_Q == 2
-#define _IQfrac(A)              _IQ2frac(A)
-#endif
-#if GLOBAL_Q == 1
-#define _IQfrac(A)              _IQ1frac(A)
-#endif
+
 
 //*****************************************************************************
 //
@@ -1933,7 +1915,7 @@ extern _iq _atoIQN(const char *A, long B);
 // Converts an IQ number into a string.
 //
 //*****************************************************************************
-extern int __IQNtoa(char *A, const char *B, _iq C, int D);
+extern int _IQNtoa(char *A, const char *B, _iq C, int D);
 #define _IQ30toa(A, B, C)       __IQNtoa(A, B, C, 30);
 #define _IQ29toa(A, B, C)       __IQNtoa(A, B, C, 29);
 #define _IQ28toa(A, B, C)       __IQNtoa(A, B, C, 28);
@@ -2022,12 +2004,12 @@ typedef float _iq;
 // Simple multiplies or divides.
 //
 //*****************************************************************************
-#define _IQmpy2(A)              ((A) * 2.0)
-#define _IQmpy4(A)              ((A) * 4.0)
-#define _IQmpy8(A)              ((A) * 8.0)
-#define _IQmpy16(A)             ((A) * 16.0)
-#define _IQmpy32(A)             ((A) * 32.0)
-#define _IQmpy64(A)             ((A) * 64.0)
+#define _IQmul2(A)              ((A) * 2.0)
+#define _IQmul4(A)              ((A) * 4.0)
+#define _IQmul8(A)              ((A) * 8.0)
+#define _IQmul16(A)             ((A) * 16.0)
+#define _IQmul32(A)             ((A) * 32.0)
+#define _IQmul64(A)             ((A) * 64.0)
 #define _IQdiv2(A)              ((A) / 2.0)
 #define _IQdiv4(A)              ((A) / 4.0)
 #define _IQdiv8(A)              ((A) / 8.0)
@@ -2660,6 +2642,135 @@ typedef float _iq;
                                  (float)((long)((A) * (float)(B))))
 
 
+////*****************************************************************************
+////
+//// Computes the multiplication of A * B using IQ numbers.
+////
+////*****************************************************************************
+																 
+//	extern _iq _IQmul(_iq A, _iq B);															 
+																 
+//extern _iq30 _IQ30mul(_iq30 A, _iq30 B);
+//extern _iq29 _IQ29mul(_iq29 A, _iq29 B);
+//extern _iq28 _IQ28mul(_iq28 A, _iq28 B);
+//extern _iq27 _IQ27mul(_iq27 A, _iq27 B);
+//extern _iq26 _IQ26mul(_iq26 A, _iq26 B);
+//extern _iq25 _IQ25mul(_iq25 A, _iq25 B);
+//extern _iq24 _IQ24mul(_iq24 A, _iq24 B);
+//extern _iq23 _IQ23mul(_iq23 A, _iq23 B);
+//extern _iq22 _IQ22mul(_iq22 A, _iq22 B);
+//extern _iq21 _IQ21mul(_iq21 A, _iq21 B);
+//extern _iq20 _IQ20mul(_iq20 A, _iq20 B);
+//extern _iq19 _IQ19mul(_iq19 A, _iq19 B);
+//extern _iq18 _IQ18mul(_iq18 A, _iq18 B);
+//extern _iq17 _IQ17mul(_iq17 A, _iq17 B);
+//extern _iq16 _IQ16mul(_iq16 A, _iq16 B);
+//extern _iq15 _IQ15mul(_iq15 A, _iq15 B);
+//extern _iq14 _IQ14mul(_iq14 A, _iq14 B);
+//extern _iq13 _IQ13mul(_iq13 A, _iq13 B);
+//extern _iq12 _IQ12mul(_iq12 A, _iq12 B);
+//extern _iq11 _IQ11mul(_iq11 A, _iq11 B);
+//extern _iq10 _IQ10mul(_iq10 A, _iq10 B);
+//extern _iq9 _IQ9mul(_iq9 A, _iq9 B);
+//extern _iq8 _IQ8mul(_iq8 A, _iq8 B);
+//extern _iq7 _IQ7mul(_iq7 A, _iq7 B);
+//extern _iq6 _IQ6mul(_iq6 A, _iq6 B);
+//extern _iq5 _IQ5mul(_iq5 A, _iq5 B);
+//extern _iq4 _IQ4mul(_iq4 A, _iq4 B);
+//extern _iq3 _IQ3mul(_iq3 A, _iq3 B);
+//extern _iq2 _IQ2mul(_iq2 A, _iq2 B);
+//extern _iq1 _IQ1mul(_iq1 A, _iq1 B);
+
+//#if GLOBAL_Q == 30
+//#define _IQmul(A, B)            _IQ30mul(A, B)
+//#endif
+//#if GLOBAL_Q == 29
+//#define _IQmul(A, B)            _IQ29mul(A, B)
+//#endif
+//#if GLOBAL_Q == 28
+//#define _IQmul(A, B)            _IQ28mul(A, B)
+//#endif
+//#if GLOBAL_Q == 27
+//#define _IQmul(A, B)            _IQ27mul(A, B)
+//#endif
+//#if GLOBAL_Q == 26
+//#define _IQmul(A, B)            _IQ26mul(A, B)
+//#endif
+//#if GLOBAL_Q == 25
+//#define _IQmul(A, B)            _IQ25mul(A, B)
+//#endif
+//#if GLOBAL_Q == 24
+//#define _IQmul(A, B)            _IQ24mul(A, B)
+//#endif
+//#if GLOBAL_Q == 23
+//#define _IQmul(A, B)            _IQ23mul(A, B)
+//#endif
+//#if GLOBAL_Q == 22
+//#define _IQmul(A, B)            _IQ22mul(A, B)
+//#endif
+//#if GLOBAL_Q == 21
+//#define _IQmul(A, B)            _IQ21mul(A, B)
+//#endif
+//#if GLOBAL_Q == 20
+//#define _IQmul(A, B)            _IQ20mul(A, B)
+//#endif
+//#if GLOBAL_Q == 19
+//#define _IQmul(A, B)            _IQ19mul(A, B)
+//#endif
+//#if GLOBAL_Q == 18
+//#define _IQmul(A, B)            _IQ18mul(A, B)
+//#endif
+//#if GLOBAL_Q == 17
+//#define _IQmul(A, B)            _IQ17mul(A, B)
+//#endif
+//#if GLOBAL_Q == 16
+//#define _IQmul(A, B)            _IQ16mul(A, B)
+//#endif
+//#if GLOBAL_Q == 15
+//#define _IQmul(A, B)            _IQ15mul(A, B)
+//#endif
+//#if GLOBAL_Q == 14
+//#define _IQmul(A, B)            _IQ14mul(A, B)
+//#endif
+//#if GLOBAL_Q == 13
+//#define _IQmul(A, B)            _IQ13mul(A, B)
+//#endif
+//#if GLOBAL_Q == 12
+//#define _IQmul(A, B)            _IQ12mul(A, B)
+//#endif
+//#if GLOBAL_Q == 11
+//#define _IQmul(A, B)            _IQ11mul(A, B)
+//#endif
+//#if GLOBAL_Q == 10
+//#define _IQmul(A, B)            _IQ10mul(A, B)
+//#endif
+//#if GLOBAL_Q == 9
+//#define _IQmul(A, B)            _IQ9mul(A, B)
+//#endif
+//#if GLOBAL_Q == 8
+//#define _IQmul(A, B)            _IQ8mul(A, B)
+//#endif
+//#if GLOBAL_Q == 7
+//#define _IQmul(A, B)            _IQ7mul(A, B)
+//#endif
+//#if GLOBAL_Q == 6
+//#define _IQmul(A, B)            _IQ6mul(A, B)
+//#endif
+//#if GLOBAL_Q == 5
+//#define _IQmul(A, B)            _IQ5mul(A, B)
+//#endif
+//#if GLOBAL_Q == 4
+//#define _IQmul(A, B)            _IQ4mul(A, B)
+//#endif
+//#if GLOBAL_Q == 3
+//#define _IQmul(A, B)            _IQ3mul(A, B)
+//#endif
+//#if GLOBAL_Q == 2
+//#define _IQmul(A, B)            _IQ2mul(A, B)
+//#endif
+//#if GLOBAL_Q == 1
+//#define _IQmul(A, B)            _IQ1mul(A, B)
+//#endif
 
 
 

@@ -30,11 +30,11 @@ void main(void)
 {
   
 	
-	   SystemClock();
+	  SystemClock();
 		InitISDDebug(); 
 
 	
-	InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse width
+	//InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse width
   //InitTimer4();                          //start timer1
 	//InitTimer01();
   //	InitADC();                           //ADC use timer0 to trigger AD start
@@ -58,12 +58,12 @@ void main(void)
 //			input =  _IQ10((0.25*PI));           //test IQmathlib
 			
 	
+			P26=1;
 			
+			result=_IQmul(_IQ(6.57),_IQ(-2.5));
+
 			
-//			tbl_out=_IQsin(theta);
-//  			tbl_out=_IQcos(theta);
-//			
-			
+			P26=0;
 	
 //			dac_value=(unsigned char)(pwm_capture>>11);             //check DAC
 //			DAC1_DAT=dac_value;
