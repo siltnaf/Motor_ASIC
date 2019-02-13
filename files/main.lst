@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   MAIN                                                                  01/31/2019 17:01:08 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  02/14/2019 04:12:49 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   52   1          {
   53   2            
   54   2           
-C51 COMPILER V9.54   MAIN                                                                  01/31/2019 17:01:08 PAGE 2   
+C51 COMPILER V9.54   MAIN                                                                  02/14/2019 04:12:49 PAGE 2   
 
   55   2      
   56   2             
@@ -72,7 +72,7 @@ line level    source
   60   2        
   61   2            P26=1;
   62   2            
-  63   2            result=_IQmul(_IQ(6.57),_IQ(-2.5));
+  63   2            result=_IQmul(_IQ(-6.57),_IQ(-2.5));
   64   2      
   65   2            
   66   2            P26=0;
@@ -102,7 +102,7 @@ line level    source
   90          
   91          
   92          
-C51 COMPILER V9.54   MAIN                                                                  01/31/2019 17:01:08 PAGE 3   
+C51 COMPILER V9.54   MAIN                                                                  02/14/2019 04:12:49 PAGE 3   
 
 ASSEMBLY LISTING OF GENERATED OBJECT CODE
 
@@ -130,10 +130,10 @@ ASSEMBLY LISTING OF GENERATED OBJECT CODE
 0012 7500C0      E     MOV     ?__IQmul?BYTE+06H,#0C0H
 0015 7500FE      E     MOV     ?__IQmul?BYTE+05H,#0FEH
 0018 7500FF      E     MOV     ?__IQmul?BYTE+04H,#0FFH
-001B 7FF5              MOV     R7,#0F5H
-001D 7E48              MOV     R6,#048H
-001F 7D03              MOV     R5,#03H
-0021 7C00              MOV     R4,#00H
+001B 7F0B              MOV     R7,#0BH
+001D 7EB7              MOV     R6,#0B7H
+001F 7DFC              MOV     R5,#0FCH
+0021 7CFF              MOV     R4,#0FFH
 0023 120000      E     LCALL   __IQmul
 0026 900000      R     MOV     DPTR,#result
 0029 120000      E     LCALL   ?C?LSTXDATA
@@ -166,7 +166,7 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =     68    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =     32    ----
-C51 COMPILER V9.54   MAIN                                                                  01/31/2019 17:01:08 PAGE 4   
+C51 COMPILER V9.54   MAIN                                                                  02/14/2019 04:12:49 PAGE 4   
 
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----

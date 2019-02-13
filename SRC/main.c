@@ -60,7 +60,7 @@ void main(void)
 	
 			P26=1;
 			
-			result=_IQmul(_IQ(6.57),_IQ(-2.5));
+			result=_IQmul(_IQ(-6.57),_IQ(-2.5));
 
 			
 			P26=0;
