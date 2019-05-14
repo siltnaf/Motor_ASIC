@@ -124,7 +124,7 @@ DPH     DATA    83H
 
                 CSEG    AT      2000h
 				
-Go?C_STARTUP:     LJMP    STARTUP1
+?C_STARTUP:     LJMP    STARTUP1
 				
                 RSEG    ?C_C51STARTUP
 
