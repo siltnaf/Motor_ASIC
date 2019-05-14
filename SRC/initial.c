@@ -8,7 +8,6 @@
 
 
 
-
 void InitEXT(void)
 {	
 //		EINT1_EN=0; 
@@ -581,19 +580,36 @@ void InitTimer01(void)
 
 void InitTimer3(void)
 {
-	T3PS = 0;								// no divider
-	T3RC= 0;               //reset T3 capture register
-	T3CTR=0;               //reset T3 counter
-	T3CT=0;                //capture clock from cpu
-	T3CPRL=1;             //capture mode select
-	T3EXEN=1;             //enable T3 external EX pin
-	T3EX_INV=0;           //T3 EX pin ,trigger on rising edge
-	T3TF_EINT	 =1;			  // timer3 overflow interrupt enable
-	T3TR = 1;				      // start timer3 
-	T3TF=0;               //clear T3 overflow flag
-	T3EXF=0;              //clear T3 EX trigger flag
-	IE1=0;                //clear  EX1 interrupt flag
-	 EX1=1;               //enable EX1 interrupt
+	
+	
+	//capture mode setting
+	
+//	T3PS = 0;								// no divider
+//	T3RC= 0;               //reset T3 capture register
+//	T3CTR=0;               //reset T3 counter
+//	T3CT=0;                //capture clock from cpu
+//	T3CPRL=1;             //capture mode select
+//	T3EXEN=1;             //enable T3 external EX pin
+//	T3EX_INV=0;           //T3 EX pin ,trigger on rising edge
+//	T3TF_EINT	 =1;			  // timer3 overflow interrupt enable
+//	T3TR = 1;				      // start timer3 
+//	T3TF=0;               //clear T3 overflow flag
+//	T3EXF=0;              //clear T3 EX trigger flag
+//	IE1=0;                //clear  EX1 interrupt flag
+//	 EX1=1;               //enable EX1 interrupt
+	
+	//timer mode setting
+	
+		T3PS = 0;								// no divider
+	T3RC = 0xE0C0;
+
+	T3TF_EINT	 =1;							// timer4 overflow interrupt enable
+	T3TR = 1;				// start timer4
+	CLR_T3_INT();
+	EX1 = 1;
+	IE1=0;
+	
+	
 }
 
 void InitTimer4(void)
@@ -637,7 +653,14 @@ void InitTimer6(void)
 }
 void SystemClock(void)
 {
-    RC80M_RES = 0x2e;
+	  
+    RC80M_RES = 0x60;
+	  RC80M_CAP=0x40;
+
+	
+	RC80M_C3=0x4f;            //80MHz RC oscillator set=0x4f ;    40MHz RC oscillator set = 0x59
+   RC80M_C2=0x3f;						//80MHz RC oscillator set=0x3f ;    40MHz RC oscillator set = 0x3a
+	
 	  #pragma asm
 		nop
 		nop
@@ -673,8 +696,36 @@ void SystemClock(void)
 		nop
 		nop
 		#pragma endasm
-	
-	  CLK_DIV_L = 0x02;
+		
+	 	#if sysclk == freq_4MHz
+		CLK_DIV_L = 0x14;
+    #endif
+	  
+		#if sysclk == freq_8MHz
+		CLK_DIV_L = 0x0a;
+    #endif
+		
+		#if sysclk == freq_10MHz
+		CLK_DIV_L = 0x08;
+    #endif
+		
+		#if sysclk == freq_16MHz
+		CLK_DIV_L = 0x05;
+    #endif
+		
+		#if sysclk == freq_20MHz
+		CLK_DIV_L = 0x04;
+    #endif
+		
+		 #if sysclk == freq_40MHz
+		CLK_DIV_L = 0x02;
+    #endif
+		
+		
+		#if sysclk == freq_80MHz
+		CLK_DIV_L = 0x01;
+    #endif
+		
 	  CLK_DIV_H = 0x00;
 		
 		#pragma asm
@@ -726,7 +777,37 @@ void sInitUART1(void)
     WDCON = 0x80;            // 0x80: baud rate = (2^smod) * Fclk / (64 * (2^10 - s0rel));
                               // 0x00: baud rate = (2^smod) * Fclk / (32 * 12 * (256 - th1));
                               // smod = 0;	Fclk = system clock
-    S0RELL = 0xF3;             //Fclk = 8MHz, baud rate = 9600
+//    S0RELL = 0xF3;             //Fclk = 8MHz, baud rate = 9600
+	
+	 	#if sysclk == freq_4MHz
+		S0RELL = 0xF3;							 
+    #endif
+	
+	#if sysclk == freq_8MHz
+		S0RELL = 0xF3;							 
+    #endif
+	
+		#if sysclk == freq_10MHz
+		S0RELL = 0xF1;							 
+    #endif
+	
+		#if sysclk == freq_16MHz
+		S0RELL = 0xe6;							 
+    #endif
+	
+		#if sysclk == freq_20MHz
+		S0RELL = 0xe2;							 
+    #endif
+	
+	#if sysclk == freq_40MHz
+			 S0RELL = 0xbf;							 
+    #endif
+ 
+	
+	#if sysclk == freq_80MHz
+			 S0RELL = 0x7e;							 
+    #endif
+	
     S0RELH = 0x03;	
 }
 

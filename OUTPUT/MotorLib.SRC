@@ -64,6 +64,7 @@ P3CMPA	DATA	0D3H
 P2CMPB	DATA	0C5H
 P4CMPA	DATA	0E3H
 P3CMPB	DATA	0D5H
+BSHI	DATA	0ACH
 P4CMPB	DATA	0E5H
 P1TBPRD_H	DATA	0A2H
 P2TBPRD_H	DATA	0C2H
@@ -71,6 +72,7 @@ P3TBPRD_H	DATA	0D2H
 P4TBPRD_H	DATA	0E2H
 P1TBPRD_L	DATA	0A1H
 P2TBPRD_L	DATA	0C1H
+BSHO	DATA	0BCH
 P3TBPRD_L	DATA	0D1H
 P4TBPRD_L	DATA	0E1H
 BREAKH	DATA	095H
@@ -219,20 +221,7 @@ P1ETCLR	DATA	0B6H
 ?DT?_EE_write?MOTORLIB                   SEGMENT DATA 
 ?PR?_EE_read?MOTORLIB                    SEGMENT CODE 
 ?DT?_EE_read?MOTORLIB                    SEGMENT DATA 
-?PR?_sin?MOTORLIB    SEGMENT CODE 
-?DT?_sin?MOTORLIB    SEGMENT DATA 
-?PR?_Normalize?MOTORLIB                  SEGMENT CODE 
-?DT?_Normalize?MOTORLIB                  SEGMENT DATA 
-?C_INITSEG           SEGMENT CODE 
-?XD?MOTORLIB         SEGMENT XDATA 
-?DT?MOTORLIB         SEGMENT DATA 
 	EXTRN	CODE (?C?LSTXDATA)
-	PUBLIC	tDebugTable
-	PUBLIC	_div_remainder
-	PUBLIC	_md_error
-	PUBLIC	_div_denominator
-	PUBLIC	_Normalize
-	PUBLIC	_sin
 	PUBLIC	_EE_read
 	PUBLIC	?_EE_write?BYTE
 	PUBLIC	_EE_write
@@ -246,41 +235,6 @@ P1ETCLR	DATA	0B6H
     EE_addr?040:   DS   1
 	ORG  1
     EE_data?041:   DS   4
-
-	RSEG  ?DT?_Normalize?MOTORLIB
-?_Normalize?BYTE:
-       Data?345:   DS   4
-	ORG  4
-         LD?346:   DS   4
-
-	RSEG  ?DT?_sin?MOTORLIB
-?_sin?BYTE:
-        dat?243:   DS   2
-	ORG  2
-      value?244:   DS   2
-
-	RSEG  ?XD?MOTORLIB
-_div_denominator:   DS   2
-      _md_error:   DS   1
- _div_remainder:   DS   2
-
-	RSEG  ?DT?MOTORLIB
-    tDebugTable:   DS   10
-
-	RSEG  ?C_INITSEG
-	DB	00AH
-	DB	tDebugTable
-	DB	001H
-	DB	002H
-	DB	003H
-	DB	004H
-	DB	005H
-	DB	006H
-	DB	007H
-	DB	008H
-	DB	009H
-	DB	00AH
-
 ; /*
 ;  * lib.c
 ;  *	Copy Right (c) of JE
@@ -310,17 +264,9 @@ _div_denominator:   DS   2
 ; #include <absacc.h>
 ; #include "register.h"
 ; #include "motorLib.h"
+; #include "IQmathLib.h"
 ; 
 ; 
-; 
-; volatile U8 xdata _md_error;// _at_ (0xDFFF);
-; volatile U16 xdata _div_remainder;// _at_ (0xDFFD);
-; volatile U16 xdata _div_denominator;// _at_ (0xA4FB);
-; 
-; #pragma asm
-  								CSEG    AT      4000h
-; #pragma endasm
-; const unsigned char tDebugTable[10] = {1,2,3,4,5,6,7,8,9,10};
 ; 
 ; 
 ; 
@@ -336,19 +282,21 @@ _div_denominator:   DS   2
 ;  * @return 	none
 ;  */
 ; 
-;  void EE_write(U8 EE_addr, U32 EE_data)
+; 
+; 
+;  void EE_write(U8  EE_addr, U32  EE_data)
 
 	RSEG  ?PR?_EE_write?MOTORLIB
 _EE_write:
 	USING	0
-			; SOURCE LINE # 56
+			; SOURCE LINE # 50
 	MOV  	EE_addr?040,R7
 ; {
-			; SOURCE LINE # 57
+			; SOURCE LINE # 51
 ?C0001:
 ; 	
 ; 			while (MTP_BUSY==1);
-			; SOURCE LINE # 59
+			; SOURCE LINE # 53
 	MOV  	DPTR,#0E08EH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -362,22 +310,22 @@ _EE_write:
 	JB   	ACC.0,?C0001
 ?C0002:
 ; 			MTPCON2=0x53;         //init MTP write mode
-			; SOURCE LINE # 60
+			; SOURCE LINE # 54
 	MOV  	DPTR,#0E08FH
 	MOV  	A,#053H
 	MOVX 	@DPTR,A
 ; 			MTPSADD1=EE_addr;       // EEPROM address
-			; SOURCE LINE # 61
+			; SOURCE LINE # 55
 	MOV  	DPTR,#0E091H
 	MOV  	A,EE_addr?040
 	MOVX 	@DPTR,A
 ; 			MTPSADD2=0x00;
-			; SOURCE LINE # 62
+			; SOURCE LINE # 56
 	MOV  	DPTR,#0E092H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 			MTPDATA=EE_data;
-			; SOURCE LINE # 63
+			; SOURCE LINE # 57
 	MOV  	R7,EE_data?041+03H
 	MOV  	R6,EE_data?041+02H
 	MOV  	R5,EE_data?041+01H
@@ -386,14 +334,14 @@ _EE_write:
 	LCALL	?C?LSTXDATA
 ; 			
 ; 			MTPCON1=0x0b;				//start 
-			; SOURCE LINE # 65
+			; SOURCE LINE # 59
 	MOV  	DPTR,#0E08EH
 	MOV  	A,#0BH
 	MOVX 	@DPTR,A
 ?C0003:
 ; 			
 ; 			while (MTP_WRITE==0);
-			; SOURCE LINE # 67
+			; SOURCE LINE # 61
 	MOV  	DPTR,#0E08EH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -406,13 +354,13 @@ _EE_write:
 	JNB  	ACC.0,?C0003
 ?C0004:
 ; 			MTPCON1=0x0;
-			; SOURCE LINE # 68
+			; SOURCE LINE # 62
 	MOV  	DPTR,#0E08EH
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 	
 ; }
-			; SOURCE LINE # 70
+			; SOURCE LINE # 64
 ?C0005:
 	RET  	
 ; END OF _EE_write
@@ -435,14 +383,14 @@ _EE_write:
 	RSEG  ?PR?_EE_read?MOTORLIB
 _EE_read:
 	USING	0
-			; SOURCE LINE # 84
+			; SOURCE LINE # 78
 	MOV  	EE_addr?142,R7
 ; {
-			; SOURCE LINE # 85
+			; SOURCE LINE # 79
 ?C0006:
 ; 	
 ; 			while (MTP_BUSY==1);
-			; SOURCE LINE # 87
+			; SOURCE LINE # 81
 	MOV  	DPTR,#0E08EH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -456,28 +404,28 @@ _EE_read:
 	JB   	ACC.0,?C0006
 ?C0007:
 ; 			MTPCON2=0x55;         //init MTP read mode
-			; SOURCE LINE # 88
+			; SOURCE LINE # 82
 	MOV  	DPTR,#0E08FH
 	MOV  	A,#055H
 	MOVX 	@DPTR,A
 ; 			MTPSADD1=EE_addr;       //
-			; SOURCE LINE # 89
+			; SOURCE LINE # 83
 	MOV  	DPTR,#0E091H
 	MOV  	A,EE_addr?142
 	MOVX 	@DPTR,A
 ; 			MTPSADD2=0x00;
-			; SOURCE LINE # 90
+			; SOURCE LINE # 84
 	MOV  	DPTR,#0E092H
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 			MTPCON1=0x07;					//start
-			; SOURCE LINE # 91
+			; SOURCE LINE # 85
 	MOV  	DPTR,#0E08EH
 	MOV  	A,#07H
 	MOVX 	@DPTR,A
 ?C0008:
 ; 			while (MTP_READ==0);
-			; SOURCE LINE # 92
+			; SOURCE LINE # 86
 	MOV  	DPTR,#0E08EH
 	MOVX 	A,@DPTR
 	MOV  	R7,A
@@ -489,12 +437,12 @@ _EE_read:
 	JNB  	ACC.0,?C0008
 ?C0009:
 ; 			MTPCON1=0x0;
-			; SOURCE LINE # 93
+			; SOURCE LINE # 87
 	MOV  	DPTR,#0E08EH
 	CLR  	A
 	MOVX 	@DPTR,A
 ; 			return MTPDATA;
-			; SOURCE LINE # 94
+			; SOURCE LINE # 88
 	MOV  	DPTR,#0E093H
 	MOVX 	A,@DPTR
 	MOV  	R4,A
@@ -509,143 +457,9 @@ _EE_read:
 	MOV  	R7,A
 ; 	
 ; }
-			; SOURCE LINE # 96
+			; SOURCE LINE # 90
 ?C0010:
 	RET  	
 ; END OF _EE_read
-
-; 
-; 
-; 
-; 
-; 
-; 
-; /*
-;  * @fn		sin16
-;  *
-;  * @brief	sin16
-;  * 
-;  * @param	none
-;  * sin(x) , where x is 
-; 
-;  *
-;  * @return 	none
-;  */
-; S16 sin(S16 dat)
-
-	RSEG  ?PR?_sin?MOTORLIB
-_sin:
-	USING	0
-			; SOURCE LINE # 114
-	MOV  	dat?243,R6
-	MOV  	dat?243+01H,R7
-; {
-			; SOURCE LINE # 115
-; volatile signed int value;
-; 	value= XWORD[dat];
-			; SOURCE LINE # 117
-	MOV  	A,dat?243+01H
-	ADD  	A,ACC
-	MOV  	R7,A
-	MOV  	A,dat?243
-	RLC  	A
-	MOV  	R6,A
-	MOV  	DPL,R7
-	MOV  	DPH,R6
-	MOVX 	A,@DPTR
-	MOV  	value?244,A
-	INC  	DPTR
-	MOVX 	A,@DPTR
-	MOV  	value?244+01H,A
-; 	
-; return value;
-			; SOURCE LINE # 119
-	MOV  	R6,value?244
-	MOV  	R7,value?244+01H
-; 	
-; }
-			; SOURCE LINE # 121
-?C0011:
-	RET  	
-; END OF _sin
-
-; 
-; 
-; 
-; S32 Normalize(S32 Data)
-
-	RSEG  ?PR?_Normalize?MOTORLIB
-_Normalize:
-	USING	0
-			; SOURCE LINE # 125
-	MOV  	Data?345+03H,R7
-	MOV  	Data?345+02H,R6
-	MOV  	Data?345+01H,R5
-	MOV  	Data?345,R4
-; {
-			; SOURCE LINE # 126
-;  Long_Data LD;
-;  LD.Ldata =Data;
-			; SOURCE LINE # 128
-	MOV  	R7,Data?345+03H
-	MOV  	R6,Data?345+02H
-	MOV  	R5,Data?345+01H
-	MOV  	R4,Data?345
-	MOV  	LD?346+03H,R7
-	MOV  	LD?346+02H,R6
-	MOV  	LD?346+01H,R5
-	MOV  	LD?346,R4
-;  MD0 = LD.ss1.Byte0;
-			; SOURCE LINE # 129
-	MOV  	MD0,LD?346+03H
-;  MD1 = LD.ss1.Byte1;
-			; SOURCE LINE # 130
-	MOV  	MD1,LD?346+02H
-;  MD2 = LD.ss1.Byte2;
-			; SOURCE LINE # 131
-	MOV  	MD2,LD?346+01H
-;  MD3 = LD.ss1.Byte3;
-			; SOURCE LINE # 132
-	MOV  	MD3,LD?346
-;  ARCON = 0x00 ; // Start Normalizing
-			; SOURCE LINE # 133
-	MOV  	ARCON,#00H
-?C0012:
-;  while(MD3_7==0 ); //check MDU finish flag
-			; SOURCE LINE # 134
-	MOV  	A,MD3
-	JNB  	ACC.7,?C0014
-	MOV  	R7,#01H
-	SJMP 	?C0015
-?C0014:
-	MOV  	R7,#00H
-?C0015:
-	MOV  	A,R7
-	JZ   	?C0012
-?C0013:
-; 	LD.ss1.Byte0=MD0;
-			; SOURCE LINE # 135
-	MOV  	LD?346+03H,MD0
-; 	LD.ss1.Byte1=MD1;
-			; SOURCE LINE # 136
-	MOV  	LD?346+02H,MD1
-; 	LD.ss1.Byte2=MD2;
-			; SOURCE LINE # 137
-	MOV  	LD?346+01H,MD2
-; 	LD.ss1.Byte3=MD3;
-			; SOURCE LINE # 138
-	MOV  	LD?346,MD3
-;  
-; 	 return LD.Ldata ;
-			; SOURCE LINE # 140
-	MOV  	R7,LD?346+03H
-	MOV  	R6,LD?346+02H
-	MOV  	R5,LD?346+01H
-	MOV  	R4,LD?346
-; }
-			; SOURCE LINE # 141
-?C0016:
-	RET  	
-; END OF _Normalize
 
 	END

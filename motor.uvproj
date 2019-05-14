@@ -128,7 +128,7 @@
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
             <RunToMain>0</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
-            <RestoreWatchpoints>1</RestoreWatchpoints>
+            <RestoreWatchpoints>0</RestoreWatchpoints>
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
             <RestoreFunctions>1</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
@@ -138,7 +138,7 @@
           <Target>
             <UseTarget>1</UseTarget>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
-            <RunToMain>0</RunToMain>
+            <RunToMain>1</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
             <RestoreWatchpoints>1</RestoreWatchpoints>
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
@@ -161,7 +161,7 @@
             <CpuDllArguments></CpuDllArguments>
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
-            <InitializationFile></InitializationFile>
+            <InitializationFile>.\LIB\debug.ini</InitializationFile>
             <Driver>BIN\ISD51.DLL</Driver>
           </TargetDlls>
         </DebugOption>
@@ -474,6 +474,16 @@
               <FileName>ISD51.A51</FileName>
               <FileType>2</FileType>
               <FilePath>.\SRC\ISD51.A51</FilePath>
+            </File>
+            <File>
+              <FileName>IQmathLib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\SRC\IQmathLib.c</FilePath>
+            </File>
+            <File>
+              <FileName>IQmathasm.A51</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\SRC\IQmathasm.A51</FilePath>
             </File>
           </Files>
         </Group>

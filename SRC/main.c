@@ -11,23 +11,26 @@
 
 
 
- unsigned int ADresult;
- unsigned int data_value;
+ unsigned int xdata ADresult;
+ unsigned char xdata tmr3_ov,capture_flag;
+ unsigned long xdata last_capture,this_capture,pwm_capture;
+
+
+  
+
  
- unsigned char tmr3_ov,dac_value;
- unsigned long last_capture,this_capture, pwm_capture;
+_iq xdata  result,theta,beta  ;     //gobal_q =24
  
-_iq input,sin_out;     //gobal_q =24
+U32 xdata EE_data;
  
-U32 EE_data;
-S32 math_data;
-U8  index; 
+
+
 
 void main(void)
 {
-   	#if ISDDebug == DISABLE_ISD
-    SystemClock();
-    #endif
+  
+	
+	  SystemClock();
 		InitISDDebug(); 
 
 	
@@ -43,22 +46,24 @@ void main(void)
 	//InitComparator();
 	Initepwm();
 	
+		P26=1;
 		EAL=1;
     while(1)
     {
 			
 		 
-		math_data=Normalize(0x80000324);
-			index=ARCON;
-			
-			math_data=math_data>>index;
+
 			 
 			
 //			input =  _IQ10((0.25*PI));           //test IQmathlib
 			
 	
+			P26=1;
 			
+			result=_IQmul(_IQ(-6.57),_IQ(-2.5));
+
 			
+			P26=0;
 	
 //			dac_value=(unsigned char)(pwm_capture>>11);             //check DAC
 //			DAC1_DAT=dac_value;

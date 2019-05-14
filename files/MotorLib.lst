@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 C51 COMPILER V9.54   MOTORLIB                                                              11/11/2018 22:11:41 PAGE 1   
+=======
+C51 COMPILER V9.54   MOTORLIB                                                              02/14/2019 14:52:12 PAGE 1   
+>>>>>>> cc0719c57398d22808f064b280f516faf895e0c6
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MOTORLIB
@@ -37,20 +41,21 @@ line level    source
   27          #include <absacc.h>
   28          #include "register.h"
   29          #include "motorLib.h"
-  30          
+  30          #include "IQmathLib.h"
   31          
   32          
-  33          volatile U8 xdata _md_error;// _at_ (0xDFFF);
-  34          volatile U16 xdata _div_remainder;// _at_ (0xDFFD);
-  35          volatile U16 xdata _div_denominator;// _at_ (0xA4FB);
-  36          
-  37          #pragma asm
-  38                          CSEG    AT      4000h
-  39          #pragma endasm
-  40          const unsigned char tDebugTable[10] = {1,2,3,4,5,6,7,8,9,10};
-  41          
-  42          
+  33          
+  34          
+  35          
+  36          /*
+  37           * @fn    EE_write
+  38           *
+  39           * @brief write data to EEPROM , 64x32 bit
+  40           * 
+  41           * @param none
+  42           * EE_write(eeprom address, eeprom data)
   43          
+<<<<<<< HEAD
   44          /*
   45           * @fn    EE_write
   46           *
@@ -63,51 +68,66 @@ line level    source
   53           * @return  none
   54           */
 C51 COMPILER V9.54   MOTORLIB                                                              11/11/2018 22:11:41 PAGE 2   
+=======
+  44           *
+  45           * @return  none
+  46           */
+  47          
+  48          
+  49          
+  50           void EE_write(U8  EE_addr, U32  EE_data)
+  51          {
+  52   1        
+  53   1            while (MTP_BUSY==1);
+  54   1            MTPCON2=0x53;         //init MTP write mode
+C51 COMPILER V9.54   MOTORLIB                                                              02/14/2019 14:52:12 PAGE 2   
+>>>>>>> cc0719c57398d22808f064b280f516faf895e0c6
 
-  55          
-  56           void EE_write(U8 EE_addr, U32 EE_data)
-  57          {
-  58   1        
-  59   1            while (MTP_BUSY==1);
-  60   1            MTPCON2=0x53;         //init MTP write mode
-  61   1            MTPSADD1=EE_addr;       // EEPROM address
-  62   1            MTPSADD2=0x00;
-  63   1            MTPDATA=EE_data;
-  64   1            
-  65   1            MTPCON1=0x0b;       //start 
-  66   1            
-  67   1            while (MTP_WRITE==0);
-  68   1            MTPCON1=0x0;
-  69   1        
-  70   1      }
-  71          
-  72          /*
-  73           * @fn    EE_read
+  55   1            MTPSADD1=EE_addr;       // EEPROM address
+  56   1            MTPSADD2=0x00;
+  57   1            MTPDATA=EE_data;
+  58   1            
+  59   1            MTPCON1=0x0b;       //start 
+  60   1            
+  61   1            while (MTP_WRITE==0);
+  62   1            MTPCON1=0x0;
+  63   1        
+  64   1      }
+  65          
+  66          /*
+  67           * @fn    EE_read
+  68           *
+  69           * @brief read data from EEPROM , 64x32 bit
+  70           * 
+  71           * @param none
+  72           * EE_read(eeprom address)
+  73          
   74           *
-  75           * @brief read data from EEPROM , 64x32 bit
-  76           * 
-  77           * @param none
-  78           * EE_read(eeprom address)
-  79          
-  80           *
-  81           * @return  eprom data
-  82           */
-  83          
-  84          U32 EE_read(U8 EE_addr)
-  85          {
-  86   1        
-  87   1            while (MTP_BUSY==1);
-  88   1            MTPCON2=0x55;         //init MTP read mode
-  89   1            MTPSADD1=EE_addr;       //
-  90   1            MTPSADD2=0x00;
-  91   1            MTPCON1=0x07;         //start
-  92   1            while (MTP_READ==0);
-  93   1            MTPCON1=0x0;
-  94   1            return MTPDATA;
-  95   1        
-  96   1      }
+  75           * @return  eprom data
+  76           */
+  77          
+  78          U32 EE_read(U8 EE_addr)
+  79          {
+  80   1        
+  81   1            while (MTP_BUSY==1);
+  82   1            MTPCON2=0x55;         //init MTP read mode
+  83   1            MTPSADD1=EE_addr;       //
+  84   1            MTPSADD2=0x00;
+  85   1            MTPCON1=0x07;         //start
+  86   1            while (MTP_READ==0);
+  87   1            MTPCON1=0x0;
+  88   1            return MTPDATA;
+  89   1        
+  90   1      }
+  91          
+  92          
+  93          
+  94          
+  95          
+  96          
   97          
   98          
+<<<<<<< HEAD
   99          
  100          
  101          
@@ -154,14 +174,16 @@ line level    source
  140   1         return LD.Ldata ;
  141   1      }
  142          
+=======
+>>>>>>> cc0719c57398d22808f064b280f516faf895e0c6
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    254    ----
+   CODE SIZE        =    151    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =      5    ----
+   XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     28    ----
+   DATA SIZE        =      6    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

@@ -104,6 +104,7 @@ void TIMER3Interrupt(void)  interrupt 23
 	if (T3TF==1)
 	{
 		tmr3_ov++;
+//		P26=~P26;
 	
 		T3TF=0;
 	}

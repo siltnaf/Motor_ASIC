@@ -1,0 +1,209 @@
+A51 MACRO ASSEMBLER  IQMATHASM                                                            02/14/2019 14:52:12 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\OUTPUT\IQmathasm.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE SRC\IQmathasm.A51 INCDIR(.\INC) SET(SMALL) DEBUG PRINT(.\files\IQmathas
+                      m.lst) OBJECT(.\OUTPUT\IQmathasm.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+                       2     
+                       3     
+                       4     
+  00AC                 5     BSHI_0  DATA    0ACH
+  00AD                 6     BSHI_1  DATA    0ADH
+  00AE                 7     BSHI_2  DATA    0AEH
+  00AF                 8     BSHI_3  DATA    0AFH
+  00BC                 9     BSHO_0  DATA    0BCH
+  00BD                10     BSHO_1  DATA    0BDH
+  00BE                11     BSHO_2  DATA    0BEH
+  00BF                12     BSHO_3  DATA    0BFH
+  00AB                13     BSHCTL  DATA    0ABH
+  00E9                14     MD0     DATA    0E9H
+  00EA                15     MD1     DATA    0EAH    
+  00EB                16     MD2     DATA    0EBH    
+  00EC                17     MD3     DATA    0ECH    
+  00EF                18     ARCON   DATA    0EFH    
+                      19     
+                      20     ?PR?_BarrelShift?IQMATHASM                              SEGMENT CODE 
+                      21     ?DT?_BarrelShift?IQMATHASM                              SEGMENT DATA  
+                      22     ?PR?_Normalize?IQMATHASM                SEGMENT CODE 
+                      23     ?DT?_Normalize?IQMATHASM                SEGMENT DATA 
+                      24     ?PR?__IQabs?IQMATHASM                   SEGMENT CODE 
+                      25     ?DT?__IQabs?IQMATHASM                   SEGMENT DATA    
+                      26             
+                      27             
+                      28     EXTRN   CODE (?C?LNEG)
+                      29             
+                      30     PUBLIC  ?_BarrelShift?BYTE
+                      31     PUBLIC  _BarrelShift
+                      32     PUBLIC  _Normalize      
+                      33     PUBLIC  __IQabs 
+                      34             
+                      35             
+----                  36     RSEG  ?DT?_BarrelShift?IQMATHASM 
+                      37             
+0000                  38     ?_BarrelShift?BYTE:
+0000                  39              in?040:   DS   4
+0004                  40             ORG  4
+0004                  41             cmd:   DS   1
+                      42     
+                      43     
+----                  44     RSEG  ?DT?_Normalize?IQMATHASM
+                      45     
+0000                  46     ?_Normalize?BYTE:
+0000                  47                     A?142:DS   4
+                      48                             
+----                  49     RSEG  ?DT?__IQabs?IQMATHASM
+                      50     
+0000                  51     ?__IQabs?BYTE:
+0000                  52                     A?143:DS   4
+                      53                                                     
+                      54                             
+                      55     
+                      56     ; //barrel shift
+                      57     ; /***************************************************
+A51 MACRO ASSEMBLER  IQMATHASM                                                            02/14/2019 14:52:12 PAGE     2
+
+                      58     ;  * Implements
+                      59     ;  */
+                      60     ; /*
+                      61     ;  * @fn                BarrelShift
+                      62     ;  *
+                      63     ;  * @brief     BarrelShift
+                      64     ;  * 
+                      65     ;  * @param     none
+                      66     ;  *
+                      67     ;  * @return    none
+                      68     ;  */
+                      69     
+                      70             
+                      71     
+                      72     ; S32 BarrelShift(S32 in, S8 cmd)
+                      73     
+----                  74     RSEG  ?PR?_BarrelShift?IQMATHASM
+0000                  75     _BarrelShift:
+                      76             USING   0
+                      77                     
+0000 8500AB   F       78             MOV     BSHCTL,cmd
+0003 8CAF             79             MOV     BSHI_3, R4
+0005 8DAE             80             MOV     BSHI_2, R5
+0007 8EAD             81             MOV     BSHI_1, R6
+0009 8FAC             82             MOV     BSHI_0, R7
+000B ACBF             83             MOV     R4,BSHO_3
+000D ADBE             84             MOV     R5,BSHO_2
+000F AEBD             85             MOV     R6,BSHO_1
+0011 AFBC             86             MOV     R7,BSHO_0
+0013 22               87             RET  
+                      88     
+                      89                     
+                      90     
+                      91     ; //barrel shift
+                      92     ; /***************************************************
+                      93     ;  * Implements
+                      94     ;  */
+                      95     ; /*
+                      96     ;  * @fn                Normaloize
+                      97     ;  *
+                      98     ;  * @brief     Normalize
+                      99     ;  * 
+                     100     ;  * @param     none
+                     101     ;  *
+                     102     ;  * @return    
+                     103     ;  */ index=ARCON;
+                     104     
+                     105             
+                     106     
+                     107     ; S32 Normalize(S32 in)
+                     108     
+                     109     
+----                 110     RSEG  ?PR?_Normalize?IQMATHASM
+0000                 111      _Normalize:
+0000 8FE9            112             MOV     MD0,R7
+0002 8EEA            113             MOV     MD1,R6
+0004 8DEB            114             MOV             MD2,R5
+0006 8CEC            115             MOV             MD3,R4
+0008 75EF00          116             MOV     ARCON,#00H
+000B                 117     ?C0002:
+                     118      
+000B E5EC            119         MOV     A,MD3
+000D 30E704          120         JNB     ACC.7,?C0004
+0010 7F01            121         MOV     R7,#01H
+0012 8002            122         SJMP    ?C0005
+0014                 123     ?C0004:
+A51 MACRO ASSEMBLER  IQMATHASM                                                            02/14/2019 14:52:12 PAGE     3
+
+0014 7F00            124         MOV     R7,#00H
+0016                 125     ?C0005:
+0016 EF              126         MOV     A,R7
+0017 60F2            127         JZ      ?C0002
+0019                 128     ?C0003: 
+0019 AFE9            129             MOV     R7,MD0
+001B AEEA            130             MOV             R6,MD1
+001D ADEB            131             MOV             R5,MD2
+001F ACEC            132             MOV             R4,MD3
+0021 22              133             RET
+                     134             
+                     135     
+----                 136     RSEG  ?PR?__IQabs?IQMATHASM
+0000                 137      __IQabs:
+0000 EC              138               MOV     A,R4
+0001 30E703          139               JNB     ACC.7,?C0007
+0004 120000   F      140               LCALL   ?C?LNEG
+                     141     
+0007                 142     ?C0007:         
+0007 22              143               RET
+                     144     END
+A51 MACRO ASSEMBLER  IQMATHASM                                                            02/14/2019 14:52:12 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                     T Y P E  V A L U E   ATTRIBUTES
+
+?C0002 . . . . . . . . . .  C ADDR   000BH   R   SEG=?PR?_NORMALIZE?IQMATHASM
+?C0003 . . . . . . . . . .  C ADDR   0019H   R   SEG=?PR?_NORMALIZE?IQMATHASM
+?C0004 . . . . . . . . . .  C ADDR   0014H   R   SEG=?PR?_NORMALIZE?IQMATHASM
+?C0005 . . . . . . . . . .  C ADDR   0016H   R   SEG=?PR?_NORMALIZE?IQMATHASM
+?C0007 . . . . . . . . . .  C ADDR   0007H   R   SEG=?PR?__IQABS?IQMATHASM
+?C?LNEG. . . . . . . . . .  C ADDR   -----       EXT
+?DT?_BARRELSHIFT?IQMATHASM  D SEG    0005H       REL=UNIT
+?DT?_NORMALIZE?IQMATHASM .  D SEG    0004H       REL=UNIT
+?DT?__IQABS?IQMATHASM. . .  D SEG    0004H       REL=UNIT
+?PR?_BARRELSHIFT?IQMATHASM  C SEG    0014H       REL=UNIT
+?PR?_NORMALIZE?IQMATHASM .  C SEG    0022H       REL=UNIT
+?PR?__IQABS?IQMATHASM. . .  C SEG    0008H       REL=UNIT
+?_BARRELSHIFT?BYTE . . . .  D ADDR   0000H   R   SEG=?DT?_BARRELSHIFT?IQMATHASM
+?_NORMALIZE?BYTE . . . . .  D ADDR   0000H   R   SEG=?DT?_NORMALIZE?IQMATHASM
+?__IQABS?BYTE. . . . . . .  D ADDR   0000H   R   SEG=?DT?__IQABS?IQMATHASM
+A?142. . . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?_NORMALIZE?IQMATHASM
+A?143. . . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?__IQABS?IQMATHASM
+ACC. . . . . . . . . . . .  D ADDR   00E0H   A   
+ARCON. . . . . . . . . . .  D ADDR   00EFH   A   
+BSHCTL . . . . . . . . . .  D ADDR   00ABH   A   
+BSHI_0 . . . . . . . . . .  D ADDR   00ACH   A   
+BSHI_1 . . . . . . . . . .  D ADDR   00ADH   A   
+BSHI_2 . . . . . . . . . .  D ADDR   00AEH   A   
+BSHI_3 . . . . . . . . . .  D ADDR   00AFH   A   
+BSHO_0 . . . . . . . . . .  D ADDR   00BCH   A   
+BSHO_1 . . . . . . . . . .  D ADDR   00BDH   A   
+BSHO_2 . . . . . . . . . .  D ADDR   00BEH   A   
+BSHO_3 . . . . . . . . . .  D ADDR   00BFH   A   
+CMD. . . . . . . . . . . .  D ADDR   0004H   R   SEG=?DT?_BARRELSHIFT?IQMATHASM
+IN?040 . . . . . . . . . .  D ADDR   0000H   R   SEG=?DT?_BARRELSHIFT?IQMATHASM
+MD0. . . . . . . . . . . .  D ADDR   00E9H   A   
+MD1. . . . . . . . . . . .  D ADDR   00EAH   A   
+MD2. . . . . . . . . . . .  D ADDR   00EBH   A   
+MD3. . . . . . . . . . . .  D ADDR   00ECH   A   
+_BARRELSHIFT . . . . . . .  C ADDR   0000H   R   SEG=?PR?_BARRELSHIFT?IQMATHASM
+_NORMALIZE . . . . . . . .  C ADDR   0000H   R   SEG=?PR?_NORMALIZE?IQMATHASM
+__IQABS. . . . . . . . . .  C ADDR   0000H   R   SEG=?PR?__IQABS?IQMATHASM
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
