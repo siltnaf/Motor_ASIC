@@ -41,7 +41,7 @@ void main(void)
 		InitGPIO();
 	//	InitEXT();
 	//InitComparator();
-	//Initepwm();
+	Initepwm();
 	
 		EAL=1;
     while(1)
