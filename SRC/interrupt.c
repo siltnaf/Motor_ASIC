@@ -179,8 +179,18 @@ void TIMER5Interrupt(void)  interrupt 21
 	T5TF=0;
 	T5EXF=0;
 
+	if (timer5_flag==0)
+		{
+		timer5_flag=1;
+		P26=1;
+		}
+		else
+			{			
+				timer5_flag=0;
+				P26=0;
+			}
+	   //             test with led output
 	
-	P26= ~P26;
 	if ((T5_INT==0)&&(EPWM_INT(4)==0))
 		IEX3=0;
 	
@@ -191,10 +201,13 @@ void TIMER6Interrupt(void)  interrupt 24
 
 	T6TF=0;
 	T6EXF=0;
+  if (timer5_flag==1)
+			P26= ~P26 ;  //           test with led output
+			else P26=0;
 	
 	if ((I2C_INT==0)&&(SPI_INT==0)&&(EFLASH_INT==0)&&(T6_INT==0))
 		IEX5=0;
-	P26=~P26;
+	
 	
 }
 

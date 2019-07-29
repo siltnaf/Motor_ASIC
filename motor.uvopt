@@ -134,7 +134,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>ISD51</Key>
-          <Name>-S7 -B9600 -O719</Name>
+          <Name>-S3 -B9600 -O719</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -142,24 +142,7 @@
           <Name>(98=-1,-1,-1,-1,0)(82=-1,-1,-1,-1,0)(83=-1,-1,-1,-1,0)(84=-1,-1,-1,-1,0)(85=-1,-1,-1,-1,0)(80=-1,-1,-1,-1,0)(91=-1,-1,-1,-1,0)(92=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>61</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>-16758859</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>SRC\MAIN.C</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\motor\MAIN\61</Expression>
-        </Bp>
-      </Breakpoint>
+      <Breakpoint/>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -293,7 +276,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
-        <aLwin>0</aLwin>
+        <aLwin>1</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>
@@ -333,7 +316,7 @@
       <FileNumber>1</FileNumber>
       <FileType>2</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
+      <Focus>1</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\SRC\STARTUP.A51</PathWithFileName>
@@ -346,7 +329,7 @@
       <FileNumber>2</FileNumber>
       <FileType>1</FileType>
       <tvExp>1</tvExp>
-      <Focus>0</Focus>
+      <Focus>1</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\SRC\main.c</PathWithFileName>
@@ -359,7 +342,7 @@
       <FileNumber>3</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
+      <Focus>1</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\SRC\initial.c</PathWithFileName>
@@ -372,7 +355,7 @@
       <FileNumber>4</FileNumber>
       <FileType>1</FileType>
       <tvExp>1</tvExp>
-      <Focus>0</Focus>
+      <Focus>1</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\SRC\interrupt.c</PathWithFileName>
@@ -385,7 +368,7 @@
       <FileNumber>5</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
+      <Focus>1</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\SRC\MotorLib.c</PathWithFileName>
@@ -398,7 +381,7 @@
       <FileNumber>6</FileNumber>
       <FileType>2</FileType>
       <tvExp>1</tvExp>
-      <Focus>0</Focus>
+      <Focus>1</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\SRC\ISD51.A51</PathWithFileName>
@@ -411,7 +394,7 @@
       <FileNumber>7</FileNumber>
       <FileType>1</FileType>
       <tvExp>1</tvExp>
-      <Focus>0</Focus>
+      <Focus>1</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\SRC\IQmathLib.c</PathWithFileName>
@@ -424,7 +407,7 @@
       <FileNumber>8</FileNumber>
       <FileType>2</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
+      <Focus>1</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\SRC\IQmathasm.A51</PathWithFileName>

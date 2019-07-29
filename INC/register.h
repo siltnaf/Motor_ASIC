@@ -1339,7 +1339,7 @@ sfr	P4ETFRC		= 0xf7;
 		#define T5CPRL						 	BITREF(T5CON,0)	
 		#define T5CT							 	BITREF(T5CON,1)
 		#define T5TR								BITREF(T5CON,2)
-		#define T5EXEN		dsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss					BITREF(T5CON,3)
+		#define T5EXEN		    			BITREF(T5CON,3)
 		#define T5EXF_EINT					BITREF(T5CON,4)
 		#define T5TF_EINT						BITREF(T5CON,5)
 		#define T5EXF								BITREF(T5CON,6)
@@ -1355,6 +1355,8 @@ sfr	P4ETFRC		= 0xf7;
 #define   T5RC	     			(*(unsigned int volatile xdata *)0xe0f7)
 #define 	T5RC_H    			(*(unsigned char volatile xdata *)0xe0f7)		
 #define 	T5RC_L    			(*(unsigned char volatile xdata *)0xe0f8)	
+	
+
 #define 	T6CON    				(*(unsigned char volatile xdata *)0xe0f9)	
 		#define T6CPRL						 	BITREF(T6CON,0)	
 		#define T6CT							 	BITREF(T6CON,1)

@@ -14,7 +14,7 @@
  unsigned int xdata ADresult;
  unsigned char xdata tmr3_ov,capture_flag;
  unsigned long xdata last_capture,this_capture,pwm_capture;
-
+ unsigned char  xdata timer5_flag;
 
   
 
@@ -35,7 +35,12 @@ void main(void)
 
 	
 	//InitTimer3();        //timer 3 using P15 pin to capture pwm "low level" pulse width
-  //InitTimer4();                          //start timer1
+  //InitTimer4();    
+                     
+	
+	timer5_flag=0;
+		InitTimer5(); 
+		InitTimer6(); 
 	//InitTimer01();
   //	InitADC();                           //ADC use timer0 to trigger AD start
 	
@@ -46,7 +51,7 @@ void main(void)
 	//InitComparator();
 	//Initepwm();
 	
-		P26=1;
+		P26=0;
 		EAL=1;
     while(1)
     {
@@ -58,12 +63,12 @@ void main(void)
 //			input =  _IQ10((0.25*PI));           //test IQmathlib
 			
 	
-			P26=1;
+//			P26=1;
 			
-			result=_IQmul(_IQ(-6.57),_IQ(-2.5));
+//			result=_IQmul(_IQ(-6.57),_IQ(-2.5));
 
 			
-			P26=0;
+//			P26=0;
 	
 //			dac_value=(unsigned char)(pwm_capture>>11);             //check DAC
 //			DAC1_DAT=dac_value;

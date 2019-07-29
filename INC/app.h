@@ -137,8 +137,7 @@
 extern unsigned int xdata ADresult;
 extern unsigned char xdata tmr3_ov,capture_flag;
 extern unsigned long xdata last_capture,this_capture,pwm_capture;
-
-
+extern unsigned char xdata timer5_flag;
 
 
 #endif

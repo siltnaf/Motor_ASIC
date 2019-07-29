@@ -628,19 +628,22 @@ void InitTimer5(void)
 	T5PS = 0;											// no divider
 	T5RC = 0x10C0;
 	
-	T5TF_EINT	 =1;								// timer4 overflow interrupt enable
+	T5TF_EINT	 =1;								// timer5 overflow interrupt enable
 	T5TR = 1;											// start timer4
-	T5TF=0;												// clear interrupt flag
-
 	
-	I3FR=1;
+
 	EX3 = 1;
 	IEX3=0;
+	
+	
+	I3FR=1;											//EX3 rising edge trigger
+	
+	
 }
 void InitTimer6(void)
 {
 	T6PS = 0;											// no divider
-	T6RC = 0x10C0;
+	T6RC = 0xd0C0;
 	
 	T6TF_EINT	 =1;							// timer4 overflow interrupt enable
 	T6TR = 1;										// start timer4
